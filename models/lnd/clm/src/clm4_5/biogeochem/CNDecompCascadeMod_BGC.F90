@@ -656,11 +656,11 @@ subroutine init_decompcascade(begc, endc)
    fs2_f = 0.12
    fs3_f = 0.18
    fs4_f = 0.35
-   domb_f = 0.1
-   domf_f = 0.1
-   doms1_f = 0.4
-   doms2_f = 0.3
-   doms3_f = 0.1
+   domb_f = 0.3
+   domf_f = 0.3
+   doms1_f = 0.2
+   doms2_f = 0.15
+   doms3_f = 0.05
    doms4_f = 0.0
 #endif
 
@@ -1119,7 +1119,7 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    k_s4 = -log(1.0_r8-0.0001_r8)
    k_frag = -log(1.0_r8-0.001_r8)
 #ifdef MICROBE
-   k_dom = -log(1.0_r8-0.056_r8)
+   k_dom = -log(1.0_r8-0.042_r8)
    k_bacteria = -log(1.0_r8-0.56_r8)
    k_fungi = -log(1.0_r8-0.56_r8)
 #endif
@@ -1274,10 +1274,10 @@ endif
       else
          o_scalar(lbc:ubc,1:nlevdecomp) = 1._r8
       end if
-      write(*,*)"here 1: ",o_scalar(lbc:ubc,1:nlevdecomp)
+ !     write(*,*)"here 1: ",o_scalar(lbc:ubc,1:nlevdecomp)
 #else
       o_scalar(lbc:ubc,1:nlevdecomp) = 1._r8
-      write(*,*)"here 2: ",o_scalar(lbc:ubc,1:nlevdecomp)
+!      write(*,*)"here 2: ",o_scalar(lbc:ubc,1:nlevdecomp)
 #endif
 
    deallocate(fr)

@@ -76,9 +76,246 @@ contains
     lptr => lun !clm3%g%l
     cptr => col !clm3%g%l%c
     pptr => pft !clm3%g%l%c%p
+!    finundated					=> cws%finundated
 
     
     ! column microbial state variable - cdocs
+  if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='pH', xtype=ncd_double, &
+            dim1name='column', long_name='pH', units='unitless')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='pH', data=cps%pH, &
+            dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='soilpH_unsat', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='soilpH in unsat', units='unitless')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='soilpH_unsat', data=cps%soilpH_unsat, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='soilpH_sat', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='soilpH in saturation fraction', units='unitless')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='soilpH_sat', data=cps%soilpH_sat, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+   if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='FINUNDATED', xtype=ncd_double, &
+            dim1name='column', long_name='fraction of inundated area', units='m^2/m^2')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='FINUNDATED', data=cws%finundated, &
+            dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+   if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='fsat_pre', xtype=ncd_double, &
+            dim1name='column', long_name='previous time step fraction of inundated area', units='m^2/m^2')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='fsat_pre', data=cmic%fsat_pre, &
+            dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+   if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='fsat', xtype=ncd_double, &
+            dim1name='column', long_name='fraction of inundated area', units='m^2/m^2')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='fsat', data=cws%fsat, &
+            dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+   if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='waterhead_unsat', xtype=ncd_double, &
+            dim1name='column', long_name='fraction of inundated area', units='m^2/m^2')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='waterhead_unsat', data=cmic%waterhead_unsat, &
+            dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+!20150831
+   if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='rr', xtype=ncd_double, &
+            dim1name='column', long_name='respiration', units='mol/s')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='rr', data=pcf%rr, &
+            dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+    
+   if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='froot_mr', xtype=ncd_double, &
+            dim1name='column', long_name='fine root maintenance respiration', units='mol/s')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='froot_mr', data=pcf%froot_mr, &
+            dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='rootfr', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='root rerspiration fraction', units='%')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='rootfr', data=pps%rootfr, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+    
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='hr_vr', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='hetrotrophic respiration fraction', units='mol/m^2')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='hr_vr', data=ccf%hr_vr, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+ !20150831   
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='sminn_vr', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='soil mineral nitrogen', units='mol/m^2')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='sminn_vr', data=cns%sminn_vr, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+!20150830
+   if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='froot_r', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='fine root respiration', units='mol/s')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='froot_r', data=cmic%froot_r, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+    
+!~ #if (defined HUM_HOL)	
+   !~ if (flag == 'define') then
+       !~ call ncd_defvar(ncid=ncid, varname='qflx_lat_aqu_layer', xtype=ncd_double, &
+            !~ dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            !~ long_name='lateral water flux', units='mol/s')
+    !~ else if (flag == 'read' .or. flag == 'write') then
+       !~ call ncd_io(varname='qflx_lat_aqu_layer', data=cwf%qflx_lat_aqu_layer, &
+            !~ dim1name='column', switchdim=.true., &
+            !~ ncid=ncid, flag=flag, readvar=readvar)
+       !~ if (flag=='read' .and. .not. readvar) then
+          !~ if (is_restart()) call endrun()
+       !~ end if
+    !~ end if
+!~ #endif
+!20150830
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CACES_PROD', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='acetate production ', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CACES_PROD', data=cmic%caces_prod, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+   
+   if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CACES_UNSAT_PROD', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='acetate production in unsaturated fraction', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CACES_UNSAT_PROD', data=cmic%caces_unsat_prod, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+    
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CACES_SAT_PROD', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='acetate production in saturated fraction', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CACES_SAT_PROD', data=cmic%caces_sat_prod, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CDOCS_PRE', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='previous time step DOC concentration', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CDOCS_PRE', data=cmic%cdocs_pre, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+    
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CDONS_MIN', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='dissolved organic nitrogen minterlization ', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CDONS_MIN', data=cmic%cdons_min, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+    
     if (flag == 'define') then
        call ncd_defvar(ncid=ncid, varname='CDOCS', xtype=ncd_double, &
             dim1name='column', dim2name='levgrnd', switchdim=.true., &
@@ -111,6 +348,45 @@ contains
             long_name='dissolved organic carbon in saturated fraction', units='mol/m^3')
     else if (flag == 'read' .or. flag == 'write') then
        call ncd_io(varname='CDOCS_SAT', data=cmic%cdocs_sat, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+    
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CDONS', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='dissolved organic nitrogen', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CDONS', data=cmic%cdons, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CDONS_UNSAT', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='dissolved organic nitrogen in unsaturated fraction', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CDONS_UNSAT', data=cmic%cdons_unsat, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+    
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CDONS_SAT', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='dissolved organic nitrogen in saturated fraction', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CDONS_SAT', data=cmic%cdons_sat, &
             dim1name='column', switchdim=.true., &
             ncid=ncid, flag=flag, readvar=readvar)
        if (flag=='read' .and. .not. readvar) then
@@ -226,7 +502,7 @@ contains
     end if
     
     ! column microbial state variable - cco2bios
-        if (flag == 'define') then
+    if (flag == 'define') then
        call ncd_defvar(ncid=ncid, varname='CCO2BIOS', xtype=ncd_double, &
             dim1name='column', dim2name='levgrnd', switchdim=.true., &
             long_name='methanogensis based on co2', units='mol/m^3')
@@ -265,7 +541,7 @@ contains
        end if
     end if
 
-    ! column microbial state variable - caerch4bios
+    !~ ! column microbial state variable - caerch4bios
         if (flag == 'define') then
        call ncd_defvar(ncid=ncid, varname='CAERCH4BIOS', xtype=ncd_double, &
             dim1name='column', dim2name='levgrnd', switchdim=.true., &
@@ -305,7 +581,7 @@ contains
        end if
     end if
 
-    ! column microbial state variable - canaerch4bios    
+    !~ ! column microbial state variable - canaerch4bios    
     if (flag == 'define') then
        call ncd_defvar(ncid=ncid, varname='CANAERCH4BIOS', xtype=ncd_double, &
             dim1name='column', dim2name='levgrnd', switchdim=.true., &
@@ -503,6 +779,7 @@ contains
        end if
     end if
     
+	
     ! pft ch4 state variable - tempavg_agnpp
     if (flag == 'define') then
        call ncd_defvar(ncid=ncid, varname='tempavg_agnpp', xtype=ncd_double,  &

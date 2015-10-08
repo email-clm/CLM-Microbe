@@ -513,9 +513,9 @@ implicit none
 	ccon_co2s         				=> cmic%ccon_co2s
 	ccon_o2s          				=> cmic%ccon_o2s
 	ccon_h2s          				=> cmic%ccon_h2s
-	ccon_ch4s_unsat    			=> cmic%ccon_ch4s_unsat
+	ccon_ch4s_unsat    				=> cmic%ccon_ch4s_unsat
 	ccon_ch4s_sat        			=> cmic%ccon_ch4s_sat
-	ccon_co2s_unsat    			=> cmic%ccon_co2s_unsat
+	ccon_co2s_unsat    				=> cmic%ccon_co2s_unsat
 	ccon_co2s_sat        			=> cmic%ccon_co2s_sat
 	ccon_o2s_unsat      			=> cmic%ccon_o2s_unsat
 	ccon_o2s_sat          			=> cmic%ccon_o2s_sat
@@ -706,6 +706,7 @@ implicit none
 !write(iulog,*) " c_atm(g,2): ", c_atm(g,1), c_atm(g,2), c_atm(g,3), c_atm(g,4)
 	end do
 
+!#ifdef MODELTEST
        do j = 1,nlevdecomp
             do fc = 1,num_soilc
                c = filter_soilc(fc)
@@ -761,7 +762,7 @@ implicit none
 
 	finundated = fsat
 	
-! vertically distributed root respiration from CLM4Me
+! vertically distributed root respiration
 	roothr_vr(:,:) = 0._r8
 	rootfraction(:,:)=0.0_r8
 	do fp = 1, num_soilc
@@ -819,7 +820,7 @@ implicit none
 	waterhead_unsat(c) = zi(c, jwaterhead_unsat(c))
 !write(iulog,*)"water head: ",jwaterhead_unsat(c)
 	end do
-	
+
 !	separate carbon respiration to ten soil layers in saturated and unsaturated fraction
 	do fc = 1,num_soilc
         c = filter_soilc(fc)
@@ -841,11 +842,12 @@ implicit none
 		end if
 		end do
 	end do
-	
+
+
       ! unsaturated fraction
 	! begins of oxygen transport from atmosphere to the soil
 	! end of oxygen transport from atmosphere to the soil
-	
+
 	do fc = 1,num_soilc
         c = filter_soilc(fc)
 	g = cgridcell(c)
@@ -2393,7 +2395,7 @@ end do
             do fc = 1,num_soilc
                c = filter_soilc(fc)
 !	      write(iulog,*) "microbial mod: ",decomp_cpools_vr(c,j,i_dom), cdocs(c,j), decomp_npools_vr(c,j,i_dom), cdons(c,j)
-      cdons_min(c,j) = cdons_min(c,j) + decomp_npools_vr(c,j,i_dom) - (cdocs(c,j)) / cn_dom
+!      cdons_min(c,j) = cdons_min(c,j) + decomp_npools_vr(c,j,i_dom) - (cdocs(c,j)) / cn_dom
       decomp_cpools_vr(c,j,i_dom) = (cdocs(c,j)) ! gC/m3
       decomp_npools_vr(c,j,i_dom) = (cdocs(c,j)) / cn_dom
            end do
@@ -3784,7 +3786,8 @@ end do
 #endif
 end subroutine lateral_bgc
 
-
+!#endif
+! for the model testing
 
 #endif
 end module microbeMod
