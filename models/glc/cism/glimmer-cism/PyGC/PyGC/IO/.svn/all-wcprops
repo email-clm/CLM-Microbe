@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/1369/glimmer-cism2/branches/seacism/PyGC/PyGC/IO
+END
+GC_file.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/GC_file.py
+END
+GC_loadfile.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/GC_loadfile.py
+END
+GC_profile.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/GC_profile.py
+END
+GC_createfile.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/GC_createfile.py
+END
+GC_netcdf.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/GC_netcdf.py
+END
+GC_readlines.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/GC_readlines.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/__init__.py
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/Makefile.am
+END
+GC_proj.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/GC_proj.py
+END
+GC_epoch.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/IO/GC_epoch.py
+END

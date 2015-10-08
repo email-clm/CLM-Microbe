@@ -1,0 +1,317 @@
+#!/bin/csh -f
+
+#================================================================================
+# Running this script generate machine specific build, run and 
+# long term archiving scripts in this directory
+#================================================================================
+
+set sdate = `date +"%Y-%m-%d %H:%M:%S"`
+if ($#argv > 1) then
+  echo "configure error: cannot have more than one argument."
+  echo "Invoke configure -help for usage."
+  exit -1;
+endif
+
+if ($#argv < 1) then
+cat << EOF1
+NAME   
+
+      configure - configures the model for a given resolution, component set
+      and machine. 
+
+SYNOPSIS 
+
+      standard usage
+      ========================================================
+
+      configure -case
+         or
+      configure -cleannamelist
+         or
+      configure -cleanmach
+         or
+      configure -cleanall
+
+      help option
+      ========================================================
+
+      configure -help
+
+EOF1
+exit -1;
+endif
+
+set i = `echo $argv[1]|cut -c2-`
+
+if($i == "help") then
+cat << EOF2
+
+NAME
+
+      configure - configures the model for a given resolution, component set
+      and machine. 
+
+SYNOPSIS 
+        
+      configure [-case] [-cleannamelist] [-cleanmach] [-cleanall] 
+
+OPTIONS
+            
+      -case
+
+          Creates the namelist and build resolved scripts in the Build directory
+          and locks down the env_conf.xml file. To unlock the this file, invoke 
+             configure -cleannamelist
+
+          Creates batch build, run and long term archiving scripts for case machine 
+          and locks down the env_mach_pes.xml file. To unlock this file, invoke 
+             configure -cleanmach 
+
+      -cleannamelist
+
+            Unlocks the env_conf.xml file and moves the Build directory
+            to backup time-stamped directories
+
+      -cleanmach 
+   
+            Removes (but keeps backup versions) of all machine related files 
+            related to "machine". 
+            
+       -cleanall
+ 
+            Removes all directories and files produced by running the commands
+            "configure -mach" and "configure -namelist" so that these 
+            configure commands can be run again
+
+       -help 
+        
+            Requests more extensive documentation
+
+SUPPORT DETAILS
+
+EOF2
+
+exit;
+endif
+
+while ( 1 )
+  if ( $#argv < 1 ) break;
+  set i = $argv[1];
+  switch ( $i )
+
+    case "-cleanall"
+
+      source ./Tools/ccsm_getenv || exit -1
+      
+      set id = "`date +%y%m%d-%H%M%S`"   
+      set backupdir = MachinesHist/b.${id}
+      if !(-d ${backupdir}) mkdir -p ${backupdir}
+      mv LockedFiles/env_case.xml.locked . >& /dev/null
+      touch cleanmach.tmp
+      foreach i (LockedFiles Build* $CASE* cleanmach.tmp*)
+        if ($i !~ *.test) then
+           if ($i != cleanmach.tmp*) echo "removing $i"
+           mv $i ${backupdir}/$i
+        endif
+      end
+      rm -f cleanmach.tmp* ${backupdir}/cleanmach.tmp* >& /dev/null
+      mkdir LockedFiles    >& /dev/null
+      mv env_case.xml.locked LockedFiles/. >& /dev/null
+
+      # must rebuild the models (even on restart) when you clean machine
+      ./xmlchange -file env_build.xml -id BUILD_COMPLETE -val FALSE
+
+      echo "Successfully cleaned scripts for mach"
+      echo "Some files have been saved to ${backupdir}"
+      echo "configure -cleanall $sdate" >>& CaseStatus
+      exit 0
+      breaksw
+
+    case "-cleanmach"
+
+      source ./Tools/ccsm_getenv || exit -1
+      
+      set id = "`date +%y%m%d-%H%M%S`"   
+      set backupdir = MachinesHist/b.${id}
+      if !(-d ${backupdir}) mkdir -p ${backupdir}
+      foreach i (env_mach* Macros.$MACH env_build*)
+       if (-f LockedFiles/$i.locked) then
+         echo "removing $i from LockedFiles"
+         rm LockedFiles/$i.locked
+         cp $i ${backupdir}/$i
+       endif
+      end
+      touch cleanmach.tmp
+      foreach i ($CASE* cleanmach.tmp*)
+        if ($i !~ *.test) then
+           if ($i != cleanmach.tmp*) echo "removing $i"
+           mv $i ${backupdir}/$i
+        endif
+      end
+      rm -f cleanmach.tmp* ${backupdir}/cleanmach.tmp* >& /dev/null
+
+      # must rebuild the models (even on restart) when you clean machine
+      ./xmlchange -file env_build.xml -id BUILD_COMPLETE -val FALSE
+
+      echo "Successfully cleaned scripts for mach"
+      echo "Some files have been saved to ${backupdir}"
+      echo "configure -cleanmach $sdate" >>& CaseStatus
+      exit 0
+      breaksw
+
+    case "-cleannamelist"
+
+      source ./Tools/ccsm_getenv || exit -1
+
+      set id = "`date +%y%m%d-%H%M%S`"   
+      set backupdir = MachinesHist/b.${id}
+      if !(-d ${backupdir}) mkdir -p ${backupdir}
+      foreach i (env_conf.xml)
+       if (-f LockedFiles/$i.locked) then
+         echo "removing $i from LockedFiles"
+         rm LockedFiles/$i.locked
+         cp $i ${backupdir}/$i
+       endif
+      end
+      touch cleanmach.tmp
+      foreach i (Build* cleanmach.tmp*)
+           if ($i != cleanmach.tmp*) echo "removing $i"
+           mv $i ${backupdir}/$i
+      end
+      rm -f cleanmach.tmp* ${backupdir}/cleanmach.tmp* >& /dev/null
+
+      # must rebuild the models (even on restart) when you clean machine
+
+      echo "Successfully cleaned scripts for namelist"
+      echo "Some files have been saved to ${backupdir}"
+      echo "configure -cleannamelist $sdate" >>& CaseStatus
+      exit 0
+      breaksw
+
+    case "-case*"
+
+      source ./Tools/ccsm_getenv 
+      if ($status != 0) then
+        echo "configure error: ccsm_getenv" 
+        exit -1
+      endif
+
+      ./Tools/ccsm_check_lockedfiles 
+      if ($status != 0) then
+        echo "configure error: ccsm_checking LockedFiles" 
+        exit -1
+      endif
+
+      # Create resolved build and namelist/presage scripts
+
+      if (-d $CASEBUILD) then
+         echo "Namelist configuration for env_case.xml and env_conf.xml has already been done...skipping"
+      else 
+         ./Tools/generate_resolved.csh || set quit = true
+         if ($?quit) then
+             echo "configure error: configure generated error in attempting to created resolved scripts" 
+             rm -rf $CASEBUILD
+             exit -1
+          endif
+          cp env_conf.xml LockedFiles/env_conf.xml.locked
+          echo "Locking file env_conf.xml"
+      endif
+
+      if (-e $CASE.$MACH.run) then
+         echo "Machine/Decomp/Pes configuration for $MACH has already been done...skipping"
+      else
+         set pestot = `./Tools/taskmaker.pl -sumonly`
+         ./xmlchange -file env_mach_pes.xml -id TOTALPES -val $pestot
+
+         # a 1 task job => default build uses "serial mpi"
+         set  taskstot = `./Tools/taskmaker.pl -sumtasks`
+
+         set pval = 1
+         set pcnt = 0
+         while ($pval < $pestot)
+           @ pval = $pval * 2
+#          @ pcnt = $pcnt + 10     # (perfect scaling)
+           @ pcnt = $pcnt + 6      # (scaling like sqrt(6/10))
+         end
+         @ pcost = 3 - ($pcnt / 10)   # (3 is 64 with 6)
+         ./xmlchange -file env_mach_pes.xml -id CCSM_PCOST -val $pcost
+
+         set ccsm_dcost = 0
+         if ($DEBUG == "TRUE") set ccsm_dcost = 3
+         @ estcost = $CCSM_CCOST +  $CCSM_GCOST +  $CCSM_MCOST +  $CCSM_TCOST +  $pcost + $ccsm_dcost
+         ./xmlchange -file env_mach_pes.xml -id CCSM_ESTCOST -val $estcost
+
+         if ($COMP_ICE == 'cice') then
+            if ($CICE_AUTO_DECOMP == 'true') then
+            set config = `./Tools/Templates/generate_cice_decomp.pl -res $ICE_GRID -platform $OS -model cice -nproc $NTASKS_ICE -thrds $NTHRDS_ICE -output all`
+            if ($config[1] >= 0) then
+                ./xmlchange -file env_build.xml -id CICE_BLCKX      -val $config[3]
+                ./xmlchange -file env_build.xml -id CICE_BLCKY      -val $config[4]
+                ./xmlchange -file env_build.xml -id CICE_MXBLCKS    -val $config[5]
+                ./xmlchange -file env_build.xml -id CICE_DECOMPTYPE -val $config[6]
+            else
+               echo "cice decomp not set for $ICE_GRID on $NTASKS_ICE x $NTHRDS_ICE procs"
+               exit -1
+            endif
+            endif
+         endif
+
+         if ($COMP_OCN == 'pop2') then
+            if ($POP_AUTO_DECOMP == 'true') then
+            set config = `./Tools/Templates/generate_pop_decomp.pl -res $OCN_GRID -platform $OS -model pop -nproc $NTASKS_OCN -thrds $NTHRDS_OCN -output all`
+            if ($config[1] >= 0) then
+                ./xmlchange -file env_build.xml -id POP_BLCKX      -val $config[3]
+                ./xmlchange -file env_build.xml -id POP_BLCKY      -val $config[4]
+                ./xmlchange -file env_build.xml -id POP_MXBLCKS    -val $config[5]
+                ./xmlchange -file env_build.xml -id POP_DECOMPTYPE -val $config[6]
+            else
+               echo "pop decomp not set for $OCN_GRID on $NTASKS_OCN x $NTHRDS_OCN procs"
+               exit -1
+            endif
+            endif
+         endif
+
+         # Create build, run and long term archiving scripts for specified machine
+         ./Tools/generate_batch.csh || echo "configure error: configure generate_batch error" && exit -1
+
+         # Make a copy of env_mach_pes.xml in order to be able 
+         # to check that they are not changed once configure -case is invoked
+
+         if (! -e LockedFiles/env_mach_pes.xml.locked) then
+            cp env_mach_pes.xml  LockedFiles/env_mach_pes.xml.locked
+   	    echo "Locking file env_mach_pes.xml"
+         endif
+
+         if ("$argv[1]" == "-case4test") then
+            mv $CASE.$MACH.run    $CASE.run   || exit -1
+            mv $CASE.$MACH.build  $CASE.build || exit -1
+            mv $CASE.$MACH.submit $CASE.submit || exit -1
+            mv $CASE.$MACH.clean_build $CASE.clean_build || exit -1
+            sed "s#${CASE}\.${MACH}\.run#$CASE\.test#g;"\
+               $CASE.submit > $CASE.submit.tmp; mv $CASE.submit.tmp $CASE.submit
+            sed "s#run submitted#test submitted#g;"\
+               $CASE.submit > $CASE.submit.tmp; mv $CASE.submit.tmp $CASE.submit
+            if (-f $CASE.$MACH.l_archive) then
+               mv $CASE.$MACH.l_archive $CASE.l_archive  || exit -1
+            endif
+            chmod 755 $CASE.run
+          endif
+          echo "Successfully configured the case for $MACH"
+          echo "If an old build exists for this case, you might want to "
+          echo "   run the *.clean_build script before building"
+       endif
+
+       echo "configure -case $sdate" >>& CaseStatus
+
+       exit 0
+       breaksw
+
+    default:
+
+      echo "configure error: unknown input, invoke configure -help for usage"
+      exit -1
+      breaksw
+
+  endsw
+  shift argv
+end

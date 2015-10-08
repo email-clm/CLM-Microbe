@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1827/glimmer-cism2/branches/seacism/extensions/libphaml
+END
+phaml_example_pde.F90
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1827/glimmer-cism2/branches/seacism/extensions/libphaml/phaml_example_pde.F90
+END
+phaml_pde.F90
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1827/glimmer-cism2/branches/seacism/extensions/libphaml/phaml_pde.F90
+END
+simple_phaml.F90
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1827/glimmer-cism2/branches/seacism/extensions/libphaml/simple_phaml.F90
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1109/glimmer-cism2/branches/seacism/extensions/libphaml/Makefile.am
+END
+phaml_example.F90
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1827/glimmer-cism2/branches/seacism/extensions/libphaml/phaml_example.F90
+END
+phaml_support.F90
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1827/glimmer-cism2/branches/seacism/extensions/libphaml/phaml_support.F90
+END
+phaml_user_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1827/glimmer-cism2/branches/seacism/extensions/libphaml/phaml_user_mod.F90
+END

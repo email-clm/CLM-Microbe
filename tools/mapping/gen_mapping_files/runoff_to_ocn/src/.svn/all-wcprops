@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/!svn/ver/46985/tools/mapping/trunk_tags/mapping_130509/gen_mapping_files/runoff_to_ocn/src
+END
+main.F90
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/!svn/ver/46985/tools/mapping/trunk_tags/mapping_130509/gen_mapping_files/runoff_to_ocn/src/main.F90
+END
+map_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/!svn/ver/46985/tools/mapping/trunk_tags/mapping_130509/gen_mapping_files/runoff_to_ocn/src/map_mod.F90
+END

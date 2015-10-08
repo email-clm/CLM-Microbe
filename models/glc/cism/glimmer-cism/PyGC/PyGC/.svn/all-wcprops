@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/!svn/ver/1369/glimmer-cism2/branches/seacism/PyGC/PyGC
+END
+GC_colourmap.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/GC_colourmap.py
+END
+GC_autoconf.py.in
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/GC_autoconf.py.in
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/__init__.py
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/Makefile.am
+END
+GC_options.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/PyGC/GC_options.py
+END

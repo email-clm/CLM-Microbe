@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/src
+END
+eismint3_forcing.F90
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/src/eismint3_forcing.F90
+END
+trickLibtool.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/src/trickLibtool.cpp
+END
+eismint3_vars.def
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/src/eismint3_vars.def
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/src/Makefile.am
+END
+eismint3_glide.F90
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/src/eismint3_glide.F90
+END
+eismint3_types.F90
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/src/eismint3_types.F90
+END

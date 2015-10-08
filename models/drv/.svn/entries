@@ -1,0 +1,77 @@
+10
+
+dir
+47914
+https://svn-ccsm-models.cgd.ucar.edu/drv/seq_mct/trunk_tags/drvseq4_2_33
+https://svn-ccsm-models.cgd.ucar.edu
+
+
+
+2013-04-30T18:34:49.606387Z
+46543
+mvertens
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+fe37f545-8307-0410-aea5-b40df96820b5
+
+bld
+dir
+
+doc
+dir
+
+shr_esmf
+dir
+
+ChangeLog
+file
+
+
+
+
+2013-05-08T03:56:01.000000Z
+72c47be98d929c8782db03dffdcb25de
+2013-04-30T18:34:21.804266Z
+46542
+mvertens
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+140499
+
+driver
+dir
+
+shr
+dir
+

@@ -1,0 +1,14 @@
+K 13
+svn:mergeinfo
+V 825
+/stubs/branch_tags/cesm1_1_esmf02_tags/esmf02_02_stubs1_2_04/sice/cpl_mct/ice_comp_mct.F90:33440-33549
+/stubs/branch_tags/cpl7esmf_tags/cesm1_1_beta01_sice_02/cpl_mct/ice_comp_mct.F90:31692-31899
+/stubs/branch_tags/cpl7esmf_tags/sice_tags/cesm1_1_beta04_02/cpl_mct/ice_comp_mct.F90:32163-33767
+/stubs/branch_tags/e52r_tags/e52r02_stubs1_2_05/sice/cpl_mct/ice_comp_mct.F90:33805-33991
+/stubs/branches/cesm1_0_esmf01/sice/cpl_mct/ice_comp_mct.F90:24997-26270
+/stubs/branches/cesm1_1_esmf02/sice/cpl_mct/ice_comp_mct.F90:32271-33439
+/stubs/branches/cpl7esmf_br/11b01_sice/cpl_mct/ice_comp_mct.F90:31689-31691
+/stubs/branches/cpl7esmf_br/cesm1_1_beta04_sice/cpl_mct/ice_comp_mct.F90:32160-32162
+/stubs/branches/e52r/sice/cpl_mct/ice_comp_mct.F90:33710-33804
+/stubs/trunk_tags/stubs1_2_02/sice/cpl_mct/ice_comp_mct.F90:18528-24996
+END

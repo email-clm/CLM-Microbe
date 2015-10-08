@@ -1,0 +1,34 @@
+K 12
+svn:keywords
+V 14
+ID URL HeadURL
+K 13
+svn:mergeinfo
+V 2004
+/datm7/branch_tags/cesm1_0_esmf01_tags/esmf01_02_datm8_100921/cpl_mct/atm_comp_mct.F90:25752-26285
+/datm7/branch_tags/cesm1_1_0_rel_tags/cesm1_1_0_n06_datm8_121008/cpl_mct/atm_comp_mct.F90:41965
+/datm7/branch_tags/cesm1_1_esmf02_tags/esmf02_02_datm8_110908/cpl_mct/atm_comp_mct.F90:33439-33549
+/datm7/branch_tags/cpl7esmf_tags/cesm1_1_beta01_02/cpl_mct/atm_comp_mct.F90:31637-31889
+/datm7/branch_tags/cpl7esmf_tags/cesm1_1_beta04_02/cpl_mct/atm_comp_mct.F90:32129-33767
+/datm7/branch_tags/cruncep_tags/cruncep04_datm8_121008/cpl_mct/atm_comp_mct.F90:41154-41964
+/datm7/branch_tags/cruncep_tags/cruncep05_datm8_121008/cpl_mct/atm_comp_mct.F90:41991-41996
+/datm7/branch_tags/e52r_tags/e52r02_datm8_111208/cpl_mct/atm_comp_mct.F90:33782-33995
+/datm7/branch_tags/newgrid_tags/newgrid02_datm8_110908/cpl_mct/atm_comp_mct.F90:31854-31921
+/datm7/branch_tags/rasm_tags/rasm01_datm8_110908/cpl_mct/atm_comp_mct.F90:32622-35681
+/datm7/branch_tags/rasm_tags/rasm03_datm8_120419/cpl_mct/atm_comp_mct.F90:36703-36813
+/datm7/branches/cesm1_0_esmf01/cpl_mct/atm_comp_mct.F90:24994-25751
+/datm7/branches/cesm1_1_0_rel/cpl_mct/atm_comp_mct.F90:41025-41964
+/datm7/branches/cesm1_1_esmf02/cpl_mct/atm_comp_mct.F90:32269-33438
+/datm7/branches/cpl7esmf/11b01/cpl_mct/atm_comp_mct.F90:31633-31636
+/datm7/branches/cpl7esmf_br/cesm1_1_beta04/cpl_mct/atm_comp_mct.F90:32126-32128
+/datm7/branches/cpl7esmf_cesm1_beta16/cpl_mct/atm_comp_mct.F90:27544-27546
+/datm7/branches/cruncep_datm8/cpl_mct/atm_comp_mct.F90:38661-41990
+/datm7/branches/e52r/cpl_mct/atm_comp_mct.F90:33654-33781
+/datm7/branches/newgrid/cpl_mct/atm_comp_mct.F90:31407-31853
+/datm7/branches/rasm/cpl_mct/atm_comp_mct.F90:32618-36702
+/datm7/branches/tcens/cpl_mct/atm_comp_mct.F90:28985-29283
+/datm7/trunk_tags/datm8_110908/cpl_mct/atm_comp_mct.F90:30236-32617
+/datm7/trunk_tags/datm8_120123/cpl_mct/atm_comp_mct.F90:33997-38660
+/datm7/trunk_tags/datm8_120219/cpl_mct/atm_comp_mct.F90:34873-41094
+/datm7/trunk_tags/datm8_121008/cpl_mct/atm_comp_mct.F90:40869-41141
+END

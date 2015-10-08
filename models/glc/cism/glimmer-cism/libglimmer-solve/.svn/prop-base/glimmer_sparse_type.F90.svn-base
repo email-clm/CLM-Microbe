@@ -1,0 +1,13 @@
+K 14
+svn:executable
+V 1
+*
+K 13
+svn:mergeinfo
+V 444
+/glimmer-cism-lanl/branches/parallel/src/fortran/sparse_type.F90:131-908
+/glimmer-cism2/branches/seacism_fixHeaders/libglimmer-solve/glimmer_sparse_type.F90:1817-1826
+/glimmer-cism2/branches/seacism_parallelGlint/libglimmer-solve/glimmer_sparse_type.F90:1681-1731
+/glimmer-cism2/branches/seacism_timestep_reordering/libglimmer-solve/glimmer_sparse_type.F90:1410-1467
+/glimmer-cism2/trunk/libglimmer-solve/glimmer_sparse_type.F90:2-390,1109-1214
+END

@@ -1,0 +1,173 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/!svn/ver/1863/glimmer-cism2/branches/seacism
+END
+configure
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/!svn/ver/1747/glimmer-cism2/branches/seacism/configure
+END
+config.inc.in
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/!svn/ver/1326/glimmer-cism2/branches/seacism/config.inc.in
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/1109/glimmer-cism2/branches/seacism/LICENSE
+END
+AUTHORS
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/1109/glimmer-cism2/branches/seacism/AUTHORS
+END
+parallel_config_eval.F90
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1357/glimmer-cism2/branches/seacism/parallel_config_eval.F90
+END
+configure.in
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/1747/glimmer-cism2/branches/seacism/configure.in
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/!svn/ver/1471/glimmer-cism2/branches/seacism/ChangeLog
+END
+depcomp
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/1109/glimmer-cism2/branches/seacism/depcomp
+END
+extra_rules.am
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1109/glimmer-cism2/branches/seacism/extra_rules.am
+END
+config.guess
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/1109/glimmer-cism2/branches/seacism/config.guess
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/!svn/ver/1109/glimmer-cism2/branches/seacism/README
+END
+config.inc.cmake.in.README
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1741/glimmer-cism2/branches/seacism/config.inc.cmake.in.README
+END
+glimmer-cism-config.in
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1109/glimmer-cism2/branches/seacism/glimmer-cism-config.in
+END
+config.sub
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/!svn/ver/1109/glimmer-cism2/branches/seacism/config.sub
+END
+ltmain.sh
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/!svn/ver/1219/glimmer-cism2/branches/seacism/ltmain.sh
+END
+config.inc.cmake.in
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1741/glimmer-cism2/branches/seacism/config.inc.cmake.in
+END
+COPYING.LESSER
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1791/glimmer-cism2/branches/seacism/COPYING.LESSER
+END
+INSTALL
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/1219/glimmer-cism2/branches/seacism/INSTALL
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/1791/glimmer-cism2/branches/seacism/COPYING
+END
+CMakeLists.txt.bisicles
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1652/glimmer-cism2/branches/seacism/CMakeLists.txt.bisicles
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/!svn/ver/1109/glimmer-cism2/branches/seacism/Makefile.am
+END
+missing
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/1109/glimmer-cism2/branches/seacism/missing
+END
+NEWS
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/!svn/ver/1109/glimmer-cism2/branches/seacism/NEWS
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1811/glimmer-cism2/branches/seacism/CMakeLists.txt
+END
+bootstrap
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/!svn/ver/1109/glimmer-cism2/branches/seacism/bootstrap
+END
+aclocal.m4
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/!svn/ver/1418/glimmer-cism2/branches/seacism/aclocal.m4
+END
+install-sh
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/!svn/ver/1109/glimmer-cism2/branches/seacism/install-sh
+END
+py-compile
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/!svn/ver/1109/glimmer-cism2/branches/seacism/py-compile
+END

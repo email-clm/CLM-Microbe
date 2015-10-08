@@ -1,0 +1,2 @@
+./SPRUCE-spinup_US-SPR_I1850CLM45CN.build
+./SPRUCE-spinup_US-SPR_I1850CLM45CN.submit

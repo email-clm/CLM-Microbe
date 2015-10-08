@@ -1,0 +1,15 @@
+#parameters PFT value
+leafcn 1 54.000000
+slatop 1 0.015
+frootcn 1 74.0000
+deadwdcn 1 842.00000
+froot_leaf 1 1.800000
+stem_leaf 1 1.10000
+croot_stem 1 0.23000
+leafcn 7 31.000000
+slatop 7 0.012
+frootcn 7 74.0000
+deadwdcn 7 727.80000
+froot_leaf 7 1.800000
+stem_leaf 7 1.10000
+croot_stem 7 0.23000

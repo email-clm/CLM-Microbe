@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/!svn/ver/47581/PTCLM/trunk_tags/PTCLM1_130529
+END
+PTCLM.py
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/!svn/ver/47581/PTCLM/trunk_tags/PTCLM1_130529/PTCLM.py
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/!svn/ver/47581/PTCLM/trunk_tags/PTCLM1_130529/ChangeLog
+END
+testcases.csh
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/47581/PTCLM/trunk_tags/PTCLM1_130529/testcases.csh
+END
+KnownBugs
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/!svn/ver/47581/PTCLM/trunk_tags/PTCLM1_130529/KnownBugs
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/47581/PTCLM/trunk_tags/PTCLM1_130529/README
+END

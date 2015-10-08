@@ -1,0 +1,15 @@
+ ! NOAA/PMEL TMAP
+ ! FERRET v6.72  
+ ! Linux 2.6.32-131.12.1.el6.x86_64 64-bit - 09/13/11
+ ! 30-Jul-14 15:04     
+
+use "run/DAYL_ON_US-VA1_I1850CLM45/run/DAYL_ON_US-VA1_I1850CLM45.clm2.h0.0001-01-01-00000.nc"
+plot fpsn
+cancel data/all
+use "run/DAYL_ON_US-VA1_I1850CLM45/run/DAYL_ON_US-VA1_I1850CLM45.clm2.h0.0001-01-01-00000.nc"
+cancel data/all
+use "run/DAYL_ON_US-VA1_I1850CLM45/run/DAYL_ON_US-VA1_I1850CLM45.clm2.h0.0001-01-01-00000.nc"
+plot fpsn
+use "run/DAYL_ON_TPLUS3_US-VA1_I1850CLM45/run/DAYL_ON_TPLUS3_US-VA1_I1850CLM45.clm2.h0.0001-01-01-00000.nc"
+plot/over fpsn
+exit

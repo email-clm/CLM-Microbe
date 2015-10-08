@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1369/glimmer-cism2/branches/seacism/tests/exact-isothermal/matlab
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/matlab/Makefile.am
+END
+verifD.m
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/matlab/verifD.m
+END
+verifBC.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/matlab/verifBC.m
+END
+verifAE.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/matlab/verifAE.m
+END
+verifBu.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/matlab/verifBu.m
+END

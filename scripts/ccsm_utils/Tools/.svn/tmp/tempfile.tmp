@@ -1,0 +1,94 @@
+#!/bin/csh -f
+
+#------------------------------------------------------------------
+# Copy files from the local mass store
+# "Usage ccsm_msread mssdir/file2 [locdir/file1]"
+#    rdf = remote dir/filename
+#    ldf = local  dir/filename
+#    rd  = remote dir
+#    rf  = remote filename
+#    ld  = local  dir
+#    lf  = local  filename
+#------------------------------------------------------------------
+
+#------------------------------------------------------------------
+# Check for 2 arguments
+# Set ldf to remote filename if only 1 argument
+#------------------------------------------------------------------
+if ("$#argv" == 2) then
+  set rdf = $argv[1]
+  set ldf = $argv[2]
+else
+if ("$#argv" == 1) then
+  set rdf = $argv[1]
+  set ldf = `$UTILROOT/Tools/ccsm_splitdf -f $rdf`
+else
+  echo "Usage ccsm_msread mssdir/file2 [locdir/file1]"
+  exit 1
+endif
+endif
+
+#------------------------------------------------------------------
+# Split inputs into r(remote) and l(local) d(directories) and f(files)
+# If the local filename is empty, set it to the remote filename
+# If the local filename doesn't exist, exit
+#------------------------------------------------------------------
+set rd = `$UTILROOT/Tools/ccsm_splitdf -d ${rdf}`
+set rf = `$UTILROOT/Tools/ccsm_splitdf -f ${rdf}`
+set ld = `$UTILROOT/Tools/ccsm_splitdf -d ${ldf}`
+set lf = `$UTILROOT/Tools/ccsm_splitdf -f ${ldf}`
+if ( ${lf} == '') set lf = ${rf}
+if (-f ${lf}) exit
+
+#------------------------------------------------------------------
+# Execute site dependent mass store read
+#------------------------------------------------------------------
+
+# If NAS pleiades at NASA/AMES
+if( ${MACH} == "pleiades" | ${MACH} == "pleiades_wes" ) then
+  set myld = `pwd`
+#  echo "ccsm_msread: ssh -q bridge2 scp -q lou:${rdf} ${myld}/${lf} "
+  ssh -q bridge2 "scp -q lou:${rdf} ${myld}/${lf}" >& /dev/null
+  exit
+endif
+
+# If NCAR MSS msrcp command exists, use it.
+if (`which msrcp | wc -w` == 1 ) then
+# echo "ccsm_msread: msrcp -nomail mss:${rdf} ${ldf}"
+  msrcp "mss:${rdf}" ${ldf} >& /dev/null
+  exit
+endif
+
+# If NCAR MSS msread command exists, use it.
+if (`which msread | wc -w` == 1 ) then
+# echo "ccsm_msread: msread -nomail ${ldf} ${rdf}"
+  msread -nomail ${ldf} ${rdf} >& /dev/null
+  exit
+endif
+
+# If LANL psi command exists, use it.
+if (`which psi | wc -w` == 1 ) then
+# echo "ccsm_msread: psi get ${rdf}"
+# psi get "${rdf}" >& /dev/null
+  exit
+endif
+
+# If NERSC/ORNL hsi command exists, use it.
+if (`which hsi | wc -w` == 1 ) then
+# echo "ccsm_msread: hsi 'cd ${rd} ; get ${ldf} : ${rf}'"
+  hsi -q "cd ${rd} ; get ${ldf} : ${rf}" >& /dev/null
+  exit
+endif
+
+# If PSC far command exists, use it.
+if (`which far | wc -w` == 1 ) then
+# echo "ccsm_msread: far get ${rdf} ${lf}"
+  far get ${rdf} ${ldf} >& /dev/null
+  exit
+endif
+
+if (-f ${lf}) echo "ccsm_msread success: ${rdf} to ${ldf}"
+
+exit
+
+

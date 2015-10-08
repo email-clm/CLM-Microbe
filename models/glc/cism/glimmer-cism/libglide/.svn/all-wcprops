@@ -1,0 +1,329 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide
+END
+glam_strs2.F90.osbc2_homotopy
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1352/glimmer-cism2/branches/seacism/libglide/glam_strs2.F90.osbc2_homotopy
+END
+isostasy_elastic.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/isostasy_elastic.F90
+END
+glide_setup.F90.archive
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglide/glide_setup.F90.archive
+END
+glam_strs2.F90.osbc2
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1352/glimmer-cism2/branches/seacism/libglide/glam_strs2.F90.osbc2
+END
+glide.F90
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1860/glimmer-cism2/branches/seacism/libglide/glide.F90
+END
+relaxed.F90
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/relaxed.F90
+END
+glide_grid_operators.F90
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_grid_operators.F90
+END
+glide_types.F90.archive
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglide/glide_types.F90.archive
+END
+glide_bwater.F90
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_bwater.F90
+END
+time_vars.def
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglide/time_vars.def
+END
+glide_stop.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glide_stop.F90
+END
+glide_nan.inc
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglide/glide_nan.inc
+END
+glide_thck.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glide_thck.F90
+END
+glide_nc_custom.F90
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_nc_custom.F90
+END
+glide_io.F90.default
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1828/glimmer-cism2/branches/seacism/libglide/glide_io.F90.default
+END
+test_setup.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/test_setup.F90
+END
+glide_ground.F90
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_ground.F90
+END
+glide.F90.archive
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglide/glide.F90.archive
+END
+xls.F90
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/xls.F90
+END
+glissade_transport.F90
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glissade_transport.F90
+END
+glide_temp.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glide_temp.F90
+END
+glide_mask.inc
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1594/glimmer-cism2/branches/seacism/libglide/glide_mask.inc
+END
+glam_strs2.F90.osbc1.new
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1381/glimmer-cism2/branches/seacism/libglide/glam_strs2.F90.osbc1.new
+END
+glide_diagnostics.F90
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_diagnostics.F90
+END
+glide_thck.F90.archive
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglide/glide_thck.F90.archive
+END
+isostasy.F90
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/isostasy.F90
+END
+glide_velo_higher.F90.archive
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglide/glide_velo_higher.F90.archive
+END
+glimmer_ncparams.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glimmer_ncparams.F90
+END
+glissade_temp.F90
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glissade_temp.F90
+END
+glam_strs2.F90.osbc1_homotopy
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1352/glimmer-cism2/branches/seacism/libglide/glam_strs2.F90.osbc1_homotopy
+END
+glam_grid_operators.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glam_grid_operators.F90
+END
+glimmer_restart_gcm.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glimmer_restart_gcm.F90
+END
+glide_stress.F90
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glide_stress.F90
+END
+glam_strs2.F90.old
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1382/glimmer-cism2/branches/seacism/libglide/glam_strs2.F90.old
+END
+glissade.F90
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glissade.F90
+END
+glide_lithot1d.F90
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_lithot1d.F90
+END
+ice3d_lib.F90.archive
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglide/ice3d_lib.F90.archive
+END
+glide_lithot3d.F90
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_lithot3d.F90
+END
+glide_mask.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_mask.F90
+END
+glide_vertint.F90
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglide/glide_vertint.F90
+END
+glide_nonlin.F90
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_nonlin.F90
+END
+glide_setup.F90
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1860/glimmer-cism2/branches/seacism/libglide/glide_setup.F90
+END
+glide_profile.F90
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_profile.F90
+END
+glimmer_ncio.F90
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glimmer_ncio.F90
+END
+glissade_velo_higher.F90
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglide/glissade_velo_higher.F90
+END
+glide_lithot.F90
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glide_lithot.F90
+END
+glide_types.F90
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glide_types.F90
+END
+glide_temp.F90.tmp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglide/glide_temp.F90.tmp
+END
+glide_velo.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glide_velo.F90
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1842/glimmer-cism2/branches/seacism/libglide/Makefile.am
+END
+glam_strs2.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1856/glimmer-cism2/branches/seacism/libglide/glam_strs2.F90
+END
+glissade_remap.F90
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glissade_remap.F90
+END
+glide_vars.def
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1819/glimmer-cism2/branches/seacism/libglide/glide_vars.def
+END
+glissade_velo.F90
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1862/glimmer-cism2/branches/seacism/libglide/glissade_velo.F90
+END

@@ -1,0 +1,90 @@
+#!/bin/csh -f
+
+#------------------------------------------------------------------
+# Copy files to the local mass store
+# "Usage ccsm_mswrite [locdir/]file1 mssdir/[file2] "
+#    rdf = remote dir/filename
+#    ldf = local  dir/filename
+#    rd  = remote dir
+#    rf  = remote filename
+#    ld  = local  dir
+#    lf  = local  filename
+#------------------------------------------------------------------
+
+#------------------------------------------------------------------
+# Check for 2 arguments
+#------------------------------------------------------------------
+if ("$#argv" == 2) then
+  set ldf = $argv[1]
+  set rdf = $argv[2]
+else
+  echo "Usage ccsm_mswrite [locdir/]file1 mssdir/[file2] "
+  exit 1
+endif
+
+#------------------------------------------------------------------
+# Split inputs into r(remote) and l(local) d(directories) and f(files)
+# If the remote file is empty, set it to the local filename
+#------------------------------------------------------------------
+set ld = `$UTILROOT/Tools/ccsm_splitdf -d ${ldf}`
+set lf = `$UTILROOT/Tools/ccsm_splitdf -f ${ldf}`
+set rd = `$UTILROOT/Tools/ccsm_splitdf -d ${rdf}`
+set rf = `$UTILROOT/Tools/ccsm_splitdf -f ${rdf}`
+if (${rf} == "") set rf = $lf
+
+#------------------------------------------------------------------
+# Execute site dependent mass store write
+#------------------------------------------------------------------
+
+# If NAS pleiades at NASA/AMES
+if( ${MACH} == "pleiades" | ${MACH} == "pleiades_wes" ) then
+  set myld = `pwd`
+  echo "ccsm_mswrite: ssh -q bridge2 scp -q ${myld}/${lf} lou:${rdf} "
+  ssh -q bridge2 "scp -q ${myld}/${lf} lou:${rdf}"
+  exit
+endif
+
+# If NCAR MSS msrcp command exists, use it.
+if (`which msrcp | wc -w` == 1 ) then
+  set opts = "-srcdelete -pe ${DOUT_L_MSRPD} -wpwd ${DOUT_L_MSPWD} -class rel=ec"
+  if ($DOUT_L_MSPRJ !~ 0000*) then
+    set opts = "${opts} -pr $DOUT_L_MSPRJ"
+  endif
+  echo "ccsm_mswrite: msrcp ${opts} ${ldf} mss:${rdf}"
+  msrcp ${opts} ${ldf} "mss:${rdf}"
+  exit
+endif
+
+# If NCAR MSS mswrite command exists, use it.
+if (`which mswrite | wc -w` == 1 ) then
+  set opts = "-nowait -nomail -t ${DOUT_L_MSRPD} -w ${DOUT_L_MSPWD} -C reliability=economy"
+  if ($DOUT_L_MSPRJ !~ 0000*) then
+    set opts = "${opts} -P $DOUT_L_MSPRJ"
+  endif
+  echo "ccsm_mswrite: mswrite ${opts} ${ldf} ${rdf}"
+  mswrite ${opts} ${ldf} ${rdf}
+  exit
+endif
+
+# If LANL psi command exists, use it.
+if (`which psi | wc -w` == 1 ) then
+  echo "ccsm_mswrite: psi put ${ldf} ${rdf}"
+  psi put "$ldf ${rdf}"
+  exit
+endif
+
+# If NERSC/ORNL hsi command exists, use it.
+if (`which hsi | wc -w` == 1 ) then
+  echo "ccsm_mswrite: hsi 'cd ${rd} ; put -d ${ldf} : ${rf}'"
+  hsi -q "cd ${rd} ; put -d ${ldf} : ${rf} ; chmod +r ${rf}"
+  exit
+endif
+
+# If PSC far command exists, use it.
+if (`which far | wc -w` == 1 ) then
+  echo "ccsm_mswrite: far store ${ldf} ${rdf}"
+  far store ${ldf} ${rdf}
+  exit
+endif
+
+exit

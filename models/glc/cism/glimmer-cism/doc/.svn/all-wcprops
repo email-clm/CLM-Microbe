@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/!svn/ver/1369/glimmer-cism2/branches/seacism/doc
+END
+glimmer_html.tex
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/glimmer_html.tex
+END
+dg_pdf.tex
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg_pdf.tex
+END
+glimmer_pdf.tex
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/glimmer_pdf.tex
+END
+glimmer.bib
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/glimmer.bib
+END
+num_pdf.tex
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num_pdf.tex
+END
+glimmer-cism.cfg.in
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/glimmer-cism.cfg.in
+END
+ext_pdf.tex
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext_pdf.tex
+END
+dg.tex
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg.tex
+END
+glimmer.tex
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/glimmer.tex
+END
+dg_ps.tex
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg_ps.tex
+END
+make_doc.rules
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/make_doc.rules
+END
+glimmer_ps.tex
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/glimmer_ps.tex
+END
+num.tex
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num.tex
+END
+ext.tex
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext.tex
+END
+num_ps.tex
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num_ps.tex
+END
+ext_ps.tex
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext_ps.tex
+END
+ug_pdf.tex
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug_pdf.tex
+END
+tut_pdf.tex
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/tut_pdf.tex
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/Makefile.am
+END
+ug.tex
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug.tex
+END
+tut.tex
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/tut.tex
+END
+ug_ps.tex
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug_ps.tex
+END
+tut_ps.tex
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/tut_ps.tex
+END

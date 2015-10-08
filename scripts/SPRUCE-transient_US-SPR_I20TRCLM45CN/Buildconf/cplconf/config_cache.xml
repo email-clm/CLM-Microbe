@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config_definition>
+<entry id="grid"     value="a%CLM_USRDAT_l%CLM_USRDAT_oi%CLM_USRDAT_r%null_m%reg_g%null_w%null">
+<entry id="rof_grid" value="null">
+<entry id="wav_grid" value="null">
+<entry id="atm_grid" value="CLM_USRDAT">
+<entry id="lnd_grid" value="CLM_USRDAT">
+<entry id="ocn_grid" value="CLM_USRDAT">
+</config_definition>

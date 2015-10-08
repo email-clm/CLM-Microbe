@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1369/glimmer-cism2/branches/seacism/doc/dg/figures
+END
+data_dep-legend.fig
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/figures/data_dep-legend.fig
+END
+class_diagram_glint.dia
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/figures/class_diagram_glint.dia
+END
+class_diagram.dia
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/figures/class_diagram.dia
+END
+data_dep.dot
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/figures/data_dep.dot
+END
+glimmer_structure.dia
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/figures/glimmer_structure.dia
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/figures/Makefile.am
+END
+glide_mod_depend.dia
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/figures/glide_mod_depend.dia
+END

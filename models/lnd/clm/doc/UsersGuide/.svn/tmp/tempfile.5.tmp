@@ -1,0 +1,224 @@
+<appendix id="editing_templates">
+<title>Editing Template Files Before Configure</title>
+<para>
+The last kind of customization that you can do for a case, before configure is run 
+is to edit the templates. The clm template is in
+<filename>models/lnd/clm/bld/clm.cpl7.template</filename>, the datm template is
+in <filename>models/atm/datm/bld/datm.cpl7.template</filename>, and the driver templates
+are in the <filename>models/drv/bld</filename> directory and are named:
+<filename>ccsm.template</filename> and <filename>cpl.template</filename>. When a case is
+created they are also copied to the <filename>Tools/Templates</filename> directory 
+underneath your case. If you want to make changes that will impact all your cases, you
+should edit the template files under the <filename>models</filename> directory, but
+if you want to make a change ONLY for a particular case you should edit the template
+under that specific case.
+</para>
+<note>
+<para>
+Editing the template files is NOT for the faint of heart! We recommend this ONLY for
+experts! It's difficult to do because the template is a script that actually creates 
+another script. So part of the script is echoing the script to be created and part of
+it is a script that is run when "configure -case" is run. As a result any variables 
+in the part of the script that is being echoed have to be escaped like this:
+<screen width="99">
+\$VARIABLE
+</screen>
+But, in other parts of the script that is run, you can NOT escape variables. So you 
+need to understand if you are in a part of the script that is echoing the script to
+be created, or in the part of the script that is actually run.
+</para>
+</note>
+<para>
+If you can customize your case using: compsets, <filename>env_*.xml</filename> variables,
+or a user namelist, as outlined in <xref linkend="customize"></xref> you should do so.
+The main reason to actually edit the template files, is if you are in a situation where
+the template aborts when you try it run it when "configure -case" is run. The other
+reason to edit the template is if you are CLM developer and need to make adjustments
+to the template because of code or script updates.
+</para>
+<para>
+The outline of the clm template is as follows:
+<screen width="99">
+# set up options for clm configure and then run clm configure
+$CODEROOT/lnd/clm*/bld/configure &lt;options&gt;
+# set up options for clm build-namelist and then run clm build-namelist
+$CODEROOT/lnd/clm*/bld/build-namelist &lt;options&gt;
+# echo the $CASEBUILD/clm.buildnml.csh script out
+cat &gt;! $CASEBUILD/clm.buildnml.csh &lt;&lt; EOF1
+# NOTE: variables in this section must be escaped
+EOF1
+# Remove temporary namelist files
+
+# echo the $CASEBUILD/clm.buildexe.csh script out
+cat &gt; $CASEBUILD/clm.buildexe.csh &lt;&lt;EOF2
+# NOTE: variables in this section must be escaped
+EOF2
+# Remove temporary configure files
+</screen>
+</para>
+</appendix>
+
+<appendix id="runinit_ibm.csh">
+<title>Using the Script <filename>runinit_ibm.csh</filename> to both Run &clm; and
+Interpolate Datasets</title>
+<para>
+The script <filename>runinit_ibm.csh</filename> can be used on the
+<acronym>NCAR</acronym> bluefire machine to run &clm; to create a template file and
+then run <command>interpinic</command> and do this over a variety of standard
+resolutions. By default it is setup to loop over the following resolutions:
+<screen width="99">
+foreach res ( "1.9x2.5" "10x15" "4x5" "0.9x1.25" "2.5x3.33" "0.47x0.63" "48x96" )
+</screen>
+It is also only setup to run &clmcn; and only particular masks for each resolution.
+But, the script can be modified by the user to run over whatever list you would like it
+to. It is also hooked up to the &buildnml; XML database, so will only use the
+datasets that are part of the database, see <xref linkend="adding_files"></xref>
+to see how to add files to the database. The script runs &clm; only using OpenMP
+threading and as such can be run interactively, but it can also be submitted to the
+batch que.
+</para>
+</appendix>
+
+<appendix id="testing">
+<title>Scripts for testing &clm;</title>
+
+<para>
+Technically, you could use the customization we gave in <xref linkend="customize"></xref>
+to test various configuration and namelist options for &clm;. Sometimes, it's also
+useful to have automated tests though to test that restarts give exactly the same 
+results as without a restart. It's also useful to have automated tests to run over a
+wide variety of configurations, resolutions, and namelist options. To do that we have
+several different types of scripts set up to make running comprehensive testing of
+&clm; easy. There are two types of testing scripts for &clm;. The first are the &cesm;
+test scripts, which utilize the <command>create_newcase</command> scripts that we
+shown how to use in this User's Guide. The second are a set of stand-alone scripts that
+use the &clm; &configure; and &buildnml; scripts to build and test the model as well as
+testing the &clm; tools as well. Below we will go into further details of how to use
+both methods.
+</para>
+
+<sect1 id="cesm_testing">
+<title>Testing &clm; Using the &cesm; Test Scripts</title>
+
+<para>
+We first introduce the test scripts that work for all CESM components. We will
+use the <command>create_test</command> and then the <command>create_test_suite</command>
+scripts. The <command>create_test</command> runs a specific type of test, at a given
+resolution, for a given compset using a given machine. There is a list of different
+tests, but the "ERI" tests do several things at once, running from startup, as well
+as doing exact branch and restart tests. So to run "ERI" testing at 2-degree with
+the I1850CN compset on bluefire you do the following.
+<screen width="99">
+> cd scripts
+> ./create_test -testname ERI.f19_g16.I1850CN.bluefire
+> cd ERI.f19_g16.I1850CN.bluefire.$id
+> ./ERI.f19_g16.I1850CN.bluefire.$id.build
+> bsub &lt; ERI.f19_g16.I1850CN.bluefire.$id.test
+</screen>
+When the test is done it will update the file <filename>TestStatus</filename> with
+either a PASS or FAIL message.
+</para>
+<para>
+To run a suite of tests from a list of tests with syntax similar to above you use
+<command>create_test_suite</command> as follows passing it a ASCII list of tests.
+There are already some test lists in the
+<filename>scripts/ccsm_utils/Testlists</filename> directory a few of which are specific
+to &clm;. To run for the &clm; bluefire test list, on bluefire, you would do the
+following:
+<screen width="99">
+> cd scripts
+> ./create_test_suite -input_list ccsm_utils/Testlists/bluefire.clm.auxtest
+# Submit the suite of tests (note $id refers to the integer job number for this job)
+> ./cs.submit.$id.bluefire
+# Later check the tests with...
+> ./cs.status.$id
+# The above will give a PASS or FAIL message for each test.
+</screen>
+For more information on doing testing with the &cesm; scripts see the
+<ulink url="&cesmwebmodelrel;cesm">&cesm1;
+User's Guide</ulink> on testing.
+</para>
+</sect1>
+
+<sect1 id="clm_standalone_testing">
+<title>Testing &clm; Using the &clm; Stand-Alone Testing Scripts</title>
+
+<para>
+In the <filename>models/lnd/clm/test/system</filename> directory there is
+a set of test scripts that is specific to stand-alone &clm;. It does testing
+on configurations harder to test for in the &cesm; test scripts, and also allows
+you to test the &clm; tools such as <command>mkgriddata</command> and 
+<command>mksurfdata</command>. The main driver script is called
+<filename>test_driver.sh</filename> and it can run both interactively as well as being
+submitted to the batch queue. Like other scripts you can get help on it by running the 
+"-help" option as: <command>test_driver.sh -help</command>. 
+There is also a <filename>README</filename>
+file that gives details about environment variables that can be given to
+<command>test_driver.sh</command> to change it's operation.
+</para>
+<para>
+To submit a suite of stand-alone tests to the batch que:
+<screen width="99">
+> cd models/lnd/clm/test/system
+> ./test_driver.sh
+</screen>
+You can also run tests interactively:
+<screen width="99">
+> cd models/lnd/clm/test/system
+> ./test_driver.sh -i
+</screen>
+The output of the help option is as follows:
+<screen width="99">
+&clmtestdriver;
+</screen>
+A table of the list of tests and the machines they are run on is available from:
+<ulink url="../../test/system/test_table.html">test_table.html</ulink>
+</para>
+</sect1>
+
+</appendix>
+<appendix id="doc_build">
+<title>Building the Users-Guide Documentation for &clm;</title>
+<para>
+All of the documentation for &clm; can be built using GNU Makefiles that are
+available in the appropriate directories. The Makefiles require the following 
+utilities: <command>docbook2html</command>, <command>docbook2pdf</command>, 
+<command>protex</command>, and <command>latex2html</command>.
+</para>
+<para>
+To build the Users Guide for &clm; (requires docbook).
+<screen width="99">
+> cd models/lnd/clm/doc/UsersGuide
+> gmake
+</screen>
+Note, that when the Users-Guide is built it will get output from other &clm;
+utilities that by nature abort, and hence stop the make from continuing. However,
+this is expected so you should simply run <command>gmake</command> again until
+it either completes or comes upon a legitimate issue. Here is what a sample
+warning looks like when <command>gmake</command> is run.
+<screen width="99">
+The following line will fail in the make as it calls die -- but that is expected
+Check that the output config_help.tlog is good and redo your make
+../../bld/configure -help >& config_help.tlog
+make: *** [config_help.tlog] Error 255
+</screen>
+To build the Code Reference Guide for &clm; (requires <command>protex</command> and
+<command>latex2html</command>). The make here uses a <filename>Filepath</filename>
+file that points to the list of directories that you want <command>protex</command>
+to run over. You should examine this file and make sure it is appropriate for what
+you need to do, before running the make.
+<screen width="99">
+> cd models/lnd/clm/doc/CodeReference
+> gmake
+</screen>
+To build the table of tests for the &clm; test suite. The make here runs a UNIX
+shell script to create a html table of the list of tests run on the different machines
+from the &clm; test suite.
+<screen width="99">
+> cd models/lnd/clm/test/system
+> gmake
+</screen>
+
+</para>
+
+</appendix>

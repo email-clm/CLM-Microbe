@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/EISMINT-1
+END
+e1-mm.1.config
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/EISMINT-1/e1-mm.1.config
+END
+e1-mm.2.config
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/EISMINT-1/e1-mm.2.config
+END
+e1-mm.3.config
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/EISMINT-1/e1-mm.3.config
+END
+e1-fm.1.config
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/EISMINT-1/e1-fm.1.config
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/EISMINT/EISMINT-1/Makefile.am
+END
+e1-fm.2.config
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/EISMINT-1/e1-fm.2.config
+END
+e1-fm.3.config
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/EISMINT-1/e1-fm.3.config
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1219/glimmer-cism2/branches/seacism/tests/EISMINT/EISMINT-1/README
+END

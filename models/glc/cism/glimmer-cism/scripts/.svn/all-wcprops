@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/1691/glimmer-cism2/branches/seacism/scripts
+END
+glide_launch.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/scripts/glide_launch.py
+END
+qsub_glide.sh
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/scripts/qsub_glide.sh
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/scripts/Makefile.am
+END
+f90_dependencies.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/scripts/f90_dependencies.py
+END
+generate_ncvars.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1691/glimmer-cism2/branches/seacism/scripts/generate_ncvars.py
+END

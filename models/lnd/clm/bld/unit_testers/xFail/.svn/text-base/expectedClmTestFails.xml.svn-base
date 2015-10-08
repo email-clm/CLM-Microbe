@@ -1,0 +1,68 @@
+<?xml version= "1.0"?>
+
+<expectedFails>
+   <namelistTest> 
+      <yellowstone>
+         <INTEL>
+            <compare>
+               <entry testId="211" failType="xFail"> missing datasets for us20 </entry>
+               <entry testId="213" failType="xFail"> missing datasets for us20 </entry>
+               <entry testId="291" failType="xFail"> ne16 missing finidat file for 1850</entry>
+               <entry testId="293" failType="xFail"> ne16 missing finidat file for 1850</entry>
+            </compare>
+            <generate>
+               <entry testId="211" failType="xFail"> missing datasets for us20 </entry>
+               <entry testId="291" failType="xFail"> ne16 missing finidat file for 1850</entry>
+            </generate>
+         </INTEL>
+      </yellowstone>
+      <frankfurt>
+         <INTEL>
+            <compare>
+            </compare>
+            <generate>
+            </generate>
+         </INTEL>
+      </frankfurt>
+   </namelistTest>
+
+   <cesm> 
+      <auxTests>
+         <yellowstone>
+            <INTEL>
+               <entry testId="ERS_Ld211_D_P112x1.f10_f10.ICNCROP"                        failType="FAIL"  bugz="1696" >use before define in history</entry>
+               <entry testId="ERS.f09_g16.ICLM45VIC.yellowstone_intel.clm-vrtlay"        failType="FAIL"  bugz="1722" >floating point exception</entry>
+               <entry testId="ERS_D.f09_g16.ICLM45VIC.yellowstone_intel.clm-vrtlay"      failType="FAIL"  bugz="1722" >floating point exception</entry>
+               <entry testId="SSP.f19_g16.I1850CLM45BGC.yellowstone_intel.clm-default"   failType="BFAIL" bugz="1728" >starting in clm4_5_07--The cpl.hi.nc file is not being copied on a generate like it should.</entry>
+            </INTEL>
+            <PGI>
+            </PGI>
+         </yellowstone>
+         <frankfurt>
+            <INTEL>
+            </INTEL>
+            <NAG>
+            </NAG>
+            <PGI>
+            </PGI>
+         </frankfurt>
+      </auxTests>
+   </cesm>
+
+   <PTCLM>
+         <yellowstone>
+            <INTEL>
+               <entry testId="0_US-UMB_I_1850_CLM45"          failType="FAIL"              ></entry>
+               <entry testId="0_US-UMB_I20TRCLM45"            failType="FAIL"              ></entry>
+               <entry testId="0_US-UMB_ICLM45CN"              failType="FAIL"              ></entry>
+               <entry testId="0_US-UMB_I1850CLM45BGC"         failType="FAIL"              ></entry>
+               <entry testId="0_US-UMB_ICLM45BGC"             failType="FAIL"              ></entry>
+            </INTEL>
+         </yellowstone>
+         <frankfurt>
+            <PGI>
+            </PGI>
+         </frankfurt>
+   </PTCLM>
+
+</expectedFails> 

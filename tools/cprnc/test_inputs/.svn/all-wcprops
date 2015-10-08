@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs
+END
+clm2.h0.subset.test.nc
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/clm2.h0.subset.test.nc
+END
+control_multipleTimes_someTimeless.nc
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/control_multipleTimes_someTimeless.nc
+END
+clm2.h1.subset.test.nc
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/clm2.h1.subset.test.nc
+END
+clm2.h0.subset.control.nc
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/clm2.h0.subset.control.nc
+END
+clm2.h1.subset.control.nc
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/clm2.h1.subset.control.nc
+END
+control_noTime.nc
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/control_noTime.nc
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/README
+END
+cpl.hi.subset.test.nc
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/cpl.hi.subset.test.nc
+END
+cpl.hi.subset.control.nc
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/cpl.hi.subset.control.nc
+END
+multipleTimes_someTimeless_diffs_in_vals_and_fill.nc
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/multipleTimes_someTimeless_diffs_in_vals_and_fill.nc
+END
+noTime_diffs_in_vals_and_fill.nc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/test_inputs/noTime_diffs_in_vals_and_fill.nc
+END

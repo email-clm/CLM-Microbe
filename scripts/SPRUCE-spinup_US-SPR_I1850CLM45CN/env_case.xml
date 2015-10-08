@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<config_definition>
+
+<!-- ========================================================================== -->
+<!--                                                                            -->
+<!--       These variables CANNOT BE CHANGED once a case has been created.      -->
+<!--       Invoke create_newcase again if a different grid or component         -->
+<!--       combination is required.                                             -->
+<!--                                                                            -->
+<!-- ========================================================================== -->
+
+
+
+<!--"case name (char*256) " -->
+<entry id="SCIENCE_SUPPORT"   value="NO"  />    
+
+<!--"case name (char*256) " -->
+<entry id="CASE"   value="SPRUCE-spinup_US-SPR_I1850CLM45CN"  />    
+
+<!--"full pathname of case (char) " -->
+<entry id="CASEROOT"   value="/home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN"  />    
+
+<!--"full pathname of CESM source root directory (char) " -->
+<entry id="CCSMROOT"   value="/home/u9x/clm45microbe_spruce_2015Jan15"  />    
+
+<!--"Machine name (char) " -->
+<entry id="MACH"   value="oic2"  />    
+
+<!--"Machines directory location (char) " -->
+<entry id="CCSM_MACHDIR"   value="/home/u9x/clm45microbe_spruce_2015Jan15/scripts/ccsm_utils/Machines"  />    
+
+<!--"CESM source models directory location (setup automatically to $CCSMROOT/models- DO NOT EDIT) (char) " -->
+<entry id="CODEROOT"   value="$CCSMROOT/models"  />    
+
+<!-- ====================================== -->
+
+<!--"case user name (char) " -->
+<entry id="CCSMUSER"   value="u9x"  />    
+
+<!-- ====================================== -->
+
+<!--"Name of atmospheric component , valid values: cam,wrf,datm,xatm,satm (char) " -->
+<entry id="COMP_ATM"   value="datm"  />    
+
+<!--"Name of land component, valid values: clm,vic,dlnd,xlnd,slnd (char) " -->
+<entry id="COMP_LND"   value="clm"  />    
+
+<!--"Name of sea ice component, valid values: cice,dice,xice,sice (char) " -->
+<entry id="COMP_ICE"   value="sice"  />    
+
+<!--"Name of land ice-sheet component, valid values: cism,xglc,sglc (char) " -->
+<entry id="COMP_GLC"   value="sglc"  />    
+
+<!--"Name of ocean component, valid values: pop2,docn,xocn,socn,aquap (char) " -->
+<entry id="COMP_OCN"   value="socn"  />    
+
+<!--"Name of river runoff component , valid values: rtm,drof,srof,xrof (char) " -->
+<entry id="COMP_ROF"   value="rtm"  />    
+
+<!--"Name of wave component, valid values: ww3,xwav,swav (char) " -->
+<entry id="COMP_WAV"   value="swav"  />    
+
+<!--"Name of coupling component, valid values: cpl (char) " -->
+<entry id="COMP_CPL"   value="cpl"  />    
+
+<!-- ====================================== -->
+
+<!-- ====================================== -->
+
+<!--"CESM source scripts directory location (setup automatically to $CCSMROOT/scripts- DO NOT EDIT) (char) " -->
+<entry id="SCRIPTSROOT"   value="$CCSMROOT/scripts"  />    
+
+<!--"CESM source scripts utils directory location (setup automatically to $CCSMROOT/scripts/ccsm_utils - DO NOT EDIT) (char) " -->
+<entry id="UTILROOT"   value="$CCSMROOT/scripts/ccsm_utils"  />    
+
+<!--"Case Tools directory location (char) " -->
+<entry id="CASETOOLS"   value="$CASEROOT/Tools"  />    
+
+<!--"Buildconf directory location (char) " -->
+<entry id="CASEBUILD"   value="$CASEROOT/Buildconf"  />    
+
+<!-- ====================================== -->
+
+<!--"CESM component set (for documentation only - DO NOT EDIT) (char) " -->
+<entry id="CCSM_COMPSET"   value="1850_DATM%QIA_CLM45%CN_SICE_SOCN_RTM_SGLC_SWAV"  />    
+
+<!--"CESM component set, longname (for documentation only - DO NOT EDIT) (char) " -->
+<entry id="CCSM_LCOMPSET"   value="1850_DATM%QIA_CLM45%CN_SICE_SOCN_RTM_SGLC_SWAV"  />    
+
+<!--"CESM component set, shortname (for documentation only - DO NOT EDIT) (char) " -->
+<entry id="CCSM_SCOMPSET"   value="UNSET"  />    
+
+<!--"2**n relative cost of compset where B is 1 (DO NOT EDIT) (integer) " -->
+<entry id="CCSM_CCOST"   value="-2"  />    
+
+<!--"2**n relative cost of grid where f19_g15 is 1 (DO NOT EDIT) (integer) " -->
+<entry id="CCSM_GCOST"   value="0"  />    
+
+<!--"2**n relative cost of machine (DO NOT EDIT) (integer) " -->
+<entry id="CCSM_MCOST"   value="0"  />    
+
+<!--"xml format option, expert removes extra comments from env xml files, valid values: normal,expert (char) " -->
+<entry id="XMLMODE"   value="normal"  />    
+
+<!-- ====================================== -->
+</config_definition>

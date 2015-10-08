@@ -1,0 +1,31 @@
+K 13
+svn:mergeinfo
+V 1389
+/csm_share/branch_tags/calup_tags/calup02_share3_120123:34640-34863
+/csm_share/branch_tags/calup_tags/calup03_share3_120123:34872-34875
+/csm_share/branch_tags/cesm1_1_esmf02_tags/esmf02_02_share3_110906:33449-33549
+/csm_share/branch_tags/e52r_tags/e52r01_share3_111027:33693-34014
+/csm_share/branch_tags/rasmqf_tags/rasmqf02_share3_120418:36809-36902
+/csm_share/branch_tags/rtmcomp_tags/rtmcomp02_share3_120803:40208-40365
+/csm_share/branch_tags/ww3br_tags/ww3br01_share3_111027:35063-35315
+/csm_share/branches/assert_mod:44656-46031
+/csm_share/branches/calup:34373-34871
+/csm_share/branches/cesm1_1_esmf02:32332-33448
+/csm_share/branches/e52r:33689-33692
+/csm_share/branches/nag_port:41684-44004
+/csm_share/branches/ninstfix_share3_120402:36004-36049
+/csm_share/branches/pio_csm120227:35269-35962
+/csm_share/branches/rasmqf:36390-36808
+/csm_share/branches/rtmcomp:38586-40207
+/csm_share/branches/scam_sno_present_fix:46222-46240
+/csm_share/branches/tcens:27848-29283
+/csm_share/branches/ww3br:35059-35062
+/csm_share/trunk_tags/share3_110411:27795-27847
+/csm_share/trunk_tags/share3_110609:28871-28892
+/csm_share/trunk_tags/share3_120308:35319-36389
+/csm_share/trunk_tags/share3_120418:36507-36687
+/csm_share/trunk_tags/share3_120509:36939-38585
+/csm_share/trunk_tags/share3_120731:39071-39411
+/csm_share/trunk_tags/share3_120803:39169-40072
+/csm_share/trunk_tags/share3_130213:43961-43965
+END

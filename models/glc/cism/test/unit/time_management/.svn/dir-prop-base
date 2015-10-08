@@ -1,0 +1,11 @@
+K 10
+svn:ignore
+V 71
+*.mod
+*.o
+Depends
+time_management_test
+time_management_test_in
+cism_in
+
+END

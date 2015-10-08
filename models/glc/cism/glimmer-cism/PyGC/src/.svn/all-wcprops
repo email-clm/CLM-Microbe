@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/!svn/ver/1369/glimmer-cism2/branches/seacism/PyGC/src
+END
+projmodule.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/src/projmodule.c
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/src/Makefile.am
+END

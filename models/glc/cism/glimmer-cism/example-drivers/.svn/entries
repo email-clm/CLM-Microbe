@@ -1,0 +1,77 @@
+10
+
+dir
+1863
+https://svn-cism-model.cgd.ucar.edu/glimmer-cism2/branches/seacism/example-drivers
+https://svn-cism-model.cgd.ucar.edu
+
+
+
+2013-05-02T19:27:49.092641Z
+1863
+lipscomb
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2cfc7cc4-626f-0410-8325-f6cb4dace9bf
+
+eis
+dir
+
+simple_bisicles
+dir
+
+EISMINT-3
+dir
+
+Makefile.am
+file
+
+
+
+
+2013-02-25T03:33:33.724292Z
+be1f5c80bf566d4ba4e868ba78295fdd
+2011-03-09T19:25:59.473027Z
+973
+sprice
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+156
+
+glint
+dir
+
+simple_glide
+dir
+

@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/!svn/ver/1369/glimmer-cism2/branches/seacism/PyGC/data
+END
+eismint2.data
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/eismint2.data
+END
+mb.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/mb.cpt
+END
+ice.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/ice.cpt
+END
+stages
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/stages
+END
+topo.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/topo.cpt
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/Makefile.am
+END
+litho_temp.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/litho_temp.cpt
+END
+surf_temp.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/surf_temp.cpt
+END
+temp.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/temp.cpt
+END
+velo.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/velo.cpt
+END
+gthf.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/gthf.cpt
+END
+rsl_res.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/PyGC/data/rsl_res.cpt
+END

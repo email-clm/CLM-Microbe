@@ -1,0 +1,15 @@
+site_code,name,country,lon,lat,elev,startyear,endyear,alignyear
+CA-Ca1,"British_Columbia-Campbell_River_Mature_Forest",CAN,-125.3336,49.8673,300,1998,2006,1851
+CA-Oas,"Sask_SSA_Old_Aspen",CAN,-106.1978,53.6289,530,1997,2006,1851
+CA-Obs,"Sask_SSA_Old_Black Spruce",CAN,-105.1178,53.9872,629,2000,2006,1851
+CA-Ojp,"Sask_SSA_Old_Jack Pine",CAN,-104.6920,53.9163,579,2000,2006,1851
+CA-Qfo,"Quebec_Mature_Boreal_Forest_Site",CAN,-74.3421,49.6925,382,2004,2006,1851
+CA-TP4,"Ontario-Turkey_Point_Mature_White_Pine",CAN,-80.3574,42.7098,219,2002,2007,1851
+US-Dk3,"Duke_Forest_Loblolly_Pine",NC,-79.0942,35.9782,163,1998,2005,1851
+US-Ha1,"Harvard_Forest",MA,-72.5378,42.5378,303,1991,2006,1851
+US-Ho1,"Howland_Forest_Main",ME,-68.7402,45.2041,60,1996,2004,1851
+US-Me2,"Metolius_Intermediate_Pine",OR,-121.5572,44.4524,1253,2002,2007,1851
+US-MMS,"Morgon_Monroe_State_Forest",IN,-86.4131,39.3232,275,1999,2006,1851
+US-MOz,"Missouri_Ozark_Site",MO,-92.2,38.7441,291.4,2004,2007,1851
+US-NR1,"Niwot_Ridge",CO,-105.5464,40.0329,3050,1998,2007,1851
+US-UMB,"UMBS",MI,-84.7138,45.5598,234,1999,2006,1851

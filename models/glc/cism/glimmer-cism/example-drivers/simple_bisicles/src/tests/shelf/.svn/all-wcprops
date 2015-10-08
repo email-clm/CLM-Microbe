@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1844/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf
+END
+confined-shelf.BISICLES.nc
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/!svn/ver/1844/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf/confined-shelf.BISICLES.nc
+END
+circular-shelf.nc
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/!svn/ver/1829/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf/circular-shelf.nc
+END
+confined-shelf.BISICLES.config
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/!svn/ver/1839/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf/confined-shelf.BISICLES.config
+END
+circular-shelf.config
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/!svn/ver/1829/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf/circular-shelf.config
+END
+inputs.circularShelf
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/!svn/ver/1829/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf/inputs.circularShelf
+END
+inputs.confinedShelf
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/!svn/ver/1839/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf/inputs.confinedShelf
+END
+circular-shelf.py
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/!svn/ver/1835/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf/circular-shelf.py
+END
+netCDF.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/!svn/ver/1836/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf/netCDF.py
+END
+confined-shelf.py
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/!svn/ver/1844/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/tests/shelf/confined-shelf.py
+END

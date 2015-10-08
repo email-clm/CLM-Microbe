@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/47881/clm2/trunk_tags/clm4_5_10/models/lnd/clm/bld/unit_testers/xFail
+END
+expectedClmTestFails.xml
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/!svn/ver/47881/clm2/trunk_tags/clm4_5_10/models/lnd/clm/bld/unit_testers/xFail/expectedClmTestFails.xml
+END

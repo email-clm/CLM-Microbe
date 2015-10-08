@@ -1,0 +1,9 @@
+K 13
+svn:mergeinfo
+V 410
+/glimmer-cism-lanl/branches/parallel/src/fortran/glimmer_paramets.F90:58-908
+/glimmer-cism2/branches/seacism_fixHeaders/libglimmer/glimmer_paramets.F90:1817-1826
+/glimmer-cism2/branches/seacism_parallelGlint/libglimmer/glimmer_paramets.F90:1681-1731
+/glimmer-cism2/branches/seacism_timestep_reordering/libglimmer/glimmer_paramets.F90:1410-1467
+/glimmer-cism2/trunk/libglimmer/glimmer_paramets.F90:2-4,1109-1214
+END

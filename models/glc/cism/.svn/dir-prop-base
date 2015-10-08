@@ -1,0 +1,43 @@
+K 13
+svn:externals
+V 87
+glimmer-cism -r1863 https://svn-cism-model.cgd.ucar.edu/glimmer-cism2/branches/seacism
+
+K 13
+svn:mergeinfo
+V 1814
+/glc/branch_tags/bldnml_tags/bldnml02_cism1_120322:37056
+/glc/branch_tags/cesm1_1_esmf02_tags/esmf02_02_cism1_111004:33450-33548
+/glc/branch_tags/change_time_to_double_tags/change_time_to_double_01_cism1_121008:40916
+/glc/branch_tags/cism2_cesm_bld_parallelGlint_tags/cism2_cesm_bld_parallelGlint_03_cism2_cesm_bld_wjs_13_cism1_121114:43527-43533
+/glc/branch_tags/cism2_cesm_bld_wjs_tags/cism2_cesm_bld_wjs_09_cism1_121114:43185-43309
+/glc/branch_tags/cism2_cesm_bld_wjs_tags/cism2_cesm_bld_wjs_20_cism1_121114:43747-43810
+/glc/branch_tags/cism2_cleanup_tags/cism2_cleanup_03_cism1_130425:46476
+/glc/branch_tags/cpl7esmf_tags/cesm1_1_beta04_02:32143-33767
+/glc/branch_tags/e52r_tags/e52r02_cism1_111221:33790-34007
+/glc/branch_tags/ensemble_tags/ensemble_05_cism1_120823:39822
+/glc/branch_tags/parallel_glc_tags/parallel_glc_02_cism1_121106a:41928
+/glc/branch_tags/rtmcomp_tags/rtmcomp02_cism1_120905:40427
+/glc/branches/bldnml:36918-37055
+/glc/branches/cesm1_1_esmf02:32450-33449
+/glc/branches/change_time_to_double:40862-40915
+/glc/branches/cism2_cesm_bld_parallelGlint:43310-43526
+/glc/branches/cism2_cesm_bld_wjs:34762-43746
+/glc/branches/cism2_cleanup:46165-46475
+/glc/branches/cpl7esmf_br/cesm1_1_beta04:32140-32142
+/glc/branches/e52r:33682-33789
+/glc/branches/ensemble:39083-39821
+/glc/branches/glimmer-cism2_cesm-bld:33336
+/glc/branches/parallel_glc:41862-41927
+/glc/branches/rtmcomp:40301-40426
+/glc/trunk_tags/cism1_120123:34009-34761
+/glc/trunk_tags/cism1_120629:38266-39082
+/glc/trunk_tags/cism1_120823:39660-39715
+/glc/trunk_tags/cism1_120829:39824-39843
+/glc/trunk_tags/cism1_121009:40918-41861
+/glc/trunk_tags/cism1_121012:41011-41404
+/glc/trunk_tags/cism1_121106a:41672-41874
+/glc/trunk_tags/cism1_121114:41945-42052
+/glc/trunk_tags/cism1_130405:45657-46164
+/glc/trunk_tags/cism1_130425:46401-46474
+END

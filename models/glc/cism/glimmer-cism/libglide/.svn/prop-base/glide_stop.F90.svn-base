@@ -1,0 +1,9 @@
+K 13
+svn:mergeinfo
+V 372
+/glimmer-cism-lanl/branches/parallel/src/fortran/glide_stop.F90:58-908
+/glimmer-cism2/branches/seacism_fixHeaders/libglide/glide_stop.F90:1817-1826
+/glimmer-cism2/branches/seacism_parallelGlint/libglide/glide_stop.F90:1681-1731
+/glimmer-cism2/branches/seacism_timestep_reordering/libglide/glide_stop.F90:1410-1467
+/glimmer-cism2/trunk/libglide/glide_stop.F90:2-9,1109-1214
+END

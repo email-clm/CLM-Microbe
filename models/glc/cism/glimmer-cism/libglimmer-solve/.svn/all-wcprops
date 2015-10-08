@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1852/glimmer-cism2/branches/seacism/libglimmer-solve
+END
+glimmer_sparse_slap.F90
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/1852/glimmer-cism2/branches/seacism/libglimmer-solve/glimmer_sparse_slap.F90
+END
+glimmer_sparse.F90
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1852/glimmer-cism2/branches/seacism/libglimmer-solve/glimmer_sparse.F90
+END
+glimmer_sparse_type.F90
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/1852/glimmer-cism2/branches/seacism/libglimmer-solve/glimmer_sparse_type.F90
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1798/glimmer-cism2/branches/seacism/libglimmer-solve/Makefile.am
+END
+cism_sparse_pcg.F90
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer-solve/cism_sparse_pcg.F90
+END

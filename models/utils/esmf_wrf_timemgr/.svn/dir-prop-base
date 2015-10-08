@@ -1,0 +1,12 @@
+K 13
+svn:mergeinfo
+V 541
+/esmf_wrf_timemgr/branch_tags/calup_tags/calup03_esmf_wrf_timemgr_120123:34863
+/esmf_wrf_timemgr/branch_tags/cesm1_1_esmf02_tags/esmf02_02_esmf_wrf_timemgr_101018:33451-33549
+/esmf_wrf_timemgr/branch_tags/e52r_tags/e52r01_esmf_wrf_timemgr_101018:33698-34005
+/esmf_wrf_timemgr/branch_tags/nag_port_tags/nag_port_n01_esmf_wrf_timemgr_120427:43929-43931
+/esmf_wrf_timemgr/branches/calup:34378-34862
+/esmf_wrf_timemgr/branches/cesm1_1_esmf02:32457-33450
+/esmf_wrf_timemgr/branches/e52r:33694-33697
+/esmf_wrf_timemgr/branches/nag_port:43236-43928
+END

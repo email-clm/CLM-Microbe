@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1369/glimmer-cism2/branches/seacism/doc/ext/erosion/gnu
+END
+stress-strain-fit.gp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/gnu/stress-strain-fit.gp
+END
+stress-strain.gp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/gnu/stress-strain.gp
+END
+fit.gp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/gnu/fit.gp
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/gnu/Makefile.am
+END
+stress-strain.data
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/gnu/stress-strain.data
+END

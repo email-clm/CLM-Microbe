@@ -1,0 +1,12 @@
+K 13
+svn:mergeinfo
+V 480
+/stubs/branch_tags/cesm1_1_esmf02_tags/esmf02_02_stubs1_2_04/sice:33440-33549
+/stubs/branch_tags/cpl7esmf_tags/cesm1_1_beta01_sice_02:31692-31899
+/stubs/branch_tags/cpl7esmf_tags/sice_tags/cesm1_1_beta04_02:32163-33767
+/stubs/branch_tags/e52r_tags/e52r02_stubs1_2_05/sice:33805-33991
+/stubs/branches/cesm1_1_esmf02/sice:32271-33439
+/stubs/branches/cpl7esmf_br/11b01_sice:31689-31691
+/stubs/branches/cpl7esmf_br/cesm1_1_beta04_sice:32160-32162
+/stubs/branches/e52r/sice:33710-33804
+END

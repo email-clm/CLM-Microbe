@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1369/glimmer-cism2/branches/seacism/extensions/erosion/scripts
+END
+erosion.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1109/glimmer-cism2/branches/seacism/extensions/erosion/scripts/erosion.cpt
+END
+plotGCseds
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1109/glimmer-cism2/branches/seacism/extensions/erosion/scripts/plotGCseds
+END
+plotGCSedsProfile
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1109/glimmer-cism2/branches/seacism/extensions/erosion/scripts/plotGCSedsProfile
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1109/glimmer-cism2/branches/seacism/extensions/erosion/scripts/Makefile.am
+END

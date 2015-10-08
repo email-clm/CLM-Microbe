@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/exact-isothermal/tests
+END
+template.config
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/exact-isothermal/tests/template.config
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/tests/Makefile.am
+END
+index.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/tests/index.html
+END
+error.cpt
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/tests/error.cpt
+END

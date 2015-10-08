@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/benchmarks
+END
+b1.config
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/benchmarks/b1.config
+END
+b2.config
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/benchmarks/b2.config
+END
+b3.config
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/benchmarks/b3.config
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/EISMINT/benchmarks/Makefile.am
+END
+b4.config
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/benchmarks/b4.config
+END
+b5.config
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/benchmarks/b5.config
+END
+b6.config
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/benchmarks/b6.config
+END

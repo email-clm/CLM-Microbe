@@ -1,0 +1,2 @@
+site_code,name,state,lon,lat,elev,startyear,endyear,alignyear
+XX-GEN,"GENERIC",XX,0.00000,0.00000,0,2000,2000,1851

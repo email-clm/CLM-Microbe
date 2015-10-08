@@ -1,0 +1,130 @@
+#!/bin/csh -f
+#===============================================================================
+# GENERIC_USER
+# This is where the batch submission is set.  The above code computes
+# the total number of tasks, nodes, and other things that can be useful
+# here.  Use PBS, BSUB, or whatever the local environment supports.
+#===============================================================================
+
+#PBS -N DAYL_ON_US-VA1_fullrun
+#PBS -q esd08q
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=48:00:00
+#PBS -r n
+#PBS -j oe
+#PBS -S /bin/csh -V
+
+#limit coredumpsize 1000000
+#limit stacksize unlimited
+
+
+# ---------------------------------------- 
+# PE LAYOUT: 
+#   total number of tasks  = 1 
+#   maximum threads per task = 1 
+#   cpl ntasks=1  nthreads=1 rootpe=0 
+#   datm ntasks=1  nthreads=1 rootpe=0 
+#   clm ntasks=1  nthreads=1 rootpe=0 
+#   sice ntasks=1  nthreads=1 rootpe=0 
+#   socn ntasks=1  nthreads=1 rootpe=0 
+#   sglc ntasks=1  nthreads=1 rootpe=0 
+#   
+#   total number of hw pes = 1 
+#     cpl hw pe range ~ from 0 to 0 
+#     datm hw pe range ~ from 0 to 0 
+#     clm hw pe range ~ from 0 to 0 
+#     sice hw pe range ~ from 0 to 0 
+#     socn hw pe range ~ from 0 to 0 
+#     sglc hw pe range ~ from 0 to 0 
+# ---------------------------------------- 
+#-----------------------------------------------------------------------
+# Determine necessary environment variables
+#-----------------------------------------------------------------------
+
+
+#--------------------------ad_spinup------------------------------------
+cd /home/zdr/models/clean/clm4_5_ornl/run
+cd DAYL_OFF_US-VA1_I1850CN_ad_spinup/run
+
+setenv OMP_NUM_THREADS 1
+cp ../bld/cesm.exe .
+
+./cesm.exe > cesm.log
+
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED" 
+
+#---------------------------end ad_spinup -----------------------------
+
+#copy rpointers and restart file
+cp rpointer.* ../../DAYL_OFF_US-VA1_I1850CN_exit_spinup/run
+cp *.r*.nc    ../../DAYL_OFF_US-VA1_I1850CN_exit_spinup/run
+cp *.r*.bin   ../../DAYL_OFF_US-VA1_I1850CN_exit_spinup/run
+
+#---------------------------exit_spinup --------------------------------
+cd /home/zdr/models/clean/clm4_5_ornl/run
+cd DAYL_OFF_US-VA1_I1850CN_exit_spinup/run
+setenv OMP_NUM_THREADS 1
+cp ../bld/cesm.exe .
+
+./cesm.exe > cesm.log
+
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED"
+
+#-----------------------end exit spinup --------------------------------
+
+#copy rpointers and restart file
+cp rpointer.* ../../DAYL_OFF_US-VA1_I1850CN/run
+cp *.r*.nc    ../../DAYL_OFF_US-VA1_I1850CN/run
+cp *.r*.bin   ../../DAYL_OFF_US-VA1_I1850CN/run
+
+#-----------------------------final spinup------------------------------
+cd /home/zdr/models/clean/clm4_5_ornl/run
+cd DAYL_OFF_US-VA1_I1850CN/run
+
+setenv OMP_NUM_THREADS 1
+cp ../bld/cesm.exe .
+
+./cesm.exe > cesm.log
+
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED" 
+
+#--------------------------end final spinup------------------------------
+
+#copy rpointers and restart file
+cp rpointer.* ../../DAYL_OFF_US-VA1_I20TRCN_phase1/run
+cp *.r*.nc    ../../DAYL_OFF_US-VA1_I20TRCN_phase1/run
+cp *.r*.bin   ../../DAYL_OFF_US-VA1_I20TRCN_phase1/run
+
+#---------------------------transient run--------------------------------
+cd /home/zdr/models/clean/clm4_5_ornl/run
+cd DAYL_OFF_US-VA1_I20TRCN_phase1/run
+
+setenv OMP_NUM_THREADS 1
+cp ../bld/cesm.exe .
+
+./cesm.exe > cesm.log
+
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED" 
+
+#--------------------------end transeint phase 1--------------------------
+
+#copy rpointers and restart file
+cp rpointer.* ../../DAYL_OFF_US-VA1_I20TRCN_phase2/run
+cp *.r*.nc    ../../DAYL_OFF_US-VA1_I20TRCN_phase2/run
+cp *.r*.bin   ../../DAYL_OFF_US-VA1_I20TRCN_phase2/run
+
+#---------------------------transient run--------------------------------
+cd /home/zdr/models/clean/clm4_5_ornl/run
+cd DAYL_OFF_US-VA1_I20TRCN_phase2/run
+
+setenv OMP_NUM_THREADS 1
+cp ../bld/cesm.exe .
+
+./cesm.exe > cesm.log
+
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED" 

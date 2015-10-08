@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1369/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/EISMINT-3
+END
+e3gl_steady.config
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/EISMINT-3/e3gl_steady.config
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/EISMINT-3/Makefile.am
+END
+EISMINT3GL.input.nc
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/EISMINT-3/EISMINT-3/EISMINT3GL.input.nc
+END

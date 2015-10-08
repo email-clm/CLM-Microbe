@@ -1,0 +1,13 @@
+&drydep_inparm
+/
+&megan_emis_nl
+ megan_factors_file = '/home/u9x/ccsm_inputdata/atm/cam/chem/trop_mozart/emis/megan21_emis_factors_c20120313.nc'
+ megan_specifier = 'ISOP = isoprene', 'C10H16 = pinene_a + carene_3 + thujene_a', 'CH3OH = methanol', 'C2H5OH = ethanol',
+         'CH2O = formaldehyde', 'CH3CHO = acetaldehyde', 'CH3COOH = acetic_acid', 'CH3COCH3 = acetone'
+/
+#!--------------------------------------------------------------------------------------------------------------------------
+#! drv_flds_in:: Comment:
+#! This namelist was created using the following command-line:
+#!     /home/u9x/clm45microbe_spruce_2015Jan15/models/lnd/clm/bld/CLM build-namelist -infile /home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN/Buildconf/clmconf/cesm_namelist -csmdata /home/u9x/ccsm_inputdata -inputdata /home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN/Buildconf/clm.input_data_list -ignore_ic_year -namelist &clm_inparm start_ymd = 00010101  / -use_case 1850_control -res 2x1pt_US-SPR -clm_usr_name 2x1pt_US-SPR -clm_start_type default -l_ncpl 48 -lnd_frac /home/u9x/ccsm_inputdata/share/domains/domain.clm/domain.lnd.2x1pt_US-SPR_navy.nc -glc_nec 0 -co2_ppmv 284.7 -co2_type constant -config /home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN/Buildconf/clmconf/config_cache.xml -mask navy
+#! For help on options use: /home/u9x/clm45microbe_spruce_2015Jan15/models/lnd/clm/bld/CLM build-namelist -help
+#!--------------------------------------------------------------------------------------------------------------------------

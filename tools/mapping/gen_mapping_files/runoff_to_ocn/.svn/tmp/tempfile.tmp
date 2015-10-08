@@ -1,0 +1,44 @@
+================================================================================
+SVN $Id$
+SVN $URL$
+===============================================================================
+
+           How to create a runoff map for CCSM4
+
+----------------------------------------------------------------------
+ Setup a namelist file
+ Build the tool
+ Run the tool
+----------------------------------------------------------------------
+
+Input files are an ascii rdirc file and a script ocean grid file.
+This computes an initial nearest neighbor mapping from rdirc output
+  cells to active ocean grid cells.
+Then a smoothing matrix is computed.
+The two matrices are multipled together and a final mapping file is
+  produced.
+
+--------------------------------------------------------------------------------
+timings
+--------------------------------------------------------------------------------
+
+bluefire, interactive, in /ptmp, June 29, 2008
+
+  &input_nml
+   file_rtm     = '/fs/cgd/csm/mapping/makemaps/mod_rtm_routing/rdirc.06.080627.txt'
+   file_ocn     = '/fs/cgd/csm/mapping/grids/tx0.1v2_070911.nc'
+   file_nn      = 'map_nn_r080627_tx01v2_080629.nc '
+   file_smooth  = 'map_smoother_r080627_tx01v2_080629.nc '
+   file_new     = 'map_r05_to_tx01v2_r500e1000_080620.nc'
+   title        = 'runoff map: r05 -> tx01v2 '
+   eFold        = 1000000.0
+   rMax         =  500000.0
+   step1        = .true.
+   step2        = .true.
+   step3        = .true.
+  /
+
+(shr_timer_print_all) print all timing info:
+(shr_timer_print) timer  1:       1 calls,   114.740s, id: Step 1: Grid Read, Gen NN
+(shr_timer_print) timer  2:       1 calls,   482.360s, id: Step 2: Create the smoothing map
+(shr_timer_print) timer  4:       1 calls,    44.710s, id: Step 3:  Matrix Multiply

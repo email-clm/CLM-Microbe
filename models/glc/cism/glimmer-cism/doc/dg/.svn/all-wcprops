@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/!svn/ver/1369/glimmer-cism2/branches/seacism/doc/dg
+END
+physics.tex
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/physics.tex
+END
+netcdf.tex
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/netcdf.tex
+END
+config_file.tex
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/config_file.tex
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/Makefile.am
+END
+dg.tex
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/dg/dg.tex
+END

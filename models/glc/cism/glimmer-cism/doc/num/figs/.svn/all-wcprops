@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/1369/glimmer-cism2/branches/seacism/doc/num/figs
+END
+basal_alg.dia
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num/figs/basal_alg.dia
+END
+thick_evo.dia
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num/figs/thick_evo.dia
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num/figs/Makefile.am
+END
+grid.fig
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num/figs/grid.fig
+END
+basal_bc.fig
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num/figs/basal_bc.fig
+END
+scale.fig
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num/figs/scale.fig
+END
+grid_ew.dia
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num/figs/grid_ew.dia
+END
+staggered_grid.fig
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/num/figs/staggered_grid.fig
+END

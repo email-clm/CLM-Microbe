@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1822/glimmer-cism2/branches/seacism/tests/EISMINT/isos
+END
+isos.elra.config
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1822/glimmer-cism2/branches/seacism/tests/EISMINT/isos/isos.elra.config
+END
+isos.elfa.config
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1822/glimmer-cism2/branches/seacism/tests/EISMINT/isos/isos.elfa.config
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/EISMINT/isos/Makefile.am
+END
+isos.llra.config
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1822/glimmer-cism2/branches/seacism/tests/EISMINT/isos/isos.llra.config
+END
+isos.llfa.config
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1822/glimmer-cism2/branches/seacism/tests/EISMINT/isos/isos.llfa.config
+END

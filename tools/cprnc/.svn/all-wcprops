@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529
+END
+compare_vars_mod.F90.in
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/compare_vars_mod.F90.in
+END
+run_tests
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/run_tests
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/ChangeLog
+END
+summarize_cprnc_diffs
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/summarize_cprnc_diffs
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/47575/tools/cprnc/trunk_tags/cprnc_130529/README
+END

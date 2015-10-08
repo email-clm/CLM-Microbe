@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/821/trunk_tags/pio1_7_2/pio
+END
+box_rearrange.F90.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/821/trunk_tags/pio1_7_2/pio/box_rearrange.F90.in
+END
+configure
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/821/trunk_tags/pio1_7_2/pio/configure
+END
+configure.ac
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/821/trunk_tags/pio1_7_2/pio/configure.ac
+END
+calcdecomp.F90
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/821/trunk_tags/pio1_7_2/pio/calcdecomp.F90
+END

@@ -1,0 +1,11 @@
+&modelio
+ diri = '/home/u9x/output/SPRUCE-transient_US-SPR_I20TRCLM45CN/bld/lnd'
+ diro = '/home/u9x/output/SPRUCE-transient_US-SPR_I20TRCLM45CN/run'
+ logfile = 'lnd.log.150918-121325'
+/
+&pio_inparm
+ pio_numiotasks = -99
+ pio_root = -99
+ pio_stride = -99
+ pio_typename = 'nothing'
+/

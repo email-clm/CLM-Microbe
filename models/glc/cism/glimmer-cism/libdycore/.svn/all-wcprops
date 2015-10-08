@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/!svn/ver/1813/glimmer-cism2/branches/seacism/libdycore
+END
+DyCoreModelRegistry.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1330/glimmer-cism2/branches/seacism/libdycore/DyCoreModelRegistry.cpp
+END
+glimmer_to_dycore.F90
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1810/glimmer-cism2/branches/seacism/libdycore/glimmer_to_dycore.F90
+END
+run_make
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1330/glimmer-cism2/branches/seacism/libdycore/run_make
+END
+DyCoreModelRegistry.H
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1330/glimmer-cism2/branches/seacism/libdycore/DyCoreModelRegistry.H
+END
+DyCoreToGlimmer.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1813/glimmer-cism2/branches/seacism/libdycore/DyCoreToGlimmer.cpp
+END
+CHANGELOG
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1330/glimmer-cism2/branches/seacism/libdycore/CHANGELOG
+END
+Makefile.hopper
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1330/glimmer-cism2/branches/seacism/libdycore/Makefile.hopper
+END
+dycore_to_glimmer_extern.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1330/glimmer-cism2/branches/seacism/libdycore/dycore_to_glimmer_extern.cpp
+END
+DyCoreToGlimmer.H
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1768/glimmer-cism2/branches/seacism/libdycore/DyCoreToGlimmer.H
+END
+Makefile.loren
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1334/glimmer-cism2/branches/seacism/libdycore/Makefile.loren
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1330/glimmer-cism2/branches/seacism/libdycore/README
+END
+glimmer_to_dycore.info
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1330/glimmer-cism2/branches/seacism/libdycore/glimmer_to_dycore.info
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1478/glimmer-cism2/branches/seacism/libdycore/CMakeLists.txt
+END
+dycore_to_glimmer_extern.H
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1330/glimmer-cism2/branches/seacism/libdycore/dycore_to_glimmer_extern.H
+END

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/44761/stubs/trunk_tags/stubs1_4_02/swav/cpl_esmf
+END
+wav_comp_esmf.F90
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/44761/stubs/trunk_tags/stubs1_4_02/swav/cpl_esmf/wav_comp_esmf.F90
+END
+wav_comp_mct.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/44761/stubs/trunk_tags/stubs1_4_02/swav/cpl_esmf/wav_comp_mct.F90
+END

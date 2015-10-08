@@ -1,0 +1,8 @@
+#parameters PFT value
+leafcn 1 50.000000
+lflitcn 1 100.0000
+froot_leaf 1 0.500000
+frootcn 1 55.0000
+slatop 1 0.007000
+stem_leaf 1 2.000000
+leaf_long 1 5.00000

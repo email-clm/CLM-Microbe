@@ -1,0 +1,233 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1369/glimmer-cism2/branches/seacism/libglimmer-solve/blas
+END
+scasum.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/scasum.f
+END
+sswap.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/sswap.f
+END
+srotg.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/srotg.f
+END
+sdsdot.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/sdsdot.f
+END
+srotm.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/srotm.f
+END
+sdot.f
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/sdot.f
+END
+srotmg.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/srotmg.f
+END
+ccopy.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/ccopy.f
+END
+dcopy.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/dcopy.f
+END
+dnrm2.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/dnrm2.f
+END
+caxpy.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/caxpy.f
+END
+cscal.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/cscal.f
+END
+daxpy.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/daxpy.f
+END
+dscal.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/dscal.f
+END
+srot.f
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/srot.f
+END
+ddot.f
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/ddot.f
+END
+drotmg.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/drotmg.f
+END
+cdotc.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/cdotc.f
+END
+scopy.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/scopy.f
+END
+snrm2.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/snrm2.f
+END
+icamax.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/icamax.f
+END
+idamax.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/idamax.f
+END
+scnrm2.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/scnrm2.f
+END
+saxpy.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/saxpy.f
+END
+sscal.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/sscal.f
+END
+csscal.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/csscal.f
+END
+drot.f
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/drot.f
+END
+dasum.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/dasum.f
+END
+dsdot.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/dsdot.f
+END
+cswap.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/cswap.f
+END
+dswap.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/dswap.f
+END
+cdotu.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/cdotu.f
+END
+crotg.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/crotg.f
+END
+drotg.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/drotg.f
+END
+isamax.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/isamax.f
+END
+drotm.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/drotm.f
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/Makefile.am
+END
+sasum.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/blas/sasum.f
+END

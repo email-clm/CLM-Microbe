@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/1532/glimmer-cism2/branches/seacism/libgptl
+END
+Makefile.crayxt_cnl_wpapi
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/Makefile.crayxt_cnl_wpapi
+END
+Makefile.crayxt_cnl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/Makefile.crayxt_cnl
+END
+Makefile_cesm
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/Makefile_cesm
+END
+GPTLutil.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/GPTLutil.c
+END
+gptl.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1342/glimmer-cism2/branches/seacism/libgptl/gptl.c
+END
+GPTLprint_memusage.c
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/GPTLprint_memusage.c
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/!svn/ver/1532/glimmer-cism2/branches/seacism/libgptl/ChangeLog
+END
+perf_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1456/glimmer-cism2/branches/seacism/libgptl/perf_mod.F90
+END
+f_wrappers.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1532/glimmer-cism2/branches/seacism/libgptl/f_wrappers.c
+END
+Makefile.crayxt_cnl_gnu
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1456/glimmer-cism2/branches/seacism/libgptl/Makefile.crayxt_cnl_gnu
+END
+gptl.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1532/glimmer-cism2/branches/seacism/libgptl/gptl.h
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/README
+END
+Makefile.aix
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/Makefile.aix
+END
+gptl_papi.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/gptl_papi.c
+END
+private.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/!svn/ver/1342/glimmer-cism2/branches/seacism/libgptl/private.h
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/COPYING
+END
+perf_utils.F90
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/perf_utils.F90
+END
+GPTLget_memusage.c
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1456/glimmer-cism2/branches/seacism/libgptl/GPTLget_memusage.c
+END
+gptl.inc
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1321/glimmer-cism2/branches/seacism/libgptl/gptl.inc
+END

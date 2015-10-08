@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1369/glimmer-cism2/branches/seacism/doc/ext/erosion/figs
+END
+pressure_stress_strain.fig
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/figs/pressure_stress_strain.fig
+END
+erosion_layers.fig
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/figs/erosion_layers.fig
+END
+fenscan.prof
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/figs/fenscan.prof
+END
+stages
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/figs/stages
+END
+plot_basal.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/figs/plot_basal.py
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/figs/Makefile.am
+END
+ice_velo.fig
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/figs/ice_velo.fig
+END

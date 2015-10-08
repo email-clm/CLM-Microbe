@@ -1,0 +1,67 @@
+10
+
+dir
+47914
+https://svn-ccsm-models.cgd.ucar.edu/scripts/trunk_tags/scripts4_130529/ccsm_utils/Testlistxml/nl_dirs/clm
+https://svn-ccsm-models.cgd.ucar.edu
+
+
+
+2013-05-29T19:39:27.671216Z
+47582
+erik
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fe37f545-8307-0410-aea5-b40df96820b5
+
+monthly_noinitial
+dir
+
+vrtlay
+dir
+
+crop
+dir
+
+oldhyd
+dir
+
+cn_conly
+dir
+
+default
+dir
+
+voc
+dir
+
+ch4_set2_ciso
+dir
+
+ch4_set3_pftroot
+dir
+
+glcMEC
+dir
+
+monthly
+dir
+
+rootlit
+dir
+
+ciso
+dir
+

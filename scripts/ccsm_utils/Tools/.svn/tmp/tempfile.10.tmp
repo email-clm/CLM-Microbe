@@ -1,0 +1,62 @@
+#!/bin/csh -f
+
+#------------------------------------------------------------------
+# Make a directory on the local mass store
+# "Usage ccsm_msmkdir mssdir"
+#------------------------------------------------------------------
+
+#------------------------------------------------------------------
+# Check for 1 argument
+#------------------------------------------------------------------
+if ("$#argv" == 1) then
+  set rd = $argv[1]
+else
+  echo "Usage ccsm_msmkdir mssdir"
+  exit 1
+endif
+
+#------------------------------------------------------------------
+# Execute site dependent mass store mkdir
+# None required at NCAR
+#------------------------------------------------------------------
+
+# If NAS pleiades at NASA/AMES
+if( ${MACH} == "pleiades" | ${MACH} == "pleiades_wes" ) then
+  echo "ccsm_msmkdir: ssh -q bridge2 ssh -q lou mkdir -p ${rd} "
+  ssh -q bridge2 "ssh -q lou mkdir -p ${rd}"
+  exit
+endif
+
+# If NCAR MSS msrcp command exists, exit
+if (`which msrcp | wc -w` == 1 ) then
+  exit
+endif
+
+# If LANL psi command exists, use it.
+if (`which psi | wc -w` == 1 ) then
+  echo "ccsm_mkdir: psi ?"
+  echo untested
+# psi mkdir 
+  exit
+endif
+
+# If NERSC/ORNL hsi command exists, use it.
+if (`which hsi | wc -w` == 1 ) then
+  echo "ccsm_msmkdir: hsi 'mkdir -p ${rd}'"
+  hsi -q "mkdir -p ${rd}"
+  endif
+  exit
+endif
+
+# If PSC far command exists, use it.
+if (`which far | wc -w` == 1 ) then
+  echo "ccsm_msmkdir: far mkdir ${rd}"
+  far mkdir ${rd}
+  exit
+endif
+
+exit
+
+
+
+

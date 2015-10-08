@@ -1,0 +1,9 @@
+K 13
+svn:mergeinfo
+V 249
+/glimmer-cism-lanl/branches/parallel:57
+/glimmer-cism2/branches/seacism_fixHeaders:1817-1826
+/glimmer-cism2/branches/seacism_parallelGlint:1681-1731
+/glimmer-cism2/branches/seacism_timestep_reordering:1410-1467
+/glimmer-cism2/trunk:391-613,1109-1214
+END

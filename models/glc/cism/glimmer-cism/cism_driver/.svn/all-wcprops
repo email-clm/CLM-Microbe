@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/!svn/ver/1827/glimmer-cism2/branches/seacism/cism_driver
+END
+cism_cesm_interface.F90
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1827/glimmer-cism2/branches/seacism/cism_driver/cism_cesm_interface.F90
+END
+cism_external_dycore_interface.F90
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/!svn/ver/1827/glimmer-cism2/branches/seacism/cism_driver/cism_external_dycore_interface.F90
+END
+cism_driver.F90
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1827/glimmer-cism2/branches/seacism/cism_driver/cism_driver.F90
+END
+cism_front_end.F90
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1827/glimmer-cism2/branches/seacism/cism_driver/cism_front_end.F90
+END
+cism_internal_dycore_interface.F90
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/!svn/ver/1827/glimmer-cism2/branches/seacism/cism_driver/cism_internal_dycore_interface.F90
+END
+testsfg.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1778/glimmer-cism2/branches/seacism/cism_driver/testsfg.F90
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1778/glimmer-cism2/branches/seacism/cism_driver/CMakeLists.txt
+END
+simple_forcing.F90
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1827/glimmer-cism2/branches/seacism/cism_driver/simple_forcing.F90
+END

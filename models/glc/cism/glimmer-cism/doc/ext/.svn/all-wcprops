@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/!svn/ver/1369/glimmer-cism2/branches/seacism/doc/ext
+END
+ext.tex
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/ext.tex
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/Makefile.am
+END
+selected_ext.tex.in
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/selected_ext.tex.in
+END
+ext-app.tex
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/ext-app.tex
+END

@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1853/glimmer-cism2/branches/seacism/libglimmer-trilinos
+END
+Makefile.Trilinos.export.in
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-trilinos/Makefile.Trilinos.export.in
+END
+trilinosNoxSolver.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1853/glimmer-cism2/branches/seacism/libglimmer-trilinos/trilinosNoxSolver.cpp
+END
+matrixInterface.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1853/glimmer-cism2/branches/seacism/libglimmer-trilinos/matrixInterface.cpp
+END
+trilinosModelEvaluator.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/!svn/ver/1853/glimmer-cism2/branches/seacism/libglimmer-trilinos/trilinosModelEvaluator.cpp
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1387/glimmer-cism2/branches/seacism/libglimmer-trilinos/Makefile.am
+END
+trilinosLinearSolver.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1853/glimmer-cism2/branches/seacism/libglimmer-trilinos/trilinosLinearSolver.cpp
+END
+matrixInterface.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1167/glimmer-cism2/branches/seacism/libglimmer-trilinos/matrixInterface.hpp
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1389/glimmer-cism2/branches/seacism/libglimmer-trilinos/CMakeLists.txt
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-trilinos/README
+END
+trilinosModelEvaluator.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/!svn/ver/1387/glimmer-cism2/branches/seacism/libglimmer-trilinos/trilinosModelEvaluator.hpp
+END
+trilinosOptions.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1167/glimmer-cism2/branches/seacism/libglimmer-trilinos/trilinosOptions.xml
+END

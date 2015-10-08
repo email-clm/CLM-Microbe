@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1655/glimmer-cism2/branches/seacism/libglimmer-trilinos/cmake-scripts
+END
+bf-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1234/glimmer-cism2/branches/seacism/libglimmer-trilinos/cmake-scripts/bf-cmake
+END
+jaguar-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/!svn/ver/1655/glimmer-cism2/branches/seacism/libglimmer-trilinos/cmake-scripts/jaguar-cmake
+END
+linux-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/!svn/ver/1227/glimmer-cism2/branches/seacism/libglimmer-trilinos/cmake-scripts/linux-cmake
+END

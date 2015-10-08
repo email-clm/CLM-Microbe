@@ -1,0 +1,149 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint
+END
+glint_mbal_io.F90.default
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1828/glimmer-cism2/branches/seacism/libglint/glint_mbal_io.F90.default
+END
+glint_commandline.F90
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglint/glint_commandline.F90
+END
+glint_routing.F90
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_routing.F90
+END
+glint_daily_pdd.F90
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_daily_pdd.F90
+END
+glint_io.F90.default
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1828/glimmer-cism2/branches/seacism/libglint/glint_io.F90.default
+END
+glint_initialise.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_initialise.F90
+END
+glint_timestep.F90
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1849/glimmer-cism2/branches/seacism/libglint/glint_timestep.F90
+END
+README.parallelization
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1732/glimmer-cism2/branches/seacism/libglint/README.parallelization
+END
+glint_mpinterp.F90
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglint/glint_mpinterp.F90
+END
+glint_example_clim.F90
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_example_clim.F90
+END
+glint_interp.F90
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_interp.F90
+END
+glint_precip_param.F90
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglint/glint_precip_param.F90
+END
+glint_ebm.F90
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_ebm.F90
+END
+glint_global_grid.F90
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_global_grid.F90
+END
+glint_mbal_vars.def
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1787/glimmer-cism2/branches/seacism/libglint/glint_mbal_vars.def
+END
+glint_pdd.F90
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1843/glimmer-cism2/branches/seacism/libglint/glint_pdd.F90
+END
+glint_mbal_coupling.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_mbal_coupling.F90
+END
+glint_mbal.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_mbal.F90
+END
+glint_vars.def
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1787/glimmer-cism2/branches/seacism/libglint/glint_vars.def
+END
+glint_constants.F90
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_constants.F90
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1843/glimmer-cism2/branches/seacism/libglint/Makefile.am
+END
+glint_global_interp.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_global_interp.F90
+END
+glint_type.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1850/glimmer-cism2/branches/seacism/libglint/glint_type.F90
+END
+glint_main.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1849/glimmer-cism2/branches/seacism/libglint/glint_main.F90
+END

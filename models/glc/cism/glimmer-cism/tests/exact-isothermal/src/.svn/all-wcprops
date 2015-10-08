@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1827/glimmer-cism2/branches/seacism/tests/exact-isothermal/src
+END
+trickLibtool.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/src/trickLibtool.cpp
+END
+verif_vars.def
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/src/verif_vars.def
+END
+verif.F90
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1827/glimmer-cism2/branches/seacism/tests/exact-isothermal/src/verif.F90
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/src/Makefile.am
+END
+verifD.F90
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1827/glimmer-cism2/branches/seacism/tests/exact-isothermal/src/verifD.F90
+END
+verif_glide.F90
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1827/glimmer-cism2/branches/seacism/tests/exact-isothermal/src/verif_glide.F90
+END
+verifBC.F90
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1827/glimmer-cism2/branches/seacism/tests/exact-isothermal/src/verifBC.F90
+END

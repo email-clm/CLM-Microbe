@@ -1,0 +1,179 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct
+END
+m_SparseMatrixToMaps.F90
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_SparseMatrixToMaps.F90
+END
+m_SpatialIntegralV.F90
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_SpatialIntegralV.F90
+END
+m_SparseMatrixDecomp.F90
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_SparseMatrixDecomp.F90
+END
+m_MatAttrVectMul.F90
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_MatAttrVectMul.F90
+END
+m_GlobalToLocal.F90
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_GlobalToLocal.F90
+END
+m_AccumulatorComms.F90
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_AccumulatorComms.F90
+END
+m_Accumulator.F90
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_Accumulator.F90
+END
+m_Router.F90
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_Router.F90
+END
+m_SparseMatrixComms.F90
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_SparseMatrixComms.F90
+END
+m_GeneralGridComms.F90
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_GeneralGridComms.F90
+END
+m_SparseMatrix.F90
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_SparseMatrix.F90
+END
+m_GeneralGrid.F90
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_GeneralGrid.F90
+END
+m_SpatialIntegral.F90
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_SpatialIntegral.F90
+END
+m_AttrVectReduce.F90
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_AttrVectReduce.F90
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/README
+END
+m_Transfer.F90
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_Transfer.F90
+END
+m_SparseMatrixPlus.F90
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_SparseMatrixPlus.F90
+END
+m_Rearranger.F90
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_Rearranger.F90
+END
+m_Navigator.F90
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_Navigator.F90
+END
+m_MCTWorld.F90
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_MCTWorld.F90
+END
+m_AttrVectComms.F90
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_AttrVectComms.F90
+END
+m_GlobalSegMapComms.F90
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_GlobalSegMapComms.F90
+END
+m_AttrVect.F90
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_AttrVect.F90
+END
+m_GlobalSegMap.F90
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_GlobalSegMap.F90
+END
+m_GlobalMap.F90
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_GlobalMap.F90
+END
+m_Merge.F90
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_Merge.F90
+END
+m_ConvertMaps.F90
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_ConvertMaps.F90
+END
+m_ExchangeMaps.F90
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/m_ExchangeMaps.F90
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/quantheory/MCT/!svn/ver/1114/tags/compiler_fixes_n01_MCT_2.8.3/mct/Makefile
+END

@@ -1,0 +1,2 @@
+site_code,soil_depth,n_layers,layer_depth,layer_sand%,layer_clay%
+XX-GEN,-999,1,-999,25.0,25.0

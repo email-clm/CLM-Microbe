@@ -1,0 +1,80 @@
+10
+
+dir
+1863
+https://svn-cism-model.cgd.ucar.edu/glimmer-cism2/branches/seacism/tests/EISMINT
+https://svn-cism-model.cgd.ucar.edu
+
+
+
+2013-04-24T16:04:33.475609Z
+1822
+lipscomb
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2cfc7cc4-626f-0410-8325-f6cb4dace9bf
+
+EISMINT-1
+dir
+
+EISMINT-2
+dir
+
+Makefile.am
+file
+
+
+
+
+2013-02-25T03:33:04.437295Z
+c9a276b06eecfad8e41132091453afb8
+2011-03-09T19:25:59.473027Z
+973
+sprice
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+306
+
+lin-non_lin
+dir
+
+benchmarks
+dir
+
+isos
+dir
+
+erosion
+dir
+

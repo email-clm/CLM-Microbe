@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/!svn/ver/46697/glc/trunk_tags/cism1_130502/source_glc
+END
+glc_InitMod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/46697/glc/trunk_tags/cism1_130502/source_glc/glc_InitMod.F90
+END
+glc_RunMod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/46697/glc/trunk_tags/cism1_130502/source_glc/glc_RunMod.F90
+END
+glc_global_grid.F90
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/46697/glc/trunk_tags/cism1_130502/source_glc/glc_global_grid.F90
+END
+glc_io.F90
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/46697/glc/trunk_tags/cism1_130502/source_glc/glc_io.F90
+END
+glc_time_management.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/46697/glc/trunk_tags/cism1_130502/source_glc/glc_time_management.F90
+END

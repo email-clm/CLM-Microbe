@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1745/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP
+END
+domn.f
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/domn.f
+END
+dcg.f
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dcg.f
+END
+xersla.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/xersla.f
+END
+dbcg.f
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dbcg.f
+END
+dlapqc.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1741/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dlapqc.f
+END
+mach.f
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1670/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/mach.f
+END
+dmvops.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1670/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dmvops.f
+END
+dcgn.f
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dcgn.f
+END
+runTests.sh
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/runTests.sh
+END
+dmset.f
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1745/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dmset.f
+END
+dlaputil.f
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dlaputil.f
+END
+dir.f
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dir.f
+END
+dcgs.f
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dcgs.f
+END
+dgmres.f
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/dgmres.f
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/Makefile.am
+END
+READ.ME
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer-solve/SLAP/READ.ME
+END

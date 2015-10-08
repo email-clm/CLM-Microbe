@@ -1,0 +1,10 @@
+K 13
+svn:mergeinfo
+V 484
+/glimmer-cism-lanl/branches/parallel/libglimmer/glimmer_physcon.F90:57
+/glimmer-cism-lanl/branches/parallel/src/fortran/glimmer_physcon.F90:58-908
+/glimmer-cism2/branches/seacism_fixHeaders/libglimmer/glimmer_physcon.F90:1817-1826
+/glimmer-cism2/branches/seacism_parallelGlint/libglimmer/glimmer_physcon.F90:1681-1731
+/glimmer-cism2/branches/seacism_timestep_reordering/libglimmer/glimmer_physcon.F90:1410-1467
+/glimmer-cism2/trunk/libglimmer/glimmer_physcon.F90:2-4,391-613,1109-1214
+END

@@ -1,0 +1,63 @@
+#!/bin/csh -f
+#===============================================================================
+# GENERIC_USER
+# This is where the batch submission is set.  The above code computes
+# the total number of tasks, nodes, and other things that can be useful
+# here.  Use PBS, BSUB, or whatever the local environment supports.
+#===============================================================================
+
+#PBS -N #SITE#_fullrun
+#PBS -q esd08q
+#PBS -l nodes=1:ppn=8
+#PBS -l walltime=48:00:00
+#PBS -r n
+#PBS -j oe
+#PBS -S /bin/csh -V
+
+#limit coredumpsize 1000000
+#limit stacksize unlimited
+
+
+# ---------------------------------------- 
+# PE LAYOUT: 
+#   total number of tasks  = 1 
+#   maximum threads per task = 1 
+#   cpl ntasks=1  nthreads=1 rootpe=0 
+#   datm ntasks=1  nthreads=1 rootpe=0 
+#   clm ntasks=1  nthreads=1 rootpe=0 
+#   sice ntasks=1  nthreads=1 rootpe=0 
+#   socn ntasks=1  nthreads=1 rootpe=0 
+#   sglc ntasks=1  nthreads=1 rootpe=0 
+#   
+#   total number of hw pes = 1 
+#     cpl hw pe range ~ from 0 to 0 
+#     datm hw pe range ~ from 0 to 0 
+#     clm hw pe range ~ from 0 to 0 
+#     sice hw pe range ~ from 0 to 0 
+#     socn hw pe range ~ from 0 to 0 
+#     sglc hw pe range ~ from 0 to 0 
+# ---------------------------------------- 
+#-----------------------------------------------------------------------
+# Determine necessary environment variables
+#-----------------------------------------------------------------------
+
+
+#foreach site (CA-Ca1 CA-Oas CA-Obs CA-Ojp CA-Qfo CA-TP4 US-Dk3 US-Ha1)
+foreach site(US-Ho1 US-Me2 US-MMS US-MOz US-NR1 US-UMB)
+
+  cd /home/zdr/models/clm4_5_ornl/run/CN_CLM40_$site\_I1850CN/run
+  #copy rpointers and restart file
+  cp rpointer.* ../../CN_CLM40_$site\_I20TRCN/run
+  cp *.r*.nc    ../../CN_CLM40_$site\_I20TRCN/run
+  cp *.r*.bin   ../../CN_CLM40_$site\_I20TRCN/run
+  cd ../../CN_CLM40_$site\_I20TRCN/run
+  cp ../../CN_NOVSOIL_$site\_I20TRCLM45CN/run/datm_atm_in .
+  cp ../../CN_NOVSOIL_$site\_I20TRCLM45CN/run/*co2* .
+
+  setenv OMP_NUM_THREADS 1
+  mpirun -np 1 ./cesm.exe > cesm.log &
+  sleep 3
+
+end
+
+wait

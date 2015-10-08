@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion
+END
+topo.nc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/topo.nc
+END
+erosion0.config
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/erosion0.config
+END
+erosion1.config
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/erosion1.config
+END
+er-transport0.config
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/er-transport0.config
+END
+erosion2.config
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/erosion2.config
+END
+er-transport1.config
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/er-transport1.config
+END
+erosion3.config
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/erosion3.config
+END
+er-transport2.config
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/er-transport2.config
+END
+erosion4.config
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/erosion4.config
+END
+er-transport3.config
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/er-transport3.config
+END
+er-transport4.config
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/er-transport4.config
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/EISMINT/erosion/Makefile.am
+END

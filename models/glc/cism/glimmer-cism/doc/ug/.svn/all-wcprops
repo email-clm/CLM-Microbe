@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/!svn/ver/1369/glimmer-cism2/branches/seacism/doc/ug
+END
+installation.tex
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/installation.tex
+END
+glide.tex
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/glide.tex
+END
+varlist.tex
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/varlist.tex
+END
+glint_api.tex
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/glint_api.tex
+END
+varlist.tex.in
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/varlist.tex.in
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/Makefile.am
+END
+example.tex
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/example.tex
+END
+intro.tex
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/intro.tex
+END
+ug.tex
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/ug.tex
+END
+glide_api.tex
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/glide_api.tex
+END
+glint.tex
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/glint.tex
+END
+glum_api.tex
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/glum_api.tex
+END
+drivers.tex
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/drivers.tex
+END
+mbals.tex
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ug/mbals.tex
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/!svn/ver/46543/drv/seq_mct/trunk_tags/drvseq4_2_33/shr
+END
+seq_cdata_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/46543/drv/seq_mct/trunk_tags/drvseq4_2_33/shr/seq_cdata_mod.F90
+END
+seq_comm_mct.F90
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/46543/drv/seq_mct/trunk_tags/drvseq4_2_33/shr/seq_comm_mct.F90
+END
+seq_timemgr_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/46543/drv/seq_mct/trunk_tags/drvseq4_2_33/shr/seq_timemgr_mod.F90
+END
+seq_infodata_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/46543/drv/seq_mct/trunk_tags/drvseq4_2_33/shr/seq_infodata_mod.F90
+END
+seq_io_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/46543/drv/seq_mct/trunk_tags/drvseq4_2_33/shr/seq_io_mod.F90
+END
+seq_flds_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/46543/drv/seq_mct/trunk_tags/drvseq4_2_33/shr/seq_flds_mod.F90
+END

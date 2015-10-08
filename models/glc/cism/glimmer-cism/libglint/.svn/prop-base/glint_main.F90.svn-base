@@ -1,0 +1,9 @@
+K 13
+svn:mergeinfo
+V 373
+/glimmer-cism-lanl/branches/parallel/src/fortran/glint_main.F90:58-908
+/glimmer-cism2/branches/seacism_fixHeaders/libglint/glint_main.F90:1817-1826
+/glimmer-cism2/branches/seacism_parallelGlint/libglint/glint_main.F90:1681-1731
+/glimmer-cism2/branches/seacism_timestep_reordering/libglint/glint_main.F90:1410-1467
+/glimmer-cism2/trunk/libglint/glint_main.F90:2-18,1109-1214
+END

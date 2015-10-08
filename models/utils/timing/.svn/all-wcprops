@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/!svn/ver/46081/timing/trunk_tags/timing_130417
+END
+gptl.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/!svn/ver/46081/timing/trunk_tags/timing_130417/gptl.c
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/!svn/ver/46081/timing/trunk_tags/timing_130417/ChangeLog
+END
+perf_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/!svn/ver/46081/timing/trunk_tags/timing_130417/perf_mod.F90
+END

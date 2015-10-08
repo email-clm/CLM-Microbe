@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/dome
+END
+dome.config
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/dome/dome.config
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1219/glimmer-cism2/branches/seacism/tests/higher-order/dome/Makefile.am
+END
+netCDF.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1219/glimmer-cism2/branches/seacism/tests/higher-order/dome/netCDF.py
+END
+dome.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1384/glimmer-cism2/branches/seacism/tests/higher-order/dome/dome.py
+END
+LOCAsettings_trilinosOptions.xml
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/!svn/ver/1262/glimmer-cism2/branches/seacism/tests/higher-order/dome/LOCAsettings_trilinosOptions.xml
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1219/glimmer-cism2/branches/seacism/tests/higher-order/dome/README
+END
+trilinosOptions.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1257/glimmer-cism2/branches/seacism/tests/higher-order/dome/trilinosOptions.xml
+END

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/shelf
+END
+circular-shelf.config
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/shelf/circular-shelf.config
+END
+confined-shelf.config
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/shelf/confined-shelf.config
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1219/glimmer-cism2/branches/seacism/tests/higher-order/shelf/Makefile.am
+END
+circular-shelf.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1624/glimmer-cism2/branches/seacism/tests/higher-order/shelf/circular-shelf.py
+END
+netCDF.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/higher-order/shelf/netCDF.py
+END
+confined-shelf.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1578/glimmer-cism2/branches/seacism/tests/higher-order/shelf/confined-shelf.py
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1219/glimmer-cism2/branches/seacism/tests/higher-order/shelf/README
+END
+trilinosOptions.xml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1195/glimmer-cism2/branches/seacism/tests/higher-order/shelf/trilinosOptions.xml
+END

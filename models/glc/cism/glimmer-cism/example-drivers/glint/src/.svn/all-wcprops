@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1863/glimmer-cism2/branches/seacism/example-drivers/glint/src
+END
+glex_ebm.F90
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/glint/src/glex_ebm.F90
+END
+trickLibtool.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/glint/src/trickLibtool.cpp
+END
+glex_ebm_clim.F90
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/glint/src/glex_ebm_clim.F90
+END
+glint_example.F90
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1863/glimmer-cism2/branches/seacism/example-drivers/glint/src/glint_example.F90
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/glint/src/Makefile.am
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/1638/glimmer-cism2/branches/seacism/example-drivers/glint/src/CMakeLists.txt
+END

@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1369/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan
+END
+specmap.data
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan/specmap.data
+END
+fenscan.config
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan/fenscan.config
+END
+europe.20km.nc
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan/europe.20km.nc
+END
+fenscan-gthf.config
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan/fenscan-gthf.config
+END
+mb2.data
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan/mb2.data
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan/Makefile.am
+END
+fenscan-erosion.config
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan/fenscan-erosion.config
+END
+prof_a.data
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan/prof_a.data
+END
+temp-exp.model
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/eis/fenscan/temp-exp.model
+END

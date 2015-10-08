@@ -1,0 +1,26 @@
+K 13
+svn:mergeinfo
+V 1080
+/rivrtm/branch_tags/40_45_tags/40_45_01_rtm1_0_16:43521-43682
+/rivrtm/branch_tags/40_45_tags/40_45_02_rtm1_0_16:43623-43757
+/rivrtm/branch_tags/esmfBugFix_tags/ebf_01_rtm1_0_21:44942
+/rivrtm/branch_tags/nag_rtm1_0_19_tags/nag_01_rtm1_0_19:44100-44262
+/rivrtm/branch_tags/relMerge_rtm1_0_10_tags/relMerge_02_rtm1_0_10:42302-42303
+/rivrtm/branch_tags/rtmVolr_tags/volr_07_rtm1_0_18:44053-44058
+/rivrtm/branches/40_45_rtm1_0_16:43516-43622
+/rivrtm/branches/45merge_rtm1_0_13:42958-42979
+/rivrtm/branches/clm4_0_55_flood:41499-41892
+/rivrtm/branches/esmfBugFix_rtm1_0_21:44931-44941
+/rivrtm/branches/fixH0_rtm1_0_14:43099-43105
+/rivrtm/branches/nag_rtm1_0_19:44096-44099
+/rivrtm/branches/relMerge_rtm1_0_10:42025-42301
+/rivrtm/branches/volr_rtm1_0_16:43269-44052
+/rivrtm/trunk_tags/rtm1_0_08:40496-43241
+/rivrtm/trunk_tags/rtm1_0_10:41893
+/rivrtm/trunk_tags/rtm1_0_12:42178-42190
+/rivrtm/trunk_tags/rtm1_0_13:42305-42957
+/rivrtm/trunk_tags/rtm1_0_16:43205-43515
+/rivrtm/trunk_tags/rtm1_0_18:43759-43979
+/rivrtm/trunk_tags/rtm1_0_19:44060-44095
+/rivrtm/trunk_tags/rtm1_0_21:44767-44930
+END

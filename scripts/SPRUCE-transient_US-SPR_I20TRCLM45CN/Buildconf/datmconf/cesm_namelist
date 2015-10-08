@@ -1,0 +1,13 @@
+&datm_inparm 
+ datamode = 'CLMNCEP'
+ domainfile = '/home/u9x/ccsm_inputdata/share/domains/domain.clm/domain.lnd.2x1pt_US-SPR_navy.nc'
+ dtlimit = 1.5,1.5
+ fillalgo = 'nn','nn'
+ fillmask = 'nomask','nomask'
+ mapalgo = 'nn','nn'
+ mapmask = 'nomask','nomask'
+ streams = "datm.streams.txt.CLM1PT.CLM_USRDAT 2000 2000 2012  ", "datm.streams.txt.presaero.trans_1850-2000 1850 1850 2000", "datm.global1val.streams.co2.txt 1766 1766 2010"
+taxmode = 'cycle', 'extend', 'extend'
+ tintalgo = 'nearest','linear'
+ vectors = 'null'
+/ 

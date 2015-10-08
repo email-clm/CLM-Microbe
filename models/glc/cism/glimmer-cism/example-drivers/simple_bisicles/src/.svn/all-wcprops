@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1844/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src
+END
+Makefile.in.orig
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/!svn/ver/1329/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/Makefile.in.orig
+END
+trickLibtool.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/!svn/ver/1329/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/trickLibtool.cpp
+END
+simple_erosion.F90
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/simple_erosion.F90
+END
+build_simple_bisicles
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/!svn/ver/1477/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/build_simple_bisicles
+END
+dome.config
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1355/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/dome.config
+END
+Makefile.loren
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/!svn/ver/1392/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/Makefile.loren
+END
+simple_forcing.F90
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/simple_forcing.F90
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1329/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/README
+END
+simple_bisicles_old.F90
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/simple_bisicles_old.F90
+END
+run_make
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1329/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/run_make
+END
+simple_bisicles.F90
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/!svn/ver/1839/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/simple_bisicles.F90
+END
+Makefile.am.orig
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/!svn/ver/1329/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/Makefile.am.orig
+END
+Makefile.hopper
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/!svn/ver/1747/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/Makefile.hopper
+END
+testsfg.F90
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1329/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/testsfg.F90
+END
+Makefile.orig
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/!svn/ver/1747/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/Makefile.orig
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/!svn/ver/1795/glimmer-cism2/branches/seacism/example-drivers/simple_bisicles/src/CMakeLists.txt
+END

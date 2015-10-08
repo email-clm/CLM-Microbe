@@ -1,0 +1,176 @@
+10
+
+dir
+47914
+https://svn-ccsm-models.cgd.ucar.edu/glc/trunk_tags/cism1_130502/test/unit/time_management/inputs
+https://svn-ccsm-models.cgd.ucar.edu
+
+
+
+2012-05-15T03:50:36.972373Z
+37057
+sacks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fe37f545-8307-0410-aea5-b40df96820b5
+
+oneday_leap
+dir
+
+oneday.restart1
+dir
+
+oneday.restart2
+dir
+
+FAIL_oneday_2.restart1
+dir
+
+FAIL_oneday_2.restart2
+dir
+
+sixhour
+dir
+
+20day_forRestart_stopEndOfYear_leap.restart1
+dir
+
+20day_forRestart_stopEndOfYear_leap.restart2
+dir
+
+219day
+dir
+
+oneday
+dir
+
+threeyear
+dir
+
+100day_leap_start00031225
+dir
+
+threeyear_leap
+dir
+
+FAIL_oneday_1
+dir
+
+twoyear
+dir
+
+100day_leap_start00041225
+dir
+
+FAIL_oneday_2
+dir
+
+20day_forRestart_stopEndOfYear
+dir
+
+20day_forRestart_stopEndOfYear_leap
+dir
+
+README
+file
+
+
+
+
+2012-07-12T05:50:01.886866Z
+3cecb7ce8702369332642debcc90af55
+2012-05-15T03:50:36.972373Z
+37057
+sacks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3731
+
+twoyear.restart1
+dir
+
+FAIL_oneday_1.restart1
+dir
+
+twoyear.restart2
+dir
+
+FAIL_oneday_1.restart2
+dir
+
+20day_forRestart_stopEndOfYear.restart1
+dir
+
+20day_forRestart_stopEndOfYear.restart2
+dir
+
+oneyear
+dir
+
+sixhour_leap
+dir
+
+oneyear_leap
+dir
+
+511day
+dir
+
+511day_leap
+dir
+
+sixhour.restart1
+dir
+
+sixhour.restart2
+dir
+
+oneyear.restart1
+dir
+
+oneyear.restart2
+dir
+
+20day_leap_start00031225
+dir
+
+219day_leap
+dir
+
+20day_leap_start00041225
+dir
+
+sevenhour
+dir
+

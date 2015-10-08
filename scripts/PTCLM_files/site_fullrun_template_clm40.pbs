@@ -1,0 +1,111 @@
+#!/bin/csh -f
+#===============================================================================
+# GENERIC_USER
+# This is where the batch submission is set.  The above code computes
+# the total number of tasks, nodes, and other things that can be useful
+# here.  Use PBS, BSUB, or whatever the local environment supports.
+#===============================================================================
+
+#PBS -N #SITE#_fullrun
+#PBS -q esd13q
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=48:00:00
+#PBS -r n
+#PBS -j oe
+#PBS -S /bin/csh -V
+
+#limit coredumpsize 1000000
+#limit stacksize unlimited
+
+
+# ---------------------------------------- 
+# PE LAYOUT: 
+#   total number of tasks  = 1 
+#   maximum threads per task = 1 
+#   cpl ntasks=1  nthreads=1 rootpe=0 
+#   datm ntasks=1  nthreads=1 rootpe=0 
+#   clm ntasks=1  nthreads=1 rootpe=0 
+#   sice ntasks=1  nthreads=1 rootpe=0 
+#   socn ntasks=1  nthreads=1 rootpe=0 
+#   sglc ntasks=1  nthreads=1 rootpe=0 
+#   
+#   total number of hw pes = 1 
+#     cpl hw pe range ~ from 0 to 0 
+#     datm hw pe range ~ from 0 to 0 
+#     clm hw pe range ~ from 0 to 0 
+#     sice hw pe range ~ from 0 to 0 
+#     socn hw pe range ~ from 0 to 0 
+#     sglc hw pe range ~ from 0 to 0 
+# ---------------------------------------- 
+#-----------------------------------------------------------------------
+# Determine necessary environment variables
+#-----------------------------------------------------------------------
+
+
+#--------------------------ad_spinup------------------------------------
+cd #RUNDIR#
+cd #SITE#_I1850CN_ad_spinup/run
+
+setenv OMP_NUM_THREADS 1
+cp ../bld/cesm.exe .
+
+#CMD#
+
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED" 
+
+#---------------------------end ad_spinup -----------------------------
+
+#copy rpointers and restart file
+cp rpointer.* ../../#SITE#_I1850CN_exit_spinup/run
+cp *.r*.nc    ../../#SITE#_I1850CN_exit_spinup/run
+cp *.r*.bin   ../../#SITE#_I1850CN_exit_spinup/run
+
+#---------------------------exit_spinup --------------------------------
+cd #RUNDIR#
+cd #SITE#_I1850CN_exit_spinup/run
+setenv OMP_NUM_THREADS 1
+cp ../bld/cesm.exe .
+
+#CMD#
+
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED"
+
+#-----------------------end exit spinup --------------------------------
+
+#copy rpointers and restart file
+cp rpointer.* ../../#SITE#_I1850CN/run
+cp *.r*.nc    ../../#SITE#_I1850CN/run
+cp *.r*.bin   ../../#SITE#_I1850CN/run
+
+#-----------------------------final spinup------------------------------
+cd #RUNDIR#
+cd #SITE#_I1850CN/run
+
+setenv OMP_NUM_THREADS 1
+cp ../bld/cesm.exe .
+
+#CMD#
+
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED" 
+
+#--------------------------end final spinup------------------------------
+
+#copy rpointers and restart file
+cp rpointer.* ../../#SITE#_I20TRCN/run
+cp *.r*.nc    ../../#SITE#_I20TRCN/run
+cp *.r*.bin   ../../#SITE#_I20TRCN/run
+
+#---------------------------transient run--------------------------------
+cd #RUNDIR#
+cd #SITE#_I20TRCN/run
+
+setenv OMP_NUM_THREADS 1
+cp ../bld/cesm.exe .
+
+#CMD#
+
+wait
+echo "`date` -- CSM EXECUTION HAS FINISHED" 

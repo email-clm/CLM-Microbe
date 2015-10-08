@@ -1,0 +1,77 @@
+10
+
+dir
+47914
+https://svn-ccsm-models.cgd.ucar.edu/tools/mapping/trunk_tags/mapping_130509
+https://svn-ccsm-models.cgd.ucar.edu
+
+
+
+2013-05-09T22:09:30.291087Z
+46985
+tcraig
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fe37f545-8307-0410-aea5-b40df96820b5
+
+map_field
+dir
+
+gen_domain_files
+dir
+
+gen_mapping_files
+dir
+
+ChangeLog
+file
+
+
+
+
+2013-06-01T06:49:54.000000Z
+3b3337546af67a5319d3948da7442678
+2013-05-09T22:08:12.884868Z
+46983
+tcraig
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+35665
+
+check_maps
+dir
+
+examples
+dir
+

@@ -1,0 +1,10 @@
+K 13
+svn:mergeinfo
+V 457
+/glimmer-cism-lanl/branches/parallel/libglide/glissade_temp.F90:57
+/glimmer-cism-lanl/branches/parallel/src/fortran/glissade_temp.F90:909-930
+/glimmer-cism2/branches/seacism_fixHeaders/libglide/glissade_temp.F90:1817-1826
+/glimmer-cism2/branches/seacism_parallelGlint/libglide/glissade_temp.F90:1681-1731
+/glimmer-cism2/branches/seacism_timestep_reordering/libglide/glissade_temp.F90:1410-1467
+/glimmer-cism2/trunk/libglide/glissade_temp.F90:2-613,1109-1214
+END

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1863/glimmer-cism2/branches/seacism/example-drivers/simple_glide/src
+END
+trickLibtool.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/simple_glide/src/trickLibtool.cpp
+END
+simple_erosion.F90
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/simple_glide/src/simple_erosion.F90
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/simple_glide/src/Makefile.am
+END
+simple_glide.F90
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/!svn/ver/1863/glimmer-cism2/branches/seacism/example-drivers/simple_glide/src/simple_glide.F90
+END
+testsfg.F90
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1109/glimmer-cism2/branches/seacism/example-drivers/simple_glide/src/testsfg.F90
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1765/glimmer-cism2/branches/seacism/example-drivers/simple_glide/src/CMakeLists.txt
+END
+simple_forcing.F90
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/!svn/ver/1827/glimmer-cism2/branches/seacism/example-drivers/simple_glide/src/simple_forcing.F90
+END

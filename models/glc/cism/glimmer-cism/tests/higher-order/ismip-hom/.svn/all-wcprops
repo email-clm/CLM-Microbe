@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom
+END
+ishom.a.config.old
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1727/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/ishom.a.config.old
+END
+runISMIPHOM.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1738/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/runISMIPHOM.py
+END
+ishom.a.config
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/ishom.a.config
+END
+ishom.b.config
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/ishom.b.config
+END
+ishom.c.config
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/ishom.c.config
+END
+ishom.d.config
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/ishom.d.config
+END
+runISMIPHOM_cyclic.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/!svn/ver/1678/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/runISMIPHOM_cyclic.py
+END
+ishom.a_cyclic.config
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/ishom.a_cyclic.config
+END
+netCDF.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/netCDF.py
+END
+plotISMIPHOM.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/plotISMIPHOM.py
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/README
+END
+runISMIPHOM.py.old
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1727/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/runISMIPHOM.py.old
+END
+trilinosOptions.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/!svn/ver/1680/glimmer-cism2/branches/seacism/tests/higher-order/ismip-hom/trilinosOptions.xml
+END

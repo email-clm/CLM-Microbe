@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1369/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts
+END
+plot_verif.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/plot_verif.py
+END
+process_verif.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/process_verif.py
+END
+plot_errors.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/plot_errors.py
+END
+plot_time.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/plot_time.py
+END
+plot_vol.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/plot_vol.py
+END
+exact_is.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/exact_is.py
+END
+run_verif.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/run_verif.py
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/Makefile.am
+END
+create_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/create_test.py
+END
+plot_diff.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/exact-isothermal/scripts/plot_diff.py
+END

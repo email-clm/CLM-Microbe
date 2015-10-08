@@ -1,0 +1,219 @@
+#! /bin/csh -f
+
+#------------------------------------------------------------------
+# Perform long term archiving of model output from short term archive 
+# directories to mass store.
+# Can be run interactively or submitted as a single pe batch job.
+# Can optionally copy subset of files to another site.  Subset of files
+#   are hardwired below.
+# Long term archiver writes files to mass store on first pass, checks 
+#   that file made it to the mass store fine on next submission of 
+#   script and then removes local copy of file.  If there are any 
+#   differences between local copy and remote copy, the the long term 
+#   archiver writes local copy of file again.
+#   It will be checked on next pass and then rewritten or removed.
+# Users may want to modify
+#   - the association between mass store directories and filenames
+#   - the files that get scp-ed to another site
+#   - the "set num" command line for other sites
+#------------------------------------------------------------------
+
+date
+
+#------------------------------------------------------------------
+# Move all files from the short term archiving directory
+# Copies the files and dir structure from the short term archiving directory
+# Assume there are up to two levels of dirs below $DOUT_S_ROOT
+# Copies files from three levels, $DOUT_S_ROOT/$dirl1/$dirl2
+#   where dirl1 is normallly [atm,lnd,ocn,ice,cpl,glc,rest]
+#   and dirl2 is typically [init,hist,rest,logs]
+# Has special exclusion for dirl1 != . and dirl2 == . which is
+#   exactly redundant with dirl1 == . and dirl2 != . which is already done
+#------------------------------------------------------------------
+
+cd $DOUT_S_ROOT
+
+#verify that all files will have acceptable mss path length
+if (${MACH} == "bluefire") then
+    set msroot_len = `echo $DOUT_L_MSROOT | wc -m`
+    foreach myfile (`find . -type f`)
+	set len = `echo $myfile | wc -m`
+	@ tot_len = $msroot_len + $len - 3
+	if ($tot_len > 128) then
+	    echo "ccsm_l_archive.csh (${1}): potential mss path length for ${DOUT_S_ROOT}/${myfile} exceeds limit - exiting"
+            exit -1
+	endif
+    end
+endif
+
+set lsmdir0 = $DOUT_L_MSROOT
+$UTILROOT/Tools/ccsm_msmkdir ${lsmdir0}
+
+set dirl1 = $1
+cd $DOUT_S_ROOT/${dirl1}
+set lsmdir1 = ${lsmdir0}/${dirl1}
+$UTILROOT/Tools/ccsm_msmkdir ${lsmdir1}
+
+foreach dirl2 (`/bin/ls -1`)
+if (-d $DOUT_S_ROOT/${dirl1}/${dirl2}) then
+  cd $DOUT_S_ROOT/${dirl1}/${dirl2}
+  set lsmdir2 = ${lsmdir1}/${dirl2}
+  $UTILROOT/Tools/ccsm_msmkdir ${lsmdir2}
+
+  set lsmdir = ${lsmdir2}
+
+  if (! -d tempdir) mkdir tempdir
+
+  foreach tempfile (`/bin/ls -1`)
+    if (-f $tempfile) then
+      mv $tempfile tempdir/.
+    endif
+  end
+  cd tempdir
+
+
+  #------------------------------------------------------------------
+  # For ORNL, NERSC and NCAR machines, bundle history files into yearly 
+  # tar files; bundling only occurs when a single monthly history file < 1gb 
+  # in size, otherwise assume they're large enough for efficient 
+  # transfer; archiving will occur when the december file is in the tar file
+  # and there are no new stand-alone files laying around.
+  #------------------------------------------------------------------
+
+  #untar existing tar files without overwriting new files 
+  if (-d tempdir) rm -rf tempdir
+  set tarfile_list = `sh -c 'ls *.tar 2> /dev/null'`
+  foreach tarfile ($tarfile_list)
+    mkdir tempdir
+    cp $tarfile tempdir/.
+    if (${status} != 0) then
+       echo "ccsm_l_archive.csh (${1}): error trying to copy existing tar file - exiting"
+       exit -1
+    endif
+
+    cd tempdir
+    tar -xf $tarfile
+    #no longer exit if this fails - bad tarfile may have been created if previous job timed out
+    if (${status} != 0) then
+       echo "ccsm_l_archive.csh (${1}): warning, trouble trying to extract existing tar file - continuing"
+    #   echo "ccsm_l_archive.csh: error trying to extract existing tar file - exiting"
+    #   exit -1
+    endif
+
+    rm $tarfile
+    set file_list = `sh -c 'ls *.nc 2> /dev/null'`
+    foreach file ($file_list)
+       if (! -f ../${file} ) mv ${file} ../.
+    end
+    cd ..
+    rm -rf tempdir
+    rm $tarfile
+  end
+
+  #make sure tarring is done consistently throughout so that cmp will validate transfer
+  if ( ${DOUT_L_HTAR} == "TRUE" && ${dirl1} != "rest") then
+    set file_list = `sh -c 'ls *.h0.????-??.nc *.h.????-??.nc *.hi.????-??.nc 2> /dev/null'`
+    foreach file ($file_list)
+        set long_listing = `ls -l $file`
+	if ( $long_listing[5] < 1000000000 ) then
+	    set ytar_filename = `echo $file | sed "s/-..\.nc/\.tar/;"`
+            if (-e ${ytar_filename}) then
+               tar -uf ${ytar_filename} ${file}
+               set stat = $status
+            else
+               tar -cf ${ytar_filename} ${file}
+               set stat = $status
+            endif
+            echo "ccsm_l_archive.sh (${1}): tar ${ytar_filename} ${file} $stat"
+            if ( $stat == 0 ) then
+		rm ${file}
+            else
+		echo "ccsm_l_archive.csh (${1}): error trying to bundle history files into yearly tar file - exiting"
+		exit -1
+	    endif
+        endif
+    end
+
+  endif
+
+  #------------------------------------------------------------------
+  # loop over files, try to reduce the length of ls, may fail
+  #------------------------------------------------------------------
+#  foreach str ( *.r* *.h0* *.h1* *.h2* *.h* *.d* *.i* )
+#  /bin/ls -1 -d *$str*
+#  if ($status == 0) then
+#  foreach file (`/bin/ls -1 -d *$str*`)
+  if (-e checkmssfile) rm -f checkmssfile
+  foreach file (`/bin/ls -1`)
+     if (-f $file) then
+
+        if ($file =~ *.tar) then 
+           $UTILROOT/Tools/ccsm_msread ${lsmdir}/$file checkmssfile
+           if (-e checkmssfile) then
+	      cmp -s $file checkmssfile
+              if ($status == 0) then
+                 echo rm $file
+                 rm -f $file
+              else
+                 if (-d tempdir) rm -rf tempdir
+                 mkdir tempdir
+                 mv checkmssfile tempdir/.
+                 cp $file tempdir/.
+                 cd tempdir
+                 tar -xf checkmssfile
+                 if (${status} != 0) then
+                    echo "ccsm_l_archive.csh (${1}): error trying to extract checkmssfile tar file - exiting"
+                    exit -1
+                 endif
+
+                 tar -xf $file
+                 if (${status} != 0) then
+                    echo "ccsm_l_archive.csh (${1}): error trying to extract $file tar file - exiting"
+                    exit -1
+                 endif
+
+                 rm $file
+
+                 #make sure tarring is done consistently throughout so that cmp will validate transfer
+                 set file_list = `sh -c 'ls *.nc 2> /dev/null'`
+                 foreach ifile ($file_list)
+                    if (-e $file) then
+                       tar -uf $file $ifile
+                       set stat = $status
+                    else
+                       tar -cf $file $ifile
+                       set stat = $status
+                    endif
+                    if ( $stat == 0 ) then
+	               rm $ifile
+                    else
+                       echo "ccsm_l_archive.csh (${1}): error trying to create $file tar file - exiting"
+                       exit -1
+                    endif
+                 end
+
+                 mv -f $file ../.
+                 cd ..
+                 rm -rf tempdir
+              endif
+              rm -f checkmssfile
+           endif
+        endif
+
+        echo "ccsm_l_archive.csh (${1}): ccsm_mswrite $file ${lsmdir}"
+        $UTILROOT/Tools/ccsm_mswrite $file ${lsmdir}/$file
+     endif
+
+  end     # file
+  date
+
+  cd ..
+  if (! `ls tempdir | wc -l` ) then
+     rmdir tempdir
+  endif
+
+endif      # -d dirl2
+end        # dirl2
+
+wait
+date

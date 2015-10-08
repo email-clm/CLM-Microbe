@@ -1,0 +1,62 @@
+-------------------------------------------------------------------------------
+For a list of potential issues in the current tag, please point your web browser to:
+https://svn-ccsm-models.cgd.ucar.edu/cesm1/known_problems/
+-------------------------------------------------------------------------------
+No lnd2rof_fmapname exists - RTM mode set to null 
+Component set: longname (shortname) (alias) 
+  1850_DATM%QIA_CLM45%CN_SICE_SOCN_RTM_SGLC_SWAV (I_1850_CLM45_CN) (I1850CLM45CN) 
+Component set Description: 
+  DATM: CLM: RTM: SICE: SOCN: SGLC: SWAV: pre-industrial: clm4.5 physics: clm4.5 cn: QIAN atm input data for 1948-1972: 
+Grid: 
+  a%CLM_USRDAT_l%CLM_USRDAT_oi%CLM_USRDAT_r%null_m%reg_g%null_w%null (CLM_USRDAT) 
+  ATM_GRID = CLM_USRDAT  NX_ATM=1 NY_ATM=1 
+  LND_GRID = CLM_USRDAT  NX_LND=1 NX_LND=1 
+  ICE_GRID = CLM_USRDAT  NX_ICE=1 NX_ICE=1 
+  OCN_GRID = CLM_USRDAT  NX_OCN=1 NX_OCN=1 
+  ROF_GRID = null  NX_ROF=0 NX_ROF=0 
+  GLC_GRID = CLM_USRDAT  NX_GLC=1 NX_GLC=1 
+  WAV_GRID = null  NX_WAV=0 NX_WAV=0 
+Grid Description: 
+  regional grid mask: null is no grid: user specified domain - only valid for DATM/CLM compset 
+Non-Default Options: 
+  ATM_NCPL: 48 
+  BUDGETS: FALSE 
+  CCSM_BGC: none 
+  CCSM_CCOST: -2 
+  CCSM_CO2_PPMV: 284.7 
+  CLM_CO2_TYPE: constant 
+  CLM_CONFIG_OPTS: -phys clm4_5 -bgc cn 
+  CLM_NML_USE_CASE: 1850_control 
+  COMP_ATM: datm 
+  COMP_GLC: sglc 
+  COMP_ICE: sice 
+  COMP_LND: clm 
+  COMP_OCN: socn 
+  COMP_ROF: rtm 
+  COMP_WAV: swav 
+  CPL_ALBAV: false 
+  CPL_EPBAL: off 
+  DATM_CLMNCEP_YR_ALIGN: 1 
+  DATM_CLMNCEP_YR_END: 1972 
+  DATM_CLMNCEP_YR_START: 1948 
+  DATM_MODE: CLM_QIAN 
+  DATM_PRESAERO: clim_1850 
+  DROF_MODE: NULL 
+  OCN_NCPL: 1 
+  OCN_TIGHT_COUPLING: FALSE 
+  ROF_NCPL: 8 
+  RTM_BLDNML_OPTS: -simyr 1850 
+  RTM_MODE: NULL 
+  RTM_NAMELIST_OPTS: rtm_effvel=&apos;ACTIVE&apos; 
+  SCIENCE_SUPPORT: NO 
+
+The PE layout for this case match these options:
+GRID =  a%CLM_USRDAT
+CCSM_LCOMPSET =  CLM45
+Creating /home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN 
+Created /home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN/env_case.xml 
+Created /home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN/env_mach_pes.xml 
+Created /home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN/env_build.xml 
+Created /home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN/env_run.xml 
+Locking file /home/u9x/clm45microbe_spruce_2015Jan15/scripts/SPRUCE-spinup_US-SPR_I1850CLM45CN/env_case.xml 
+Successfully created the case for oic2 

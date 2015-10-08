@@ -1,0 +1,15 @@
+K 14
+svn:executable
+V 1
+*
+K 13
+svn:mergeinfo
+V 572
+/glimmer-cism-lanl/branches/parallel/libglide/glide_velo_higher.F90:57
+/glimmer-cism-lanl/branches/parallel/src/fortran/glide_velo_higher.F90:58-908
+/glimmer-cism2/branches/seacism_fixHeaders/libglide/glide_velo_higher.F90.archive:1817-1826
+/glimmer-cism2/branches/seacism_parallelGlint/libglide/glide_velo_higher.F90.archive:1681-1731
+/glimmer-cism2/branches/seacism_timestep_reordering/libglide/glide_velo_higher.F90.archive:1410-1467
+/glimmer-cism2/trunk/libglide/glide_velo_higher.F90:391-613
+/glimmer-cism2/trunk/libglide/glide_velo_higher.F90.archive:2-390,1109-1214
+END

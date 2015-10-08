@@ -1,0 +1,167 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/!svn/ver/1859/glimmer-cism2/branches/seacism/cmake-scripts
+END
+master_build_jaguar.csh
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1671/glimmer-cism2/branches/seacism/cmake-scripts/master_build_jaguar.csh
+END
+autogen-extras-in-build-dir
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1737/glimmer-cism2/branches/seacism/cmake-scripts/autogen-extras-in-build-dir
+END
+titan-gnu-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1841/glimmer-cism2/branches/seacism/cmake-scripts/titan-gnu-cmake
+END
+master_build_titan.csh
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1857/glimmer-cism2/branches/seacism/cmake-scripts/master_build_titan.csh
+END
+autogenerate-script
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1811/glimmer-cism2/branches/seacism/cmake-scripts/autogenerate-script
+END
+document-cmake-options
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1389/glimmer-cism2/branches/seacism/cmake-scripts/document-cmake-options
+END
+jaguar-gnu-cmake-cesmtimers
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1670/glimmer-cism2/branches/seacism/cmake-scripts/jaguar-gnu-cmake-cesmtimers
+END
+jaguar-pgi-cmake-debug
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1687/glimmer-cism2/branches/seacism/cmake-scripts/jaguar-pgi-cmake-debug
+END
+hopper-pgi-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1659/glimmer-cism2/branches/seacism/cmake-scripts/hopper-pgi-cmake
+END
+chester-pgi-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1857/glimmer-cism2/branches/seacism/cmake-scripts/chester-pgi-cmake
+END
+autocopy-to-build-dir
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1737/glimmer-cism2/branches/seacism/cmake-scripts/autocopy-to-build-dir
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1389/glimmer-cism2/branches/seacism/cmake-scripts/README
+END
+autogenerate-in-build-dir
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1811/glimmer-cism2/branches/seacism/cmake-scripts/autogenerate-in-build-dir
+END
+autocopy-io-to-build-dir
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1811/glimmer-cism2/branches/seacism/cmake-scripts/autocopy-io-to-build-dir
+END
+hopper-pgi-cmake-cesmtimers
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1659/glimmer-cism2/branches/seacism/cmake-scripts/hopper-pgi-cmake-cesmtimers
+END
+hopper-gnu-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1670/glimmer-cism2/branches/seacism/cmake-scripts/hopper-gnu-cmake
+END
+chester-gnu-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1857/glimmer-cism2/branches/seacism/cmake-scripts/chester-gnu-cmake
+END
+master_build_hopper.csh
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1675/glimmer-cism2/branches/seacism/cmake-scripts/master_build_hopper.csh
+END
+master_build_chester.csh
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/1859/glimmer-cism2/branches/seacism/cmake-scripts/master_build_chester.csh
+END
+jaguar-pgi-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1447/glimmer-cism2/branches/seacism/cmake-scripts/jaguar-pgi-cmake
+END
+titan-pgi-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1841/glimmer-cism2/branches/seacism/cmake-scripts/titan-pgi-cmake
+END
+hopper-gnu-cmake-cesmtimers
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1670/glimmer-cism2/branches/seacism/cmake-scripts/hopper-gnu-cmake-cesmtimers
+END
+autogenerate-script-no-io-srcs
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/1646/glimmer-cism2/branches/seacism/cmake-scripts/autogenerate-script-no-io-srcs
+END
+jaguar-pgi-cmake-cesmtimers
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1455/glimmer-cism2/branches/seacism/cmake-scripts/jaguar-pgi-cmake-cesmtimers
+END
+linux-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1670/glimmer-cism2/branches/seacism/cmake-scripts/linux-cmake
+END
+jaguar-gnu-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1670/glimmer-cism2/branches/seacism/cmake-scripts/jaguar-gnu-cmake
+END
+mac-cmake
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1670/glimmer-cism2/branches/seacism/cmake-scripts/mac-cmake
+END

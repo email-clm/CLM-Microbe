@@ -1,0 +1,16 @@
+K 13
+svn:externals
+V 76
+genf90 http://parallelio.googlecode.com/svn/genf90/trunk_tags/genf90_130402
+
+K 13
+svn:mergeinfo
+V 352
+/clm2/branches/rtmcomp_cprnc:39332-39401
+/clm2/branches/tools_spmRtmR01:39260-39269
+/tools/cprnc/branch_tags/allow_no_time_tags/allow_no_time_01_cprnc_130514:47573
+/tools/cprnc/branches/allow_no_time:47532-47572
+/tools/cprnc/trunk_tags/cprnc_120726:38977-39259
+/tools/cprnc/trunk_tags/cprnc_120807:39270-39331
+/tools/cprnc/trunk_tags/cprnc_120809:39402
+END

@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529
+END
+config_compilers.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/config_compilers.xml
+END
+env_mach_specific.pleiades-har
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/env_mach_specific.pleiades-har
+END
+env_mach_specific.edison
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/env_mach_specific.edison
+END
+env_mach_specific.stampede
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/env_mach_specific.stampede
+END
+env_mach_specific.pleiades-wes
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/env_mach_specific.pleiades-wes
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/ChangeLog
+END
+env_mach_specific.yellowstone
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/env_mach_specific.yellowstone
+END
+env_mach_specific.pleiades-san
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/env_mach_specific.pleiades-san
+END
+mkbatch.stampede
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/mkbatch.stampede
+END
+config_machines.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/config_machines.xml
+END
+config_pes.xml
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/47592/Machines/trunk_tags/Machines_130529/config_pes.xml
+END

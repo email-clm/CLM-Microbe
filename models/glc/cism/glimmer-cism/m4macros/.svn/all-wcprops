@@ -1,0 +1,185 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/!svn/ver/1369/glimmer-cism2/branches/seacism/m4macros
+END
+lib-link.m4
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/lib-link.m4
+END
+lib-prefix.m4
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/lib-prefix.m4
+END
+lib-ld.m4
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/lib-ld.m4
+END
+lcmessage.m4
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/lcmessage.m4
+END
+ac_python_devel.m4
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/ac_python_devel.m4
+END
+netcdf.m4
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1219/glimmer-cism2/branches/seacism/m4macros/netcdf.m4
+END
+libtool.m4
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/libtool.m4
+END
+amdoxygen.am
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/amdoxygen.am
+END
+lt~obsolete.m4
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/lt~obsolete.m4
+END
+fortran.m4
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/fortran.m4
+END
+acx_blas.m4
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/acx_blas.m4
+END
+ax_python_module.m4
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/ax_python_module.m4
+END
+longlong.m4
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/longlong.m4
+END
+ax_f90_no_line_limit_flag.m4
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/ax_f90_no_line_limit_flag.m4
+END
+acx_mpi.m4
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/acx_mpi.m4
+END
+libxslt.m4
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/libxslt.m4
+END
+ltsugar.m4
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/ltsugar.m4
+END
+ax_f90_module_flag.m4
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/ax_f90_module_flag.m4
+END
+ax_fc_version.m4
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/ax_fc_version.m4
+END
+ltversion.m4
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/ltversion.m4
+END
+hdf5.m4
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/hdf5.m4
+END
+acx_lapack.m4
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/acx_lapack.m4
+END
+libxml.m4
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/libxml.m4
+END
+lock.m4
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/lock.m4
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/Makefile.am
+END
+ltoptions.m4
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/ltoptions.m4
+END
+glimmer.m4
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/glimmer.m4
+END
+ax_prog_doxygen.m4
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/ax_prog_doxygen.m4
+END
+libcurl.m4
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/libcurl.m4
+END
+libgcrypt.m4
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/m4macros/libgcrypt.m4
+END

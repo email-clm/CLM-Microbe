@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/1369/glimmer-cism2/branches/seacism/doc/ext/erosion
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/Makefile.am
+END
+theory.tex
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/theory.tex
+END
+ug.tex
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/ug.tex
+END
+transport.tex
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/transport.tex
+END
+erosion.tex
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1109/glimmer-cism2/branches/seacism/doc/ext/erosion/erosion.tex
+END

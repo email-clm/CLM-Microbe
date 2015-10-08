@@ -1,0 +1,14 @@
+K 14
+svn:executable
+V 1
+*
+K 13
+svn:mergeinfo
+V 439
+/glimmer-cism-lanl/branches/parallel/libglide/glam_strs2.F90:57
+/glimmer-cism-lanl/branches/parallel/src/fortran/glam_strs2.F90:116-908
+/glimmer-cism2/branches/seacism_fixHeaders/libglide/glam_strs2.F90:1817-1826
+/glimmer-cism2/branches/seacism_parallelGlint/libglide/glam_strs2.F90:1681-1731
+/glimmer-cism2/branches/seacism_timestep_reordering/libglide/glam_strs2.F90:1410-1467
+/glimmer-cism2/trunk/libglide/glam_strs2.F90:2-613,1109-1214
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/ross
+END
+runRoss.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/higher-order/ross/runRoss.py
+END
+netCDF.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/higher-order/ross/netCDF.py
+END
+ross.config
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1805/glimmer-cism2/branches/seacism/tests/higher-order/ross/ross.config
+END
+plotRoss.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/higher-order/ross/plotRoss.py
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/higher-order/ross/README
+END
+trilinosOptions.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1109/glimmer-cism2/branches/seacism/tests/higher-order/ross/trilinosOptions.xml
+END

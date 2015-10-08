@@ -1,0 +1,281 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer
+END
+glimmer_scales.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/glimmer_scales.F90
+END
+glimmer_ncdf.F90
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/glimmer_ncdf.F90
+END
+glimmer_coordinates.F90
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_coordinates.F90
+END
+kelvin.F90
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/kelvin.F90
+END
+ncdf_utils.F90
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/ncdf_utils.F90
+END
+glimmer_log.F90
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_log.F90
+END
+writestats.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1196/glimmer-cism2/branches/seacism/libglimmer/writestats.c
+END
+glimmer_integrate.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_integrate.F90
+END
+glimmer_ts.F90
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_ts.F90
+END
+test_filenames.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/test_filenames.F90
+END
+writestats.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer/writestats.h
+END
+glimmer_searchcircle.F90
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_searchcircle.F90
+END
+glimmer_vers.F90.in.in
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_vers.F90.in.in
+END
+cfortran.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer/cfortran.h
+END
+nc2config.F90
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/nc2config.F90
+END
+glimmer_horiz_bcs_parallel.F90
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_horiz_bcs_parallel.F90
+END
+ncdf_template.F90.in
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/ncdf_template.F90.in
+END
+parallel_slap.F90
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/parallel_slap.F90
+END
+glimmer_utils.F90
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/glimmer_utils.F90
+END
+createSVNVersion.sh
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1109/glimmer-cism2/branches/seacism/libglimmer/createSVNVersion.sh
+END
+glimmer_map_init.F90
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_map_init.F90
+END
+glimmer_anomcouple.F90
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_anomcouple.F90
+END
+glimmer_filenames.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_filenames.F90
+END
+glimmer_config.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/glimmer_config.F90
+END
+mpi_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/mpi_mod.F90
+END
+unittest_glimmer_deriv.F90
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/unittest_glimmer_deriv.F90
+END
+glimmer_writestats.F90
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_writestats.F90
+END
+test_commandline.F90
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/test_commandline.F90
+END
+test_ts.F90
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/test_ts.F90
+END
+glimmer_paramets.F90
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/glimmer_paramets.F90
+END
+glimmer_map_CFproj.F90
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_map_CFproj.F90
+END
+glimmer_horiz_bcs_serial.F90
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_horiz_bcs_serial.F90
+END
+glimmer_physcon.F90
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/glimmer_physcon.F90
+END
+glimmer_map_trans.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_map_trans.F90
+END
+profile.F90
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/profile.F90
+END
+parallel_mpi.F90
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/parallel_mpi.F90
+END
+glimmer_commandline.F90
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_commandline.F90
+END
+test_config.F90
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/test_config.F90
+END
+glimmer_map_proj4.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_map_proj4.F90
+END
+test_writestats.F90
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/test_writestats.F90
+END
+nan_mod.F90
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/nan_mod.F90
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/!svn/ver/1670/glimmer-cism2/branches/seacism/libglimmer/Makefile.am
+END
+glimmer_global.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/glimmer_global.F90
+END
+glimmer_map_types.F90
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_map_types.F90
+END
+glimmer_vers.F90.cmake.in
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/1827/glimmer-cism2/branches/seacism/libglimmer/glimmer_vers.F90.cmake.in
+END
+test_integrate.F90
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/1851/glimmer-cism2/branches/seacism/libglimmer/test_integrate.F90
+END
