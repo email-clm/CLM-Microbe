@@ -37,7 +37,9 @@ implicit none
 	public :: update_finundated
 !	public :: seasonality
 	private :: get_waterhead
+#if (defined HUM_HOL)
 	private :: lateral_bgc
+#endif
 !
 ! !REVISION HISTORY:
 ! 2013 Created by Xiaofeng Xu
@@ -449,10 +451,10 @@ implicit none
 	real(r8) :: lxdomsat
 	real(r8) :: lxaceunsat
 	real(r8) :: lxacesat
-
+#endif
 	real(r8) :: som_diffus = 1e-4_r8 / (secspday * 365._r8)  ! [m^2/sec] = 1 cm^2 / yr
 	real(r8) :: dom_diffus = 1e8_r8							! times to som diffus 
-#endif
+
 
 !-----------------------------------------------------------------------
    ! Gridcell level pointers
@@ -513,16 +515,16 @@ implicit none
 	ccon_co2s         				=> cmic%ccon_co2s
 	ccon_o2s          				=> cmic%ccon_o2s
 	ccon_h2s          				=> cmic%ccon_h2s
-	ccon_ch4s_unsat    				=> cmic%ccon_ch4s_unsat
+	ccon_ch4s_unsat    			=> cmic%ccon_ch4s_unsat
 	ccon_ch4s_sat        			=> cmic%ccon_ch4s_sat
-	ccon_co2s_unsat    				=> cmic%ccon_co2s_unsat
+	ccon_co2s_unsat    			=> cmic%ccon_co2s_unsat
 	ccon_co2s_sat        			=> cmic%ccon_co2s_sat
 	ccon_o2s_unsat      			=> cmic%ccon_o2s_unsat
 	ccon_o2s_sat          			=> cmic%ccon_o2s_sat
 	ccon_h2s_unsat      			=> cmic%ccon_h2s_unsat
 	ccon_h2s_sat          			=> cmic%ccon_h2s_sat
  
-! start of the transort code
+! start of the transport code
 	ch4_prod_ace_depth_unsat		=> cmic%ch4_prod_ace_depth_unsat
 	ch4_prod_co2_depth_unsat 		=> cmic%ch4_prod_co2_depth_unsat
 	ch4_oxid_o2_depth_unsat 		=> cmic%ch4_oxid_o2_depth_unsat
@@ -806,7 +808,9 @@ implicit none
 !	call seasonality(lbc, ubc, lbp, ubp, num_soilc, filter_soilc, num_soilp, filter_soilp)
 	call get_waterhead(lbc, ubc, num_soilc, filter_soilc,jwaterhead_unsat)
 !	call gas_diffusion(lbc, ubc, num_soilc, filter_soilc)
+#if (defined HUM_HOL)
 	call lateral_bgc(lbc, ubc, num_soilc, filter_soilc)
+#endif
 
 !~ do fc = 1,num_soilc
 !~ c = filter_soilc(fc)
@@ -1084,7 +1088,7 @@ if(j >= waterhead_unsat(c)) then
 	end if
 	
 !write(iulog,*) "CH4PlantFlux: ", m_dPlantTrans, " ", rootfr_vr(c,j), ccon_ch4s_unsat(c,j), m_dCH4min !, tempavg_bgnpp(c), annavg_bgnpp(c)
-	if(soiltemp(c,waterhead_unsat(c)) > -0.1 .and. ccon_ch4s_unsat(c,j) > m_dCH4min) then
+	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_unsat(c,j) > m_dCH4min) then
 	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min) * nppratio  !* bgnpp_timestep(c) / bgnpp_avg(c)		
 	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4PlantFlux
 	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min), 0._r8)  ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
@@ -1875,7 +1879,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	ccon_ch4s_sat(c,j) = 0
 	end if
 	
-	if(soiltemp(c,waterhead_unsat(c)) > -0.1) then
+	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1) then
 	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min) * nppratio  !* bgnpp_timestep(c) / bgnpp_avg(c)		
 	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min), 0._r8) 					! mmol/L
 	else
@@ -2949,9 +2953,8 @@ implicit none
 end subroutine gas_diffusion
 ! end of subroutine for simulating gas diffusion along water column in saturated soil profile
 
-
-subroutine lateral_bgc(lbc, ubc,num_micbioc,filter_micbioc)
 #if (defined HUM_HOL)
+subroutine lateral_bgc(lbc, ubc,num_micbioc,filter_micbioc)
 	use clmtype
 	use clm_time_manager, only: get_step_size, get_days_per_year, get_nstep
 	use clm_varcon , only: secspday
@@ -3782,9 +3785,8 @@ end do
 	
 !write(iulog,*) "hereafter hummock 10", cdocs_sat(1,1), cdocs_sat(1,2), cdocs_sat(1,3), cdocs_sat(1,4), cdocs_sat(1,5), cdocs_sat(1,6), cdocs_sat(1,7), cdocs_sat(1,8), cdocs_sat(1,9), cdocs_sat(1,10)
 !write(iulog,*) "hereafter hollow 10", cdocs_sat(2,1), cdocs_sat(2,2), cdocs_sat(2,3), cdocs_sat(2,4), cdocs_sat(2,5), cdocs_sat(2,6), cdocs_sat(2,7), cdocs_sat(2,8), cdocs_sat(2,9), cdocs_sat(2,10)
-
-#endif
 end subroutine lateral_bgc
+#endif
 
 !#endif
 ! for the model testing

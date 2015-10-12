@@ -224,28 +224,28 @@ subroutine init_decompcascade(begc, endc)
    integer :: i_cwdl3
 #endif
 
-   cascade_step_name                       => decomp_cascade_con%cascade_step_name
-   rf_decomp_cascade                       => cps%rf_decomp_cascade
-   cascade_donor_pool                      => decomp_cascade_con%cascade_donor_pool
-   cascade_receiver_pool                   => decomp_cascade_con%cascade_receiver_pool
+   cascade_step_name                       	=> decomp_cascade_con%cascade_step_name
+   rf_decomp_cascade                       	=> cps%rf_decomp_cascade
+   cascade_donor_pool                      	=> decomp_cascade_con%cascade_donor_pool
+   cascade_receiver_pool                   	=> decomp_cascade_con%cascade_receiver_pool
    pathfrac_decomp_cascade                 => cps%pathfrac_decomp_cascade
-   floating_cn_ratio_decomp_pools          => decomp_cascade_con%floating_cn_ratio_decomp_pools
-   decomp_pool_name_restart                => decomp_cascade_con%decomp_pool_name_restart
-   decomp_pool_name_history                => decomp_cascade_con%decomp_pool_name_history
-   decomp_pool_name_long                   => decomp_cascade_con%decomp_pool_name_long
-   decomp_pool_name_short                  => decomp_cascade_con%decomp_pool_name_short
-   is_litter                               => decomp_cascade_con%is_litter
-   is_soil                                 => decomp_cascade_con%is_soil
-   is_cwd                                  => decomp_cascade_con%is_cwd
+   floating_cn_ratio_decomp_pools          	=> decomp_cascade_con%floating_cn_ratio_decomp_pools
+   decomp_pool_name_restart                	=> decomp_cascade_con%decomp_pool_name_restart
+   decomp_pool_name_history                	=> decomp_cascade_con%decomp_pool_name_history
+   decomp_pool_name_long                   	=> decomp_cascade_con%decomp_pool_name_long
+   decomp_pool_name_short                  	=> decomp_cascade_con%decomp_pool_name_short
+   is_litter                               		=> decomp_cascade_con%is_litter
+   is_soil                                 		=> decomp_cascade_con%is_soil
+   is_cwd                                  		=> decomp_cascade_con%is_cwd
 #ifdef MICROBE
-   is_microbe                                  		=> decomp_cascade_con%is_microbe
+   is_microbe                                  	=> decomp_cascade_con%is_microbe
 #endif
-   initial_cn_ratio                        => decomp_cascade_con%initial_cn_ratio
-   initial_stock                           => decomp_cascade_con%initial_stock
-   is_metabolic                            => decomp_cascade_con%is_metabolic
-   is_cellulose                            => decomp_cascade_con%is_cellulose
-   is_lignin                               => decomp_cascade_con%is_lignin
-   spinup_factor                           => decomp_cascade_con%spinup_factor
+   initial_cn_ratio                        		=> decomp_cascade_con%initial_cn_ratio
+   initial_stock                           		=> decomp_cascade_con%initial_stock
+   is_metabolic                            		=> decomp_cascade_con%is_metabolic
+   is_cellulose                            		=> decomp_cascade_con%is_cellulose
+   is_lignin                               		=> decomp_cascade_con%is_lignin
+   spinup_factor                           	=> decomp_cascade_con%spinup_factor
 
 
    !------- time-constant coefficients ---------- !
@@ -649,13 +649,13 @@ subroutine init_decompcascade(begc, endc)
    bs1_f = 0.1
    bs2_f = 0.12
    bs3_f = 0.18
-   bs4_f = 0.35
+   bs4_f = 0.30
    fatm_f = 0.05
    fdom_f = 0.25
    fs1_f = 0.1
    fs2_f = 0.12
    fs3_f = 0.18
-   fs4_f = 0.35
+   fs4_f = 0.30
    domb_f = 0.3
    domf_f = 0.3
    doms1_f = 0.2

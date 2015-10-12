@@ -78,7 +78,6 @@ contains
     pptr => pft !clm3%g%l%c%p
 !    finundated					=> cws%finundated
 
-    
     ! column microbial state variable - cdocs
   if (flag == 'define') then
        call ncd_defvar(ncid=ncid, varname='pH', xtype=ncd_double, &
@@ -161,40 +160,40 @@ contains
        end if
     end if
 !20150831
-   if (flag == 'define') then
-       call ncd_defvar(ncid=ncid, varname='rr', xtype=ncd_double, &
-            dim1name='column', long_name='respiration', units='mol/s')
-    else if (flag == 'read' .or. flag == 'write') then
-       call ncd_io(varname='rr', data=pcf%rr, &
-            dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
-       if (flag=='read' .and. .not. readvar) then
-          if (is_restart()) call endrun()
-       end if
-    end if
+   !~ if (flag == 'define') then
+       !~ call ncd_defvar(ncid=ncid, varname='rr', xtype=ncd_double, &
+            !~ dim1name='column', long_name='respiration', units='mol/s')
+    !~ else if (flag == 'read' .or. flag == 'write') then
+       !~ call ncd_io(varname='rr', data=pcf%rr, &
+            !~ dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
+       !~ if (flag=='read' .and. .not. readvar) then
+          !~ if (is_restart()) call endrun()
+       !~ end if
+    !~ end if
     
-   if (flag == 'define') then
-       call ncd_defvar(ncid=ncid, varname='froot_mr', xtype=ncd_double, &
-            dim1name='column', long_name='fine root maintenance respiration', units='mol/s')
-    else if (flag == 'read' .or. flag == 'write') then
-       call ncd_io(varname='froot_mr', data=pcf%froot_mr, &
-            dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
-       if (flag=='read' .and. .not. readvar) then
-          if (is_restart()) call endrun()
-       end if
-    end if
+   !~ if (flag == 'define') then
+       !~ call ncd_defvar(ncid=ncid, varname='froot_mr', xtype=ncd_double, &
+            !~ dim1name='column', long_name='fine root maintenance respiration', units='mol/s')
+    !~ else if (flag == 'read' .or. flag == 'write') then
+       !~ call ncd_io(varname='froot_mr', data=pcf%froot_mr, &
+            !~ dim1name='column', ncid=ncid, flag=flag, readvar=readvar)
+       !~ if (flag=='read' .and. .not. readvar) then
+          !~ if (is_restart()) call endrun()
+       !~ end if
+    !~ end if
 
-    if (flag == 'define') then
-       call ncd_defvar(ncid=ncid, varname='rootfr', xtype=ncd_double, &
-            dim1name='column', dim2name='levgrnd', switchdim=.true., &
-            long_name='root rerspiration fraction', units='%')
-    else if (flag == 'read' .or. flag == 'write') then
-       call ncd_io(varname='rootfr', data=pps%rootfr, &
-            dim1name='column', switchdim=.true., &
-            ncid=ncid, flag=flag, readvar=readvar)
-       if (flag=='read' .and. .not. readvar) then
-          if (is_restart()) call endrun()
-       end if
-    end if
+    !~ if (flag == 'define') then
+       !~ call ncd_defvar(ncid=ncid, varname='rootfr', xtype=ncd_double, &
+            !~ dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            !~ long_name='root rerspiration fraction', units='%')
+    !~ else if (flag == 'read' .or. flag == 'write') then
+       !~ call ncd_io(varname='rootfr', data=pps%rootfr, &
+            !~ dim1name='column', switchdim=.true., &
+            !~ ncid=ncid, flag=flag, readvar=readvar)
+       !~ if (flag=='read' .and. .not. readvar) then
+          !~ if (is_restart()) call endrun()
+       !~ end if
+    !~ end if
     
     if (flag == 'define') then
        call ncd_defvar(ncid=ncid, varname='hr_vr', xtype=ncd_double, &

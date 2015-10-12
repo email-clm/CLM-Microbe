@@ -33,7 +33,7 @@ module CNDecompCascadeMod_CENTURY
    public:: init_decompcascade, decomp_rate_constants
 !
 ! !PUBLIC DATA MEMBERS:
-#if (defined VERTSOILC)
+#if (defined VERTSOILC) || (defined MICROBE)
    real(r8), public :: decomp_depth_efolding = 0.5_r8        ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
 #endif
 
@@ -492,7 +492,7 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    real(r8):: days_per_year         ! days per year
 
 
-#if (defined VERTSOILC)
+#if (defined VERTSOILC) || (defined MICROBE)
    real(r8) :: depth_scalar(lbc:ubc,1:nlevdecomp) 
 #endif
 
@@ -791,7 +791,7 @@ endif
       end do
    endif
    
-#if (defined VERTSOILC)
+#if (defined VERTSOILC) || (defined MICROBE)
    ! add a term to reduce decomposition rate at depth
    ! for now used a fixed e-folding depth
    do j = 1, nlevdecomp
@@ -802,7 +802,7 @@ endif
    end do
 #endif
    
-#if (defined VERTSOILC)
+#if (defined VERTSOILC) || (defined MICROBE)
    do j = 1,nlevdecomp
       do fc = 1,num_soilc
          c = filter_soilc(fc)

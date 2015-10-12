@@ -243,15 +243,15 @@ subroutine CStateUpdate2(num_soilc, filter_soilc, num_soilp, filter_soilp, isoto
 
        ! pft-level carbon fluxes from gap-phase mortality
        ! displayed pools
-       leafc(p)               = leafc(p)              - m_leafc_to_litter(p)              * dt
-       frootc(p)              = frootc(p)             - m_frootc_to_litter(p)             * dt
-       livestemc(p)           = livestemc(p)          - m_livestemc_to_litter(p)          * dt
-       deadstemc(p)           = deadstemc(p)          - m_deadstemc_to_litter(p)          * dt
-       livecrootc(p)          = livecrootc(p)         - m_livecrootc_to_litter(p)         * dt
-       deadcrootc(p)          = deadcrootc(p)         - m_deadcrootc_to_litter(p)         * dt
+       leafc(p)               	= leafc(p) - m_leafc_to_litter(p) * dt
+       frootc(p)              	= frootc(p) - m_frootc_to_litter(p) * dt
+       livestemc(p)           	= livestemc(p) - m_livestemc_to_litter(p) * dt
+       deadstemc(p)           	= deadstemc(p) - m_deadstemc_to_litter(p) * dt
+       livecrootc(p)         	= livecrootc(p) - m_livecrootc_to_litter(p) * dt
+       deadcrootc(p)          	= deadcrootc(p) - m_deadcrootc_to_litter(p) * dt
 #if(defined MICROBE)
-write(*,*) "froot ", frootc(p), p, m_frootc_to_doc(p)
-       frootc(p)         = frootc(p)        - m_frootc_to_doc(p)        * dt
+!write(*,*) "froot ", frootc(p), p, m_frootc_to_doc(p)
+       frootc(p)         = frootc(p)        - m_frootc_to_doc(p) * dt
 #endif
 
        ! storage pools
