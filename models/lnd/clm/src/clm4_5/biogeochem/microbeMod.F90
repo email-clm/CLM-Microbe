@@ -424,6 +424,7 @@ implicit none
 	
 	real(r8) :: tem1, tem2, tem3, tem4		! four temporary variables
 	real(r8) :: anpp, nppratio				! above-ground npp, ratio of daily npp to annual total npp
+        real(r8) :: OxidAce2CO2                           ! oxidaiton of acetate to co2 (nromally sufficient oxygen), distinguish from aceteclastic methanogenesis
 
 ! !OTHER LOCAL VARIABLES:
 	integer :: fc,c,g,j,fp,p,l               ! indices
@@ -893,8 +894,8 @@ implicit none
 	endif
 
 ! below water table, larger than the number is below water table, all saturated
-if(j >= waterhead_unsat(c)) then
-!write(iulog,*) "c: ", c, " original soil ph: ", origionalsoilph(c)
+if(j >= jwaterhead_unsat(c)) then
+!write(iulog,*) "c: ", c, " original soil ph: ", origionalsoilph(c), " ",  j, " j and water table ",  jwaterhead_unsat(c)
 	if(origionalsoilph(c) > 5.5 .and. caces_unsat(c,j) > 0) then
 	soilpH_unsat(c,j) = -1 * log10((10**(-origionalsoilph(c)) + 0.0042 * 1e-6 * caces_unsat(c,j)))
 	else
@@ -1351,13 +1352,14 @@ else
 		!~ * (m_dCH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect * 1. / (1. + ccon_co2s_unsat(c,j))
 		
 	AceCons = 0.
-
-	if((caces_unsat(c,j) - AceCons)>0) then
+        OxidAce2CO2 = 0.05 * min(caces_unsat(c,j), ccon_o2s_unsat(c,j)) * ccon_o2s_unsat(c,j) / (ccon_o2s_unsat(c,j) + m_dKAceProdO2)
+	! write(*,*) OxidAce2CO2, " c ", c, " j ",  j, " ace ", caces_unsat(c,j), " o2 ",ccon_o2s_unsat(c,j)
+	if((caces_unsat(c,j) - AceCons - OxidAce2CO2)>0) then
 	AceCons = AceCons
-	caces_unsat(c,j) = caces_unsat(c,j) - AceCons
+	caces_unsat(c,j) = caces_unsat(c,j) - AceCons - OxidAce2CO2
 	else
-	AceCons = 0.85 * caces_unsat(c,j)
-	caces_unsat(c,j) = caces_unsat(c,j) - AceCons
+	AceCons = 0.85 * (caces_unsat(c,j) - OxidAce2CO2)
+	caces_unsat(c,j) = caces_unsat(c,j) - AceCons - OxidAce2CO2
 	end if
 
 	if(caces_unsat(c,j) < 0) then
@@ -1413,7 +1415,7 @@ else
 	!	// For O2 dyndamics
 	AerO2Cons = m_drAer * ACCO2Prod
 	CH4O2Cons = m_drCH4Oxid * CH4Oxid
-	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - (AerO2Cons + CH4O2Cons)
+	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - (AerO2Cons + CH4O2Cons) - OxidAce2CO2
 	
 	if(ccon_o2s_unsat(c,j) < 0) then
 	ccon_o2s_unsat(c,j) = 0
@@ -1421,7 +1423,7 @@ else
 
 	!// For CO2 dyndamics
 !print *, "ACCO2Prod: ", ACCO2Prod, "CH4Prod: ", m_drCH4Prod * (1 - m_dYAceMethanogens) * AceCons, "CH4Oxid: ", CH4Oxid
-	CO2Prod = ACCO2Prod + m_drCH4Prod * (1 - m_dYAceMethanogens) * AceCons + CH4Oxid + PlantO2Cons
+	CO2Prod = ACCO2Prod + m_drCH4Prod * (1 - m_dYAceMethanogens) * AceCons + CH4Oxid + PlantO2Cons + OxidAce2CO2
 	H2CO2Cons = 2 * H2AceProd + H2CH4Prod + HCH4Prod
 	
 	ccon_co2s_unsat(c,j) = ccon_co2s_unsat(c,j) + (CO2Prod - H2CO2Cons)
@@ -3380,7 +3382,7 @@ end do
 ! lateral diffusion
 do j = 1, 14
 		lxdocsat 			= (cdocs_sat_spruce1(j+6) - cdocs_sat_spruce2(j)) * som_diffus * dom_diffus * get_step_size()
-		lxdonsat 			= (cdocs_sat_spruce1(j+6) - cdocs_sat_spruce2(j)) * som_diffus * dom_diffus * get_step_size()
+		lxdonsat 			= (cdons_sat_spruce1(j+6) - cdons_sat_spruce2(j)) * som_diffus * dom_diffus * get_step_size()
 		lxacesat 			= (caces_sat_spruce1(j+6) - caces_sat_spruce2(j)) * som_diffus * dom_diffus * get_step_size()
 		!~ lxdocsat 			= (cdocs_sat_spruce1(j+6)/hu_h2o(j+6) - cdocs_sat_spruce2(j)/ho_h2o(j)) * som_diffus * dom_diffus * get_step_size()
 		!~ lxdonsat 			= (cdocs_sat_spruce1(j+6)/hu_h2o(j+6) - cdocs_sat_spruce2(j)/ho_h2o(j)) * som_diffus * dom_diffus * get_step_size()
@@ -3766,7 +3768,7 @@ end do
 	ccon_ch4s_sat(1,3) = ccon_ch4s_sat_spruce1(3)
 	ccon_ch4s_sat(1,4) = ccon_ch4s_sat_spruce1(4)
 	ccon_ch4s_sat(1,5) = ccon_ch4s_sat_spruce1(5)
-	ccon_ch4s_sat(1,6) = (ccon_ch4s_sat_spruce1(6)*hu_soil_tk(6)+ccon_ch4s_sat_spruce1(7)*hu_soil_tk(7)+ccon_ch4s_sat_spruce1(8)*hu_soil_tk(8)+ccon_ch4s_sat_spruce1(9)*hu_soil_tk(9)+ccon_ch4s_sat_spruce1(10)*hu_soil_tk(10)+ccon_ch4s_sat_spruce1(11)*hu_soil_tk(11))	/ dz(1,6)
+	ccon_ch4s_sat(1,6) = (ccon_ch4s_sat_spruce1(6)*hu_soil_tk(6)+ccon_ch4s_sat_spruce1(7)*hu_soil_tk(7)+ccon_ch4s_sat_spruce1(8)*hu_soil_tk(8)+ccon_ch4s_sat_spruce1(9)*hu_soil_tk(9)+ccon_ch4s_sat_spruce1(10)*hu_soil_tk(10)+ccon_ch4s_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
 	ccon_ch4s_sat(1,7) = (ccon_ch4s_sat_spruce1(12)*hu_soil_tk(12)+ccon_ch4s_sat_spruce1(13)*hu_soil_tk(13)+ccon_ch4s_sat_spruce1(14)*hu_soil_tk(14)) / dz(1,7)
 	ccon_ch4s_sat(1,8) = (ccon_ch4s_sat_spruce1(15)*hu_soil_tk(15)+ccon_ch4s_sat_spruce1(16)*hu_soil_tk(16)) / dz(1,8)
 	ccon_ch4s_sat(1,9) = (ccon_ch4s_sat_spruce1(17)*hu_soil_tk(17)+ccon_ch4s_sat_spruce1(18)*hu_soil_tk(18)) / dz(1,9)
