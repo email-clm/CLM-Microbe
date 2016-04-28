@@ -74,6 +74,11 @@ m_dAirCH4  		0.0893
 m_dAirH2    		0.0257 
 m_dAirO2    		9.375e3 
 m_dAirCO2    		16.295 
+k_dom			0.042
+k_bacteria			0.56
+k_fungi			0.56
+dom_diffus		7.6e-7
 AOM				0.9
 H2maxCH4		1
 AcemaxCH4		2
+
