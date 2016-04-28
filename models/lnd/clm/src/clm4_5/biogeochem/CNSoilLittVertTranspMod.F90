@@ -15,6 +15,7 @@ module CNSoilLittVertTranspMod
   use shr_kind_mod, only : r8 => shr_kind_r8
   use clm_varctl  , only : iulog, use_c13, use_c14, spinup_state
   use clm_varcon  , only : secspday
+
 !
 ! !PUBLIC TYPES:
   implicit none
@@ -25,7 +26,7 @@ module CNSoilLittVertTranspMod
 !
 ! !PUBLIC DATA MEMBERS:
    real(r8), public :: som_diffus = 1e-4_r8 / (secspday * 365._r8)  ! [m^2/sec] = 1 cm^2 / yr
-   real(r8), public :: dom_diffus = 10._r8							! times to som diffus 
+!   real(r8), public :: dom_diffus = 10._r8							! times to som diffus 
    real(r8), public :: som_adv_flux =  0._r8
    real(r8), public :: cryoturb_diffusion_k =  5e-4_r8 / (secspday * 365._r8)  ! [m^2/sec] = 5 cm^2 / yr = 1m^2 / 200 yr
    real(r8), public :: max_depth_cryoturb = 3._r8          ! (m) this is the maximum depth of cryoturbation
@@ -255,7 +256,7 @@ subroutine CNSoilLittVertTransp(lbc, ubc, num_soilc, filter_soilc)
                     if ( abs(som_diffus_coef(c,j)) * spinup_term .lt. epsilon ) then
                        diffus(c,j) = epsilon 
                     else
-                       diffus(c,j) = som_diffus_coef(c,j) * spinup_term * dom_diffus
+                       diffus(c,j) = som_diffus_coef(c,j) * spinup_term * 10.
                     endif	
                   else
                     if ( abs(som_diffus_coef(c,j)) * spinup_term .lt. epsilon ) then
