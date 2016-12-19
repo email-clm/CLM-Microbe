@@ -1,0 +1,12 @@
+Dec 19, 2016
+This notes are for UQ package developed by Daniel Ricciuto from Oak Ridge National Laboratory.
+The procedure
+1) copy entire folder
+2) UQ_???/ERGO_src/model_CLM.F90, update data file and path
+3) Update case name in parm_list_ch4, not path, only case name
+4) make ERGO_CLM
+5) getoutput.f90, UQ.f90, 
+6) lnd_in initial file and drv_in starty month and day
+
+notice: the executable file must be in the upper directoy for the run direcotry
+
