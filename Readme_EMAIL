@@ -1,12 +1,12 @@
 Dec 19, 2016
 This notes are for UQ package developed by Daniel Ricciuto from Oak Ridge National Laboratory.
 The procedure
-1) copy entire folder
-2) UQ_???/ERGO_src/model_CLM.F90, update data file and path
-3) Update case name in parm_list_ch4, not path, only case name
+1) copy entire UQ folder to your target directory
+2) UQ_???/ERGO_src/model_CLM.F90, update data file and path line 274
+3) Update case name in parm_list_ch4, not path, only case name, first line
 4) make ERGO_CLM
-5) getoutput.f90, UQ.f90, 
-6) lnd_in initial file and drv_in starty month and day
+5) getoutput.f90, UQ.f90, not ncecessary to update all path and case information
+6) lnd_in initial file (line 7 for finidat) and drv_in starty month and day (lines 85-86, start_ymd = 20000101, stop_n = 15), 
 
 notice: the executable file must be in the upper directoy for the run direcotry
-
+UQ_renens_ch4.py, ..../bld/cesm.exe, this is one possible error
