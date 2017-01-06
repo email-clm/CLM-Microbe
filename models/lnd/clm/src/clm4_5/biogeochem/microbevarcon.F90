@@ -35,7 +35,7 @@ module microbevarcon
   real(r8), PARAMETER :: Mmmin = 0.1
   real(r8), PARAMETER :: MFGbiomin = 1e-15
 
-  integer, parameter :: nummicrobepar = 82
+  integer, parameter :: nummicrobepar = 101
   real(r8) :: q10ch4base = 295._r8  ! Rough estimate from comparison between Walter and previous CLM-CH4 data
   ! Uses Michigan bog data from Shannon & White
   ! This is the temperature at which the effective f_ch4 actually equals the constant f_ch4.
@@ -239,6 +239,27 @@ module microbevarcon
   real(r8) :: k_fungi = 0.56
   real(r8) :: dom_diffus = 10. / 3600. / 365.
   
+  real(r8) :: prf_s1m = 0.28
+  real(r8) :: prf_s2m = 0.46
+  real(r8) :: prf_s3m = 0.55
+  real(r8) :: prf_s4m = 0.75
+  
+  real(r8) :: pbatm_f = 0.05
+  real(r8) :: pbdom_f = 0.25
+  real(r8) :: pbs1_f = 0.1
+  real(r8) :: pbs2_f = 0.12
+  real(r8) :: pbs3_f = 0.18
+  real(r8) :: pfatm_f = 0.05
+  real(r8) :: pfdom_f = 0.25
+  real(r8) :: pfs1_f = 0.1
+  real(r8) :: pfs2_f = 0.12
+  real(r8) :: pfs3_f = 0.18
+  real(r8) :: pdomb_f = 0.3
+  real(r8) :: pdomf_f = 0.3
+  real(r8) :: pdoms1_f = 0.2
+  real(r8) :: pdoms2_f = 0.15
+  real(r8) :: pdoms3_f = 0.05
+  
 !
 ! !PUBLIC MEMBER FUNCTIONS:
   public :: ch4conrd ! Read and initialize CH4 constants
@@ -396,7 +417,26 @@ q10ch4base                         = dummy(i); i=i+1
 	k_bacteria = dummy(i); i=i+1
 	k_fungi = dummy(i); i=i+1
 	dom_diffus = dummy(i); i=i+1
-  
+	prf_s1m = dummy(i); i=i+1
+	prf_s2m = dummy(i); i=i+1
+	prf_s3m = dummy(i); i=i+1
+	prf_s4m = dummy(i); i=i+1  
+	pbatm_f = dummy(i); i=i+1
+	pbdom_f = dummy(i); i=i+1
+	pbs1_f = dummy(i); i=i+1
+	pbs2_f = dummy(i); i=i+1
+	pbs3_f = dummy(i); i=i+1
+	pfatm_f = dummy(i); i=i+1
+	pfdom_f = dummy(i); i=i+1
+	pfs1_f = dummy(i); i=i+1
+	pfs2_f = dummy(i); i=i+1
+	pfs3_f = dummy(i); i=i+1
+	pdomb_f = dummy(i); i=i+1
+	pdomf_f = dummy(i); i=i+1
+	pdoms1_f = dummy(i); i=i+1
+	pdoms2_f = dummy(i); i=i+1
+	pdoms3_f = dummy(i); i=i+1
+    
     !xiaofeng xu creared new mechanisms and the new parameters         
 end if
 
@@ -490,6 +530,26 @@ end if
     call mpi_bcast (k_fungi, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (dom_diffus, 1 , MPI_REAL8, 0, mpicom, ierr)
     
+    call mpi_bcast (prf_s1m, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (prf_s2m, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (prf_s3m, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (prf_s4m, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pbatm_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pbdom_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pbs1_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pbs2_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pbs3_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pfatm_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pfdom_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pfs1_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pfs2_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pfs3_f, 1 , MPI_REAL8, 0, mpicom, ierr)   
+    call mpi_bcast (pdomb_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pdomf_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pdoms1_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pdoms2_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (pdoms3_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    
     if (masterproc) then
        write(iulog,*) 'Successfully read CH4 namelist'
        write(iulog,*)' '
@@ -582,6 +642,26 @@ end if
 	write(iulog,*)'k_bacteria = ', k_bacteria
 	write(iulog,*)'k_fungi = ', k_fungi
 	write(iulog,*)'dom_diffus = ', dom_diffus
+	
+	write(iulog,*)'prf_s1m = ', prf_s1m
+	write(iulog,*)'prf_s2m = ', prf_s2m
+	write(iulog,*)'prf_s3m = ', prf_s3m
+	write(iulog,*)'prf_s4m = ', prf_s4m
+	write(iulog,*)'pbatm_f = ', pbatm_f
+	write(iulog,*)'pbdom_f = ', pbdom_f
+	write(iulog,*)'pbs1_f = ', pbs1_f
+	write(iulog,*)'pbs2_f = ', pbs2_f
+	write(iulog,*)'pbs3_f = ', pbs3_f
+	write(iulog,*)'pfatm_f = ', pfatm_f
+	write(iulog,*)'pfdom_f = ', pfdom_f
+	write(iulog,*)'pfs1_f = ', pfs1_f
+	write(iulog,*)'pfs2_f = ', pfs2_f
+	write(iulog,*)'pfs3_f = ', pfs3_f
+	write(iulog,*)'pdomb_f = ', pdomb_f
+	write(iulog,*)'pdomf_f = ', pdomf_f
+	write(iulog,*)'pdoms1_f = ', pdoms1_f
+	write(iulog,*)'pdoms2_f = ', pdoms2_f
+	write(iulog,*)'pdoms3_f = ', pdoms3_f
 	
        if (ch4offline) write(iulog,*)'CH4 Model will be running offline and not affect fluxes to atmosphere.'
        if (aereoxid >= 0._r8) write(iulog,*) 'Fixed aerenchyma oxidation has been selected.'
