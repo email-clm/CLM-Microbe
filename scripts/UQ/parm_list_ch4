@@ -1,4 +1,4 @@
-US-SPR_I20TRCLM45CN
+SPRUCE_I20TRCLM45CN
 m_dAceProdAcmax -1 0.0000035 3.5
 m_dkAceProdCO2 -1 0.02 4
 m_dkH2ProdAce -1 0.00006 27
@@ -20,3 +20,23 @@ m_dKCH4OxidO2 -1 0.0001 1
 k_dom -1 0.001 0.5
 k_bacteria -1 0.05 0.9
 k_fungi -1 0.05 0.9
+dom_diffus -1 0.000000001 0.01
+prf_s1m 0.2 0.35
+prf_s1m 0.35 0.55
+prf_s3m 0.45 0.65
+prf_s4m 0.65 0.85
+pbatm_f 0.05 0.15
+pbdom_f 0.2 0.3
+pbs1_f 0.05 0.15
+pbs2_f 0.07 0.17
+pbs3_f 0.13 0.23
+pfatm_f 0.01 0.1
+pfdom_f 0.2 0.3
+pfs1_f 0.05 0.15
+pfs2_f 0.07 0.17
+pfs3_f 0.13 0.23
+pdomb_f 0.2 0.3
+pdomf_f 0.2 0.3
+pdoms1_f 0.1 0.2
+pdoms2_f 0.05 0.15
+pdoms3_f  0.01 0.05
