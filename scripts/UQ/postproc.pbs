@@ -1,0 +1,16 @@
+#!/bin/csh -f
+
+#PBS -A cli017bgc
+#PBS -j oe
+##PBS -l feature=xt5
+#PBS -M ricciutodm@ornl.gov
+#PBS -N postproc
+#PBS -q debug
+#PBS -l nodes=2
+#PBS -l walltime=1:00:00
+#PBS -l gres=widow3
+#PBS -S /bin/csh -V
+
+cd /tmp/proj/cli017/PTCLM_Ricciuto/clm4_ornl/scripts/UQ
+aprun -n 32 ./a.out
+ 

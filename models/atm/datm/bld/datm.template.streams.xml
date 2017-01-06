@@ -156,7 +156,7 @@
       FSDS     swdn
    </variableNames>
    <filePath>
-      $DIN_LOC_ROOT_CLMFORC/atm_forcing.datm7.cruncep.0.5d.V4.c111104/Solar6Hrly
+      $DIN_LOC_ROOT_CLMFORC/atm_forcing.datm7.cruncep_qianFill.0.5d.V4.c130305/Solar6Hrly
    </filePath>
    <tInterpAlgo>
       coszen
@@ -197,7 +197,7 @@
       PRECTmms precn
    </variableNames>
    <filePath>
-      $DIN_LOC_ROOT_CLMFORC/atm_forcing.datm7.cruncep.0.5d.V4.c111104/Precip6Hrly
+      $DIN_LOC_ROOT_CLMFORC/atm_forcing.datm7.cruncep_qianFill.0.5d.V4.c130305/Precip6Hrly
    </filePath>
    <tInterpAlgo>
       nearest
@@ -242,7 +242,7 @@
       FLDS     lwdn
    </variableNames>
    <filePath>
-      $DIN_LOC_ROOT_CLMFORC/atm_forcing.datm7.cruncep.0.5d.V4.c111104/TPHWL6Hrly
+      $DIN_LOC_ROOT_CLMFORC/atm_forcing.datm7.cruncep_qianFill.0.5d.V4.c130305/TPHWL6Hrly
    </filePath>
    <tInterpAlgo>
       linear

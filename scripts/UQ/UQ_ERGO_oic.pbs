@@ -1,0 +1,15 @@
+#!/bin/csh -f
+
+#PBS -N ERGO_CLM
+#PBS -q esd13q
+#PBS -M ricciutodm@ornl.gov
+#PBS -l nodes=2:ppn=32
+#PBS -l walltime=144:00:00
+#PBS -j oe
+#PBS -S /bin/csh -V
+
+cd /home/zdr/models/CLM_SPRUCE/scripts/UQ
+
+mpirun -np 64 --hostfile $PBS_NODEFILE ./ERGO_CLM > ERGO_CLM_log.txt
+
+

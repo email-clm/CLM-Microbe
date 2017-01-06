@@ -1,0 +1,267 @@
+#!/bin/csh -f
+
+#PBS -N UQ_ensemble
+#PBS -q esd13q
+#PBS -M ricciutodm@ornl.gov
+#PBS -l nodes=8:ppn=32
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -S /bin/csh -V
+
+cd /tmp/proj/cli017/PTCLM_Ricciuto/clm4_ornl/scripts/UQ
+setenv mysite       `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 1p`
+setenv mycase       `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 2p`
+setenv mypft        `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 3p`
+setenv myoptdir     `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 4p`
+setenv myrundir     `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 5p`
+setenv myccsm_input `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 6p`
+setenv mysamples    `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 7p`
+setenv myn_samples  `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 8p`
+setenv myfullrun    `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 9p`
+setenv nyears_ad    `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 10p`
+setenv nyears_ex    `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 11p`
+setenv nyears_fin   `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 12p`
+setenv nyears_tr    `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 13p`
+
+
+setenv ngroups 1           #number of groups of 16 in each block
+@ nblocks = ($myn_samples + 1) / ($ngroups * 16)
+setenv nblocks $nblocks      #number of total blocks (=nsamples/(ngroups*16)) 
+setenv n_cases 1             #number of cases to run (default =1)
+if ($myfullrun == 'T') then  #run 4 cases if a full spinup
+    setenv n_cases 4
+endif
+
+setenv myoptdir /tmp/work/zdr/UQ
+cd $myoptdir
+
+
+if ($?not_firstrun_psens) then 
+  #if not the first time submitted
+  set restarts_left_temp = 0
+  @ restarts_left_temp = $restarts_left - 1
+  @ restart_year = $restart_year + $restart_year_inc
+  setenv restart_copy 0
+  @ thiscase = $thiscase + 1
+  if ($restarts_left == 0) then
+    #reset number of remaming restarts and increment block  number
+    if ($n_cases > 1) then 
+        setenv mycasename_last $mycasename
+	if ($thiscase == 1) then 
+	  setenv mycasename $mycase\_I1850CN_ad_spinup
+          set restarts_left_temp = 1
+          setenv restart_year_block 1
+          setenv restart_year_inc 100
+        endif
+	if ($thiscase == 2) then 
+	  setenv mycasename $mycase\_I1850CN_exit_spinup
+          setenv restart_year_block 601
+          setenv restart_year_inc 1
+	  set restarts_left_temp = 0
+	  setenv restart_copy 1
+	endif
+	if ($thiscase == 3) then 
+	  setenv mycasename $mycase\_I1850CN
+          set restarts_left_temp = 10
+          setenv restart_year_block 1
+          setenv restart_year_inc 10
+	  setenv restart_copy 1
+	endif 
+	if ($thiscase == 4) then 
+	  setenv mycasename $mycase\_I20TRCN
+	  set restarts_left_temp = 3
+          setenv restart_year_block 1850
+          setenv restart_year_inc 50
+	  setenv restart_copy 1
+	endif
+        @ restart_year_first = $restart_year_block + $restart_year_inc
+    else
+        set restarts_left_temp = 1
+        setenv restart_year_block 1
+    endif 
+
+    @ restart_year = $restart_year_block + $restart_year_inc
+    if ($thiscase > $n_cases) then 
+	setenv thiscase 1
+	if ($n_cases > 1) then 
+	    setenv mycasename $mycase\_I1850CN_ad_spinup
+	endif
+	@ thisblock = $thisblock + 1
+	@ restart_year = $restart_year_block + $restart_year_inc
+	if ($thisblock > $nblocks) exit
+     endif
+  endif
+  setenv restarts_left $restarts_left_temp
+  setenv restart_year $restart_year
+  setenv restart_year_first $restart_year_first
+  setenv thisblock $thisblock
+  setenv thiscase $thiscase
+else
+  cd $myoptdir
+  #if the first time submitted (may need to modify if starting midway through)
+  setenv restarts_left 1    #ad_spinup=5
+  setenv restart_year_block 1  #ad_spinup=1 
+  setenv restart_year_inc 100    #100
+  setenv thisblock 1
+  set restart_year_temp = 0
+  @ restart_year_temp = $restart_year_block + $restart_year_inc
+  setenv restart_year $restart_year_temp
+  setenv restart_year_first $restart_year_temp
+  setenv thiscase 1
+  setenv mycasename $mycase
+  if ($n_cases > 1) setenv mycasename $mycase\_I1850CN_ad_spinup #_ad_spinup
+  setenv mycasename_last $mycasename\_I1850CN_ad_spinup
+  setenv restart_copy 0
+  endif
+endif
+echo $thiscase $restart_year $thisblock $restarts_left
+
+#which group to start with depends on block
+set startgroup = 0
+@ startgroup = ($thisblock - 1) * $ngroups + 1 
+
+#cd $myoptdir/../$mycasename
+
+#source ./Tools/ccsm_getenv
+#setenv LID "`date +%y%m%d-%H%M%S`"
+#env | egrep '(MP_|LOADL|XLS|FPE|DSM|OMP|MPC)' # document env vars
+
+cd $myoptdir
+
+#loop through groups and lauch CLM for each
+set group = $startgroup
+set lastgroup = 0
+@ lastgroup = $startgroup + $ngroups
+echo $startgroup $lastgroup $ngroups
+while ($group < $lastgroup)
+    if ($group < 10) then 
+        set gprefix = g0000
+    else if ($group < 100) then 
+	set gprefix = g000
+    else if ($group < 1000) then 
+	set gprefix = g00
+    else if ($group < 10000) then 
+        set gprefix = g0
+    else
+        set gprefix = g
+    endif   
+    cd $myoptdir/$mycasename/$gprefix$group
+    if ($restart_year != $restart_year_first) then
+        sed -e "s/startup/continue/ig" drv_in > drv_in_tmp
+        cp drv_in_tmp drv_in
+    else 
+	sed -e "s/continue/startup/ig" drv_in > drv_in_tmp
+	#cp drv_in_tmp drv_in
+    endif
+    if ($restarts_left == 0 && $thiscase == 3) then
+        #modify last run for last few years in final spinup case
+        @ restart_year = $nyears_fin + 1
+        setenv restart_year $restart_year
+	set nlast = 0
+	@ nlast = $nyears_fin - 1000 
+        sed -e "s/  stop_n         = 0/stop_n    =      $nlast/ig" drv_in > drv_in_tmp
+        cp drv_in_tmp drv_in
+ 	sed -e "s/  restart_n      = 0/restart_n =      $nlast/ig" drv_in > drv_in_tmp
+	cp drv_in_tmp drv_in
+    endif
+    if ($restarts_left == 1 && $thiscase == 1) then
+        #modify last run in final spinup case
+        #sed -e "s/  stop_n         = 100/stop_n    =      50/ig" drv_in > drv_in_tmp
+        #cp drv_in_tmp drv_in
+        #sed -e "s/  restart_n      = 100/restart_n =      50/ig" drv_in > drv_in_tmp
+        #cp drv_in_tmp drv_in
+	#set lloop = 1
+	#while ($lloop < 17)
+	#  if ($lloop < 10) then
+	#    sed -e "s/'HR,/'HR',/ig" lnd_in_000$lloop > lnd_in_tmp
+	#    cp lnd_in_tmp lnd_in_000$lloop
+	#  else if ($lloop > 9) then
+	#    sed -e "s/'HR,/'HR',/ig" lnd_in_00$lloop > lnd_in_tmp
+	#    cp lnd_in_tmp lnd_in_00$lloop
+        #  endif
+	#  @ lloop = $lloop + 1
+	#end
+    endif
+
+    if ($restarts_left == 0 && $thiscase == 4) then 
+        #modify land run in transient case
+        #@ restart_year = $nyears_tr + 1850
+	#setenv restart_year $restart_year
+	#set nlast = 0
+	#@ nlast = $nyears_tr - 150
+	#sed -e "s/= 50/= $nlast/ig" drv_in > drv_in_tmp
+	#cp drv_in_tmp drv_in
+    endif
+    if ($restart_copy == 1) then
+        #copy restart files 
+	cp ../../$mycasename_last/$gprefix$group/rpointer.* .
+	cp ../../$mycasename_last/$gprefix$group/*.r*.* .
+    endif
+    set grouptag = 0
+    @ grouptag = $group - $startgroup + 1
+    aprun -n 16 ./ccsm.exe > ccsm_log.txt &
+    sleep 5
+    @ group = $group + 1
+end
+
+#check for completion of all runs (if they generated the next restart file)
+set nfiles     = 0
+set nfiles_tot = 0
+@ nfiles_tot = $ngroups * 16
+echo $nfiles_tot 
+
+while ($nfiles < $nfiles_tot)
+  set nfiles = 0
+  set group = $startgroup
+  while ($group < $lastgroup)
+    if ($group < 10) then 
+      set groupprefix = 0000
+    else if ($group < 100) then 
+      set groupprefix = 000
+    else if ($group < 1000) then 
+      set groupprefix = 00
+    else if ($group < 10000) then 
+      set groupprefix = 0
+    endif	
+    cd $myoptdir/$mycasename/g$groupprefix$group
+    pwd
+    set np=1
+    while ($np < 17)
+      #prefix for process number
+      if ($np < 10) then
+        set np_prefix = 000
+      else if ($np >= 10) then 
+        set np_prefix = 00
+      endif
+      #prefix for restart year
+      set rest_prefix = $restart_year
+      if ($restart_year < 10) then 
+        set rest_prefix = 000$restart_year
+      else if ($restart_year < 100) then
+        set rest_prefix = 00$restart_year
+      else if ($restart_year < 1000) then 
+        set rest_prefix = 0$restart_year
+      endif
+      #test to see if restart filenames exist
+      echo $mycasename.clm2_$np_prefix$np.r.$rest_prefix-01-01-00000.nc
+      if (-e $mycasename.clm2_$np_prefix$np.r.$rest_prefix-01-01-00000.nc) then
+ 	@ nfiles = $nfiles + 1
+        echo $np $group done
+      endif
+      @ np = $np + 1
+    end
+    @ group = $group + 1
+  end
+ echo $nfiles
+ #sleep for one minute until the next check
+ sleep 60
+end
+
+echo successful completion
+setenv not_firstrun_psens 1
+
+cd $myoptdir
+qsub /tmp/proj/cli017/PTCLM_Ricciuto/clm4_ornl/scripts/UQ/UQ_ensemble_titan.pbs
+
+
+

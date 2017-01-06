@@ -1,0 +1,298 @@
+#!/bin/csh -f
+
+#PBS -N psens_run_live
+#PBS -q esd08q
+#PBS -M ricciutodm@ornl.gov
+#PBS -l nodes=16:ppn=8
+#PBS -l walltime=3:00:00
+#PBS -j oe
+#PBS -S /bin/csh -V
+
+#eval $(python ./setenvvars.py "$@")
+cd /home/zdr/models/clm4_5_ornl/scripts/UQ
+setenv done 0
+setenv RANDOM `bash -c 'echo $RANDOM'`
+setenv nodetag $RANDOM
+#setenv USE_MPISERIAL FALSE
+#setenv CLM_USRDAT_NAME 1x1pt_US-NR1
+
+setenv mysite       `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 1p`
+setenv mycase       `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 2p`
+setenv mypft        `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 3p`
+setenv myoptdir     `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 4p`
+setenv myrundir     `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 5p`
+setenv myccsm_input `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 6p`
+setenv mysamples    `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 7p`
+setenv myn_samples  `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 8p`
+setenv myfullrun    `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 9p`
+setenv nyears_ad    `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 10p`
+setenv nyears_fin   `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 11p`
+setenv nyears_tr    `awk -F" " '{print $3}' ccsm_opt.txt | sed -n 12p`
+
+setenv ngroups 10        #number of groups in each block
+setenv npergroup 1           #number of model runs per group
+@ nblocks = ($myn_samples + 1) / ($ngroups * $npergroup)
+setenv nblocks $nblocks      #number of total blocks 
+setenv n_cases 1             #number of cases to run (default =1)
+if ($myfullrun == 'T') then  #run 4 cases if a full spinup
+    setenv n_cases 4
+endif
+
+cd $myoptdir
+cp $PBS_NODEFILE ./nodefiles/nodefile.txt
+set thisgroup = 1
+while ($thisgroup <= $ngroups)
+    @ myline_end   = $npergroup * ($thisgroup)
+    echo $myline_end
+    head -$myline_end ./nodefiles/nodefile.txt | tail -1 > ./nodefiles/nodefile$nodetag\_$thisgroup\.dat
+    @ thisgroup = $thisgroup + 1
+end
+
+while ($done == '0')
+cd $myoptdir
+
+if ($?not_firstrun_psens) then #--------This is NOT the first round of simulations-----------
+
+  #increment case number
+  @ thiscase = $thiscase + 1
+  setenv thiscase $thiscase
+  if ($n_cases > 1) then 
+    setenv mycasename_last $mycasename
+    if ($thiscase == '5') then  #reset to 1 for ad_spinup case
+      setenv thiscase 1
+      @ thisblock = $thisblock + 1
+      setenv thisblock $thisblock
+      #set up the next round of directories
+      @ mypsens_start = $thisblock * $ngroups * $npergroup + 1
+      @ mypsens_torun = $ngroups * $npergroup
+      setenv mypsens_start $mypsens_start
+      setenv mypsens_torun $mypsens_torun
+      echo $mypsens_start > psens_start.txt
+      echo $mypsens_torun > psens_torun.txt
+      #mpirun -np 1 --hostfile $PBS_NODEFILE ./psens > psens_log.txt &
+      setenv mycasename $mycase\_I1850CLM45CN_ad_spinup
+      @ restart_year = $nyears_ad + 1
+    endif
+    if ($thiscase == '3') then 
+      setenv mycasename $mycase\_I1850CLM45CN
+      @ restart_year = $nyears_fin + 1
+    endif 
+    if ($thiscase == '4') then 
+      setenv mycasename $mycase\_I20TRCLM45CN
+      @ restart_year = 1850 + $nyears_tr
+    endif
+  else
+    #only 1 case, advance block and proceed
+    @ thisblock = $thisblock + 1
+    setenv thisblock $thisblock
+    #set up the next round of directories
+    setenv thiscase 1
+    @ mypsens_start = $thisblock * $ngroups * $npergroup + 1
+    @ mypsens_torun = $ngroups * $npergroup
+    setenv mypsens_start $mypsens_start
+    setenv mypsens_torun $mypsens_torun
+    echo $mypsens_start > psens_start.txt
+    echo $mypsens_torun > psens_torun.txt
+   # mpirun -np 1 --hostfile $PBS_NODEFILE ./psens > psens_log.txt &
+  endif
+  if ($thisblock > $nblocks) exit
+  setenv restart_year $restart_year
+
+  #check to see all directories have been created before lanunching next round of sims
+  @ grouplast = $thisblock * $ngroups * $npergroup
+  if ($grouplast < 10) then 
+     set groupprefix = 0000
+  else if ($grouplast < 100) then 
+     set groupprefix = 000
+  else if ($grouplast < 1000) then 
+     set groupprefix = 00
+  else if ($grouplast < 10000) then 
+     set groupprefix = 0
+  endif
+  
+  #set advance = 0
+  #while ($advance == 0)
+  #  echo $mycasename/g$groupprefix$grouplast
+  #  if (-e $mycasename/g$groupprefix$grouplast) then 
+  #    set advance = 1
+  #  else
+  #    sleep 10
+  #  endif 
+  #end
+
+else  #-----------------------This is the first round of simulations --------------------
+
+  cd $myoptdir
+  #if the first time submitted (may need to modify if starting midway through)
+  setenv thisblock 1
+  @ mypsens_start = ($thisblock - 1) * $ngroups * $npergroup + 1
+  @ mypsens_torun = $ngroups * $npergroup
+  echo $mypsens_start > psens_start.txt
+  echo $mypsens_torun > psens_torun.txt
+  
+  #make first round of ccsm model directories, wait until finished
+  #mpirun -np 1 --hostfile $PBS_NODEFILE ./psens > psens_log.txt
+  
+  setenv thiscase 1
+  @ restart_year = 1 #$nyears_ad + 2
+  #@ restart_year = 1850 + $nyears_tr
+  setenv restart_year $restart_year
+  setenv mycasename $mycase #\_I1850CLM45CN_ad_spinup
+  setenv mycasename_last $mycase #\_I1850CLM45CN_ad_spinup
+  #setenv mycasename_last N16_US-NR1_I1850CLM45CN
+
+  #start making second round of model directories (do not wait)
+  @ mypsens_start = $thisblock * $ngroups * $npergroup + 1
+  @ mypsens_torun = $ngroups * $npergroup
+  echo $mypsens_start > psens_start.txt
+  echo $mypsens_torun > psens_torun.txt
+  #mpirun -np 1 --hostfile $PBS_NODEFILE ./psens > psens_log.txt &
+
+endif #----------------------------------------------------------------------------------
+
+
+#which group to start with depends on block
+set startgroup = 0
+@ startgroup = ($thisblock - 1) * $ngroups + 1 
+
+#cd $myoptdir
+#cd $myoptdir/../$mycasename
+#source ./Tools/ccsm_getenv
+#setenv LID "`date +%y%m%d-%H%M%S`"
+#env | egrep '(MP_|LOADL|XLS|FPE|DSM|OMP|MPC)' # document env vars
+
+#cd $myoptdir/$mycasename
+cd $myrundir/UQ/$mycasename
+
+#loop through groups and lauch CLM for each
+set group = $startgroup
+set lastgroup = 0
+@ lastgroup = $startgroup + $ngroups
+echo $thiscase $startgroup $lastgroup $ngroups 
+while ($group < $lastgroup)
+    if ($group < 10) then 
+        set gprefix = g0000
+    else if ($group < 100) then 
+	set gprefix = g000
+    else if ($group < 1000) then 
+	set gprefix = g00
+    else if ($group < 10000) then 
+        set gprefix = g0
+    endif
+    #cd $myoptdir/$mycasename/$gprefix$group
+    cd $myrundir/UQ/$mycasename/$gprefix$group
+    #if ($restart_year != $restart_year_first) then
+    #    sed -e "s/startup/continue/ig" drv_in > drv_in_tmp
+    #    cp drv_in_tmp drv_in
+    #else 
+    #	sed -e "s/continue/startup/ig" drv_in > drv_in_tmp
+#	cp drv_in_tmp drv_in
+	#if ($thiscase == '1') then 
+	    sed -e "s/stop_n         = 600/stop_n         = 1/ig" drv_in > drv_in_tmp
+	    sed -e "s/restart_n      = 600/restart_n      = 1/ig" drv_in_tmp > drv_in
+	    #cp drv_in_tmp drv_in
+	#endif
+    #sed -e "s/,NEE'/,'NPP'/ig" lnd_in > lnd_in_tmp
+
+   #@ inst = 1
+   #while ($inst < 10) 
+   #  sed -e "s/griddata_1x1pt_US-NR1.nc/domain.lnd.1x1pt_US-NR1_navy.nc/ig" lnd_in_000$inst > lnd_in_tmp
+   #  sed -e "s/fracdata_1x1pt_US-NR1.nc/domain.lnd.1x1pt_US-NR1_navy.nc/ig" lnd_in_tmp  > lnd_in_000$inst
+   #  @ inst += 1
+   #end
+   #@ inst = 10
+   #while ($inst <= 16)
+   #  sed -e "s/griddata_1x1pt_US-NR1.nc/domain.lnd.1x1pt_US-NR1_navy.nc/ig" lnd_in_00$inst > lnd_in_tmp
+   #  sed -e "s/fracdata_1x1pt_US-NR1.nc/domain.lnd.1x1pt_US-NR1_navy.nc/ig" lnd_in_tmp  > lnd_in_00$inst
+   #  @ inst += 1
+   #end    
+   #cp ../g00001/ccsm.exe .
+
+    #cp lnd_in_tmp lnd_in
+    #if ($thiscase > 1) then
+        #copy restart files 
+	cp ../../$mycasename_last/$gprefix$group/rpointer.* .
+	cp ../../$mycasename_last/$gprefix$group/*.r*.* .
+
+    #endif
+    set grouptag = 0
+    @ grouptag = $group - $startgroup + 1
+    mpirun -np $npergroup --hostfile $myoptdir/nodefiles/nodefile$nodetag\_$grouptag\.dat ./cesm.exe > ccsm_log.txt &
+    sleep 2
+    @ group = $group + 1
+end
+
+#check for completion of all runs (if they generated the next restart file)
+set nfiles     = 0
+set nfiles_tot = 0
+@ nfiles_tot = $ngroups * $npergroup
+echo $nfiles_tot 
+
+while ($nfiles < $nfiles_tot)
+  set nfiles = 0
+  set group = $startgroup
+  while ($group < $lastgroup)
+    if ($group < 10) then 
+      set groupprefix = 0000
+    else if ($group < 100) then 
+      set groupprefix = 000
+    else if ($group < 1000) then 
+      set groupprefix = 00
+    else if ($group < 10000) then 
+      set groupprefix = 0
+    endif
+    #cd $myoptdir/$mycasename/g$groupprefix$group
+    cd $myrundir/UQ/$mycasename/g$groupprefix$group
+    #pwd
+    set np=1
+    while ($np <=  $npergroup)
+      #prefix for process number
+      if ($np < 10) then
+        set np_prefix = clm2_000
+      else if ($np >= 10) then 
+        set np_prefix = clm2_00
+      endif
+      if ($npergroup == 1) then 
+	set np_prefix = clm2
+      endif
+
+      #prefix for restart year
+      set rest_prefix = $restart_year
+      if ($restart_year < 10) then 
+        set rest_prefix = 000$restart_year
+      else if ($restart_year < 100) then
+        set rest_prefix = 00$restart_year
+      else if ($restart_year < 1000) then 
+        set rest_prefix = 0$restart_year
+      endif
+      #test to see if restart filenames exist
+      #echo $mycasename.$np_prefix$np.r.$rest_prefix-01-01-00000.nc
+      if (-e $mycasename.$np_prefix$np.r.$rest_prefix-01-01-00000.nc) then
+ 	@ nfiles = $nfiles + 1
+        echo $mycasename.$np_prefix$np.r.$rest_prefix-01-01-00000.nc 
+        echo $np $group done 
+	#clean up after runs to save space
+	#rm cesm.exe
+	#rm *.log.*
+	#rm -rf 1x1pt_US_NR1
+	#rm snicar*
+	#rm aero*
+      endif
+      @ np = $np + 1
+    end
+    @ group = $group + 1
+  end
+ echo $nfiles
+ #sleep for one minute until the next check
+ sleep 60
+end
+
+echo successful completion 
+setenv not_firstrun_psens 1
+
+cd $myoptdir
+
+end
+
+
+

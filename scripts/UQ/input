@@ -1,0 +1,51 @@
+ ===========================================================================
+|  Input file for FRANC optimization using ERGO                             |
+|  13 April 2005  Brian Tuttle <btuttle@psu.edu>                            |
+|  ** Changes to the format of this file must be reflected in               |
+|  ** fileIO.f90: read_input()                                              |
+ ===========================================================================
+
+------------------------ ERGO PARAMETERS ------------------------------------
+Run time (wallclock time) [hhh:mm]:
+    Precalculation           = 00:01
+    Stage 1                  = 47:00
+    Stage 2                  = 00:01
+    Stage 3                  = 00:01
+Run time (iterations):
+ A value greater than 0 overrides wallclock spec.
+    Maximum iterations pre   = 0
+    Maximum iterations st1   = 0
+    Maximum iterations st2   = 0
+    Maximum iterations st3   = 0
+                                     
+Optimization strategies:
+    Precalculation (0-2)     = 0
+    Model optimization (1-8) = 2
+ Strategy choices (number of chains) (Stage 1 [-> Stage 2 [-> Stage 3]]):
+    1. DE(2)    2. SRES(2)  3. DE(3)    4. SRES(3)  5. DE(2) -> SRES(2)
+    6. SRES(2) -> ISRES(2)      7. SRES(3) -> ISRES(2)
+    8. DE(3) -> SRES(3) -> ISRES(2)     9. ISRES(3)     0. Skip precalculation
+                                           
+Convergence criteria:
+    Target RMSE (PRE)   [%]  = 0.2
+    Target RMSE (DE)    [%]  = 0.1
+    Target RMSE (SRES)  [%]  = 0.1
+    Target RMSE (ISRES) [%]  = 0.5
+                                            
+Thresholds for 3-chain strategy:
+    RMSE between Q2 & Q3 [%] = 0.5
+    Weighted Av. delta RMSE  = 0.005
+    Weighted Av. delta Objf  = 0.1
+                                                         
+ISRES parameters:
+    alpha [default 0.2]      = 0.2
+                                                    
+Output files (max 40 characters):
+    Path                     = .
+    fbest                    = fout
+    xbest (set of files)     = xout
+    convergence (optional)   = rmsout
+                                                           
+------------------------ MODEL PARAMETERS ---------------------------------
+
+------------------------ END MODEL PARAMETERS -----------------------------

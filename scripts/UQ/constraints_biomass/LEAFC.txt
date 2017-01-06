@@ -1,0 +1,3 @@
+year  doy  PFT   value uncertainty 
+2012  180   12   64.32        3.61
+2013  180   12   90.24        6.63

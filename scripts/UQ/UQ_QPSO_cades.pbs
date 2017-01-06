@@ -1,0 +1,15 @@
+#!/bin/csh -f
+
+#PBS -N QPSO_CLM
+#PBS -q batch
+#PBS -M ricciutodm@ornl.gov
+#PBS -l nodes=2:ppn=32
+#PBS -l walltime=24:00:00
+#PBS -j oe
+#PBS -S /bin/csh -V
+#PBS -W group_list=cades-ccsi
+
+cd /home/$USER/models/CLM_SPRUCE/scripts/UQ
+
+mpirun -np 64 --hostfile $PBS_NODEFILE ./QPSO > QPSO_log.txt
+python UQ_runbest.py 
