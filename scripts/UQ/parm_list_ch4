@@ -21,22 +21,22 @@ k_dom -1 0.001 0.5
 k_bacteria -1 0.05 0.9
 k_fungi -1 0.05 0.9
 dom_diffus -1 0.000000001 0.01
-prf_s1m 0.2 0.35
-prf_s1m 0.35 0.55
-prf_s3m 0.45 0.65
-prf_s4m 0.65 0.85
-pbatm_f 0.05 0.15
-pbdom_f 0.2 0.3
-pbs1_f 0.05 0.15
-pbs2_f 0.07 0.17
-pbs3_f 0.13 0.23
-pfatm_f 0.01 0.1
-pfdom_f 0.2 0.3
-pfs1_f 0.05 0.15
-pfs2_f 0.07 0.17
-pfs3_f 0.13 0.23
-pdomb_f 0.2 0.3
-pdomf_f 0.2 0.3
-pdoms1_f 0.1 0.2
-pdoms2_f 0.05 0.15
-pdoms3_f  0.01 0.05
+m_rf_s1m -1 0.2 0.35
+m_rf_s1m -1 0.35 0.55
+m_rf_s3m -1 0.45 0.65
+m_rf_s4m -1 0.65 0.85
+m_batm_f -1 0.05 0.15
+m_bdom_f -1 0.2 0.3
+m_bs1_f -1 0.05 0.15
+m_bs2_f -1 0.07 0.17
+m_bs3_f -1 0.13 0.23
+m_fatm_f -1 0.01 0.1
+m_fdom_f -1 0.2 0.3
+m_fs1_f -1 0.05 0.15
+m_fs2_f -1 0.07 0.17
+m_fs3_f -1 0.13 0.23
+m_domb_f -1 0.2 0.3
+m_domf_f -1 0.2 0.3
+m_doms1_f -1 0.1 0.2
+m_doms2_f -1 0.05 0.15
+m_doms3_f  -1 0.01 0.05

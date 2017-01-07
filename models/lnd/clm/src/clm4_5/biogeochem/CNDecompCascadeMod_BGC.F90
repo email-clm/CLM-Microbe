@@ -632,10 +632,10 @@ subroutine init_decompcascade(begc, endc)
    !rf_s3m = 0.55
    !rf_s4m = 0.75
    
-   rf_s1m = prf_s1m
-   rf_s2m = prf_s2m
-   rf_s3m = prf_s3m
-   rf_s4m = prf_s4m
+   rf_s1m = m_rf_s1m
+   rf_s2m = m_rf_s2m
+   rf_s3m = m_rf_s3m
+   rf_s4m = m_rf_s4m
    
    l1m_fb = (cn_bacteria / initial_cn_ratio(i_litr1))**0.6 / ((cn_bacteria / initial_cn_ratio(i_litr1))**0.6 + (cn_fungi / initial_cn_ratio(i_litr1))**0.6)
    l1m_ff = 1.0 - l1m_fb 
@@ -670,23 +670,23 @@ subroutine init_decompcascade(begc, endc)
    !doms3_f = 0.05
    !doms4_f = 0.0
    
-   batm_f = pbatm_f
-   bdom_f = pbdom_f
-   bs1_f = pbs1_f
-   bs2_f = pbs2_f
-   bs3_f = pbs3_f
+   batm_f = m_batm_f
+   bdom_f = m_bdom_f
+   bs1_f = m_bs1_f
+   bs2_f = m_bs2_f
+   bs3_f = m_bs3_f
    bs4_f = 1.0 - batm_f - bdom_f - bs1_f - bs2_f - bs3_f
-   fatm_f = pfatm_f
-   fdom_f = pfdom_f
-   fs1_f = pfs1_f
-   fs2_f = pfs2_f
-   fs3_f = pfs3_f
+   fatm_f = m_fatm_f
+   fdom_f = m_fdom_f
+   fs1_f = m_fs1_f
+   fs2_f = m_fs2_f
+   fs3_f = m_fs3_f
    fs4_f = 1.0 - fdom_f - fdom_f - fs1_f - fs2_f - fs3_f
-   domb_f = pdomb_f
-   domf_f = pdomf_f
-   doms1_f = pdoms1_f
-   doms2_f = pdoms2_f
-   doms3_f = pdoms3_f
+   domb_f = m_domb_f
+   domf_f = m_domf_f
+   doms1_f = m_doms1_f
+   doms2_f = m_doms2_f
+   doms3_f = m_doms3_f
    doms4_f = 1.0 - domb_f - domf_f - doms1_f - doms2_f - doms3_f
 #endif
 
