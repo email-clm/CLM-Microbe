@@ -17,6 +17,7 @@ module CNDecompCascadeMod_BGC
    use clm_varpar   , only: nlevsoi, nlevgrnd, nlevdecomp, ndecomp_cascade_transitions, ndecomp_pools, nsompools
 #ifdef MICROBE
    use clm_varpar   , only: i_met_lit, i_cel_lit, i_lig_lit, i_cwd, i_bacteria, i_fungi, i_dom, cn_bacteria, cn_fungi, cn_dom, CUEmax
+   use microbevarcon
 #else
    use clm_varpar   , only: i_met_lit, i_cel_lit, i_lig_lit, i_cwd
 #endif
@@ -626,10 +627,16 @@ subroutine init_decompcascade(begc, endc)
    rf_l1m = CUEmax * min(1._r8, 8.0 / (initial_cn_ratio(i_litr1) * CUEmax))
    rf_l2m = CUEmax * min(1._r8, 8.0 / (initial_cn_ratio(i_litr2) * CUEmax))
    rf_l3m = CUEmax * min(1._r8, 8.0 / (initial_cn_ratio(i_litr3) * CUEmax))
-   rf_s1m = 0.28
-   rf_s2m = 0.46
-   rf_s3m = 0.55
-   rf_s4m = 0.75
+   !rf_s1m = 0.28
+   !rf_s2m = 0.46
+   !rf_s3m = 0.55
+   !rf_s4m = 0.75
+   
+   rf_s1m = prf_s1m
+   rf_s2m = prf_s2m
+   rf_s3m = prf_s3m
+   rf_s4m = prf_s4m
+   
    l1m_fb = (cn_bacteria / initial_cn_ratio(i_litr1))**0.6 / ((cn_bacteria / initial_cn_ratio(i_litr1))**0.6 + (cn_fungi / initial_cn_ratio(i_litr1))**0.6)
    l1m_ff = 1.0 - l1m_fb 
    l2m_fb = (cn_bacteria / initial_cn_ratio(i_litr2))**0.6 / ((cn_bacteria / initial_cn_ratio(i_litr2))**0.6 + (cn_fungi / initial_cn_ratio(i_litr2))**0.6)
@@ -644,24 +651,43 @@ subroutine init_decompcascade(begc, endc)
    s3m_ff = 1.0 - s3m_fb
    s4m_fb = (cn_bacteria / initial_cn_ratio(i_soil4))**0.6 / ((cn_bacteria / initial_cn_ratio(i_soil4))**0.6 + (cn_fungi / initial_cn_ratio(i_soil4))**0.6)
    s4m_ff = 1.0 - s4m_fb
-   batm_f = 0.05
-   bdom_f = 0.25
-   bs1_f = 0.1
-   bs2_f = 0.12
-   bs3_f = 0.18
-   bs4_f = 0.30
-   fatm_f = 0.05
-   fdom_f = 0.25
-   fs1_f = 0.1
-   fs2_f = 0.12
-   fs3_f = 0.18
-   fs4_f = 0.30
-   domb_f = 0.3
-   domf_f = 0.3
-   doms1_f = 0.2
-   doms2_f = 0.15
-   doms3_f = 0.05
-   doms4_f = 0.0
+   !batm_f = 0.05
+   !bdom_f = 0.25
+   !bs1_f = 0.1
+   !bs2_f = 0.12
+   !bs3_f = 0.18
+   !bs4_f = 0.30
+   !fatm_f = 0.05
+   !fdom_f = 0.25
+   !fs1_f = 0.1
+   !fs2_f = 0.12
+   !fs3_f = 0.18
+   !fs4_f = 0.30
+   !domb_f = 0.3
+   !domf_f = 0.3
+   !doms1_f = 0.2
+   !doms2_f = 0.15
+   !doms3_f = 0.05
+   !doms4_f = 0.0
+   
+   batm_f = pbatm_f
+   bdom_f = pbdom_f
+   bs1_f = pbs1_f
+   bs2_f = pbs2_f
+   bs3_f = pbs3_f
+   bs4_f = 1.0 - batm_f - bdom_f - bs1_f - bs2_f - bs3_f
+   fatm_f = pfatm_f
+   fdom_f = pfdom_f
+   fs1_f = pfs1_f
+   fs2_f = pfs2_f
+   fs3_f = pfs3_f
+   fs4_f = 1.0 - fdom_f - fdom_f - fs1_f - fs2_f - fs3_f
+   domb_f = pdomb_f
+   domf_f = pdomf_f
+   doms1_f = pdoms1_f
+   doms2_f = pdoms2_f
+   doms3_f = pdoms3_f
+   doms4_f = 1.0 - domb_f - domf_f - doms1_f - doms2_f - doms3_f
 #endif
 
    
