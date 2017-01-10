@@ -9,4 +9,4 @@ The procedure
 6) lnd_in initial file (line 7 for finidat) and drv_in starty month and day (lines 85-86, start_ymd = 20000101, stop_n = 15), 
 
 notice: the executable file must be in the upper directoy for the run direcotry
-UQ_renens_ch4.py, ..../bld/cesm.exe, this is one possible error
+UQ_runens_ch4.py, ..../bld/cesm.exe, this is one possible error, in line 172

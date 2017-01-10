@@ -314,9 +314,9 @@ real(r8)::dummy(nummicrobepar)
 
        write(iulog,*) 'Attempting to read CH4 parameters .....'
        unitn = getavu()
-       call opnfil(locfn, n, 'f')
+       call opnfil(locfn, unitn, 'f')
        do i = 1, nummicrobepar
-       read(n, *, IOSTAT=ierr) ch4parname(i), dummy(i)
+       read(unitn, *, IOSTAT=ierr) ch4parname(i), dummy(i)
        if(ierr/=0) then 
        write(iulog, *) 'error in reading in microbepar_in'
        call endrun()

@@ -40,9 +40,9 @@ module CNDecompCascadeMod_BGC
    public:: init_decompcascade, decomp_rate_constants
 !
 ! !PUBLIC DATA MEMBERS:
-#if (defined VERTSOILC) || (defined MICROBE)
-   real(r8), public :: decomp_depth_efolding = 0.5_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
-#endif
+!#if (defined VERTSOILC) || (defined MICROBE)
+!   real(r8), public :: decomp_depth_efolding = 0.17_r8 !0.5_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
+!#endif
    real(r8), public :: froz_q10 = 1.5_r8                 ! separate q10 for frozen soil respiration rates.  default to same as above zero rates
 #if (defined LCH4) || (defined MICROBE)
    logical,  public :: anoxia_wtsat = .false.            ! true ==> weight anoxia by inundated fraction
@@ -1015,6 +1015,8 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    use clmtype
    use clm_time_manager    , only : get_step_size
    use clm_varcon, only: secspday
+   use microbevarcon, ONLY: k_dom, k_bacteria, k_fungi
+   use pftvarcon, ONLY:  decomp_depth_efolding, ksomfac
 
    !
 ! !ARGUMENTS:
@@ -1079,9 +1081,9 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    real(r8):: cwdc_loss    ! fragmentation rate for CWD carbon (gC/m2/s)
    real(r8):: cwdn_loss    ! fragmentation rate for CWD nitrogen (gN/m2/s)
 #ifdef MICROBE
-   real(r8):: k_dom         ! decomposition rate constant dissolved organic matter
-   real(r8):: k_bacteria        ! decomposition rate constant biomass of bacteria
-   real(r8):: k_fungi         ! decomposition rate constant fungi biomass
+!   real(r8):: k_dom         ! decomposition rate constant dissolved organic matter, revised to read in from parameter file on April 16, 2016
+!   real(r8):: k_bacteria        ! decomposition rate constant biomass of bacteria, revised to read in from parameter file on April 16, 2016
+!   real(r8):: k_fungi         ! decomposition rate constant fungi biomass, revised to read in from parameter file on April 16, 2016
    real(r8):: ck_dom        ! corrected decomposition rate constant dissolved organic matter
    real(r8):: ck_bacteria        ! corrected decomposition rate constant bacteria biomass
    real(r8):: ck_fungi        ! corrected decomposition rate constant fungi biomass
@@ -1145,9 +1147,9 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    k_s4 = -log(1.0_r8-0.0001_r8)
    k_frag = -log(1.0_r8-0.001_r8)
 #ifdef MICROBE
-   k_dom = -log(1.0_r8-0.042_r8)
-   k_bacteria = -log(1.0_r8-0.56_r8)
-   k_fungi = -log(1.0_r8-0.56_r8)
+   k_dom = -log(1.0_r8-k_dom)
+   k_bacteria = -log(1.0_r8-k_bacteria)
+   k_fungi = -log(1.0_r8-k_fungi)
 #endif
    ! calculate the new discrete-time decay rate for model timestep
    k_l1 = 1.0_r8-exp(-k_l1*dtd)
@@ -1173,7 +1175,8 @@ if ( spinup_state .eq. 1 ) then
    k_s3 = k_s3 * spinup_vector(3)
    k_s4 = k_s4 * spinup_vector(4)
 endif
-
+   !DMRicciuto 1/6/16 - Reduce decomposition rate for SPRUCE
+   !k_s4 = k_s4 / ksomfac
    i_litr1 = 1
    i_litr2 = 2
    i_litr3 = 3
@@ -1408,6 +1411,7 @@ endif
          end do
       end do
 #endif
+!print*, 'depth scalar', decomp_depth_efolding
 
 #if (defined VERTSOILC) || (defined MICROBE)
    do j = 1,nlevdecomp
