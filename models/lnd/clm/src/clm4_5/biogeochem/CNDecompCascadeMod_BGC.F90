@@ -681,7 +681,7 @@ subroutine init_decompcascade(begc, endc)
    fs1_f = m_fs1_f
    fs2_f = m_fs2_f
    fs3_f = m_fs3_f
-   fs4_f = 1.0 - fdom_f - fdom_f - fs1_f - fs2_f - fs3_f
+   fs4_f = 1.0 - fatm_f - fdom_f - fs1_f - fs2_f - fs3_f
    domb_f = m_domb_f
    domf_f = m_domf_f
    doms1_f = m_doms1_f
