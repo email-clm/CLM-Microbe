@@ -1016,7 +1016,7 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    use clm_time_manager    , only : get_step_size
    use clm_varcon, only: secspday
    use microbevarcon, ONLY: k_dom, k_bacteria, k_fungi
-   use pftvarcon, ONLY:  decomp_depth_efolding, ksomfac
+   use pftvarcon, ONLY:  decomp_depth_efolding !, ksomfac
 
    !
 ! !ARGUMENTS:
