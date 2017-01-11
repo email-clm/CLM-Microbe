@@ -1147,9 +1147,9 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    k_s4 = -log(1.0_r8-0.0001_r8)
    k_frag = -log(1.0_r8-0.001_r8)
 #ifdef MICROBE
-   k_dom = -log(1.0_r8 - real(k_dom))
-   k_bacteria = -log(1.0_r8 - real(k_bacteria))
-   k_fungi = -log(1.0_r8 - real(k_fungi))
+   ck_dom = -log(1.0_r8 - k_dom)
+   ck_bacteria = -log(1.0_r8 - k_bacteria)
+   ck_fungi = -log(1.0_r8 - k_fungi)
 #endif
    ! calculate the new discrete-time decay rate for model timestep
    k_l1 = 1.0_r8-exp(-k_l1*dtd)
@@ -1161,9 +1161,9 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    k_s4 = 1.0_r8-exp(-k_s4*dtd)
    k_frag = 1.0_r8-exp(-k_frag*dtd)
 #ifdef MICROBE
-   k_dom = 1.0_r8-exp(-k_dom*dtd)
-   k_bacteria = 1.0_r8-exp(-k_bacteria*dtd)
-   k_fungi = 1.0_r8-exp(-k_fungi*dtd)
+   ck_dom = 1.0_r8-exp(-ck_dom*dtd)
+   ck_bacteria = 1.0_r8-exp(-ck_bacteria*dtd)
+   ck_fungi = 1.0_r8-exp(-ck_fungi*dtd)
 #endif
 
    ! The following code implements the acceleration part of the AD spinup
@@ -1426,9 +1426,9 @@ endif
          decomp_k(c,j,i_soil2) = k_s2 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
          decomp_k(c,j,i_soil3) = k_s3 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
          decomp_k(c,j,i_soil4) = k_s4 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
-	 decomp_k(c,j,i_bacteria) = k_bacteria * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
-	 decomp_k(c,j,i_fungi) = k_fungi * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
-	 decomp_k(c,j,i_dom) = k_dom * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
+	 decomp_k(c,j,i_bacteria) = ck_bacteria * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
+	 decomp_k(c,j,i_fungi) = ck_fungi * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
+	 decomp_k(c,j,i_dom) = ck_dom * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
 !write(*,*) "scarlar: ",o_scalar(c,j),w_scalar(c,j),t_scalar(c,j),depth_scalar(c,j),c,j
 #else
          decomp_k(c,j,i_litr1) = k_l1 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt

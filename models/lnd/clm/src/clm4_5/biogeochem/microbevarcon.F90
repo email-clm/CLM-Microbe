@@ -35,7 +35,7 @@ module microbevarcon
   real(r8), PARAMETER :: Mmmin = 0.1
   real(r8), PARAMETER :: MFGbiomin = 1e-15
 
-  integer, parameter :: nummicrobepar = 101
+  integer, parameter :: nummicrobepar = 105
   real(r8) :: q10ch4base = 295._r8  ! Rough estimate from comparison between Walter and previous CLM-CH4 data
   ! Uses Michigan bog data from Shannon & White
   ! This is the temperature at which the effective f_ch4 actually equals the constant f_ch4.
@@ -230,35 +230,35 @@ module microbevarcon
 	real(r8) :: m_dPlantTrans = 0.68
 	real(r8) :: g_dMaxH2inWater = 4.73e-4
   
-  real(r8) :: pHmin = 4.0
-  real(r8) :: pHmax = 10.
-  real(r8) :: pHopt = 7.
+	real(r8) :: pHmin = 4.0
+	real(r8) :: pHmax = 10.
+	real(r8) :: pHopt = 7.
   
-  real(r8) :: k_dom = 0.042
-  real(r8) :: k_bacteria = 0.56
-  real(r8) :: k_fungi = 0.56
-  real(r8) :: dom_diffus = 10. / 3600. / 365.
+	real(r8) :: k_dom = 0.042
+	real(r8) :: k_bacteria = 0.56
+	real(r8) :: k_fungi = 0.56
+	real(r8) :: dom_diffus = 10. / 3600. / 365.
   
-  real(r8) :: m_rf_s1m = 0.28
-  real(r8) :: m_rf_s2m = 0.46
-  real(r8) :: m_rf_s3m = 0.55
-  real(r8) :: m_rf_s4m = 0.75
+	real(r8) :: m_rf_s1m = 0.28
+	real(r8) :: m_rf_s2m = 0.46
+	real(r8) :: m_rf_s3m = 0.55
+	real(r8) :: m_rf_s4m = 0.75
   
-  real(r8) :: m_batm_f = 0.05
-  real(r8) :: m_bdom_f = 0.25
-  real(r8) :: m_bs1_f = 0.1
-  real(r8) :: m_bs2_f = 0.12
-  real(r8) :: m_bs3_f = 0.18
-  real(r8) :: m_fatm_f = 0.05
-  real(r8) :: m_fdom_f = 0.25
-  real(r8) :: m_fs1_f = 0.1
-  real(r8) :: m_fs2_f = 0.12
-  real(r8) :: m_fs3_f = 0.18
-  real(r8) :: m_domb_f = 0.3
-  real(r8) :: m_domf_f = 0.3
-  real(r8) :: m_doms1_f = 0.2
-  real(r8) :: m_doms2_f = 0.15
-  real(r8) :: m_doms3_f = 0.05
+	real(r8) :: m_batm_f = 0.05
+	real(r8) :: m_bdom_f = 0.25
+	real(r8) :: m_bs1_f = 0.1
+	real(r8) :: m_bs2_f = 0.12
+	real(r8) :: m_bs3_f = 0.18
+	real(r8) :: m_fatm_f = 0.05
+	real(r8) :: m_fdom_f = 0.25
+	real(r8) :: m_fs1_f = 0.1
+	real(r8) :: m_fs2_f = 0.12
+	real(r8) :: m_fs3_f = 0.18
+	real(r8) :: m_domb_f = 0.3
+	real(r8) :: m_domf_f = 0.3
+	real(r8) :: m_doms1_f = 0.2
+	real(r8) :: m_doms2_f = 0.15
+	real(r8) :: m_doms3_f = 0.05
   
 !
 ! !PUBLIC MEMBER FUNCTIONS:
