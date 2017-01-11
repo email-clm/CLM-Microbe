@@ -1147,9 +1147,9 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    k_s4 = -log(1.0_r8-0.0001_r8)
    k_frag = -log(1.0_r8-0.001_r8)
 #ifdef MICROBE
-   k_dom = -log(1.0_r8-k_dom)
-   k_bacteria = -log(1.0_r8-k_bacteria)
-   k_fungi = -log(1.0_r8-k_fungi)
+   k_dom = -log(1.0_r8 - real(k_dom))
+   k_bacteria = -log(1.0_r8 - real(k_bacteria))
+   k_fungi = -log(1.0_r8 - real(k_fungi))
 #endif
    ! calculate the new discrete-time decay rate for model timestep
    k_l1 = 1.0_r8-exp(-k_l1*dtd)
