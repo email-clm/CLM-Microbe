@@ -2338,7 +2338,7 @@ end do
       end if      
 	cdocs(c,j) 				= cdocs_unsat(c,j) + cdocs_sat(c,j)
 	caces(c,j) 				= caces_unsat(c,j) + caces_sat(c,j)
-	caces_prod(c,j) 		= (caces_unsat_prod(c,j) + caces_sat_prod(c,j)
+	caces_prod(c,j) 		= caces_unsat_prod(c,j) + caces_sat_prod(c,j)
 	cacebios(c,j) 			= cacebios_unsat(c,j) + cacebios_sat(c,j)
 	cco2bios(c,j) 			= cco2bios_unsat(c,j) + cco2bios_sat(c,j)
 	caerch4bios(c,j) 		= caerch4bios_unsat(c,j) + caerch4bios_sat(c,j)
