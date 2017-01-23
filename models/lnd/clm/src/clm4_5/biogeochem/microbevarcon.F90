@@ -35,7 +35,7 @@ module microbevarcon
   real(r8), PARAMETER :: Mmmin = 0.1
   real(r8), PARAMETER :: MFGbiomin = 1e-15
 
-  integer, parameter :: nummicrobepar = 101
+  integer, parameter :: nummicrobepar = 102
   real(r8) :: q10ch4base = 295._r8  ! Rough estimate from comparison between Walter and previous CLM-CH4 data
   ! Uses Michigan bog data from Shannon & White
   ! This is the temperature at which the effective f_ch4 actually equals the constant f_ch4.
@@ -238,7 +238,8 @@ module microbevarcon
 	real(r8) :: k_bacteria = 0.56
 	real(r8) :: k_fungi = 0.56
 	real(r8) :: dom_diffus = 10. / 3600. / 365.
-  
+	real(r8) :: m_Fick_ad = 0.75
+	
 	real(r8) :: m_rf_s1m = 0.28
 	real(r8) :: m_rf_s2m = 0.46
 	real(r8) :: m_rf_s3m = 0.55
@@ -417,6 +418,7 @@ q10ch4base                         = dummy(i); i=i+1
 	k_bacteria = dummy(i); i=i+1
 	k_fungi = dummy(i); i=i+1
 	dom_diffus = dummy(i); i=i+1
+	m_Fick_ad = dummy(i); i=i+1
 	m_rf_s1m = dummy(i); i=i+1
 	m_rf_s2m = dummy(i); i=i+1
 	m_rf_s3m = dummy(i); i=i+1
@@ -529,6 +531,7 @@ end if
     call mpi_bcast (k_bacteria, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (k_fungi, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (dom_diffus, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (m_Fick_ad, 1 , MPI_REAL8, 0, mpicom, ierr)
     
     call mpi_bcast (m_rf_s1m, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (m_rf_s2m, 1 , MPI_REAL8, 0, mpicom, ierr)

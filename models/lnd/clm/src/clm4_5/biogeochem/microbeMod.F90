@@ -2863,10 +2863,10 @@ implicit none
 	if (ltype(l) == istsoil .or. ltype(l) == istcrop) then 
 	do j = 2,nlevsoi
 	if(j > jwaterhead_unsat(c) .and. j < nlevsoi) then
-		ccon_ch4s_unsat_temp(c,j) = (ccon_ch4s_unsat(c,j-1) - ccon_ch4s_unsat(c,j)) * Fick_D_w(1) * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
-		ccon_o2s_unsat_temp(c,j) = (ccon_o2s_unsat(c,j-1) - ccon_o2s_unsat(c,j)) * Fick_D_w(2) * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
-		ccon_co2s_unsat_temp(c,j) = (ccon_co2s_unsat(c,j-1) - ccon_co2s_unsat(c,j)) * Fick_D_w(3) * 1e-4 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
-		ccon_h2s_unsat_temp(c,j) = (ccon_h2s_unsat(c,j-1) - ccon_h2s_unsat(c,j)) * Fick_D_w(4) * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
+		ccon_ch4s_unsat_temp(c,j) = (ccon_ch4s_unsat(c,j-1) - ccon_ch4s_unsat(c,j)) * Fick_D_w(1) * m_Fick_ad * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
+		ccon_o2s_unsat_temp(c,j) = (ccon_o2s_unsat(c,j-1) - ccon_o2s_unsat(c,j)) * Fick_D_w(2) * m_Fick_ad * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
+		ccon_co2s_unsat_temp(c,j) = (ccon_co2s_unsat(c,j-1) - ccon_co2s_unsat(c,j)) * Fick_D_w(3) * m_Fick_ad * 1e-4 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
+		ccon_h2s_unsat_temp(c,j) = (ccon_h2s_unsat(c,j-1) - ccon_h2s_unsat(c,j)) * Fick_D_w(4) * m_Fick_ad * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
 		
 		ccon_ch4s_unsat(c,j-1) = (ccon_ch4s_unsat(c,j-1) * dz(c,j-1) - ccon_ch4s_unsat_temp(c,j)) / dz(c,j-1)
 		ccon_ch4s_unsat(c,j) = (ccon_ch4s_unsat(c,j) * dz(c,j) + ccon_ch4s_unsat_temp(c,j)) / dz(c,j)
@@ -2882,10 +2882,10 @@ implicit none
 	end if
 	! for the saturation portion
 !	write(iulog,*) "before ", j, ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)
-		ccon_ch4s_sat_temp(c,j) = (ccon_ch4s_sat(c,j-1) - ccon_ch4s_sat(c,j)) * Fick_D_w(1) * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
-		ccon_o2s_sat_temp(c,j) = (ccon_o2s_sat(c,j-1) - ccon_o2s_sat(c,j)) * Fick_D_w(2) * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
-		ccon_co2s_sat_temp(c,j) = (ccon_co2s_sat(c,j-1) - ccon_co2s_sat(c,j)) * Fick_D_w(3) * 1e-4 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
-		ccon_h2s_sat_temp(c,j) = (ccon_h2s_sat(c,j-1) - ccon_h2s_sat(c,j)) * Fick_D_w(4) * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
+		ccon_ch4s_sat_temp(c,j) = (ccon_ch4s_sat(c,j-1) - ccon_ch4s_sat(c,j)) * Fick_D_w(1) * m_Fick_ad * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
+		ccon_o2s_sat_temp(c,j) = (ccon_o2s_sat(c,j-1) - ccon_o2s_sat(c,j)) * Fick_D_w(2) * m_Fick_ad * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
+		ccon_co2s_sat_temp(c,j) = (ccon_co2s_sat(c,j-1) - ccon_co2s_sat(c,j)) * Fick_D_w(3) * m_Fick_ad * 1e-4 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
+		ccon_h2s_sat_temp(c,j) = (ccon_h2s_sat(c,j-1) - ccon_h2s_sat(c,j)) * Fick_D_w(4) * m_Fick_ad * 1e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
 !	write(iulog,*) "temp ", ccon_ch4s_sat_temp(c,j)
 		ccon_ch4s_sat(c,j-1) = (ccon_ch4s_sat(c,j-1) * dz(c,j-1) - ccon_ch4s_sat_temp(c,j)) / dz(c,j-1)
 		ccon_ch4s_sat(c,j) = (ccon_ch4s_sat(c,j) * dz(c,j) + ccon_ch4s_sat_temp(c,j)) / dz(c,j)
@@ -2910,12 +2910,12 @@ implicit none
 	do j = 1,nlevsoi
 	if(j < nlevsoi) then
 !write(iulog, *) "LBGC debug 1", lxch4unsat, ccon_ch4s_unsat(1,j), ccon_ch4s_unsat(2,j),  Fick_D_w(1), t_soisno(c,j), get_step_size()
-		lxch4unsat = (ccon_ch4s_unsat(1,j) - ccon_ch4s_unsat(2,j)) * Fick_D_w(1) * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !CH4_dif
+		lxch4unsat = (ccon_ch4s_unsat(1,j) - ccon_ch4s_unsat(2,j)) * Fick_D_w(1) * m_Fick_ad * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !CH4_dif
 !write(iulog, *) "LBGC debug 2", lxch4unsat, ccon_ch4s_unsat(1,j), ccon_ch4s_unsat(2,j),  Fick_D_w(1), t_soisno(c,j), get_step_size()
 
-		lxo2unsat = (ccon_o2s_unsat(1,j) - ccon_o2s_unsat(2,j)) * Fick_D_w(2) * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !O2_dif
-		lxco2unsat = (ccon_co2s_unsat(1,j) - ccon_co2s_unsat(2,j)) * Fick_D_w(3) * 1e-4 *  (t_soisno(c,j) / 298)**1.87 * get_step_size() !CO2_dif
-		lxh2unsat = (ccon_h2s_unsat(1,j) - ccon_h2s_unsat(2,j)) * Fick_D_w(4) * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !H2_dif
+		lxo2unsat = (ccon_o2s_unsat(1,j) - ccon_o2s_unsat(2,j)) * Fick_D_w(2) * m_Fick_ad * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !O2_dif
+		lxco2unsat = (ccon_co2s_unsat(1,j) - ccon_co2s_unsat(2,j)) * Fick_D_w(3) * m_Fick_ad * 1e-4 *  (t_soisno(c,j) / 298)**1.87 * get_step_size() !CO2_dif
+		lxh2unsat = (ccon_h2s_unsat(1,j) - ccon_h2s_unsat(2,j)) * Fick_D_w(4) * m_Fick_ad * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !H2_dif
 		
 !write(iulog, *) "LBGC debug 3",ccon_ch4s_unsat(1,j),ccon_ch4s_unsat(2,j)
 		ccon_ch4s_unsat(1,j) = (ccon_ch4s_unsat(1,j) * hum_frac - lxch4unsat) / hum_frac
@@ -2932,10 +2932,10 @@ implicit none
 		ccon_h2s_unsat(2,j) = (ccon_h2s_unsat(2,j) * hol_frac + lxh2unsat) / hol_frac
 
 	end if
-		lxch4sat = (ccon_ch4s_sat(1,j) - ccon_ch4s_sat(2,j)) * Fick_D_w(1) * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !CH4_dif
-		lxo2sat = (ccon_o2s_sat(1,j) - ccon_o2s_sat(2,j)) * Fick_D_w(2) * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !O2_dif
-		lxco2sat = (ccon_co2s_sat(1,j) - ccon_co2s_sat(2,j)) * Fick_D_w(3) * 1e-4 *  (t_soisno(c,j) / 298)**1.87 * get_step_size() !CO2_dif
-		lxh2sat = (ccon_h2s_sat(1,j) - ccon_h2s_sat(2,j)) * Fick_D_w(4) * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !H2_dif
+		lxch4sat = (ccon_ch4s_sat(1,j) - ccon_ch4s_sat(2,j)) * Fick_D_w(1) * m_Fick_ad * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !CH4_dif
+		lxo2sat = (ccon_o2s_sat(1,j) - ccon_o2s_sat(2,j)) * Fick_D_w(2) * m_Fick_ad * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !O2_dif
+		lxco2sat = (ccon_co2s_sat(1,j) - ccon_co2s_sat(2,j)) * Fick_D_w(3) * m_Fick_ad * 1e-4 *  (t_soisno(c,j) / 298)**1.87 * get_step_size() !CO2_dif
+		lxh2sat = (ccon_h2s_sat(1,j) - ccon_h2s_sat(2,j)) * Fick_D_w(4) * m_Fick_ad * 1e-4 * (t_soisno(c,j) / 298)**1.87 * get_step_size() !H2_dif
 		
 		ccon_ch4s_sat(1,j) = (ccon_ch4s_sat(1,j) * hum_frac - lxch4sat) / hum_frac
 		ccon_ch4s_sat(2,j) = (ccon_ch4s_sat(2,j) * hol_frac + lxch4sat) / hol_frac
