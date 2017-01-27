@@ -34,7 +34,7 @@ m_dKAceProdO2  	0.004
 m_dH2ProdAcemax  0.0015
 m_dKH2ProdAce  	1.65e-5
 m_dKCO2ProdAce  8.25e-6
-m_dGrowRH2Methanogens  	0.25
+m_dGrowRH2Methanogens  	0.025
 m_dDeadRH2Methanogens  	0.001
 m_dYH2Methanogens  	0.2
 m_dGrowRAceMethanogens  0.05
@@ -55,13 +55,13 @@ m_dKH2ProdCH4  		7.75e-6
 m_dKCO2ProdCH4  	3.1e-5
 m_dH2CH4ProdQ10  	1.5
 m_dH2AceProdQ10  	1.5 
-m_dKCH4ProdAce  	5.0 
+m_dKCH4ProdAce  	50.0 
 m_dKCH4ProdO2  	0.015
 m_dCH4ProdQ10  	1.5 
 m_drCH4Prod  		0.5 
-m_dKCH4OxidCH4  	0.5 
+m_dKCH4OxidCH4  	20.0 
 m_dKAOMCH4OxidCH4  	0.005 
-m_dKCH4OxidO2  		0.010 
+m_dKCH4OxidO2  	        80.0 
 m_dCH4OxidQ10  		1.5
 m_dAOMCH4OxidQ10  	1.5
 m_drAer  		0.002 
@@ -69,7 +69,7 @@ m_dKAerO2  		0.0010
 m_dAerDecomQ10  	2.0
 m_drCH4Oxid  		2 
 m_dKe  			0.03 
-m_dCH4min 		0.0005 
+m_dCH4min 		50.0 
 m_dAirCH4  		0.0893 
 m_dAirH2    		0.0257 
 m_dAirO2    		9.375e3 
