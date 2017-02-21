@@ -721,11 +721,11 @@ implicit none
 	end if  
       
       cdocs(c,j)		= decomp_cpools_vr(c,j,i_dom) 
-      cdocs_unsat(c,j) 	= cdocs(c,j) * (1. - finundated(c))
-      cdocs_sat(c,j) 	= cdocs(c,j) * finundated(c)
+      cdocs_unsat(c,j) 	= cdocs(c,j) !* (1. - finundated(c)) ! concentration
+      cdocs_sat(c,j) 	= cdocs(c,j) !* finundated(c) ! concentration
       cdons(c,j) 		= decomp_npools_vr(c,j,i_dom)
-      cdons_unsat(c,j) 	= cdons(c,j) * (1. - finundated(c))
-      cdons_sat(c,j) 	= cdons(c,j) * finundated(c)
+      cdons_unsat(c,j) 	= cdons(c,j) !* (1. - finundated(c))  ! concentration
+      cdons_sat(c,j) 	= cdons(c,j) !* finundated(c) ! concentration
       cdons_min(c,j) 	= 0_r8
            end do
       end do
@@ -832,15 +832,15 @@ implicit none
 		do j = 1, nlevsoi
 		if(j > jwaterhead_unsat(c)) then
 		finundated(c) = 0.99
-		co2_decomp_depth_sat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) * finundated(c)
-		co2_decomp_depth_unsat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) * (1. - finundated(c))
+		co2_decomp_depth_sat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* finundated(c) ! concentration
+		co2_decomp_depth_unsat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* (1. - finundated(c)) ! concentration
 		
 		o2_decomp_depth_unsat(c,j) = co2_decomp_depth_unsat(c,j)
 		o2_decomp_depth_sat(c,j) = co2_decomp_depth_sat(c,j)
 		else
 		finundated(c) = fsat(c)
-		co2_decomp_depth_sat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) * finundated(c)
-		co2_decomp_depth_unsat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) * (1. - finundated(c))
+		co2_decomp_depth_sat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* finundated(c) ! concentration
+		co2_decomp_depth_unsat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* (1. - finundated(c)) ! concentration
 		
 		o2_decomp_depth_unsat(c,j) = co2_decomp_depth_unsat(c,j)
 		o2_decomp_depth_sat(c,j) = co2_decomp_depth_sat(c,j)		
