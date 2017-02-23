@@ -87,6 +87,23 @@
          <MAX_TASKS_PER_NODE>8</MAX_TASKS_PER_NODE>
 </machine>
 
+<machine MACH="peony">
+         <DESC>SDSU XE6, os is Linux, 4 pes/node, no batch system</DESC>
+         <COMPILERS>pgi</COMPILERS>
+         <MPILIBS>mpich</MPILIBS>
+         <RUNDIR>/storage/xxu/output/$CASE/run</RUNDIR>
+         <EXEROOT>/storage/xxu/output/$CASE</EXEROOT>
+         <DIN_LOC_ROOT>/storage/projects/inputdata</DIN_LOC_ROOT>
+         <DIN_LOC_ROOT_CLMFORC>/storage/projects/inputdata/lmwg</DIN_LOC_ROOT_CLMFORC>
+         <DOUT_S_ROOT>/storage/xxu/output</DOUT_S_ROOT>
+         <OS>Linux</OS>
+         <BATCHQUERY>qstat -f</BATCHQUERY>
+         <BATCHSUBMIT>qsub</BATCHSUBMIT>
+         <GMAKE_J> 8</GMAKE_J>
+         <MAX_TASKS_PER_NODE>8</MAX_TASKS_PER_NODE>
+</machine>
+
+
 <machine MACH="brutus">
          <DESC>Brutus Linux Cluster ETH (pgi(9.0-1)/intel(10.1.018) with openi(1.4.1)/mvapich2(1.4rc2), 16 pes/node, batch system LSF, added by UB</DESC>
 	 <COMPILERS>pgi,intel</COMPILERS>
