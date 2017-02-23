@@ -782,7 +782,8 @@ implicit none
 		froot_r(c,j) = froot_r(c,j) + froot_mr(p)*rootfr_vr(p,j)*wtcol(p)
 		rootfraction(c,j) = rootfraction(c,j) + rootfr_vr(p,j)*wtcol(p)
 !write(iulog,*) "roothr_vr(c,j)", roothr_vr(c,j), "roothr(p)", roothr(p), "rootfr_vr(p,j)", rootfr_vr(p,j), "wtcol(p)", wtcol(p), "rootfraction(c,j)", rootfraction(c,j)
-
+		ccon_co2s_sat(c,j) = ccon_co2s_sat(c,j) + froot_r(c,j) / 12.0 + hr_vr(c,j) / 12.0
+		
                anpp = annsum_npp(p) ! g C / m^2/yr
                anpp = max(anpp, 0._r8) ! NPP can be negative b/c of consumption of storage pools
                   if (annavg_agnpp(p) /= spval .and. annavg_bgnpp(p) /= spval .and. &
