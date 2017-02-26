@@ -208,18 +208,18 @@ contains
        end if
     end if
  !20150831   
-    if (flag == 'define') then
-       call ncd_defvar(ncid=ncid, varname='sminn_vr', xtype=ncd_double, &
-            dim1name='column', dim2name='levgrnd', switchdim=.true., &
-            long_name='soil mineral nitrogen', units='mol/m^2')
-    else if (flag == 'read' .or. flag == 'write') then
-       call ncd_io(varname='sminn_vr', data=cns%sminn_vr, &
-            dim1name='column', switchdim=.true., &
-            ncid=ncid, flag=flag, readvar=readvar)
-       if (flag=='read' .and. .not. readvar) then
-          if (is_restart()) call endrun()
-       end if
-    end if
+    !~ if (flag == 'define') then
+       !~ call ncd_defvar(ncid=ncid, varname='sminn_vr', xtype=ncd_double, &
+            !~ dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            !~ long_name='soil mineral nitrogen', units='mol/m^2')
+    !~ else if (flag == 'read' .or. flag == 'write') then
+       !~ call ncd_io(varname='sminn_vr', data=cns%sminn_vr, &
+            !~ dim1name='column', switchdim=.true., &
+            !~ ncid=ncid, flag=flag, readvar=readvar)
+       !~ if (flag=='read' .and. .not. readvar) then
+          !~ if (is_restart()) call endrun()
+       !~ end if
+    !~ end if
 
 !20150830
    if (flag == 'define') then
