@@ -1,3 +1,19 @@
+# this readme file is for trouble shooting for the CLM-Microbe model at Ecological Model and Integration Laboratory (EMAIL) at San Diego State University. All technical notes regarding warning, errors, uncertainty set up, model configuration etc, are kept in this file. Please contact Xiaofeng Xu for questions, xxu@mail.sdsu.edu, 619-594-2279.
+
+February 27, 2017
+with Fengming’s help, we got ride of warning “Use of qw(...) as parentheses is deprecated at …..”
+
+modify only appears in 3 places:
+
+Scripts/ccsm_tuils/Tools/cesm_setup: Line 252
+Scripts/ccsm_utils/Case.template/ConfigCase.pm: Line 448
+Models/drv/bld/build-namelist: Line 781
+
+-    foreach my $model qw(COMP_ATM COMP_LND COMP_ICE COMP_OCN COMP_GLC COMP_ROF COMP_WAV) {
++   foreach my $model (qw(COMP_ATM COMP_LND COMP_ICE COMP_OCN COMP_GLC COMP_ROF COMP_WAV)) {
+
+// end Feb 27, 2017
+
 Dec 19, 2016
 This notes are for UQ package developed by Daniel Ricciuto from Oak Ridge National Laboratory.
 The procedure
