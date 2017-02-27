@@ -89,18 +89,18 @@
 
 <machine MACH="peony">
          <DESC>SDSU XE6, os is Linux, 4 pes/node, no batch system</DESC>
-         <COMPILERS>pgi</COMPILERS>
-         <MPILIBS>mpich</MPILIBS>
+         <COMPILERS>gnu</COMPILERS>
+         <MPILIBS>mpich,mpi-serial</MPILIBS>
          <RUNDIR>/storage/xxu/output/$CASE/run</RUNDIR>
          <EXEROOT>/storage/xxu/output/$CASE</EXEROOT>
          <DIN_LOC_ROOT>/storage/projects/inputdata</DIN_LOC_ROOT>
          <DIN_LOC_ROOT_CLMFORC>/storage/projects/inputdata/lmwg</DIN_LOC_ROOT_CLMFORC>
          <DOUT_S_ROOT>/storage/xxu/output</DOUT_S_ROOT>
          <OS>Linux</OS>
-         <BATCHQUERY>qstat -f</BATCHQUERY>
-         <BATCHSUBMIT>qsub</BATCHSUBMIT>
-         <GMAKE_J> 8</GMAKE_J>
-         <MAX_TASKS_PER_NODE>8</MAX_TASKS_PER_NODE>
+         <BATCHQUERY></BATCHQUERY>
+         <BATCHSUBMIT></BATCHSUBMIT>
+         <GMAKE_J>4</GMAKE_J>
+         <MAX_TASKS_PER_NODE>4</MAX_TASKS_PER_NODE>
 </machine>
 
 

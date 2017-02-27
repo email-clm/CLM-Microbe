@@ -445,7 +445,7 @@ EOD
 	if ($group =~ /component/) {
 	    foreach my $comp ( @comps ) {
 		$comp =~ s/\'//g; # get rid of quotes in $comp
-		foreach my $model qw(COMP_ATM COMP_LND COMP_ICE COMP_OCN COMP_GLC COMP_ROF COMP_WAV) {
+		foreach my $model (qw(COMP_ATM COMP_LND COMP_ICE COMP_OCN COMP_GLC COMP_ROF COMP_WAV)) {
 		    if ($self->get($model) eq $comp) {
 			my $groupname = $group . "_$comp";
 			if (($format eq "xml") || ($filename =~ m/xml/)) {

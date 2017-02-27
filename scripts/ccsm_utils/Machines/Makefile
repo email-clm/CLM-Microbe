@@ -439,7 +439,7 @@ endif
 
 # System libraries (netcdf, mpi, pnetcdf, esmf, trilinos, etc.) 
 ifndef SLIBS
-   SLIBS := -L$(LIB_NETCDF) -lnetcdf 
+   SLIBS := -L$(LIB_NETCDF) -lnetcdf -lnetcdff 
 endif
 ifdef LIB_PNETCDF
    SLIBS += -L$(LIB_PNETCDF) -lpnetcdf

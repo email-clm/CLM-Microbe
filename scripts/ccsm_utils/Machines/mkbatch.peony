@@ -35,15 +35,15 @@ cat >! $file << EOF1
 # here.  Use PBS, BSUB, or whatever the local environment supports.
 #===============================================================================
 
-#PBS -N ${jobname}
-#PBS -q esd13q
-#PBS -l nodes=${nodes}:ppn=${taskpernode}
-#PBS -l walltime=${tlimit}
-#PBS -r n
-#PBS -j oe
-#PBS -m abe
-#PBS -M xxu@mail.sdsu.edu
-#PBS -S /bin/csh -V
+##PBS -N ${jobname}
+##PBS -q esd13q
+##PBS -l nodes=${nodes}:ppn=${taskpernode}
+##PBS -l walltime=${tlimit}
+##PBS -r n
+##PBS -j oe
+##PBS -m abe
+##PBS -M xxu@mail.sdsu.edu
+##PBS -S /bin/csh -V
 
 ##BSUB -l nodes=${nodes}:ppn=${taskpernode}:walltime=${tlimit}
 ##BSUB -q ${qname}
