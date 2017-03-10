@@ -1,5 +1,12 @@
 # this readme file is for trouble shooting for the CLM-Microbe model at Ecological Model and Integration Laboratory (EMAIL) at San Diego State University. All technical notes regarding warning, errors, uncertainty set up, model configuration etc, are kept in this file. Please contact Xiaofeng Xu for questions, xxu@mail.sdsu.edu, 619-594-2279.
 
+Mar 9, 2017
+Generating surface data (Sanjiang station, 47.51, 133.50)
+ncks -d lsmlon,267,267 -d lsmlat,275,275 /storage/projects/inputdata/lnd/clm2/surfdata_map/surfdata_360x720cru_simyr1850_c130415.nc surfdata_1x1pt_Sanjiang_CN-SJ1_I1850CLM45CN_simyr1850.nc
+
+Generating mask file (Sanjiang station, 47.51, 133.50)
+ncks -d ni,267,267 -d nj,275,275 /storage/projects/inputdata/atm/datm7/domain.clm/domain.360x720_ORCHIDEE0to360.100409.nc domain.lnd.1x1pt_CN-SJ1_navy.nc
+
 February 27, 2017
 with Fengming’s help, we got ride of warning “Use of qw(...) as parentheses is deprecated at …..”
 
