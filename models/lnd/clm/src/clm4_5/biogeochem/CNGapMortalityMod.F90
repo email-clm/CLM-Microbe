@@ -42,7 +42,7 @@ subroutine CNGapMortality (num_soilc, filter_soilc, num_soilp, filter_soilp)
    use clmtype
    use clm_time_manager, only: get_days_per_year
    use clm_varcon      , only: secspday
-   use pftvarcon       , only: npcropmin
+   use pftvarcon       , only: npcropmin, r_mort
 !
 ! !ARGUMENTS:
    implicit none
@@ -260,8 +260,9 @@ subroutine CNGapMortality (num_soilc, filter_soilc, num_soilp, filter_soilp)
 #endif
 
    ! set the mortality rate based on annual rate
-   am = 0.02_r8
-
+   !am = 0.02_r8
+   am = r_mort
+ 
    ! pft loop
    do fp = 1,num_soilp
       p = filter_soilp(fp)

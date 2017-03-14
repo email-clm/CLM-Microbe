@@ -14,7 +14,8 @@ module CNAllocationMod
   use shr_kind_mod, only: r8 => shr_kind_r8
   use clm_varcon, only: dzsoi_decomp
   use abortutils  , only: endrun
-  use clm_varctl, only: use_c13, use_c14
+  use clm_varctl, only: spinup_state, use_c13, use_c14
+  use clm_time_manager, only: get_curr_date
   implicit none
   save
   private
@@ -34,7 +35,7 @@ module CNAllocationMod
 
 ! !PRIVATE DATA MEMBERS:
    real(r8):: dt                            !decomp timestep (seconds)
-   real(r8):: bdnr                          !bulk denitrification rate (1/s)
+   real(r8):: bdnr_dt                          !bulk denitrification rate (1/s)
    real(r8):: dayscrecover                  !number of days to recover negative cpool
    real(r8), pointer :: arepr(:)            !reproduction allocation coefficient
    real(r8), pointer :: aroot(:)            !root allocation coefficient
@@ -81,8 +82,10 @@ subroutine CNAllocationInit ( lbc, ubc, lbp, ubp )
    use surfrdMod       , only: crop_prog
    use clm_varctl      , only: iulog
    use shr_infnan_mod, only : nan => shr_infnan_nan, assignment(=)
+   use pftvarcon     , only : bdnr
 ! !ARGUMENTS:
    implicit none
+   integer year, mon, day, sec
    integer, intent(in) :: lbc, ubc        ! column-index bounds
    integer, intent(in) :: lbp, ubp        ! pft-index bounds
 !
@@ -108,13 +111,16 @@ subroutine CNAllocationInit ( lbc, ubc, lbp, ubp )
    dt = real( get_step_size(), r8 )
 
    ! set some space-and-time constant parameters 
-   bdnr         = 0.50_r8 * (dt/secspday)
+   !bdnr         = 0.50_r8 * (dt/secspday)
+   bdnr_dt = bdnr * (dt/secspday)
    dayscrecover = 30.0_r8
 
    ! Change namelist settings into private logical variables
    select case(suplnitro)
       case(suplnNon)
          Carbon_only = .false.
+         call get_curr_date(year, mon, day, sec)
+         if (year .lt. 40 .and. spinup_state == 1) Carbon_only = .true.
       case(suplnAll)
          Carbon_only = .true.
       case default
@@ -372,7 +378,7 @@ subroutine CNAllocation (lbp, ubp, lbc, ubc, &
    real(r8) fleaf                  !fraction allocated to leaf
    real(r8) r, rc                  !Plant npool resistance parameters
    real(r8) t1                     !temporary variable
-
+   integer year, mon, day, sec
 #ifndef NITRIF_DENITRIF
    integer :: nlimit(lbc:ubc,0:nlevdecomp)               !flag for N limitation
    real(r8):: residual_sminn_vr(lbc:ubc, 1:nlevdecomp)
@@ -548,6 +554,8 @@ subroutine CNAllocation (lbp, ubp, lbc, ubc, &
    aleaf                       => pps%aleaf
    astem                       => pps%astem
 
+   call get_curr_date(year, mon, day, sec)
+   if (year .ge. 40 .and. spinup_state == 1) Carbon_only = .false.
 
    ! set time steps
    dt = real( get_step_size(), r8 )
@@ -646,8 +654,8 @@ subroutine CNAllocation (lbp, ubp, lbc, ubc, &
       ! This variable allocation is only for trees. Shrubs have a constant
       ! allocation as specified in the pft-physiology file.  The value is also used
       ! as a trigger here: -1.0 means to use the dynamic allocation (trees).
-      if (stem_leaf(ivt(p)) == -1._r8) then
-         f3 = (2.7/(1.0+exp(-0.004*(annsum_npp(p) - 300.0)))) - 0.4
+      if (stem_leaf(ivt(p)) < 0.0_r8) then
+         f3 = max((-1.0_r8*stem_leaf(ivt(p))/(1.0+exp(-0.004*(annsum_npp(p) - 300.0)))) - 0.4, 0.0_r8)
       else
          f3 = stem_leaf(ivt(p))
       end if
@@ -988,7 +996,7 @@ subroutine CNAllocation (lbp, ubp, lbc, ubc, &
       do fc=1,num_soilc
          c = filter_soilc(fc)    
          if ((sminn_to_plant_vr(c,j) + actual_immob_vr(c,j))*dt < sminn_vr(c,j)) then
-            sminn_to_denit_excess_vr(c,j) = max(bdnr*((sminn_vr(c,j)/dt) - sum_ndemand_vr(c,j)),0._r8)
+            sminn_to_denit_excess_vr(c,j) = max(bdnr_dt*((sminn_vr(c,j)/dt) - sum_ndemand_vr(c,j)),0._r8)
          else
             sminn_to_denit_excess_vr(c,j) = 0._r8
          endif
@@ -1321,8 +1329,8 @@ subroutine CNAllocation (lbp, ubp, lbc, ubc, &
       ! This variable allocation is only for trees. Shrubs have a constant
       ! allocation as specified in the pft-physiology file.  The value is also used
       ! as a trigger here: -1.0 means to use the dynamic allocation (trees).
-      if (stem_leaf(ivt(p)) == -1._r8) then
-        f3 = (2.7/(1.0+exp(-0.004*(annsum_npp(p) - 300.0)))) - 0.4
+      if (stem_leaf(ivt(p)) < 0.0_r8) then
+        f3 = max((-1.0_r8*stem_leaf(ivt(p))/(1.0+exp(-0.004*(annsum_npp(p) - 300.0)))) - 0.4, 0.0_r8)
       else
         f3 = stem_leaf(ivt(p))
       end if

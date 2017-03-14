@@ -828,6 +828,29 @@ if ($clm_start_type eq "'cold'" || $clm_start_type eq "'arb_ic'") {
 ##############################
 # namelist group: clm_inparm #
 ##############################
+$var = "startyear_experiment";
+if ( defined($opts{$var}) ) {
+   $val = $opts{$var};
+   add_default($nl, 'startyear_experiment','val'=>"$opts{'startyear_experiment'}");
+}
+
+$var = "endyear_experiment";
+if ( defined($opts{$var}) ) {
+   $val = $opts{$var};
+   add_default($nl, 'endyear_experiment','val'=>"$opts{'endyear_experiment'}");
+}
+
+$var = "add_temperature";
+if ( defined($opts{$var}) ) {
+   $val = $opts{$var};
+   add_default($nl, 'add_temperature','val'=>"$opts{'add_temperature'}");
+}
+
+$var = "add_co2";
+if ( defined($opts{$var}) ) {
+   $val = $opts{$var};
+   add_default($nl, 'add_co2','val'=>"$opts{'add_co2'}");
+}
 
 $var = "clm_startfile";
 if ( defined($opts{$var}) ) {
