@@ -3260,7 +3260,7 @@ subroutine CNHarvest (num_soilc, filter_soilc, num_soilp, filter_soilp)
    do_harvest_all = .false.
 #ifdef HARVMOD
    !Do harvest for whole year on first timestep   
-   if (mon==1 .and. day==1 .and. sec==0) then 
+   if (mon==1 .and. day==31 .and. sec==0) then 
      do_harvest_all = .true.
    end if
 #endif

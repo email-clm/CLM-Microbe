@@ -1627,7 +1627,11 @@ contains
 
     allocate(pws%h2ocan(beg:end))
     pws%h2ocan(beg:end) = spval
-
+    !new variables for moss hydrology
+    allocate(pws%h2o_moss_inter(beg:end))
+    pws%h2o_moss_inter(beg:end) = spval
+    allocate(pws%h2o_moss_wc(beg:end))
+    pws%h2o_moss_wc(beg:end) = spval
   end subroutine init_pft_wstate_type
 
 !------------------------------------------------------------------------
@@ -2087,6 +2091,12 @@ contains
     pwf%qflx_ev_snow(beg:end) = nan
     pwf%qflx_ev_soil(beg:end) = nan
     pwf%qflx_ev_h2osfc(beg:end) = nan
+
+    ! Variables for moss hydrology
+    allocate(pwf%qflx_moss_surf(beg:end))
+    allocate(pwf%qflx_moss_inter(beg:end))
+    pwf%qflx_moss_surf(beg:end) = nan
+    pwf%qflx_moss_inter(beg:end) = nan
   end subroutine init_pft_wflux_type
 
 !------------------------------------------------------------------------

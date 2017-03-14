@@ -80,7 +80,12 @@ module clm_varctl
   integer, public :: spinup_state = 0    ! State of the model for the accelerated decomposition (AD) spinup. 0 (default) = normal model; 1 = AD SPINUP
   logical, public :: override_bgc_restart_mismatch_dump = .false. ! used to override an error check on reading in restart files
 
-!
+!experimental manipulation
+  integer, public :: startyear_experiment = 0           !Starting year for experimental maipulation
+  integer, public :: endyear_experiment = 0             !Ending year for experimental maipulation
+  real(r8), public :: add_temperature = 0               !Add temperature during experimental maipulation
+  real(r8), public :: add_co2 = 0                       !Add co2 during experimental manipulation
+
 ! Physics
 !
   integer,  public :: subgridflag = 1                   !use subgrid fluxes

@@ -42,6 +42,26 @@ Full pathname of land fraction data file.
 Clumps per processor.
 </entry>
 
+<entry id="startyear_experiment" type="integer" category = "clm_physics"
+	group="clm_inparm" >
+Starting year for experimental manipulation
+</entry>
+
+<entry id="endyear_experiment" type="integer" category = "clm_physics"
+        group="clm_inparm" >
+Ending year for experimental manipulation
+</entry>
+
+<entry id="add_temperature" type="real" category = "clm_physics"
+        group="clm_inparm" >
+Temperature manipulation during experimental period (K)
+</entry>
+
+<entry id="add_co2" type="real" category = "clm_physics"
+        group="clm_inparm" >
+CO2 manipulation during experimental period (K)
+</entry>
+
 <entry id="co2_ppmv" type="real" category="clm_physics"
        group="clm_inparm" valid_values="" >
 Atmospheric CO2 molar ratio (by volume) only used when co2_type==constant (umol/mol)

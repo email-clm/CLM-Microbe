@@ -382,15 +382,15 @@ subroutine clm_drv(doalb, nextsw_cday, declinp1, declin, rstwr, nlend, rdate)
      ! ============================================================================
 
      call t_startf('begwbal')
-     call BeginWaterBalance(begc, endc, begp, endp, &
-          filter(nc)%num_nolakec, filter(nc)%nolakec, filter(nc)%num_lakec, filter(nc)%lakec, &
-          filter(nc)%num_hydrologyc, filter(nc)%hydrologyc)
+     !call BeginWaterBalance(begc, endc, begp, endp, &
+     !     filter(nc)%num_nolakec, filter(nc)%nolakec, filter(nc)%num_lakec, filter(nc)%lakec, &
+     !     filter(nc)%num_hydrologyc, filter(nc)%hydrologyc)
      call t_stopf('begwbal')
 
 #if (defined CN)
      call t_startf('begcnbal')
-     call BeginCBalance(begc, endc, filter(nc)%num_soilc, filter(nc)%soilc)
-     call BeginNBalance(begc, endc, filter(nc)%num_soilc, filter(nc)%soilc)
+     !call BeginCBalance(begc, endc, filter(nc)%num_soilc, filter(nc)%soilc)
+     !call BeginNBalance(begc, endc, filter(nc)%num_soilc, filter(nc)%soilc)
      call t_stopf('begcnbal')
 #endif
 
@@ -684,7 +684,7 @@ subroutine clm_drv(doalb, nextsw_cday, declinp1, declin, rstwr, nlend, rdate)
      ! ============================================================================
 
      call t_startf('balchk')
-     call BalanceCheck(begp, endp, begc, endc, begl, endl, begg, endg)
+     !call BalanceCheck(begp, endp, begc, endc, begl, endl, begg, endg)
      call t_stopf('balchk')
 #if (defined CN)
      nstep = get_nstep()
@@ -692,8 +692,8 @@ subroutine clm_drv(doalb, nextsw_cday, declinp1, declin, rstwr, nlend, rdate)
         if (masterproc) write(iulog,*) '--WARNING-- skipping CN balance check for first timestep'
      else
         call t_startf('cnbalchk')
-        call CBalanceCheck(begc, endc, filter(nc)%num_soilc, filter(nc)%soilc)
-        call NBalanceCheck(begc, endc, filter(nc)%num_soilc, filter(nc)%soilc)
+        !call CBalanceCheck(begc, endc, filter(nc)%num_soilc, filter(nc)%soilc)
+        !!call NBalanceCheck(begc, endc, filter(nc)%num_soilc, filter(nc)%soilc)
         call t_stopf('cnbalchk')
      end if
 #endif
@@ -971,7 +971,7 @@ subroutine write_diagnostic (wrtdia, nstep)
   else
 
      if (masterproc) then
-        write(iulog,*)'clm2: completed timestep ',nstep
+        !write(iulog,*)'clm2: completed timestep ',nstep
         call shr_sys_flush(iulog)
      end if
 

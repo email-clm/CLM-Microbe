@@ -41,7 +41,7 @@ subroutine CNMResp(lbc, ubc, num_soilc, filter_soilc, num_soilp, filter_soilp)
 !
 ! !USES:
    use clmtype
-   use pftvarcon    , only : npcropmin
+   use pftvarcon    , only : npcropmin, br_mr, q10_mr
 !
 ! !ARGUMENTS:
    implicit none
@@ -136,12 +136,15 @@ subroutine CNMResp(lbc, ubc, num_soilc, filter_soilc, num_soilp, filter_soilp)
    ! Ecological Applications, 1(2), 157-167.
    ! Original expression is br = 0.0106 molC/(molN h)
    ! Conversion by molecular weights of C and N gives 2.525e-6 gC/(gN s)
-   br = 2.525e-6_r8
+   !br = 2.525e-6_r8
+   br = br_mr
+
    ! Peter Thornton: 3/13/09 
    ! Q10 was originally set to 2.0, an arbitrary choice, but reduced to 1.5 as part of the tuning
    ! to improve seasonal cycle of atmospheric CO2 concentration in global
    ! simulatoins
-   q10 = 1.5_r8
+   !q10 = 1.5_r8
+   q10 = q10_mr
 
    ! column loop to calculate temperature factors in each soil layer
    do j=1,nlevgrnd

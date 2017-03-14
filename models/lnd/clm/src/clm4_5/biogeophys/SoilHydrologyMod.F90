@@ -748,19 +748,22 @@ contains
           endif
           
           ! limit runoff to value of storage above S(pc)
+
+#if (defined HUM_HOL)
+    	  if (h2osfc(c) .gt. 0._r8) then 
+             qflx_h2osfc_surf(c) = min(qflx_h2osfc_surfrate*h2osfc(c)**2.0, h2osfc(c) / dtime)
+#else
           if(h2osfc(c) >= h2osfc_thresh(c) .and. h2osfcflag/=0) then
              ! spatially variable k_wet
              k_wet=1.0_r8 * sin((rpi/180.) * topo_slope(c))
              qflx_h2osfc_surf(c) = k_wet * frac_infclust * (h2osfc(c) - h2osfc_thresh(c))
              
              qflx_h2osfc_surf(c)=min(qflx_h2osfc_surf(c),(h2osfc(c) - h2osfc_thresh(c))/dtime)
-#if (defined HUM_HOL)
-          else if (h2osfc(c) .gt. 0) then
-             qflx_h2osfc_surf(c) = qflx_h2osfc_surfrate*h2osfc(c)**2.0
-#endif 
+#endif
           else
              qflx_h2osfc_surf(c)= 0._r8
           endif
+          !if (c .eq. 2) print*, 'QFLX_H2OSFC_SURF', qflx_h2osfc_surf(c), h2osfc(c), qflx_h2osfc_surfrate
           
           ! cutoff lower limit
           if ( qflx_h2osfc_surf(c) < 1.0e-8) qflx_h2osfc_surf(c) = 0._r8 
@@ -816,11 +819,21 @@ contains
           endif
           if (c.eq.2) then
             zwt_ho = zwt(2)
+            ka_ho = max(ka_ho, 1e-5_r8)
+            ka_hu = max(ka_hu, 1e-5_r8)
+            !DMR 9/21/15 - only inlcude h2osfc if water table near surfce, use
+            !harmonic mean 
             zwt_ho = zwt_ho - h2osfc(2)/1000._r8   !DMR 4/29/13
-            qflx_lat_aqu (1) = ((ka_hu + ka_ho)/2._r8 *  (zwt_hu-zwt_ho-0.3_r8) / 1._r8) * &
+            !DMR 12/4/2015
+            if (maxval(icefrac(:,:)) .ge. 0.01_r8) then 
+              !turn off lateral transport if any ice is present
+              qflx_lat_aqu(:) = 0._r8
+            else
+              qflx_lat_aqu(1) =  2._r8/(1._r8/ka_hu+1._r8/ka_ho) *  (zwt_hu-zwt_ho-0.3_r8) / 1._r8 * &
                  sqrt(hol_frac/hum_frac)
-            qflx_lat_aqu (2) = -((ka_hu + ka_ho)/2._r8 * (zwt_hu-zwt_ho-0.3_r8) / 1._r8) * &
+              qflx_lat_aqu(2) = -2._r8/(1._r8/ka_hu+1._r8/ka_ho) *  (zwt_hu-zwt_ho-0.3_r8) / 1._r8 * &
                  sqrt(hum_frac/hol_frac)
+            endif
           endif
 #endif
 
@@ -1044,6 +1057,7 @@ contains
     real(r8) :: vwc_zwt(lbc:ubc)
     real(r8) :: vwc_liq(lbc:ubc,1:nlevsoi+1) ! liquid volumetric water content
     real(r8) :: smp_grad(lbc:ubc,1:nlevsoi+1)
+    real(r8) :: qflx_tran_veg_col_sat(lbc:ubc)
 !-----------------------------------------------------------------------
 
     ! Assign local pointers to derived type members (column-level)
@@ -1299,6 +1313,18 @@ contains
     ! Set up r, a, b, and c vectors for tridiagonal solution
 
     ! Node j=1 (top)
+    
+    !DMR 3/5/15 - fix problem of transpiration drawn below water table not being replaced
+    !  This term will be removed from the soil water calculation and subtracted from qcharge
+    do fc = 1, num_hydrologyc
+      c = filter_hydrologyc(fc)
+      qflx_tran_veg_col_sat(c) = 0._r8
+      if (jwt(c)+2  .lt. nlevsoi) then 
+        do j=jwt(c)+2,nlevsoi
+          qflx_tran_veg_col_sat(c) = qflx_tran_veg_col_sat(c)+qflx_tran_veg_col(c) * rootr_col(c,j) 
+        end do
+      end if
+    end do
 
     j = 1
     do fc = 1, num_hydrologyc
@@ -1310,7 +1336,11 @@ contains
        qout(c,j)   = -hk(c,j)*num/den
        dqodw1(c,j) = -(-hk(c,j)*dsmpdw(c,j)   + num*dhkdw(c,j))/den
        dqodw2(c,j) = -( hk(c,j)*dsmpdw(c,j+1) + num*dhkdw(c,j))/den
-       rmx(c,j) =  qin(c,j) - qout(c,j) - qflx_tran_veg_col(c) * rootr_col(c,j)
+       if (j == jwt(c)+1) then !water table in this layer
+         rmx(c,j) =  qin(c,j) - qout(c,j) - qflx_tran_veg_col(c) * rootr_col(c,j) - qflx_tran_veg_col_sat(c) 
+       else                    !water table below this layer
+         rmx(c,j) =  qin(c,j) - qout(c,j) - qflx_tran_veg_col(c) * rootr_col(c,j)
+       end if
        amx(c,j) =  0._r8
        bmx(c,j) =  dzmm(c,j)*(sdamp+1._r8/dtime) + dqodw1(c,j)
        cmx(c,j) =  dqodw2(c,j)
@@ -1333,7 +1363,13 @@ contains
           qout(c,j)   = -hk(c,j)*num/den
           dqodw1(c,j) = -(-hk(c,j)*dsmpdw(c,j)   + num*dhkdw(c,j))/den
           dqodw2(c,j) = -( hk(c,j)*dsmpdw(c,j+1) + num*dhkdw(c,j))/den
-          rmx(c,j)    =  qin(c,j) - qout(c,j) - qflx_tran_veg_col(c)*rootr_col(c,j)
+          if (j > jwt(c)+1) then                     !Water table above this layer
+            rmx(c,j)    =  qin(c,j) - qout(c,j)
+          else if (j == jwt(c)+1) then               !water table in this layer
+            rmx(c,j)    =  qin(c,j) - qout(c,j) - qflx_tran_veg_col(c)*rootr_col(c,j) - qflx_tran_veg_col_sat(c) 
+          else                                       !Water table below this layer
+            rmx(c,j)    =  qin(c,j) - qout(c,j) - qflx_tran_veg_col(c)*rootr_col(c,j)
+          end if
           amx(c,j)    = -dqidw0(c,j)
           bmx(c,j)    =  dzmm(c,j)/dtime - dqidw1(c,j) + dqodw1(c,j)
           cmx(c,j)    =  dqodw2(c,j)
@@ -1354,7 +1390,11 @@ contains
          dqidw1(c,j) = -( hk(c,j-1)*dsmpdw(c,j)   + num*dhkdw(c,j-1))/den
          qout(c,j)   =  0._r8
          dqodw1(c,j) =  0._r8
-         rmx(c,j)    =  qin(c,j) - qout(c,j) - qflx_tran_veg_col(c)*rootr_col(c,j)
+         if (j > jwt(c)+1) then   !Water table above this layer
+           rmx(c,j)    =  qin(c,j) - qout(c,j)
+         else                     !water table in or below this layer
+           rmx(c,j)    =  qin(c,j) - qout(c,j) - qflx_tran_veg_col(c)*rootr_col(c,j)
+         end if
          amx(c,j)    = -dqidw0(c,j)
          bmx(c,j)    =  dzmm(c,j)/dtime - dqidw1(c,j) + dqodw1(c,j)
          cmx(c,j)    =  0._r8
@@ -1869,7 +1909,7 @@ contains
               end do
            else ! deepening water table (negative lateral flux)
              !Remove from surface water first if available
- 	     if (h2osfc(c) .gt. 0) then 
+ 	     if (h2osfc(c) .gt. 0 .and. maxval(icefrac(c,1:jwt(c)+1)) .le. 0.9) then 
 	       h2osfc(c) = h2osfc(c) + qflx_lat_aqu_tot
 	       qflx_lat_aqu_tot = 0._r8
 	       if (h2osfc(c) .lt. 0) then 

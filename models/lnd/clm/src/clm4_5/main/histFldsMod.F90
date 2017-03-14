@@ -890,6 +890,14 @@ contains
          avgflag='A', long_name='intercepted water', &
          ptr_pft=pws%h2ocan, set_lake=0._r8)
 
+    call hist_addfld1d (fname='H2O_MOSS_WC', units='g water/g dry mass',  &
+         avgflag='A', long_name='Moss total water content', &
+         ptr_pft=pws%h2o_moss_wc, set_lake=0._r8)
+
+     call hist_addfld1d (fname='H2O_MOSS_INTER', units='g water/g dry mass',  &
+         avgflag='A', long_name='Moss internal water content', &
+         ptr_pft=pws%h2o_moss_inter, set_lake=0._r8)
+
     call hist_addfld2d (fname='H2OSOI',  units='mm3/mm3', type2d='levgrnd', &
          avgflag='A', long_name='volumetric soil water (vegetated landunits only)', &
          ptr_col=cws%h2osoi_vol, l2g_scale_type='veg')

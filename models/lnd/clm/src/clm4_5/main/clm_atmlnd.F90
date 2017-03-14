@@ -30,6 +30,7 @@ module clm_atmlnd
   type, public :: atm2lnd_type
      real(r8), pointer :: atm_input(:,:,:,:) => null()
      integer,  pointer :: timelen          => null()
+     integer,  pointer :: start_tindex     => null()
      real(r8), pointer :: co2_input(:,:,:) => null()
      real(r8), pointer :: c13o2_input(:,:,:) => null()
      real(r8), pointer :: ndep_input(:,:,:) => null()
@@ -165,8 +166,9 @@ contains
   !DMR - variables added for CPL_BYPASS option 
   allocate(a2l%atm_input(8,1,1,200000))
   allocate(a2l%timelen)
-  allocate(a2l%co2_input(1,1,245))
-  allocate(a2l%c13o2_input(1,1,245))
+  allocate(a2l%start_tindex)
+  allocate(a2l%co2_input(1,1,247))
+  allocate(a2l%c13o2_input(1,1,247))
   allocate(a2l%ndep_input(1,1,158))
   allocate(a2l%aero_input(14,1,1,1896))
   !end DMR additions 
@@ -218,6 +220,7 @@ contains
 !DMR additions for bypassing coupler (single point simulations only)
   a2l%atm_input(:,:,:,:) = ival
   a2l%timelen         = ival_int
+  a2l%start_tindex    = ival_int
   a2l%co2_input(:,:,:) = ival
   a2l%c13o2_input(:,:,:) = ival
   a2l%ndep_input(:,:,:) = ival

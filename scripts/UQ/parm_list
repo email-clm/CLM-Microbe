@@ -3,6 +3,7 @@ flnr 3 0.06 0.3
 flnr 4 0.06 0.3
 flnr 12 0.05 0.3
 flnr 13 0.05 0.3
+crit_onset_gdd -1 25 500
 leaf_long 13 0.6 1.5
 stem_leaf 12 0.05 0.5
 slatop 4  0.00854 0.01302

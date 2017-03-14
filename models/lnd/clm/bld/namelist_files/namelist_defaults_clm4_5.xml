@@ -46,6 +46,12 @@ attributes from the config_cache.xml file (with keys converted to upper-case).
 <albice glc_nec="10">0.60,0.40</albice>
 <albice glc_nec="36">0.60,0.40</albice>
 
+<!-- Experimental manipulation -->
+<startyear_experment>2015</startyear_experment>
+<endyear_experiment>2030</endyear_experiment>
+<add_temperature>0</add_temperature>
+<add_co2>0</add_co2>
+
 <!-- Default urban air conditioning/heating and wasteheat -->
 <urban_hac>ON</urban_hac>
 

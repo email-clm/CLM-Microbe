@@ -1236,15 +1236,20 @@ subroutine iniTimeConst
             om_fraccol(c,lev) = om_frac
 #endif
 
+#if (defined HUM_HOL)
+           if (c .eq. 1) zsapric = 0.7
+           if (c .eq. 2) zsapric = 0.4
+#endif
+
             ! Note that the following properties are overwritten for urban impervious road 
             ! layers that are not soil in SoilThermProp.F90 within SoilTemperatureMod.F90
             watsat(c,lev) = 0.489_r8 - 0.00126_r8*sand
             bsw(c,lev)    = 2.91 + 0.159*clay
             sucsat(c,lev) = 10._r8 * ( 10._r8**(1.88_r8-0.0131_r8*sand) )
-            om_watsat     = max(0.93_r8 - 0.1_r8*(zsoi(lev)/zsapric), 0.83_r8)
-            om_b          = min(2.7_r8 + 9.3_r8*(zsoi(lev)/zsapric), 12.0_r8)
-            om_sucsat     = min(10.3_r8 - 0.2_r8*(zsoi(lev)/zsapric), 10.1_r8)
-            om_hksat      = max(0.28_r8 - 0.2799_r8*(zsoi(lev)/zsapric), 0.0001_r8)
+            om_watsat     = max(0.93_r8 - 0.1_r8*(zsoi(lev)/zsapric)**2_r8, 0.83_r8)
+            om_b          = min(1.7_r8 + 9.3_r8*(zsoi(lev)/zsapric)**2_r8, 12.0_r8)  !changed from 2.7 at sfc
+            om_sucsat     = min(10.3_r8 - 0.2_r8*(zsoi(lev)/zsapric)**2_r8, 10.1_r8)
+            om_hksat      = max(0.28_r8 - 0.2799_r8*(zsoi(lev)/zsapric)**2_r8, 0.0001_r8)
 
             bd            = (1._r8-watsat(c,lev))*2.7e3_r8 
             watsat(c,lev) = (1._r8 - om_frac)*watsat(c,lev) + om_watsat*om_frac

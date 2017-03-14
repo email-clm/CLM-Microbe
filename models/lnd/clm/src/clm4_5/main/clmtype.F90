@@ -510,6 +510,9 @@ type(pft_estate_type) :: pes      !pft energy state
 !----------------------------------------------------
 type, public :: pft_wstate_type
    real(r8), pointer :: h2ocan(:)         !canopy water (mm H2O)
+   ! new variables for moss 
+   real(r8), pointer :: h2o_moss_inter(:) ! internal water content of moss (g water/g dry mass)
+   real(r8), pointer :: h2o_moss_wc(:)    ! total water content of moss (g water/g dry mass)
 end type pft_wstate_type
 
 type(pft_wstate_type) :: pws         !pft water state
@@ -763,6 +766,9 @@ type, public :: pft_wflux_type
    real(r8), pointer :: qflx_ev_snow(:)   !snow evaporation (mm H2O/s) (+ = to atm)
    real(r8), pointer :: qflx_ev_soil(:)   !soil evaporation (mm H2O/s) (+ = to atm)
    real(r8), pointer :: qflx_ev_h2osfc(:) !h2osfc evaporation (mm H2O/s) (+ = to atm)
+    ! new variables for moss hydrology
+   real(r8), pointer :: qflx_moss_surf(:) ! moss surface water (g water/g dry moss)
+   real(r8), pointer :: qflx_moss_inter(:)! moss internal water (g water/g dry moss)
 end type pft_wflux_type
 
 type(pft_wflux_type)  :: pwf         !pft water flux
@@ -1451,13 +1457,13 @@ type, public :: column_pstate_type
    ! added by Lei Meng for pH effects of methane production
    real(r8), pointer :: pH(:)               ! pH values
    ! End New variables for methane code
-#endif   
    real(r8), pointer :: irrig_rate(:)         ! current irrigation rate [mm/s]
    integer, pointer  :: n_irrig_steps_left(:) ! number of time steps for which we still need to irrigate today (if 0, ignore irrig_rate)
    real(r8), pointer :: forc_pbot(:)          ! surface atm pressure, downscaled to column (Pa)
    real(r8), pointer :: forc_rho(:)           ! surface air density, downscaled to column (kg/m^3)
    real(r8), pointer :: glc_frac(:)           ! ice fractional area
    real(r8), pointer :: glc_topo(:)           ! surface elevation (m)
+#endif
   
 #ifdef MICROBE
    real(r8), pointer :: soilpH_unsat(:,:)		! pH values calculated based on original pH and acid produced
