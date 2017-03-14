@@ -19,11 +19,11 @@ parser.add_option("--mpilib", dest="mpilib", default="mpi-serial", \
                       help = "mpi library (openmpi*, mpich, ibm, mpi-serial)")
 parser.add_option("--csmdir", dest="csmdir", default='..', \
                   help = "base CESM directory (default = ../)")
+parser.add_option("--runroot", dest="runroot", default="../run", \
+                  help="Directory where the run would be created")
 parser.add_option("--ccsm_input", dest="ccsm_input", \
-                  default='../../ccsm_inputdata', \
+                  default='../inputdata', \
                   help = "input data directory for CESM (required)")
-parser.add_option("--clm40", dest="clm40", action="store_true", \
-                  default=False, help="Use CLM 4.0 code")
 parser.add_option("--srcmods_loc", dest="srcmods_loc", default='', \
                   help = 'Copy sourcemods from this location')
 parser.add_option("--nyears_final_spinup", dest="nyears_final_spinup", default='1000', \
@@ -59,6 +59,8 @@ parser.add_option("--ninst", dest="ninst", default=1, \
                       help = 'number of land model instances')
 parser.add_option("--npoolmod", action="store_true", dest="npoolmod", default=False, \
                     help="To turn on nitrogen pool modifications")
+parser.add_option("--cpoolmod", action="store_true", dest="cpoolmod", default=False, \
+                    help="To turn on carbon pool modifications")
 parser.add_option("--q10wbmod", action="store_true", dest="q10wbmod", default=False, \
                     help="To turn on Woodrow-Berry Q10 curve")
 parser.add_option("--tfmod", action="store_true", dest="tfmod", default=False, \
@@ -89,12 +91,16 @@ parser.add_option("--surfdata_grid", dest="surfdata_grid", default=False, \
                   help = 'Use gridded surface data instead of site data', action="store_true")
 parser.add_option("--no_siteparms",dest = "no_siteparms", default=False, \
                   action="store_true", help = 'Use default PFT parameters')
+parser.add_option("--cpl_bypass", dest = "cpl_bypass", default=False, \
+                  help = "Bypass coupler", action="store_true")
+parser.add_option("--spinup_vars", dest = "spinup_vars", default=False, help = "limit output variables for spinup", action="store_true")
 
 (options, args) = parser.parse_args()
 
 ccsm_input = options.ccsm_input
 mycaseid   = options.mycaseid
 srcmods    = options.srcmods_loc
+csmdir     = os.path.abspath(options.csmdir)
 
 #get start and year of input meteorology from site data file
 fname = './PTCLM_files/PTCLM_sitedata/'+ \
@@ -136,27 +142,31 @@ for row in AFdatareader:
         basecmd = 'python runCLM.py --site '+site+' --ccsm_input '+ \
             os.path.abspath(ccsm_input)+' --rmold --no_submit --sitegroup ' + \
             options.sitegroup+' --xpts '+str(options.xpts)+' --ypts '+str(options.ypts)
+        basecmd = basecmd+' --machine '+options.machine
+        basecmd = basecmd+' --runroot '+options.runroot
         if (srcmods != ''):
             srcmods    = os.path.abspath(srcmods)
             basecmd = basecmd+' --srcmods_loc '+srcmods
         if (mycaseid != ''):
             basecmd = basecmd+' --caseidprefix '+mycaseid
-        if (options.parm_file != ''):
-            basecmd = basecmd+' --parm_file '+options.parm_file
+        #if (options.parm_file != ''):
+        #    basecmd = basecmd+' --parm_file '+options.parm_file
         if (options.clean_build):
             basecmd = basecmd+' --clean_build '
         if (options.regional):
-            basecmd = basecmd+' --regional --xpts 2 --ypts 1 '
+            basecmd = basecmd+' --xpts 2 --ypts 1 '
         if (options.metdir !='none'):
             basecmd = basecmd+' --metdir '+options.metdir
         if (options.C13):
             basecmd = basecmd+' --C13 '
-        if (options.C13):
+        if (options.C14):
             basecmd = basecmd+' --C14 '
         if (options.ninst > 1):
             basecmd = basecmd+' --ninst '+str(options.ninst)
         if (options.npoolmod):
             basecmd = basecmd+' --npoolmod '
+        if (options.cpoolmod):
+            basecmd = basecmd+' --cpoolmod '
         if (options.q10wbmod):
             basecmd = basecmd+' --q10wbmod '
         if (options.tfmod):
@@ -181,6 +191,8 @@ for row in AFdatareader:
             basecmd = basecmd+' --cruncep'
         if (options.surfdata_grid):
             basecmd = basecmd+' --surfdata_grid'
+        if (options.cpl_bypass):
+            basecmd = basecmd+' --cpl_bypass'
         basecmd = basecmd + ' --np '+str(options.np)
         basecmd = basecmd + ' --tstep '+str(options.tstep)
         basecmd = basecmd + ' --co2_file '+options.co2_file
@@ -192,50 +204,32 @@ for row in AFdatareader:
         #AD spinup
         cmd_adsp = basecmd+' --ad_spinup --nyears_ad_spinup '+ \
             str(options.ny_ad)+' --hist_mfilt 1 --hist_nhtfrq -8760'
-        if (options.clm40):
-            cmd_adsp = cmd_adsp+' --compset I1850CN'
         if (options.makemet):
             cmd_adsp = cmd_adsp+' --makemetdat'
-        #exit spinup (CLM 4.0 only)
-        if (options.clm40):
-            ad_case = site+'_I1850CN_ad_spinup'
-            if (mycaseid != ''):
-                ad_case = mycaseid+'_'+ad_case
-            cmd_exsp = basecmd+' --exit_spinup --compset I1850CN '+ \
-                '--finidat_case '+ad_case+' --finidat_year '+str(options.ny_ad)+ \
-                ' --run_units nyears --run_n 1 --nyears_ad_spinup '+str(options.ny_ad)
+        if (options.spinup_vars):
+            cmd_adsp = cmd_adsp+' --spinup_vars'
+        ad_case = site+'_I1850CLM45CN_ad_spinup'
+        if (mycaseid != ''):
+            ad_case = mycaseid+'_'+ad_case
         #final spinup
         if mycaseid !='':
-            basecase=mycaseid+'_'+site
-            if (options.clm40):
-                basecase = basecase+'_I1850CN'
-            else:
-                basecase = basecase+'_I1850CLM45CN'
+            basecase=mycaseid+'_'+site+'_I1850CLM45CN'
         else:
-            if (options.clm40):
-                basecase = site+'_I1850CN'
-            else:
-                basecase=site+'_I1850CLM45CN'
-        if (options.clm40):
-           cmd_fnsp = basecmd+' --finidat_case '+basecase+'_exit_spinup '+ \
-                '--finidat_year '+str(int(options.ny_ad)+2)+' --run_units nyears --run_n '+ \
-                str(fsplen)+' --hist_mfilt 1 --hist_nhtfrq -8760'
-        else:
-            cmd_fnsp = basecmd+' --finidat_case '+basecase+'_ad_spinup '+ \
-                '--finidat_year '+str(int(options.ny_ad)+1)+' --run_units nyears --run_n '+ \
-                str(fsplen)+' --hist_mfilt 1 --hist_nhtfrq -8760'
-        if (options.clm40):
-            cmd_fnsp = cmd_fnsp+' --compset I1850CN'
+            basecase=site+'_I1850CLM45CN'
+        cmd_fnsp = basecmd+' --finidat_case '+basecase+'_ad_spinup '+ \
+            '--finidat_year '+str(int(options.ny_ad)+1)+' --run_units nyears --run_n '+ \
+            str(fsplen)+' --hist_mfilt 1 --hist_nhtfrq -8760 --exeroot_case '+ad_case
+        if (options.spinup_vars):
+		cmd_fnsp = cmd_fnsp+' --spinup_vars'
         #transient
         cmd_trns = basecmd+' --finidat_case '+basecase+ \
             ' --finidat_year '+str(fsplen+1)+' --run_units nyears' \
             +' --run_n '+str(translen)+' --align_year '+ \
             str(year_align+1850)+' --hist_nhtfrq '+ \
-            options.hist_nhtfrq+' --hist_mfilt '+options.hist_mfilt
-        if (options.clm40):
-            cmd_trns = cmd_trns+' --compset I20TRCN'
-        else:
-            cmd_trns = cmd_trns+' --compset I20TRCLM45CN'
+            options.hist_nhtfrq+' --hist_mfilt '+options.hist_mfilt + \
+            ' --compset I20TRCLM45CN --exeroot_case '+ad_case
+        if (options.spinup_vars):
+               cmd_trns = cmd_trns + ' --spinup_vars'
         #transient phase 2 (CRU-NCEP only)
         if (options.cruncep):
             basecase=basecase.replace('1850','20TR')+'_phase1'
@@ -244,59 +238,13 @@ for row in AFdatareader:
                 ' --finidat_year 1921 --run_units nyears --branch ' \
                 +' --run_n '+str(thistranslen)+' --align_year 1921'+ \
                 ' --hist_nhtfrq '+options.hist_nhtfrq+' --hist_mfilt '+ \
-                options.hist_mfilt
-            if (options.clm40):
-                cmd_trns2 = cmd_trns2+' --compset I20TRCN'
-            else:
-                cmd_trns2 = cmd_trns2+' --compset I20TRCLM45CN'
-            print(cmd_trns2)
+                options.hist_mfilt+' --compset I20TRCLM45CN'
 
 #---------------------------------------------------------------------------------
-
-        #set site environment variable
-        os.environ['SITE']=site
-
-        if (options.clm40):
-            if (options.cruncep):
-                input = open('./PTCLM_files/site_fullrun_template_clm40_cruncep.pbs')
-            else:
-                input = open('./PTCLM_files/site_fullrun_template_clm40.pbs')
-        else:
-            if (options.cruncep):
-                input = open('./PTCLM_files/site_fullrun_template_clm45_cruncep.pbs')
-            else:
-                input = open('./PTCLM_files/site_fullrun_template_clm45.pbs')
-        output = open('./PTCLM_files/site_fullrun_temp.pbs','w')
-        #make site-specific pbs script
-        for s in input:
-            if mycaseid != '':
-                output.write(s.replace("#SITE#",mycaseid+"_"+site))
-            else:
-                output.write(s.replace("#SITE#",site))        
-        input.close()
-        output.close()
-
-        input = open('./PTCLM_files/site_fullrun_temp.pbs')
-        output = open('./PTCLM_files/site_fullrun.pbs','w')
-        for s in input:
-            if (options.mpilib == 'mpi-serial'):
-                runcmd='./cesm.exe > cesm.log'
-            else:
-                runcmd='mpirun -np '+str(options.np)+' --hostfile $PBS_NODEFILE ' \
-                +'./cesm.exe > cesm.log'
-            
-            output.write((s.replace("#RUNDIR#",os.path.abspath('../run'))).replace( \
-                        "#CMD#", runcmd))
-        input.close()
-        output.close()
-        os.system('rm ./PTCLM_files/site_fullrun_temp.pbs')
 
         #build cases
         print('\nSetting up ad_spinup case\n')
         os.system(cmd_adsp)
-        if (options.clm40):
-            print("\nSetting up exit_spinup case\n")
-            os.system(cmd_exsp)
         print('\nSetting up final spinup case\n')
         os.system(cmd_fnsp)
         print('\nSetting up transient case\n')
@@ -304,9 +252,24 @@ for row in AFdatareader:
         if (options.cruncep):
              print('\nSetting up transient case phase 2\n')
              os.system(cmd_trns2)
-        
+                
+        #Create the PBS script
+        output = open('./site_fullrun.pbs','w')
+        input = open(ad_case+'/'+ad_case+'.run')
+        for s in input:
+            if ("#!" in s or '#PBS' in s):
+                output.write(s)
+        input.close()
+        output.write("\n")
+        output.write("cd "+csmdir+'/scripts/'+ad_case+'\n')
+        output.write("./"+ad_case+'.run\n')
+        output.write("cd ../"+basecase+'\n')
+        output.write("./"+basecase+'.run\n')
+        #initialize (add the code here)
+        output.write("cd ../"+basecase.replace('1850','20TR')+'\n')
+        output.write("./"+basecase.replace('1850','20TR')+'.run\n')
+        output.close()
+
         #submit
-        os.chdir('PTCLM_files')
         os.system('qsub site_fullrun.pbs')
-        os.chdir('..')
 

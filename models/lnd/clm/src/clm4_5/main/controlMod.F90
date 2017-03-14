@@ -27,7 +27,8 @@ module controlMod
                             create_glacier_mec_landunit, glc_dyntopo, glc_smb, &
                             glc_topomax, glc_grid, subgridflag, &
                             use_c13, use_c14, irrigate, &
-                            spinup_state, override_bgc_restart_mismatch_dump
+                            spinup_state, override_bgc_restart_mismatch_dump, &
+                            startyear_experiment, endyear_experiment, add_temperature, add_co2
   use CanopyFluxesMod , only : perchroot, perchroot_alt
 #if (defined LCH4) && (defined CN)
   use clm_varctl   , only : anoxia
@@ -80,9 +81,9 @@ module controlMod
   use CNVerticalProfileMod, only: exponential_rooting_profile, rootprof_exp, surfprof_exp, pftspecific_rootingprofile
 
 #ifndef CENTURY_DECOMP
-  use CNDecompCascadeMod_BGC, only: decomp_depth_efolding, froz_q10
+  use CNDecompCascadeMod_BGC, only: froz_q10
 #else
-  use CNDecompCascadeMod_CENTURY, only: decomp_depth_efolding, froz_q10
+  use CNDecompCascadeMod_CENTURY, only: froz_q10
 #endif
 #endif   
 
@@ -92,9 +93,9 @@ module controlMod
   use CNVerticalProfileMod, only: exponential_rooting_profile, rootprof_exp, surfprof_exp, pftspecific_rootingprofile
 
 #ifndef CENTURY_DECOMP
-  use CNDecompCascadeMod_BGC, only: decomp_depth_efolding, froz_q10
+  use CNDecompCascadeMod_BGC, only: froz_q10
 #else
-  use CNDecompCascadeMod_CENTURY, only: decomp_depth_efolding, froz_q10
+  use CNDecompCascadeMod_CENTURY, only: froz_q10
 #endif
 #endif    
 
@@ -267,6 +268,9 @@ contains
 
     ! BGC info
 
+    namelist /clm_inparm/ &
+         add_temperature, add_co2, startyear_experiment, endyear_experiment
+
 #if (defined CN)
     namelist /clm_inparm/  &
          suplnitro
@@ -312,7 +316,7 @@ contains
 
     ! depth inhibition of decomposition paramters
     namelist /clm_inparm/  &
-         decomp_depth_efolding, froz_q10
+         froz_q10
 
     ! C and N input vertical profiles
     namelist /clm_inparm/  & 
@@ -326,7 +330,7 @@ contains
 
     ! depth inhibition of decomposition paramters
     namelist /clm_inparm/  &
-         decomp_depth_efolding, froz_q10
+         froz_q10
 
     ! C and N input vertical profiles
     namelist /clm_inparm/  & 
@@ -530,6 +534,12 @@ contains
     call mpi_bcast(create_crop_landunit, 1, MPI_LOGICAL, 0, mpicom, ier)
     call mpi_bcast(allocate_all_vegpfts, 1, MPI_LOGICAL, 0, mpicom, ier)
 
+    ! Experimental manipulation
+    call mpi_bcast (endyear_experiment,         1, MPI_INTEGER,  0, mpicom, ier)
+    call mpi_bcast (startyear_experiment,       1, MPI_INTEGER,  0, mpicom, ier)
+    call mpi_bcast (add_temperature,            1, MPI_INTEGER,  0, mpicom, ier)
+    call mpi_bcast (add_co2,                    1, MPI_INTEGER,  0, mpicom, ier)
+
     ! BGC
 
     call mpi_bcast (co2_type, len(co2_type), MPI_CHARACTER, 0, mpicom, ier)
@@ -553,7 +563,7 @@ contains
     call mpi_bcast (max_depth_cryoturb,         1, MPI_REAL8,     0, mpicom, ier)
 
     ! depth inhibition of decomposition paramters
-    call mpi_bcast (decomp_depth_efolding,          1, MPI_REAL8,     0, mpicom, ier)
+    !call mpi_bcast (decomp_depth_efolding,          1, MPI_REAL8,     0, mpicom, ier)
     call mpi_bcast (froz_q10,                       1, MPI_REAL8,     0, mpicom, ier)
 
     ! C and N input vertical profiles
@@ -572,7 +582,7 @@ contains
     call mpi_bcast (max_depth_cryoturb,         1, MPI_REAL8,     0, mpicom, ier)
 
     ! depth inhibition of decomposition paramters
-    call mpi_bcast (decomp_depth_efolding,          1, MPI_REAL8,     0, mpicom, ier)
+    !call mpi_bcast (decomp_depth_efolding,          1, MPI_REAL8,     0, mpicom, ier)
     call mpi_bcast (froz_q10,                       1, MPI_REAL8,     0, mpicom, ier)
 
     ! C and N input vertical profiles
@@ -768,7 +778,7 @@ contains
     write(iulog, *) '   max_altdepth_cryoturbation (m)                        : ', max_altdepth_cryoturbation
     write(iulog, *) '   max_depth_cryoturb (m)                                : ', max_depth_cryoturb
 
-    write(iulog, *) '   decomp_depth_efolding                                 : ', decomp_depth_efolding
+    !write(iulog, *) '   decomp_depth_efolding                                 : ', decomp_depth_efolding
     write(iulog, *) '   froz_q10                                              : ', froz_q10
 
     write(iulog, *) '   exponential_rooting_profile                           : ', exponential_rooting_profile
@@ -784,7 +794,7 @@ contains
     write(iulog, *) '   max_altdepth_cryoturbation (m)                        : ', max_altdepth_cryoturbation
     write(iulog, *) '   max_depth_cryoturb (m)                                : ', max_depth_cryoturb
 
-    write(iulog, *) '   decomp_depth_efolding                                 : ', decomp_depth_efolding
+    !write(iulog, *) '   decomp_depth_efolding                                 : ', decomp_depth_efolding
     write(iulog, *) '   froz_q10                                              : ', froz_q10
 
     write(iulog, *) '   exponential_rooting_profile                           : ', exponential_rooting_profile
