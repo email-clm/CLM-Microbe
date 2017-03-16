@@ -437,9 +437,9 @@ implicit none
 	integer :: IsH2Production
 !EOP
 
-	real(r8):: minpsi, maxpsi                ! limits for soil water scalar for decomp
-	real(r8):: psi                           ! temporary soilpsi for water scalar
-	real(r8):: micfinundated                           ! temporary soilpsi for water scalar
+	real(r8):: minpsi, maxpsi                		! limits for soil water scalar for decomp
+	real(r8):: psi                           		! temporary soilpsi for water scalar
+	real(r8):: micfinundated = 0.99                ! temporary soilpsi for water scalar
    
 #if (defined HUM_HOL)
 !	real(r8) :: h2osoi_vol
