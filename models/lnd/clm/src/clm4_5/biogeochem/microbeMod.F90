@@ -214,7 +214,7 @@ implicit none
 	real(r8), pointer :: zwt_ch4_unsat(:) 			! depth of water table for unsaturated fraction (m)
 	real(r8), pointer :: rootfr_vr(:,:)				! fraction of roots in each soil layer  (nlevgrnd)
 	real(r8), pointer :: finundated(:)				! fractional inundated area in soil column (excluding dedicated wetland columns)
-	real(r8), pointer :: fsat(:)					! fractional inundated area in soil column (excluding dedicated wetland columns)
+!	real(r8), pointer :: fsat(:)					! fractional inundated area in soil column (excluding dedicated wetland columns)
    
 !clm-microbe
 	real(r8), pointer :: origionalsoilph(:)			! original soil pH value
@@ -439,6 +439,7 @@ implicit none
 
 	real(r8):: minpsi, maxpsi                ! limits for soil water scalar for decomp
 	real(r8):: psi                           ! temporary soilpsi for water scalar
+	real(r8):: micfinundated                           ! temporary soilpsi for water scalar
    
 #if (defined HUM_HOL)
 !	real(r8) :: h2osoi_vol
@@ -660,7 +661,7 @@ implicit none
 	cgridcell					=> col%gridcell
 	wtcol       					=> pft%wtcol
 	finundated					=> cws%finundated
-	fsat						=> cws%fsat  
+!	fsat						=> cws%fsat  
 	rootfr_vr          				=> pps%rootfr
 	soiltemp 					=> ces%t_soisno
 	fsat_pre					=> cmic%fsat_pre
@@ -709,23 +710,27 @@ implicit none
 !write(iulog,*) " c_atm(g,2): ", c_atm(g,1), c_atm(g,2), c_atm(g,3), c_atm(g,4)
 	end do
 
+#if (defined HUM_HOL)
+	finundated(c) = 0.99
+#endif
+
 !#ifdef MODELTEST
        do j = 1,nlevdecomp
             do fc = 1,num_soilc
                c = filter_soilc(fc)
 	       
 	if(j > jwaterhead_unsat(c)) then
-		finundated(c) = 0.99
+		micfinundated = 0.99
 	else
-		finundated(c) = fsat(c)
+		micfinundated = finundated(c)
 	end if  
       
       cdocs(c,j)		= decomp_cpools_vr(c,j,i_dom) 
-      cdocs_unsat(c,j) 	= cdocs(c,j) !* (1. - finundated(c)) ! concentration
-      cdocs_sat(c,j) 	= cdocs(c,j) !* finundated(c) ! concentration
+      cdocs_unsat(c,j) 	= cdocs(c,j) !* (1. - micfinundated) ! concentration
+      cdocs_sat(c,j) 	= cdocs(c,j) !* micfinundated ! concentration
       cdons(c,j) 		= decomp_npools_vr(c,j,i_dom)
-      cdons_unsat(c,j) 	= cdons(c,j) !* (1. - finundated(c))  ! concentration
-      cdons_sat(c,j) 	= cdons(c,j) !* finundated(c) ! concentration
+      cdons_unsat(c,j) 	= cdons(c,j) !* (1. - micfinundated)  ! concentration
+      cdons_sat(c,j) 	= cdons(c,j) !* micfinundated ! concentration
       cdons_min(c,j) 	= 0_r8
            end do
       end do
@@ -763,7 +768,6 @@ implicit none
 	end if
 	end do
 
-	finundated = fsat
 	
 ! vertically distributed root respiration
 	roothr_vr(:,:) = 0._r8
@@ -832,16 +836,16 @@ implicit none
         c = filter_soilc(fc)
 		do j = 1, nlevsoi
 		if(j > jwaterhead_unsat(c)) then
-		finundated(c) = 0.99
-		co2_decomp_depth_sat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* finundated(c) ! concentration
-		co2_decomp_depth_unsat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* (1. - finundated(c)) ! concentration
+		micfinundated = 0.99
+		co2_decomp_depth_sat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* micfinundated ! concentration
+		co2_decomp_depth_unsat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* (1. - micfinundated) ! concentration
 		
 		o2_decomp_depth_unsat(c,j) = co2_decomp_depth_unsat(c,j)
 		o2_decomp_depth_sat(c,j) = co2_decomp_depth_sat(c,j)
 		else
-		finundated(c) = fsat(c)
-		co2_decomp_depth_sat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* finundated(c) ! concentration
-		co2_decomp_depth_unsat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* (1. - finundated(c)) ! concentration
+		micfinundated = finundated(c)
+		co2_decomp_depth_sat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* micfinundated ! concentration
+		co2_decomp_depth_unsat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* (1. - micfinundated) ! concentration
 		
 		o2_decomp_depth_unsat(c,j) = co2_decomp_depth_unsat(c,j)
 		o2_decomp_depth_sat(c,j) = co2_decomp_depth_sat(c,j)		
@@ -2333,68 +2337,68 @@ end do
         c = filter_soilc(fc)
       do j = 1,nlevsoi
       if(j > jwaterhead_unsat(c)) then
-      finundated(c) = 0.99
+      micfinundated = 0.99
       else
-      finundated(c) = fsat(c)
+      micfinundated = finundated(c)
       end if      
-	cdocs(c,j) 				= cdocs_unsat(c,j) * (1.0 - finundated(c)) + cdocs_sat(c,j) * finundated(c)
-	caces(c,j) 				= caces_unsat(c,j) * (1.0 - finundated(c))  + caces_sat(c,j) * finundated(c)
-	caces_prod(c,j) 		= caces_unsat_prod(c,j) * (1.0 - finundated(c))  + caces_sat_prod(c,j) * finundated(c)
-	cacebios(c,j) 			= cacebios_unsat(c,j) * (1.0 - finundated(c))  + cacebios_sat(c,j) * finundated(c)
-	cco2bios(c,j) 			= cco2bios_unsat(c,j) * (1.0 - finundated(c))  + cco2bios_sat(c,j) * finundated(c)
-	caerch4bios(c,j) 		= caerch4bios_unsat(c,j) * (1.0 - finundated(c))  + caerch4bios_sat(c,j) * finundated(c)
-	canaerch4bios(c,j) 		= canaerch4bios_unsat(c,j) * (1.0 - finundated(c))  + canaerch4bios_sat(c,j) * finundated(c) 
-	ccon_o2s(c,j) 			= ccon_o2s_unsat(c,j) * (1.0 - finundated(c))  + ccon_o2s_sat(c,j) * finundated(c)
-	ccon_ch4s(c,j) 			= ccon_ch4s_unsat(c,j) * (1.0 - finundated(c))  + ccon_ch4s_sat(c,j) * finundated(c)
-	ccon_h2s(c,j) 			= ccon_h2s_unsat(c,j) * (1.0 - finundated(c))  + ccon_h2s_sat(c,j) * finundated(c)
-	ccon_co2s(c,j)			= ccon_co2s_unsat(c,j) * (1.0 - finundated(c))  + ccon_co2s_sat(c,j) * finundated(c)
+	cdocs(c,j) 				= cdocs_unsat(c,j) * (1.0 - micfinundated) + cdocs_sat(c,j) * micfinundated
+	caces(c,j) 				= caces_unsat(c,j) * (1.0 - micfinundated)  + caces_sat(c,j) * micfinundated
+	caces_prod(c,j) 		= caces_unsat_prod(c,j) * (1.0 - micfinundated)  + caces_sat_prod(c,j) * micfinundated
+	cacebios(c,j) 			= cacebios_unsat(c,j) * (1.0 - micfinundated)  + cacebios_sat(c,j) * micfinundated
+	cco2bios(c,j) 			= cco2bios_unsat(c,j) * (1.0 - micfinundated)  + cco2bios_sat(c,j) * micfinundated
+	caerch4bios(c,j) 		= caerch4bios_unsat(c,j) * (1.0 - micfinundated)  + caerch4bios_sat(c,j) * micfinundated
+	canaerch4bios(c,j) 		= canaerch4bios_unsat(c,j) * (1.0 - micfinundated)  + canaerch4bios_sat(c,j) * micfinundated 
+	ccon_o2s(c,j) 			= ccon_o2s_unsat(c,j) * (1.0 - micfinundated)  + ccon_o2s_sat(c,j) * micfinundated
+	ccon_ch4s(c,j) 			= ccon_ch4s_unsat(c,j) * (1.0 - micfinundated)  + ccon_ch4s_sat(c,j) * micfinundated
+	ccon_h2s(c,j) 			= ccon_h2s_unsat(c,j) * (1.0 - micfinundated)  + ccon_h2s_sat(c,j) * micfinundated
+	ccon_co2s(c,j)			= ccon_co2s_unsat(c,j) * (1.0 - micfinundated)  + ccon_co2s_sat(c,j) * micfinundated
 
-	ch4_prod_ace_depth(c,j)	= ch4_prod_ace_depth_unsat(c,j) * (1.0 - finundated(c)) + ch4_prod_ace_depth_sat(c,j) * finundated(c)
-	ch4_prod_co2_depth(c,j)	= ch4_prod_co2_depth_unsat(c,j) * (1.0 - finundated(c)) + ch4_prod_co2_depth_sat(c,j) * finundated(c)
-	ch4_oxid_o2_depth(c,j)	= ch4_oxid_o2_depth_unsat(c,j) * (1.0 - finundated(c)) + ch4_oxid_o2_depth_sat(c,j) * finundated(c)
-	ch4_oxid_aom_depth(c,j)	= ch4_oxid_aom_depth_unsat(c,j) * (1.0 - finundated(c)) + ch4_oxid_aom_depth_sat(c,j) * finundated(c)
-	ch4_aere_depth(c,j)		= ch4_aere_depth_unsat(c,j) * (1.0 - finundated(c)) + ch4_aere_depth_sat(c,j) * finundated(c)
-	ch4_dif_depth(c,j)		= ch4_dif_depth_unsat(c,j) * (1.0 - finundated(c)) + ch4_dif_depth_sat(c,j) * finundated(c)
-	ch4_ebul_depth(c,j)		= ch4_ebul_depth_unsat(c,j) * (1.0 - finundated(c)) + ch4_ebul_depth_sat(c,j) * finundated(c)
+	ch4_prod_ace_depth(c,j)	= ch4_prod_ace_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_prod_ace_depth_sat(c,j) * micfinundated
+	ch4_prod_co2_depth(c,j)	= ch4_prod_co2_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_prod_co2_depth_sat(c,j) * micfinundated
+	ch4_oxid_o2_depth(c,j)	= ch4_oxid_o2_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_oxid_o2_depth_sat(c,j) * micfinundated
+	ch4_oxid_aom_depth(c,j)	= ch4_oxid_aom_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_oxid_aom_depth_sat(c,j) * micfinundated
+	ch4_aere_depth(c,j)		= ch4_aere_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_aere_depth_sat(c,j) * micfinundated
+	ch4_dif_depth(c,j)		= ch4_dif_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_dif_depth_sat(c,j) * micfinundated
+	ch4_ebul_depth(c,j)		= ch4_ebul_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_ebul_depth_sat(c,j) * micfinundated
 	
-	co2_prod_ace_depth(c,j)	= co2_prod_ace_depth_unsat(c,j) * (1.0 - finundated(c)) + co2_prod_ace_depth_sat(c,j) * finundated(c)
-	co2_decomp_depth(c,j)	= co2_decomp_depth_unsat(c,j) * (1.0 - finundated(c)) + co2_decomp_depth_sat(c,j) * finundated(c) 
-	co2_cons_depth(c,j)		= co2_cons_depth_unsat(c,j) * (1.0 - finundated(c)) + co2_cons_depth_sat(c,j) * finundated(c)
-	co2_ebul_depth(c,j)		= co2_ebul_depth_unsat(c,j) * (1.0 - finundated(c)) + co2_ebul_depth_sat(c,j) * finundated(c)
-	co2_aere_depth(c,j)		= co2_aere_depth_unsat(c,j) * (1.0 - finundated(c)) + co2_aere_depth_sat(c,j) * finundated(c)
-	co2_dif_depth(c,j)		= co2_dif_depth_unsat(c,j) * (1.0 - finundated(c)) + co2_dif_depth_sat(c,j) * finundated(c)
+	co2_prod_ace_depth(c,j)	= co2_prod_ace_depth_unsat(c,j) * (1.0 - micfinundated) + co2_prod_ace_depth_sat(c,j) * micfinundated
+	co2_decomp_depth(c,j)	= co2_decomp_depth_unsat(c,j) * (1.0 - micfinundated) + co2_decomp_depth_sat(c,j) * micfinundated 
+	co2_cons_depth(c,j)		= co2_cons_depth_unsat(c,j) * (1.0 - micfinundated) + co2_cons_depth_sat(c,j) * micfinundated
+	co2_ebul_depth(c,j)		= co2_ebul_depth_unsat(c,j) * (1.0 - micfinundated) + co2_ebul_depth_sat(c,j) * micfinundated
+	co2_aere_depth(c,j)		= co2_aere_depth_unsat(c,j) * (1.0 - micfinundated) + co2_aere_depth_sat(c,j) * micfinundated
+	co2_dif_depth(c,j)		= co2_dif_depth_unsat(c,j) * (1.0 - micfinundated) + co2_dif_depth_sat(c,j) * micfinundated
 	
-	o2_cons_depth(c,j)		= o2_cons_depth_unsat(c,j) * (1.0 - finundated(c)) + o2_cons_depth_sat(c,j) * finundated(c)
-	o2_aere_depth(c,j)		= o2_aere_depth_unsat(c,j) * (1.0 - finundated(c)) + o2_aere_depth_sat(c,j) * finundated(c)
-	o2_aere_oxid_depth(c,j)	= o2_aere_oxid_depth_unsat(c,j) * (1.0 - finundated(c)) + o2_aere_oxid_depth_sat(c,j) * finundated(c)
-	o2_decomp_depth(c,j)	= o2_decomp_depth_unsat(c,j) * (1.0 - finundated(c)) + o2_decomp_depth_sat(c,j) * finundated(c)
-	o2_dif_depth(c,j)		= o2_dif_depth_unsat(c,j) * (1.0 - finundated(c)) + o2_dif_depth_sat(c,j) * finundated(c)
+	o2_cons_depth(c,j)		= o2_cons_depth_unsat(c,j) * (1.0 - micfinundated) + o2_cons_depth_sat(c,j) * micfinundated
+	o2_aere_depth(c,j)		= o2_aere_depth_unsat(c,j) * (1.0 - micfinundated) + o2_aere_depth_sat(c,j) * micfinundated
+	o2_aere_oxid_depth(c,j)	= o2_aere_oxid_depth_unsat(c,j) * (1.0 - micfinundated) + o2_aere_oxid_depth_sat(c,j) * micfinundated
+	o2_decomp_depth(c,j)	= o2_decomp_depth_unsat(c,j) * (1.0 - micfinundated) + o2_decomp_depth_sat(c,j) * micfinundated
+	o2_dif_depth(c,j)		= o2_dif_depth_unsat(c,j) * (1.0 - micfinundated) + o2_dif_depth_sat(c,j) * micfinundated
 	
-	h2_prod_depth(c,j)		= h2_prod_depth_unsat(c,j) * (1.0 - finundated(c)) + h2_prod_depth_sat(c,j) * finundated(c)
-	h2_cons_depth(c,j)		= h2_cons_depth_unsat(c,j) * (1.0 - finundated(c)) + h2_cons_depth_sat(c,j) * finundated(c)
-	h2_aere_depth(c,j)		= h2_aere_depth_unsat(c,j) * (1.0 - finundated(c)) + h2_aere_depth_sat(c,j) * finundated(c)
-	h2_diff_depth(c,j)		= h2_diff_depth_unsat(c,j) * (1.0 - finundated(c)) + h2_diff_depth_sat(c,j) * finundated(c)
-	h2_ebul_depth(c,j)		= h2_ebul_depth_unsat(c,j) * (1.0 - finundated(c)) + h2_ebul_depth_sat(c,j) * finundated(c)
+	h2_prod_depth(c,j)		= h2_prod_depth_unsat(c,j) * (1.0 - micfinundated) + h2_prod_depth_sat(c,j) * micfinundated
+	h2_cons_depth(c,j)		= h2_cons_depth_unsat(c,j) * (1.0 - micfinundated) + h2_cons_depth_sat(c,j) * micfinundated
+	h2_aere_depth(c,j)		= h2_aere_depth_unsat(c,j) * (1.0 - micfinundated) + h2_aere_depth_sat(c,j) * micfinundated
+	h2_diff_depth(c,j)		= h2_diff_depth_unsat(c,j) * (1.0 - micfinundated) + h2_diff_depth_sat(c,j) * micfinundated
+	h2_ebul_depth(c,j)		= h2_ebul_depth_unsat(c,j) * (1.0 - micfinundated) + h2_ebul_depth_sat(c,j) * micfinundated
 
 	cdons_min(c,j)			= (cdocs_pre(c,j) - cdocs(c,j)) / cn_dom
 	
       end do
       
-      ch4_surf_aere(c)			= ch4_surf_aere_unsat(c) * (1.0 - finundated(c)) + ch4_surf_aere_sat(c) * finundated(c)
-      ch4_surf_ebul(c)			= ch4_surf_ebul_unsat(c) * (1.0 - finundated(c)) + ch4_surf_ebul_sat(c) * finundated(c)
-      ch4_surf_dif(c)			= ch4_surf_dif_unsat(c) * (1.0 - finundated(c)) + ch4_surf_dif_sat(c) * finundated(c)
-      ch4_surf_netflux(c)		= ch4_surf_netflux_unsat(c) * (1.0 - finundated(c)) + ch4_surf_netflux_sat(c) * finundated(c)
-      co2_surf_aere(c)			= co2_surf_aere_unsat(c) * (1.0 - finundated(c)) + co2_surf_aere_sat(c) * finundated(c)
-      co2_surf_ebul(c)			= co2_surf_ebul_unsat(c) * (1.0 - finundated(c)) + co2_surf_ebul_sat(c) * finundated(c)
-      co2_surf_dif(c)			= co2_surf_dif_unsat(c) * (1.0 - finundated(c)) + co2_surf_dif_sat(c) * finundated(c)
-      co2_surf_netflux(c)		= co2_surf_netflux_unsat(c) * (1.0 - finundated(c)) + co2_surf_netflux_sat(c) * finundated(c)
-      o2_surf_aere(c)			= o2_surf_aere_unsat(c) * (1.0 - finundated(c)) + o2_surf_aere_sat(c) * finundated(c)
-      o2_surf_dif(c)			= o2_surf_dif_unsat(c) * (1.0 - finundated(c)) + o2_surf_dif_sat(c) * finundated(c)
-      o2_surf_netflux(c)		= o2_surf_netflux_unsat(c) * (1.0 - finundated(c)) + o2_surf_netflux_sat(c) * finundated(c)
-      h2_surf_aere(c)			= h2_surf_aere_unsat(c) * (1.0 - finundated(c)) + h2_surf_aere_sat(c) * finundated(c)
-      h2_surf_ebul(c)			= h2_surf_ebul_unsat(c) * (1.0 - finundated(c)) + h2_surf_ebul_sat(c) * finundated(c)
-      h2_surf_dif(c)			= h2_surf_dif_unsat(c) * (1.0 - finundated(c)) + h2_surf_dif_sat(c) * finundated(c)
-      h2_surf_netflux(c)		= h2_surf_netflux_unsat(c) * (1.0 - finundated(c)) + h2_surf_netflux_sat(c) * finundated(c)
+      ch4_surf_aere(c)			= ch4_surf_aere_unsat(c) * (1.0 - micfinundated) + ch4_surf_aere_sat(c) * micfinundated
+      ch4_surf_ebul(c)			= ch4_surf_ebul_unsat(c) * (1.0 - micfinundated) + ch4_surf_ebul_sat(c) * micfinundated
+      ch4_surf_dif(c)			= ch4_surf_dif_unsat(c) * (1.0 - micfinundated) + ch4_surf_dif_sat(c) * micfinundated
+      ch4_surf_netflux(c)		= ch4_surf_netflux_unsat(c) * (1.0 - micfinundated) + ch4_surf_netflux_sat(c) * micfinundated
+      co2_surf_aere(c)			= co2_surf_aere_unsat(c) * (1.0 - micfinundated) + co2_surf_aere_sat(c) * micfinundated
+      co2_surf_ebul(c)			= co2_surf_ebul_unsat(c) * (1.0 - micfinundated) + co2_surf_ebul_sat(c) * micfinundated
+      co2_surf_dif(c)			= co2_surf_dif_unsat(c) * (1.0 - micfinundated) + co2_surf_dif_sat(c) * micfinundated
+      co2_surf_netflux(c)		= co2_surf_netflux_unsat(c) * (1.0 - micfinundated) + co2_surf_netflux_sat(c) * micfinundated
+      o2_surf_aere(c)			= o2_surf_aere_unsat(c) * (1.0 - micfinundated) + o2_surf_aere_sat(c) * micfinundated
+      o2_surf_dif(c)			= o2_surf_dif_unsat(c) * (1.0 - micfinundated) + o2_surf_dif_sat(c) * micfinundated
+      o2_surf_netflux(c)		= o2_surf_netflux_unsat(c) * (1.0 - micfinundated) + o2_surf_netflux_sat(c) * micfinundated
+      h2_surf_aere(c)			= h2_surf_aere_unsat(c) * (1.0 - micfinundated) + h2_surf_aere_sat(c) * micfinundated
+      h2_surf_ebul(c)			= h2_surf_ebul_unsat(c) * (1.0 - micfinundated) + h2_surf_ebul_sat(c) * micfinundated
+      h2_surf_dif(c)			= h2_surf_dif_unsat(c) * (1.0 - micfinundated) + h2_surf_dif_sat(c) * micfinundated
+      h2_surf_netflux(c)		= h2_surf_netflux_unsat(c) * (1.0 - micfinundated) + h2_surf_netflux_sat(c) * micfinundated
       end do
 
 ! added by xiaofeng on July 21 
