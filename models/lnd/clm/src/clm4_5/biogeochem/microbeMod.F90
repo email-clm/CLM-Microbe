@@ -2340,9 +2340,9 @@ end do
       micfinundated = 0.99
       else
       micfinundated = finundated(c)
-      #if (defined HUM_HOL)
+#if (defined HUM_HOL) 
       micfinundated = 0.99
-      #endif
+#endif
       end if      
 	cdocs(c,j) 				= cdocs_unsat(c,j) * (1.0 - micfinundated) + cdocs_sat(c,j) * micfinundated
 	caces(c,j) 				= caces_unsat(c,j) * (1.0 - micfinundated)  + caces_sat(c,j) * micfinundated
