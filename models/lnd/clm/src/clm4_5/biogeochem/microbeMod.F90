@@ -1822,8 +1822,8 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	
 	caces_sat(c,j) = caces_sat(c,j)  + (AceProd + H2AceProd)
 
-	if(cacebios_sat(c,j)<0.01) then 
-		cacebios_sat(c,j) = 0.01
+	if(cacebios_sat(c,j)<1E-5) then 
+		cacebios_sat(c,j) = 1E-5
 	end if
 
 	!	// For acetate dyndamics
@@ -2340,6 +2340,9 @@ end do
       micfinundated = 0.99
       else
       micfinundated = finundated(c)
+      #if (defined HUM_HOL)
+      micfinundated = 0.99
+      #endif
       end if      
 	cdocs(c,j) 				= cdocs_unsat(c,j) * (1.0 - micfinundated) + cdocs_sat(c,j) * micfinundated
 	caces(c,j) 				= caces_unsat(c,j) * (1.0 - micfinundated)  + caces_sat(c,j) * micfinundated

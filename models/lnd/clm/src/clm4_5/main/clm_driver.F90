@@ -708,7 +708,9 @@ subroutine clm_drv(doalb, nextsw_cday, declinp1, declin, rstwr, nlend, rdate)
 
 #if (defined MICROBE)
      call t_startf('microbe')
+#ifndef HUM_HOL
      call update_finundated(begc, endc,filter(nc)%num_soilc, filter(nc)%soilc)
+#endif
      call microbech4 (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
                filter(nc)%num_soilp, filter(nc)%soilp)
 !     call microben2o (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
