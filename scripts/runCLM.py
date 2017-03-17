@@ -120,7 +120,7 @@ parser.add_option("--metdir", dest="metdir", default="none", \
                   help = 'subdirectory for met data forcing')
 parser.add_option("--MICROBE", dest="MICROBE", default=False, \
                   help = 'To turn on MICROBE with CN', action="store_true")
-parser.add_option("--mpilib", dest="mpilib", default="mpi-serial", \
+parser.add_option("--mpilib", dest="mpilib", default="mpich", \
                       help = "mpi library (openmpi*, mpich, ibm, mpi-serial)")
 parser.add_option("--ninst", dest="ninst", default=1, \
                   help = 'number of land model instances')
