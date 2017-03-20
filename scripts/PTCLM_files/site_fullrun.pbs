@@ -6,7 +6,7 @@
 # here.  Use PBS, BSUB, or whatever the local environment supports.
 #===============================================================================
 
-#PBS -N XXU_US-SPR_fullrun
+#PBS -N hydro_microbe_US-SPR_fullrun
 #PBS -q esd08q
 #PBS -l nodes=1:ppn=1
 #PBS -l walltime=48:00:00
@@ -57,9 +57,9 @@ echo "`date` -- CSM EXECUTION HAS FINISHED"
 #---------------------------end ad_spinup -----------------------------
 
 #copy rpointers and restart file
-cp rpointer.* ../../XXU_US-SPR_I1850CLM45CN/run
-cp *ad_spinup*.r*.nc    ../../XXU_US-SPR_I1850CLM45CN/run
-cp *.r*.bin   ../../XXU_US-SPR_I1850CLM45CN/run
+cp rpointer.* ../../hydro_microbe_US-SPR_I1850CLM45CN/run
+cp *ad_spinup*.r*.nc    ../../hydro_microbe_US-SPR_I1850CLM45CN/run
+cp *.r*.bin   ../../hydro_microbe_US-SPR_I1850CLM45CN/run
 
 #-----------------------------final spinup------------------------------
 cd /home/zdr/models/clean/clm4_5_ornl/run
@@ -76,9 +76,9 @@ echo "`date` -- CSM EXECUTION HAS FINISHED"
 #--------------------------end final spinup------------------------------
 
 #copy rpointers and restart file
-cp rpointer.* ../../XXU_US-SPR_I20TRCLM45CN/run
-cp *.r*.nc ../../XXU_US-SPR_I20TRCLM45CN/run
-cp *.r*.bin ../../XXU_US-SPR_I20TRCLM45CN/run
+cp rpointer.* ../../hydro_microbe_US-SPR_I20TRCLM45CN/run
+cp *.r*.nc ../../hydro_microbe_US-SPR_I20TRCLM45CN/run
+cp *.r*.bin ../../hydro_microbe_US-SPR_I20TRCLM45CN/run
 
 #---------------------------transient run--------------------------------
 cd /home/zdr/models/clean/clm4_5_ornl/run
