@@ -1,2 +1,2 @@
-# CLM_SPRUCE
-Repository for CLM_SPRUCE and other associated TES SFA work at ORNL
+# CLM-Microbe
+Repository for CLM-Microbe and other associated modeling work within the Ecological Modeling and Integration Laboratory at SDSU.
