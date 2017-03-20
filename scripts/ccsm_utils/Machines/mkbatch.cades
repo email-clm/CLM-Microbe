@@ -33,11 +33,12 @@ endif
 cat >! $file << EOF1
 #!/bin/csh -f
 #PBS -N ${jobname}
-#PBS -q esd08q
+#PBS -q batch
 #PBS -l nodes=${mppnodes}:ppn=$ppn
 #PBS -l walltime=${walltime}
 #PBS -j oe
 #PBS -S /bin/csh -V
+#PBS -W group_list=cades-ccsi
 EOF1
 
 #################################################################################
@@ -69,7 +70,7 @@ else if ($PHASE == set_larch) then
 cat >! $CASEROOT/${CASE}.l_archive << EOF1
 #! /bin/csh -f
 #PBS -N ${CASE}.l_archive
-#PBS -q esd13q
+#PBS -q batch
 #PBS -l nodes=1
 #PBS -l walltime=01:30:00
 #PBS -j oe

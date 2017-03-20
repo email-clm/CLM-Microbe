@@ -281,7 +281,7 @@ Currently the following streams are supported (term definitions precede the stre
 <strm_datvar     stream="CLM1PT.CLM_USRDAT">
    ZBOT     z
    TBOT     tbot
-   RH       rh
+   QBOT     shum
    WIND     wind
    PRECTmms precn
    FSDS     swdn

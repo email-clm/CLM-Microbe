@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
 import os, sys, csv, glob
-import Scientific.IO.NetCDF
-from Scientific.IO import NetCDF
-import numpy
-import pp
+import numpy, scipy
+from scipy.io import netcdf
+#import pp
+import matplotlib
 from optparse import OptionParser
 
 def getvar(fname, var, npf):

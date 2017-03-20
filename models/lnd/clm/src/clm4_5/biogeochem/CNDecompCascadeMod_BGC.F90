@@ -41,7 +41,7 @@ module CNDecompCascadeMod_BGC
 !
 ! !PUBLIC DATA MEMBERS:
 !#if (defined VERTSOILC) || (defined MICROBE)
-   real(r8), public :: decomp_depth_efolding = 0.5_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
+!   real(r8), public :: decomp_depth_efolding = 0.17_r8 !0.5_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
 !#endif
    real(r8), public :: froz_q10 = 1.5_r8                 ! separate q10 for frozen soil respiration rates.  default to same as above zero rates
 #if (defined LCH4) || (defined MICROBE)
@@ -1016,7 +1016,7 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
    use clm_time_manager    , only : get_step_size
    use clm_varcon, only: secspday
    use microbevarcon, ONLY: k_dom, k_bacteria, k_fungi
-!   use pftvarcon, ONLY:  decomp_depth_efolding, ksomfac
+   use pftvarcon, ONLY:  decomp_depth_efolding, ksomfac
 
    !
 ! !ARGUMENTS:
@@ -1176,7 +1176,7 @@ if ( spinup_state .eq. 1 ) then
    k_s4 = k_s4 * spinup_vector(4)
 endif
    !DMRicciuto 1/6/16 - Reduce decomposition rate for SPRUCE
-   !k_s4 = k_s4 / ksomfac
+   k_s4 = k_s4 / ksomfac
    i_litr1 = 1
    i_litr2 = 2
    i_litr3 = 3
