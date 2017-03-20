@@ -65,7 +65,8 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
    use clm_time_manager, only: get_step_size
    use clm_varpar   , only: nlevsoi,nlevgrnd,nlevdecomp,ndecomp_cascade_transitions,ndecomp_pools
    use pft2colMod      , only: p2c
-
+   use pftvarcon , only: decomp_depth_efolding
+ 
 #ifdef MICROBE
    USE microbevarcon , only: plant2doc, som2doc, micbiocn, micbioMR, CUEref, CUEt, Tcueref 
    USE microbevarcon , only: Tsref, Tmref, Tsmin, Tmmin, Msmin, Msmax, Mmmin, dock 
