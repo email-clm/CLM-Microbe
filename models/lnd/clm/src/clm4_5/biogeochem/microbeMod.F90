@@ -3300,10 +3300,15 @@ end do
 		!~ ho_h2o(j) = h2osoi_liq(2,ho_soil_id(j)) * ho_soil_tk(j) / dz(2,ho_soil_id(j))
 !~ end do
 
-!write(iulog,*) "herebefore hummock 20", cdocs_sat_spruce1(1), cdocs_sat_spruce1(2), cdocs_sat_spruce1(3), cdocs_sat_spruce1(4), cdocs_sat_spruce1(5), cdocs_sat_spruce1(6), cdocs_sat_spruce1(7), cdocs_sat_spruce1(8), cdocs_sat_spruce1(9), cdocs_sat_spruce1(10), cdocs_sat_spruce1(11), cdocs_sat_spruce1(12), cdocs_sat_spruce1(13), cdocs_sat_spruce1(14), cdocs_sat_spruce1(15), cdocs_sat_spruce1(16), cdocs_sat_spruce1(17), cdocs_sat_spruce1(18), cdocs_sat_spruce1(19), cdocs_sat_spruce1(20)
-!write(iulog,*) "herebefore hollow 14", cdocs_sat_spruce2(1), cdocs_sat_spruce2(2), cdocs_sat_spruce2(3), cdocs_sat_spruce2(4), cdocs_sat_spruce2(5), cdocs_sat_spruce2(6), cdocs_sat_spruce2(7), cdocs_sat_spruce2(8), cdocs_sat_spruce2(9), cdocs_sat_spruce2(10), cdocs_sat_spruce2(11), cdocs_sat_spruce2(12), cdocs_sat_spruce2(13), cdocs_sat_spruce2(14)
+!write(iulog,*) "herebefore hummock 20", cdocs_sat_spruce1(1), cdocs_sat_spruce1(2), cdocs_sat_spruce1(3), cdocs_sat_spruce1(4), cdocs_sat_spruce1(5), cdocs_sat_spruce1(6), &
+!cdocs_sat_spruce1(7), cdocs_sat_spruce1(8), cdocs_sat_spruce1(9), cdocs_sat_spruce1(10), cdocs_sat_spruce1(11), cdocs_sat_spruce1(12), cdocs_sat_spruce1(13), cdocs_sat_spruce1(14), &
+!cdocs_sat_spruce1(15), cdocs_sat_spruce1(16), cdocs_sat_spruce1(17), cdocs_sat_spruce1(18), cdocs_sat_spruce1(19), cdocs_sat_spruce1(20)
+!write(iulog,*) "herebefore hollow 14", cdocs_sat_spruce2(1), cdocs_sat_spruce2(2), cdocs_sat_spruce2(3), cdocs_sat_spruce2(4), cdocs_sat_spruce2(5), cdocs_sat_spruce2(6), &
+!cdocs_sat_spruce2(7), cdocs_sat_spruce2(8), cdocs_sat_spruce2(9), cdocs_sat_spruce2(10), cdocs_sat_spruce2(11), cdocs_sat_spruce2(12), cdocs_sat_spruce2(13), cdocs_sat_spruce2(14), &
 
-!write(iulog,*) "herebefore", cdocs_sat_spruce2(1)+cdocs_sat_spruce2(2)+cdocs_sat_spruce2(3)+cdocs_sat_spruce2(4)+cdocs_sat_spruce2(5)+cdocs_sat_spruce2(6)+cdocs_sat_spruce2(7)+cdocs_sat_spruce2(8)+cdocs_sat_spruce2(9)+cdocs_sat_spruce2(10)+cdocs_sat_spruce2(11)+cdocs_sat_spruce2(12)+cdocs_sat_spruce2(13)+cdocs_sat_spruce2(14)
+!write(iulog,*) "herebefore", cdocs_sat_spruce2(1)+cdocs_sat_spruce2(2)+cdocs_sat_spruce2(3)+cdocs_sat_spruce2(4)+cdocs_sat_spruce2(5)+cdocs_sat_spruce2(6)+&
+!cdocs_sat_spruce2(7)+cdocs_sat_spruce2(8)+cdocs_sat_spruce2(9)+cdocs_sat_spruce2(10)+cdocs_sat_spruce2(11)+cdocs_sat_spruce2(12)+cdocs_sat_spruce2(13)+&
+!cdocs_sat_spruce2(14)
 
 ! lateral transport
 !~ if(jwt(c) >= nlevsoi) then
@@ -3384,8 +3389,12 @@ end do
 	end do	
 !~ end if
 
-!~ write(iulog,*) "after laterer transport hummock", cdocs_sat_spruce1(1), cdocs_sat_spruce1(2), cdocs_sat_spruce1(3), cdocs_sat_spruce1(4), cdocs_sat_spruce1(5), cdocs_sat_spruce1(6), cdocs_sat_spruce1(7), cdocs_sat_spruce1(8), cdocs_sat_spruce1(9), cdocs_sat_spruce1(10), cdocs_sat_spruce1(11), cdocs_sat_spruce1(12), cdocs_sat_spruce1(13), cdocs_sat_spruce1(14), cdocs_sat_spruce1(15), cdocs_sat_spruce1(16), cdocs_sat_spruce1(17), cdocs_sat_spruce1(18), cdocs_sat_spruce1(19), cdocs_sat_spruce1(20)
-!~ write(iulog,*) "after lateral transport hollow", cdocs_sat_spruce2(1), cdocs_sat_spruce2(2), cdocs_sat_spruce2(3), cdocs_sat_spruce2(4), cdocs_sat_spruce2(5), cdocs_sat_spruce2(6), cdocs_sat_spruce2(7), cdocs_sat_spruce2(8), cdocs_sat_spruce2(9), cdocs_sat_spruce2(10), cdocs_sat_spruce2(11), cdocs_sat_spruce2(12), cdocs_sat_spruce2(13), cdocs_sat_spruce2(14)
+!~ write(iulog,*) "after laterer transport hummock", cdocs_sat_spruce1(1), cdocs_sat_spruce1(2), cdocs_sat_spruce1(3), cdocs_sat_spruce1(4), cdocs_sat_spruce1(5), &
+!cdocs_sat_spruce1(6), cdocs_sat_spruce1(7), cdocs_sat_spruce1(8), cdocs_sat_spruce1(9), cdocs_sat_spruce1(10), cdocs_sat_spruce1(11), cdocs_sat_spruce1(12), &
+!cdocs_sat_spruce1(13), cdocs_sat_spruce1(14), cdocs_sat_spruce1(15), cdocs_sat_spruce1(16), cdocs_sat_spruce1(17), cdocs_sat_spruce1(18), cdocs_sat_spruce1(19), cdocs_sat_spruce1(20)
+!~ write(iulog,*) "after lateral transport hollow", cdocs_sat_spruce2(1), cdocs_sat_spruce2(2), cdocs_sat_spruce2(3), cdocs_sat_spruce2(4), cdocs_sat_spruce2(5), &
+!cdocs_sat_spruce2(6), cdocs_sat_spruce2(7), cdocs_sat_spruce2(8), cdocs_sat_spruce2(9), cdocs_sat_spruce2(10), cdocs_sat_spruce2(11), cdocs_sat_spruce2(12), &
+!cdocs_sat_spruce2(13), cdocs_sat_spruce2(14)
 
 ! lateral diffusion
 do j = 1, 14
@@ -3471,8 +3480,12 @@ do j = 1, 14
 		ccon_h2s_sat_spruce2(j) 	= (ccon_h2s_sat_spruce2(j) + lx_h2s_sat_temp * sqrt(lat_flux_factor2)) !* hu_h2o(j+6) 
 end do
 
-!write(iulog,*) "hereafter hummock 20", cdocs_sat_spruce1(1), cdocs_sat_spruce1(2), cdocs_sat_spruce1(3), cdocs_sat_spruce1(4), cdocs_sat_spruce1(5), cdocs_sat_spruce1(6), cdocs_sat_spruce1(7), cdocs_sat_spruce1(8), cdocs_sat_spruce1(9), cdocs_sat_spruce1(10), cdocs_sat_spruce1(11), cdocs_sat_spruce1(12), cdocs_sat_spruce1(13), cdocs_sat_spruce1(14), cdocs_sat_spruce1(15), cdocs_sat_spruce1(16), cdocs_sat_spruce1(17), cdocs_sat_spruce1(18), cdocs_sat_spruce1(19), cdocs_sat_spruce1(20)
-!write(iulog,*) "hereafter holow 14", cdocs_sat_spruce2(1), cdocs_sat_spruce2(2), cdocs_sat_spruce2(3), cdocs_sat_spruce2(4), cdocs_sat_spruce2(5), cdocs_sat_spruce2(6), cdocs_sat_spruce2(7), cdocs_sat_spruce2(8), cdocs_sat_spruce2(9), cdocs_sat_spruce2(10), cdocs_sat_spruce2(11), cdocs_sat_spruce2(12), cdocs_sat_spruce2(13), cdocs_sat_spruce2(14)
+!write(iulog,*) "hereafter hummock 20", cdocs_sat_spruce1(1), cdocs_sat_spruce1(2), cdocs_sat_spruce1(3), cdocs_sat_spruce1(4), cdocs_sat_spruce1(5), cdocs_sat_spruce1(6), &
+!cdocs_sat_spruce1(7), cdocs_sat_spruce1(8), cdocs_sat_spruce1(9), cdocs_sat_spruce1(10), cdocs_sat_spruce1(11), cdocs_sat_spruce1(12), cdocs_sat_spruce1(13), &
+!cdocs_sat_spruce1(14), cdocs_sat_spruce1(15), cdocs_sat_spruce1(16), cdocs_sat_spruce1(17), cdocs_sat_spruce1(18), cdocs_sat_spruce1(19), cdocs_sat_spruce1(20)
+!write(iulog,*) "hereafter holow 14", cdocs_sat_spruce2(1), cdocs_sat_spruce2(2), cdocs_sat_spruce2(3), cdocs_sat_spruce2(4), cdocs_sat_spruce2(5), cdocs_sat_spruce2(6), &
+!cdocs_sat_spruce2(7), cdocs_sat_spruce2(8), cdocs_sat_spruce2(9), cdocs_sat_spruce2(10), cdocs_sat_spruce2(11), cdocs_sat_spruce2(12), cdocs_sat_spruce2(13), &
+!cdocs_sat_spruce2(14)
 
 	!~ cdocs_sat(1,1) = cdocs_sat_spruce1(1)
 	!~ cdocs_sat(1,2) = cdocs_sat_spruce1(2)
@@ -3634,7 +3647,9 @@ end do
 	cdocs_sat(1,3) = cdocs_sat_spruce1(3)
 	cdocs_sat(1,4) = cdocs_sat_spruce1(4)
 	cdocs_sat(1,5) = cdocs_sat_spruce1(5)
-	cdocs_sat(1,6) = (cdocs_sat_spruce1(6)*hu_soil_tk(6)+cdocs_sat_spruce1(7)*hu_soil_tk(7)+cdocs_sat_spruce1(8)*hu_soil_tk(8)+cdocs_sat_spruce1(9)*hu_soil_tk(9)+cdocs_sat_spruce1(10)*hu_soil_tk(10)+cdocs_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	cdocs_sat(1,6) = (cdocs_sat_spruce1(6)*hu_soil_tk(6)+cdocs_sat_spruce1(7)*hu_soil_tk(7)+cdocs_sat_spruce1(8)*hu_soil_tk(8)+cdocs_sat_spruce1(9)*hu_soil_tk(9)+&
+	cdocs_sat_spruce1(10)*hu_soil_tk(10)+cdocs_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	
 	cdocs_sat(1,7) = (cdocs_sat_spruce1(12)*hu_soil_tk(12)+cdocs_sat_spruce1(13)*hu_soil_tk(13)+cdocs_sat_spruce1(14)*hu_soil_tk(14)) / dz(1,7)
 	cdocs_sat(1,8) = (cdocs_sat_spruce1(15)*hu_soil_tk(15)+cdocs_sat_spruce1(16)*hu_soil_tk(16)) / dz(1,8)
 	cdocs_sat(1,9) = (cdocs_sat_spruce1(17)*hu_soil_tk(17)+cdocs_sat_spruce1(18)*hu_soil_tk(18)) / dz(1,9)
@@ -3666,7 +3681,9 @@ end do
 	cdons_sat(1,3) = cdons_sat_spruce1(1)
 	cdons_sat(1,4) = cdons_sat_spruce1(1)
 	cdons_sat(1,5) = cdons_sat_spruce1(1)
-	cdons_sat(1,6) = (cdons_sat_spruce1(6)*hu_soil_tk(6)+cdons_sat_spruce1(7)*hu_soil_tk(7)+cdons_sat_spruce1(8)*hu_soil_tk(8)+cdons_sat_spruce1(9)*hu_soil_tk(9)+cdons_sat_spruce1(10)*hu_soil_tk(10)+cdons_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	cdons_sat(1,6) = (cdons_sat_spruce1(6)*hu_soil_tk(6)+cdons_sat_spruce1(7)*hu_soil_tk(7)+cdons_sat_spruce1(8)*hu_soil_tk(8)+cdons_sat_spruce1(9)*hu_soil_tk(9)+&
+	cdons_sat_spruce1(10)*hu_soil_tk(10)+cdons_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	
 	cdons_sat(1,7) = (cdons_sat_spruce1(12)*hu_soil_tk(12)+cdons_sat_spruce1(13)*hu_soil_tk(13)+cdons_sat_spruce1(14)*hu_soil_tk(14)) / dz(1,7)
 	cdons_sat(1,8) = (cdons_sat_spruce1(15)*hu_soil_tk(15)+cdons_sat_spruce1(16)*hu_soil_tk(16)) / dz(1,8)
 	cdons_sat(1,9) = (cdons_sat_spruce1(17)*hu_soil_tk(17)+cdons_sat_spruce1(18)*hu_soil_tk(18)) / dz(1,9)
@@ -3688,7 +3705,9 @@ end do
 	caces_sat(1,3) = caces_sat_spruce1(3)
 	caces_sat(1,4) = caces_sat_spruce1(4)
 	caces_sat(1,5) = caces_sat_spruce1(5)
-	caces_sat(1,6) = (caces_sat_spruce1(6)*hu_soil_tk(6)+caces_sat_spruce1(7)*hu_soil_tk(7)+caces_sat_spruce1(8)*hu_soil_tk(8)+caces_sat_spruce1(9)*hu_soil_tk(9)+caces_sat_spruce1(10)*hu_soil_tk(10)+caces_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	caces_sat(1,6) = (caces_sat_spruce1(6)*hu_soil_tk(6)+caces_sat_spruce1(7)*hu_soil_tk(7)+caces_sat_spruce1(8)*hu_soil_tk(8)+caces_sat_spruce1(9)*hu_soil_tk(9)+&
+	caces_sat_spruce1(10)*hu_soil_tk(10)+caces_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	
 	caces_sat(1,7) = (caces_sat_spruce1(12)*hu_soil_tk(12)+caces_sat_spruce1(13)*hu_soil_tk(13)+caces_sat_spruce1(14)*hu_soil_tk(14))	/ dz(1,7)
 	caces_sat(1,8) = (caces_sat_spruce1(15)*hu_soil_tk(15)+caces_sat_spruce1(16)*hu_soil_tk(16)) / dz(1,8)
 	caces_sat(1,9) = (caces_sat_spruce1(17)*hu_soil_tk(17)+caces_sat_spruce1(18)*hu_soil_tk(18)) / dz(1,9)
@@ -3710,7 +3729,9 @@ end do
 	ccon_o2s_sat(1,3) = ccon_o2s_sat_spruce1(3)
 	ccon_o2s_sat(1,4) = ccon_o2s_sat_spruce1(4)
 	ccon_o2s_sat(1,5) = ccon_o2s_sat_spruce1(5)
-	ccon_o2s_sat(1,6) = (ccon_o2s_sat_spruce1(6)*hu_soil_tk(6)+ccon_o2s_sat_spruce1(7)*hu_soil_tk(7)+ccon_o2s_sat_spruce1(8)*hu_soil_tk(8)+ccon_o2s_sat_spruce1(9)*hu_soil_tk(9)+ccon_o2s_sat_spruce1(10)*hu_soil_tk(10)+ccon_o2s_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	ccon_o2s_sat(1,6) = (ccon_o2s_sat_spruce1(6)*hu_soil_tk(6)+ccon_o2s_sat_spruce1(7)*hu_soil_tk(7)+ccon_o2s_sat_spruce1(8)*hu_soil_tk(8)+ccon_o2s_sat_spruce1(9)*hu_soil_tk(9)+&
+	ccon_o2s_sat_spruce1(10)*hu_soil_tk(10)+ccon_o2s_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	
 	ccon_o2s_sat(1,7) = (ccon_o2s_sat_spruce1(12)*hu_soil_tk(12)+ccon_o2s_sat_spruce1(13)*hu_soil_tk(13)+ccon_o2s_sat_spruce1(14)*hu_soil_tk(14)) / dz(1,7)
 	ccon_o2s_sat(1,8) = (ccon_o2s_sat_spruce1(15)*hu_soil_tk(15)+ccon_o2s_sat_spruce1(16)*hu_soil_tk(16)) / dz(1,8)
 	ccon_o2s_sat(1,9) = (ccon_o2s_sat_spruce1(17)*hu_soil_tk(17)+ccon_o2s_sat_spruce1(18)*hu_soil_tk(18)) / dz(1,9)
@@ -3732,7 +3753,9 @@ end do
 	ccon_h2s_sat(1,3) = ccon_h2s_sat_spruce1(3)
 	ccon_h2s_sat(1,4) = ccon_h2s_sat_spruce1(4)
 	ccon_h2s_sat(1,5) = ccon_h2s_sat_spruce1(5)
-	ccon_h2s_sat(1,6) = (ccon_h2s_sat_spruce1(6)*hu_soil_tk(6)+ccon_h2s_sat_spruce1(7)*hu_soil_tk(7)+ccon_h2s_sat_spruce1(8)*hu_soil_tk(8)+ccon_h2s_sat_spruce1(9)*hu_soil_tk(9)+ccon_h2s_sat_spruce1(10)*hu_soil_tk(10)+ccon_h2s_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	ccon_h2s_sat(1,6) = (ccon_h2s_sat_spruce1(6)*hu_soil_tk(6)+ccon_h2s_sat_spruce1(7)*hu_soil_tk(7)+ccon_h2s_sat_spruce1(8)*hu_soil_tk(8)+ccon_h2s_sat_spruce1(9)*hu_soil_tk(9)+&
+	ccon_h2s_sat_spruce1(10)*hu_soil_tk(10)+ccon_h2s_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	
 	ccon_h2s_sat(1,7) = (ccon_h2s_sat_spruce1(12)*hu_soil_tk(12)+ccon_h2s_sat_spruce1(13)*hu_soil_tk(13)+ccon_h2s_sat_spruce1(14)*hu_soil_tk(14)) / dz(1,7)
 	ccon_h2s_sat(1,8) = (ccon_h2s_sat_spruce1(15)*hu_soil_tk(15)+ccon_h2s_sat_spruce1(16)*hu_soil_tk(16)) / dz(1,8)
 	ccon_h2s_sat(1,9) = (ccon_h2s_sat_spruce1(17)*hu_soil_tk(17)+ccon_h2s_sat_spruce1(18)*hu_soil_tk(18)) / dz(1,9)
@@ -3754,7 +3777,9 @@ end do
 	ccon_co2s_sat(1,3) = ccon_co2s_sat_spruce1(3)
 	ccon_co2s_sat(1,4) = ccon_co2s_sat_spruce1(4)
 	ccon_co2s_sat(1,5) = ccon_co2s_sat_spruce1(5)
-	ccon_co2s_sat(1,6) = (ccon_co2s_sat_spruce1(6)*hu_soil_tk(6)+ccon_co2s_sat_spruce1(7)*hu_soil_tk(7)+ccon_co2s_sat_spruce1(8)*hu_soil_tk(8)+ccon_co2s_sat_spruce1(9)*hu_soil_tk(9)+ccon_co2s_sat_spruce1(10)*hu_soil_tk(10)+ccon_co2s_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	ccon_co2s_sat(1,6) = (ccon_co2s_sat_spruce1(6)*hu_soil_tk(6)+ccon_co2s_sat_spruce1(7)*hu_soil_tk(7)+ccon_co2s_sat_spruce1(8)*hu_soil_tk(8)+ccon_co2s_sat_spruce1(9)*hu_soil_tk(9)+&
+	ccon_co2s_sat_spruce1(10)*hu_soil_tk(10)+ccon_co2s_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	
 	ccon_co2s_sat(1,7) = (ccon_co2s_sat_spruce1(12)*hu_soil_tk(12)+ccon_co2s_sat_spruce1(13)*hu_soil_tk(13)+ccon_co2s_sat_spruce1(14)*hu_soil_tk(14)) / dz(1,7)
 	ccon_co2s_sat(1,8) = (ccon_co2s_sat_spruce1(15)*hu_soil_tk(15)+ccon_co2s_sat_spruce1(16)*hu_soil_tk(16)) / dz(1,8)
 	ccon_co2s_sat(1,9) = (ccon_co2s_sat_spruce1(17)*hu_soil_tk(17)+ccon_co2s_sat_spruce1(18)*hu_soil_tk(18)) / dz(1,9)
@@ -3776,7 +3801,9 @@ end do
 	ccon_ch4s_sat(1,3) = ccon_ch4s_sat_spruce1(3)
 	ccon_ch4s_sat(1,4) = ccon_ch4s_sat_spruce1(4)
 	ccon_ch4s_sat(1,5) = ccon_ch4s_sat_spruce1(5)
-	ccon_ch4s_sat(1,6) = (ccon_ch4s_sat_spruce1(6)*hu_soil_tk(6)+ccon_ch4s_sat_spruce1(7)*hu_soil_tk(7)+ccon_ch4s_sat_spruce1(8)*hu_soil_tk(8)+ccon_ch4s_sat_spruce1(9)*hu_soil_tk(9)+ccon_ch4s_sat_spruce1(10)*hu_soil_tk(10)+ccon_ch4s_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	ccon_ch4s_sat(1,6) = (ccon_ch4s_sat_spruce1(6)*hu_soil_tk(6)+ccon_ch4s_sat_spruce1(7)*hu_soil_tk(7)+ccon_ch4s_sat_spruce1(8)*hu_soil_tk(8)+ccon_ch4s_sat_spruce1(9)*hu_soil_tk(9)+&
+	ccon_ch4s_sat_spruce1(10)*hu_soil_tk(10)+ccon_ch4s_sat_spruce1(11)*hu_soil_tk(11)) / dz(1,6)
+	
 	ccon_ch4s_sat(1,7) = (ccon_ch4s_sat_spruce1(12)*hu_soil_tk(12)+ccon_ch4s_sat_spruce1(13)*hu_soil_tk(13)+ccon_ch4s_sat_spruce1(14)*hu_soil_tk(14)) / dz(1,7)
 	ccon_ch4s_sat(1,8) = (ccon_ch4s_sat_spruce1(15)*hu_soil_tk(15)+ccon_ch4s_sat_spruce1(16)*hu_soil_tk(16)) / dz(1,8)
 	ccon_ch4s_sat(1,9) = (ccon_ch4s_sat_spruce1(17)*hu_soil_tk(17)+ccon_ch4s_sat_spruce1(18)*hu_soil_tk(18)) / dz(1,9)
