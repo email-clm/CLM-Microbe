@@ -34,9 +34,9 @@ module CNDecompMod
 ! !PUBLIC MEMBER FUNCTIONS:
    public:: CNDecompAlloc
 
-!#ifdef MICROBE
-!   real(r8), public :: decomp_depth_efolding = 0.17_r8 !0.5    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
-!#endif
+#ifdef MICROBE
+   real(r8), public :: decomp_depth_efolding = 0.5_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
+#endif
 
 !
 ! !REVISION HISTORY:

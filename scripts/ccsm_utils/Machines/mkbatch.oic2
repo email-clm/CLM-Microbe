@@ -33,7 +33,7 @@ endif
 cat >! $file << EOF1
 #!/bin/csh -f
 #PBS -N ${jobname}
-#PBS -q esd08q
+#PBS -q esd13q
 #PBS -l nodes=${mppnodes}:ppn=$ppn
 #PBS -l walltime=${walltime}
 #PBS -j oe

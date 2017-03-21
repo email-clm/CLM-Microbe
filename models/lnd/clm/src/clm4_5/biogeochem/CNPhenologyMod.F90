@@ -161,7 +161,6 @@ subroutine CNPhenologyInit( begp, endp )
    use clm_time_manager, only: get_step_size
    use surfrdMod       , only: crop_prog
    use clm_varcon      , only: secspday
-   use pftvarcon       , only: lwtop_ann
 !
 ! !ARGUMENTS:
    implicit none
@@ -224,7 +223,7 @@ subroutine CNPhenologyInit( begp, endp )
 
     ! set the global parameter for livewood turnover rate
     ! define as an annual fraction (0.7), and convert to fraction per second
-    lwtop = lwtop_ann / 31536000.0_r8
+    lwtop = 0.7_r8 / 31536000.0_r8
 
     ! -----------------------------------------
     ! Call any subroutine specific initialization routines
@@ -443,7 +442,6 @@ subroutine CNSeasonDecidPhenology (num_soilp, filter_soilp)
 ! !USES:
    use shr_const_mod   , only: SHR_CONST_TKFRZ, SHR_CONST_PI
    use clm_varcon      , only: secspday
-   use pftvarcon      , only: crit_onset_gdd
 !
 ! !ARGUMENTS:
    integer, intent(in) :: num_soilp       ! number of soil pfts in filter
@@ -546,7 +544,7 @@ subroutine CNSeasonDecidPhenology (num_soilp, filter_soilp)
    integer :: c,p            !indices
    integer :: fp             !lake filter pft index
    real(r8):: ws_flag        !winter-summer solstice flag (0 or 1)
-   !real(r8):: crit_onset_gdd !critical onset growing degree-day sum
+   real(r8):: crit_onset_gdd !critical onset growing degree-day sum
    real(r8):: soilt
    real(r8):: lat            !latitude (radians)
    real(r8):: temp           !temporary variable for daylength calculation
@@ -648,7 +646,7 @@ subroutine CNSeasonDecidPhenology (num_soilp, filter_soilp)
          lgsf(p) = 0._r8
 
          ! onset gdd sum from Biome-BGC, v4.1.2
-         !crit_onset_gdd = exp(4.8_r8 + 0.13_r8*(annavg_t2m(p) - SHR_CONST_TKFRZ))
+         crit_onset_gdd = exp(4.8_r8 + 0.13_r8*(annavg_t2m(p) - SHR_CONST_TKFRZ))
 
          ! use solar declination information stored during Surface Albedo()
          ! and latitude from gps to calcluate daylength (convert latitude from degrees to radians)
@@ -769,7 +767,7 @@ subroutine CNSeasonDecidPhenology (num_soilp, filter_soilp)
             end if
 
             ! set onset_flag if critical growing degree-day sum is exceeded
-            if (onset_gdd(p) > crit_onset_gdd(ivt(p))) then
+            if (onset_gdd(p) > crit_onset_gdd) then
                onset_flag(p) = 1.0_r8
                dormant_flag(p) = 0.0_r8
                onset_gddflag(p) = 0.0_r8
@@ -854,7 +852,6 @@ subroutine CNStressDecidPhenology (num_soilp, filter_soilp)
    use clm_time_manager, only: get_days_per_year
    use clm_varcon      , only: secspday
    use shr_const_mod   , only: SHR_CONST_TKFRZ, SHR_CONST_PI
-   use pftvarcon       , only: crit_onset_gdd
 !
 ! !ARGUMENTS:
    integer, intent(in) :: num_soilp       ! number of soil pfts in filter
@@ -963,7 +960,7 @@ subroutine CNStressDecidPhenology (num_soilp, filter_soilp)
    integer :: c,p             ! indices
    integer :: fp              ! lake filter pft index
    real(r8):: dayspyr         ! days per year
-   !real(r8):: crit_onset_gdd  ! degree days for onset trigger
+   real(r8):: crit_onset_gdd  ! degree days for onset trigger
    real(r8):: soilt           ! temperature of top soil layer
    real(r8):: psi             ! water stress of top soil layer
    real(r8):: lat             !latitude (radians)
@@ -1074,7 +1071,7 @@ subroutine CNStressDecidPhenology (num_soilp, filter_soilp)
          dayl(p) = 2.0_r8 * 13750.9871_r8 * acos(temp)
 
          ! onset gdd sum from Biome-BGC, v4.1.2
-         !crit_onset_gdd = exp(4.8_r8 + 0.13_r8*(annavg_t2m(p) - SHR_CONST_TKFRZ))
+         crit_onset_gdd = exp(4.8_r8 + 0.13_r8*(annavg_t2m(p) - SHR_CONST_TKFRZ))
 
 
          ! update offset_counter and test for the end of the offset period
@@ -1185,7 +1182,7 @@ subroutine CNStressDecidPhenology (num_soilp, filter_soilp)
                 ! degree day sum (since freeze trigger) is lower than critical
                 ! value, then override the onset_flag set from soil water.
 
-                if (onset_gddflag(p) == 1._r8 .and. onset_gdd(p) < crit_onset_gdd(ivt(p))) onset_flag(p) = 0._r8
+                if (onset_gddflag(p) == 1._r8 .and. onset_gdd(p) < crit_onset_gdd) onset_flag(p) = 0._r8
             end if
             
             ! only allow onset if dayl > 6hrs
