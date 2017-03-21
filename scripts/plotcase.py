@@ -1,19 +1,33 @@
 #!/usr/bin/python
 
 import os, sys, csv, glob
-import Scientific.IO.NetCDF
-from Scientific.IO import NetCDF
-import numpy
-import pp
+import numpy, scipy
+from scipy.io import netcdf
+#import pp
+import matplotlib
 from optparse import OptionParser
 
-def getvar(fname, var, npf):
-    nffile = Scientific.IO.NetCDF.NetCDFFile(fname,"r")
-    varout=nffile.variables[var]
-    thisval = varout.getValue()[0:npf,0]
-    nffile.close()
-    return thisval
-
+def getvar(fname, varname, npf, index, scale_factor):
+    usescipy = False
+    try:
+        import Scientific.IO.NetCDF as netcdf
+    except ImportError:
+        import scipy
+        from scipy.io import netcdf
+        usescipy = True
+    if (usescipy):
+        nffile = netcdf.netcdf_file(fname,"r",mmap=False)
+        var = nffile.variables[varname]
+        varvals = var[:].copy()   #works for vector only?
+        nffile.close()
+    else:
+        nffile = netcdf.NetCDFFile(fname,"r")
+        var = nffile.variables[varname]
+        varvals = var.getValue()
+        nffile.close()
+    if ('ZWT' in var):
+        varvals = varvals*-1+0.3
+    return varvals[0:npf,index] * scale_factor
 
 parser = OptionParser()
 parser.add_option("--csmdir", dest="mycsmdir", default='..', \

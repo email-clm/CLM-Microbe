@@ -169,7 +169,9 @@ contains
     integer , pointer :: npfts(:)          ! number of pfts in column
     integer , pointer :: pfti(:)           ! column's beginning pft index
     integer , pointer :: ltype(:)          ! landunit type
+    integer , pointer :: ivt(:)            ! pft vegetation type !added by XY,12/05/14
     integer , pointer :: ctype(:)          ! column type
+    real(r8), pointer :: leafc(:)          ! (gC/m2) leaf C      !added by XY,12/05/14
     real(r8), pointer :: forc_rain(:)      ! rain rate [mm/s]
     real(r8), pointer :: forc_snow(:)      ! snow rate [mm/s]
     real(r8), pointer :: forc_t(:)         ! atmospheric temperature (Kelvin)
@@ -329,7 +331,7 @@ contains
     mss_dst_top        => cps%mss_dst_top
 
     ! Assign local pointers to derived type members (pft-level)
-
+    ivt                =>pft%itype
     plandunit          =>pft%landunit
     pcolumn            =>pft%column
     dewmx              => pps%dewmx
@@ -348,6 +350,7 @@ contains
     irrig_rate         => cps%irrig_rate
     n_irrig_steps_left => cps%n_irrig_steps_left
     qflx_irrig         => cwf%qflx_irrig
+    leafc              => pcs%leafc
 
     ! Compute time step
 
@@ -397,11 +400,19 @@ contains
                 qflx_through_rain(p) = forc_rain(g) * (1._r8-fpi)
                 
                 ! Intercepted precipitation [mm/s]
-                qflx_prec_intr(p) = (forc_snow(g) + forc_rain(g)) * fpi
-                
+                !if (ivt(p) == 12) then ! use different equation for moss pft
+                !!   qflx_prec_intr(p) = min (15, qflx_prec_intr(p) + 1.0e6_r8 * forc_rain(g) *3.6_r8/(2.0_r8 * leafc(p))) 
+                !    qflx_prec_intr(p) = forc_rain(g)
+                !    if (h2ocan(p) + qflx_prec_intr(p)*dtime > 15.0_r8*leafc(p)*2.0_r8/1000.0_r8) then 
+                !     qflx_prec_intr(p) = (15.0_r8*leafc(p)*2.0_r8/1000.0_r8 - h2ocan(p))/dtime
+                !    end if
+                !    write(iulog,*)'forc_rain=',forc_rain(g),'h2ocan=',h2ocan(p),'qflx_prec_intr=',qflx_prec_intr(p)
+                !else
+                   qflx_prec_intr(p) = (forc_snow(g) + forc_rain(g)) * fpi
+                !endif
+                 
                 ! Water storage of intercepted precipitation and dew
-                h2ocan(p) = max(0._r8, h2ocan(p) + dtime*qflx_prec_intr(p))
-                
+                  h2ocan(p) = max(0._r8, h2ocan(p) + dtime*qflx_prec_intr(p))
                 ! Initialize rate of canopy runoff and snow falling off canopy
                 qflx_candrip(p) = 0._r8
                 
