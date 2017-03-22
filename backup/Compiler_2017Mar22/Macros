@@ -1,0 +1,81 @@
+#
+# Makefile Macros generated from /Users/f9y/mygit/clm4-pf/scripts/ccsm_utils/Machines/config_compilers.xml using
+# COMPILER=gnu
+# OS=linux2
+# MACH=linux2-gnu
+# PFLOTRAN coupling options added
+
+CPPDEFS+= -DFORTRANUNDERSCORE -DNO_R16 -DgFORTRAN -DLinux -DCPRGNU -DHUM_HOL 
+
+CXX_LINKER:=FORTRAN
+
+FC_AUTO_R8:= -fdefault-real-8 
+
+FFLAGS := -g -O0 -fconvert=big-endian -ffree-line-length-none -ffixed-line-length-none
+FFLAGS += -fno-range-check 
+
+FFLAGS_NOOPT:= -O0 
+
+FIXEDFLAGS:=  -ffixed-form 
+
+FREEFLAGS:= -ffree-form 
+
+LAPACK_LIBDIR:= $(LAPACK_LIBDIR)
+
+MPICC:= $(mpicc)  
+
+MPICXX:= $(mpicxx) 
+
+MPIFC:= $(mpif90)
+
+MPI_LIB_NAME:= $(MPILIBNAME)
+
+SCC:= $(gcc) 
+
+SCXX:= $(gxx)
+
+SFC:= $(gfortran) 
+
+SUPPORTS_CXX:=TRUE
+
+ifeq ($(DEBUG), TRUE) 
+   FFLAGS += -g -Wall 
+endif
+
+ifeq ($(compile_threaded), true) 
+   LDFLAGS += -fopenmp 
+   CFLAGS += -fopenmp 
+   FFLAGS += -fopenmp 
+endif
+
+ifeq ($(MODEL), cism) 
+   CMAKE_OPTS += -D CISM_GNU=ON 
+endif
+
+ifeq ($(MODEL), driver) 
+   #LDFLAGS += -all_load  # this will cause 'duplicate call' of mpich libraries if 'mpich' as mpilib on Mac
+   LDFLAGS += -L$(NETCDF_PATH)/lib -lnetcdff
+endif
+
+ifeq ($(PFLOTRAN), TRUE)
+   ifeq ($(MODEL), clm)
+       FFLAGS += -I${PETSC_DIR}/${PETSC_ARCH}/include
+       FFLAGS += -I${PETSC_DIR}/include
+       FFLAGS += -I$(PFLOTRAN_COUPLED_MODEL)/src/clm-pflotran
+       
+       CPPDEFS += -DCLM_PFLOTRAN
+   endif
+
+   ifeq ($(MODEL), driver)
+       LDFLAGS += -L$(PFLOTRAN_COUPLED_MODEL)/src/clm-pflotran -lpflotran
+       LDFLAGS += $(PETSC_LIB)
+   endif
+endif
+
+ifeq ($(EXTENDED_PFT), TRUE)
+   ifeq ($(MODEL), clm)
+       CPPDEFS += -DEXTENDED_PFT
+   endif
+endif
+
+
