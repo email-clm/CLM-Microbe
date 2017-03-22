@@ -121,7 +121,6 @@ subroutine microbech4 (lbg, ubg, lbl, ubl, lbc, ubc, lbp, ubp, num_soilc, filter
 	use clmtype
 	use filterMod,  only : filter
 	use shr_const_mod, only: SHR_CONST_TKFRZ, SHR_CONST_RGAS
-	use clm_varpar, only:
 !
 ! !ARGUMENTS:
 implicit none
