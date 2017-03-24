@@ -433,7 +433,7 @@ implicit none
 	real(r8) :: HCH4Prod = 0.
 	real(r8):: sumdoc = 0.
 	real(r8):: sumace = 0.
-	integer :: IsH2Production
+	integer :: IsH2Production = 1
 !EOP
 
 	real(r8):: minpsi, maxpsi                		! limits for soil water scalar for decomp
@@ -956,7 +956,7 @@ if(j >= jwaterhead_unsat(c)) then
 	
 !	caces_unsat_prod(c,j) = AceProd
 
-	if(IsH2Production == 1)  then
+	if(IsH2Production == 1.0)  then
 	ACH2Prod = (AceProd / 6.0)
 	ACCO2Prod = 0.5 * AceProd
 	else
@@ -1734,7 +1734,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	
 !	caces_sat_prod(c,j) = AceProd
 
-	if(IsH2Production == 1)  then
+	if(IsH2Production == 1.0)  then
 	ACH2Prod = (AceProd / 6.0)
 	ACCO2Prod = 0.5 * AceProd
 	else
