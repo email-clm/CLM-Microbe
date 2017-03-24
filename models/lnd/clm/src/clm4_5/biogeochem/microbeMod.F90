@@ -724,13 +724,13 @@ implicit none
 		micfinundated = finundated(c)
 	end if  
       
-      cdocs(c,j)		= decomp_cpools_vr(c,j,i_dom) 
-      cdocs_unsat(c,j) 	= cdocs(c,j) !* (1. - micfinundated) ! concentration
-      cdocs_sat(c,j) 	= cdocs(c,j) !* micfinundated ! concentration
-      cdons(c,j) 		= decomp_npools_vr(c,j,i_dom)
+      cdocs(c,j)			= decomp_cpools_vr(c,j,i_dom) 
+      cdocs_unsat(c,j) 		= cdocs(c,j) !* (1. - micfinundated) ! concentration
+      cdocs_sat(c,j) 		= cdocs(c,j) !* micfinundated ! concentration
+      cdons(c,j) 			= decomp_npools_vr(c,j,i_dom)
       cdons_unsat(c,j) 	= cdons(c,j) !* (1. - micfinundated)  ! concentration
-      cdons_sat(c,j) 	= cdons(c,j) !* micfinundated ! concentration
-      cdons_min(c,j) 	= 0_r8
+      cdons_sat(c,j) 		= cdons(c,j) !* micfinundated ! concentration
+      cdons_min(c,j) 		= 0_r8
            end do
       end do
       
@@ -956,7 +956,7 @@ if(j >= jwaterhead_unsat(c)) then
 	
 !	caces_unsat_prod(c,j) = AceProd
 
-	if(IsH2Production == 1.0)  then
+	if(IsH2Production == 1)  then
 	ACH2Prod = (AceProd / 6.0)
 	ACCO2Prod = 0.5 * AceProd
 	else
@@ -1734,7 +1734,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	
 !	caces_sat_prod(c,j) = AceProd
 
-	if(IsH2Production == 1.0)  then
+	if(IsH2Production == 1)  then
 	ACH2Prod = (AceProd / 6.0)
 	ACCO2Prod = 0.5 * AceProd
 	else
