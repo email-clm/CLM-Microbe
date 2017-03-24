@@ -812,7 +812,7 @@ implicit none
 
 !	call seasonality(lbc, ubc, lbp, ubp, num_soilc, filter_soilc, num_soilp, filter_soilp)
 	call get_waterhead(lbc, ubc, num_soilc, filter_soilc,jwaterhead_unsat)
-!	call gas_diffusion(lbc, ubc, num_soilc, filter_soilc)
+	call gas_diffusion(lbc, ubc, num_soilc, filter_soilc)
 #if (defined HUM_HOL)
 	call lateral_bgc(lbc, ubc, num_soilc, filter_soilc)
 #endif
@@ -1035,7 +1035,7 @@ if(j >= jwaterhead_unsat(c)) then
 	!	// For acetate dyndamics
 	AceCons = m_dGrowRAceMethanogens / m_dYAceMethanogens * cacebios_unsat(c,j) &
 	* caces_unsat(c,j)  / (caces_unsat(c,j)  + m_dKCH4ProdAce) &
-		* (m_dCH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect * 1. / (1. + ccon_co2s_unsat(c,j))
+		* (m_dCH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect !* 1. / (1. + ccon_co2s_unsat(c,j))
 	!else
 !write(iulog,*)"acecons: ", m_dGrowRAceMethanogens, m_dYAceMethanogens, cacebios(c,j), caces(c,j), m_dKCH4ProdAce, m_dCH4ProdQ10, AceCons, ccon_co2s(c,j) 
 	!endif
@@ -1828,7 +1828,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	!	// For acetate dyndamics
 	AceCons = m_dGrowRAceMethanogens / m_dYAceMethanogens * cacebios_sat(c,j) &
 	* caces_sat(c,j)  / (caces_sat(c,j)  + m_dKCH4ProdAce) &
-		* (m_dCH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect * 1. / (1. + ccon_co2s_sat(c,j))
+		* (m_dCH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect !* 1. / (1. + ccon_co2s_sat(c,j))
 	!else
 !	write(iulog,*)"acecons: ", m_dGrowRAceMethanogens, m_dYAceMethanogens, cacebios(c,j), caces(c,j), m_dKCH4ProdAce, m_dCH4ProdQ10, AceCons, ccon_co2s(c,j) 
 	!endif
