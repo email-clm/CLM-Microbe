@@ -34,11 +34,11 @@ m_dKAceProdO2  	0.004
 m_dH2ProdAcemax  0.0015
 m_dKH2ProdAce  	1.65e-5
 m_dKCO2ProdAce  8.25e-6
-m_dGrowRH2Methanogens  	0.025
+m_dGrowRH2Methanogens  	0.01
 m_dDeadRH2Methanogens  	0.001
-m_dYH2Methanogens  	0.2
-m_dGrowRAceMethanogens  0.05
-m_dDeadRAceMethanogens  0.001
+m_dYH2Methanogens  	0.002
+m_dGrowRAceMethanogens  0.15
+m_dDeadRAceMethanogens  0.02
 m_dYAceMethanogens  	0.04
 m_dGrowRMethanotrophs  	0.04
 m_dDeadRMethanotrophs  	0.002
@@ -49,8 +49,8 @@ m_dYAOMMethanotrophs  	0.05
 m_dAceProdQ10  		1.5
 m_dACProdQ10 		1.5 
 m_dACMinQ10  		1.5 
-m_dAceH2min  		0.48e-8
-m_dCH4H2min 		0.41e-9
+m_dAceH2min  		0.48e-5
+m_dCH4H2min 		0.41e-6
 m_dKH2ProdCH4  		7.75e-6
 m_dKCO2ProdCH4  	3.1e-5
 m_dH2CH4ProdQ10  	1.5
