@@ -1702,7 +1702,7 @@ contains
          ptr_col=cmic%ch4_surf_dif_unsat)
 	 
     call hist_addfld1d (fname='CH4_SURF_NETFLUX', units='mol/m2/s',  &
-         avgflag='A', long_name='net flux of ch4 inundated area; (+ to atm)', &
+         avgflag='A', long_name='net flux of ch4; (+ to atm)', &
          ptr_col=cmic%ch4_surf_netflux)
     call hist_addfld1d (fname='CH4_SURF_NETFLUX_SAT', units='mol/m2/s',  &
          avgflag='A', long_name='net flux of surface CH4 flux for inundated ; (+ to atm)', &
@@ -1814,234 +1814,234 @@ contains
          ptr_col=cmic%ccon_o2s_sat)
 	 
     call hist_addfld2d (fname='CH4_PROD_ACE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column ch4 production from acetate acid', &
          ptr_col=cmic%ch4_prod_ace_depth)
     call hist_addfld2d (fname='CH4_PROD_ACE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in unsaturated fraction', &
+         avgflag='A', long_name='column ch4 production from acetate acid in unsaturated fraction', &
          ptr_col=cmic%ch4_prod_ace_depth_unsat)
     call hist_addfld2d (fname='CH4_PROD_ACE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column ch4 production from acetate acid in saturated fraction', &
          ptr_col=cmic%ch4_prod_ace_depth_sat)
 	 
     call hist_addfld2d (fname='CH4_PROD_CO2_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column ch4 production from co2 + h2', &
          ptr_col=cmic%ch4_prod_co2_depth)
     call hist_addfld2d (fname='CH4_PROD_CO2_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column ch4 production from co2 + h2 in saturated fraction', &
          ptr_col=cmic%ch4_prod_co2_depth_unsat)
     call hist_addfld2d (fname='CH4_PROD_CO2_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column ch4 production from co2 + h2 in saturated fraction', &
          ptr_col=cmic%ch4_prod_co2_depth_sat)
 	 
     call hist_addfld2d (fname='CH4_OXID_O2_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column aerobic ch4 oxidation in saturated fraction', &
          ptr_col=cmic%ch4_oxid_o2_depth)
     call hist_addfld2d (fname='CH4_OXID_O2_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column aerobic ch4 oxidation in saturated fraction', &
          ptr_col=cmic%ch4_oxid_o2_depth_unsat)
     call hist_addfld2d (fname='CH4_OXID_O2_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column aerobic ch4 oxidation in saturated fraction', &
          ptr_col=cmic%ch4_oxid_o2_depth_sat)
 
     call hist_addfld2d (fname='CH4_OXID_AOM_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column anaerobic ch4 oxidation', &
          ptr_col=cmic%ch4_oxid_aom_depth)
     call hist_addfld2d (fname='CH4_OXID_AOM_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column anaerobic ch4 oxidation in saturated fraction', &
          ptr_col=cmic%ch4_oxid_aom_depth_unsat)
     call hist_addfld2d (fname='CH4_OXID_AOM_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column anaerobic ch4 oxidation in saturated fraction', &
          ptr_col=cmic%ch4_oxid_aom_depth_sat)
 
     call hist_addfld2d (fname='CH4_AERE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='plant-mediated ch4 transport along depth', &
          ptr_col=cmic%ch4_aere_depth)
     call hist_addfld2d (fname='CH4_AERE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='plant-mediated ch4 transport along depth in saturated fraction', &
          ptr_col=cmic%ch4_aere_depth_unsat)
     call hist_addfld2d (fname='CH4_AERE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='plant-mediated ch4 transport along depth in saturated fraction', &
          ptr_col=cmic%ch4_aere_depth_sat)
 
 
     call hist_addfld2d (fname='CH4_DIF_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive ch4 transport along depth', &
          ptr_col=cmic%ch4_dif_depth) 
     call hist_addfld2d (fname='CH4_DIF_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive ch4 transport along depth in saturated fraction', &
          ptr_col=cmic%ch4_dif_depth_unsat) 
     call hist_addfld2d (fname='CH4_DIF_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive ch4 transport along depth in saturated fraction', &
          ptr_col=cmic%ch4_dif_depth_sat) 
 
     call hist_addfld2d (fname='CH4_EBUL_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='ebullitive ch4 transport along depth', &
          ptr_col=cmic%ch4_ebul_depth)
     call hist_addfld2d (fname='CH4_EBUL_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='ebullitive ch4 transport along depth in saturated fraction', &
          ptr_col=cmic%ch4_ebul_depth_unsat)
     call hist_addfld2d (fname='CH4_EBUL_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='ebullitive ch4 transport along depth in saturated fraction', &
          ptr_col=cmic%ch4_ebul_depth_sat)
 
     call hist_addfld2d (fname='CO2_PROD_ACE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='co2 production from acetate along depth', &
          ptr_col=cmic%co2_prod_ace_depth)
     call hist_addfld2d (fname='CO2_PROD_ACE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='co2 production from acetate along depth in saturated fraction', &
          ptr_col=cmic%co2_prod_ace_depth_unsat)
     call hist_addfld2d (fname='CO2_PROD_ACE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='co2 production from acetate along depth in saturated fraction', &
          ptr_col=cmic%co2_prod_ace_depth_sat)
 	 
     call hist_addfld2d (fname='CO2_DECOMP_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='co2 production of som decomposition along depth', &
          ptr_col=cmic%co2_decomp_depth)
     call hist_addfld2d (fname='CO2_DECOMP_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='co2 production of som decomposition along depth in saturated fraction', &
          ptr_col=cmic%co2_decomp_depth_unsat)
     call hist_addfld2d (fname='CO2_DECOMP_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='co2 production of som decomposition along depth in saturated fraction', &
          ptr_col=cmic%co2_decomp_depth_sat)	 
 	 
     call hist_addfld2d (fname='CO2_CONS_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column co2 consumption along depth', &
          ptr_col=cmic%co2_cons_depth)	 
     call hist_addfld2d (fname='CO2_CONS_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column co2 consumption along depth in saturated fraction', &
          ptr_col=cmic%co2_cons_depth_unsat)	
     call hist_addfld2d (fname='CO2_CONS_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column co2 consumption along depth in saturated fraction', &
          ptr_col=cmic%co2_cons_depth_sat)	
 	 
     call hist_addfld2d (fname='CO2_EBUL_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='ebullisive co2 transport along depth', &
          ptr_col=cmic%co2_ebul_depth)
     call hist_addfld2d (fname='CO2_EBUL_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='ebullisive co2 transport along depth in saturated fraction', &
          ptr_col=cmic%co2_ebul_depth_unsat)
     call hist_addfld2d (fname='CO2_EBUL_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='ebullisive co2 transport along depth in saturated fraction', &
          ptr_col=cmic%co2_ebul_depth_sat)
 	 
     call hist_addfld2d (fname='CO2_AERE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column plant-mediated transport of co2 along depth', &
          ptr_col=cmic%co2_aere_depth)
     call hist_addfld2d (fname='CO2_AERE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column plant-mediated transport of co2 along depth in saturated fraction', &
          ptr_col=cmic%co2_aere_depth_unsat)
     call hist_addfld2d (fname='CO2_AERE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column plant-mediated transport of co2 along depth in saturated fraction', &
          ptr_col=cmic%co2_aere_depth_sat)
 
     call hist_addfld2d (fname='CO2_DIFF_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive co2 transport along depth', &
          ptr_col=cmic%co2_dif_depth)
     call hist_addfld2d (fname='CO2_DIFF_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive co2 transport along depth in saturated fraction', &
          ptr_col=cmic%co2_dif_depth_unsat)
     call hist_addfld2d (fname='CO2_DIFF_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive co2 transport along depth in saturated fraction', &
          ptr_col=cmic%co2_dif_depth_sat)
 
     call hist_addfld2d (fname='O2_CONS_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='o2 consumption along depth', &
          ptr_col=cmic%o2_cons_depth)	 
     call hist_addfld2d (fname='O2_CONS_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='o2 consumption along depth in saturated fraction', &
          ptr_col=cmic%o2_cons_depth_unsat)	 
     call hist_addfld2d (fname='O2_CONS_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='o2 consumption along depth in saturated fraction', &
          ptr_col=cmic%o2_cons_depth_sat)	 
 	 
     call hist_addfld2d (fname='O2_AERE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column plant-mediated transport of o2 along depth', &
          ptr_col=cmic%o2_aere_depth)
     call hist_addfld2d (fname='O2_AERE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column plant-mediated transport of o2 along depth in saturated fraction', &
          ptr_col=cmic%o2_aere_depth_unsat)
     call hist_addfld2d (fname='O2_AERE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column plant-mediated transport of o2 along depth in saturated fraction', &
          ptr_col=cmic%o2_aere_depth_sat)
 	 
     call hist_addfld2d (fname='O2_AERE_OXID_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column plant-mediated o2 oxidation along depth', &
          ptr_col=cmic%o2_aere_oxid_depth)
     call hist_addfld2d (fname='O2_AERE_OXID_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column plant-mediated o2 oxidation along depth in saturated fraction', &
          ptr_col=cmic%o2_aere_oxid_depth_unsat)
     call hist_addfld2d (fname='O2_AERE_OXID_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column plant-mediated o2 oxidation along depth in saturated fraction', &
          ptr_col=cmic%o2_aere_oxid_depth_sat)
 	 
     call hist_addfld2d (fname='O2_DECOMP_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column O2 consumption with decomposition along depth', &
          ptr_col=cmic%o2_decomp_depth)
     call hist_addfld2d (fname='O2_DECOMP_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column O2 consumption with decomposition along depth in saturated fraction', &
          ptr_col=cmic%o2_decomp_depth_unsat)
     call hist_addfld2d (fname='O2_DECOMP_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column O2 consumption with decomposition along depth in saturated fraction', &
          ptr_col=cmic%o2_decomp_depth_sat)
 	 
     call hist_addfld2d (fname='O2_DIF_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive o2 transport along depth', &
          ptr_col=cmic%o2_dif_depth)
    call hist_addfld2d (fname='O2_DIF_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive o2 transport along depth in saturated fraction', &
          ptr_col=cmic%o2_dif_depth_unsat)
    call hist_addfld2d (fname='O2_DIF_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive o2 transport along depth in saturated fraction', &
          ptr_col=cmic%o2_dif_depth_sat)
 	 
     call hist_addfld2d (fname='H2_PROD_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column h2 production along depth', &
          ptr_col=cmic%h2_prod_depth)
     call hist_addfld2d (fname='H2_PROD_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column h2 production along depth in saturated fraction', &
          ptr_col=cmic%h2_prod_depth_unsat)
     call hist_addfld2d (fname='H2_PROD_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='column h2 production along depth in saturated fraction', &
          ptr_col=cmic%h2_prod_depth_sat)
 	 
     call hist_addfld2d (fname='H2_CONS_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='h2 consumption along depth', &
          ptr_col=cmic%h2_cons_depth)
     call hist_addfld2d (fname='H2_CONS_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='h2 consumption along depth in saturated fraction', &
          ptr_col=cmic%h2_cons_depth_unsat)
     call hist_addfld2d (fname='H2_CONS_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='h2 consumption along depth in saturated fraction', &
          ptr_col=cmic%h2_cons_depth_sat)
 	 
     call hist_addfld2d (fname='H2_AERE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='plant mediated h2 transport along depth', &
          ptr_col=cmic%h2_aere_depth)
     call hist_addfld2d (fname='H2_AERE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='plant mediated h2 transport along depth in saturated fraction', &
          ptr_col=cmic%h2_aere_depth_unsat)
     call hist_addfld2d (fname='H2_AERE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='plant mediated h2 transport along depth in saturated fraction', &
          ptr_col=cmic%h2_aere_depth_sat)
 	 
     call hist_addfld2d (fname='H2_DIF_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive h2 transport along depth', &
          ptr_col=cmic%h2_diff_depth)
     call hist_addfld2d (fname='H2_DIF_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive h2 transport along depth in saturated fraction', &
          ptr_col=cmic%h2_diff_depth_unsat)
     call hist_addfld2d (fname='H2_DIF_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='diffusive h2 transport along depth in saturated fraction', &
          ptr_col=cmic%h2_diff_depth_sat)
 	 
     call hist_addfld2d (fname='H2_EBUL_DEPTH', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='ebullisive h2 transport along depth', &
          ptr_col=cmic%h2_ebul_depth)	 
     call hist_addfld2d (fname='H2_EBUL_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='ebullisive h2 transport along depth in saturated fraction', &
          ptr_col=cmic%h2_ebul_depth_unsat)	 
     call hist_addfld2d (fname='H2_EBUL_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
-         avgflag='A', long_name='column o2 concentration in saturated fraction', &
+         avgflag='A', long_name='ebullisive h2 transport along depth in saturated fraction', &
          ptr_col=cmic%h2_ebul_depth_sat)
 	 
 ! Begin if hist_wrtch4diag block

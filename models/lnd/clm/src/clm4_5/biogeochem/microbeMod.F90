@@ -131,7 +131,7 @@ implicit none
 	integer, intent(in) :: num_soilc          			! number of column soil points in column filter
 	integer, intent(in) :: filter_soilc(ubc-lbc+1)    	! column filter for soil points
 	integer, intent(in) :: num_soilp          			! number of soil points in pft filter
-	integer, intent(in) :: filter_soilp(ubp-lbp+1) 	! pft filter for soil points
+	integer, intent(in) :: filter_soilp(ubp-lbp+1) 		! pft filter for soil points
 ! !CALLED FROM:
 ! driver.F90
 !
@@ -139,15 +139,15 @@ implicit none
 ! !LOCAL VARIABLES:
 ! local pointers to implicit in variables
 	real(r8), pointer :: gmicbios(:)				! grid-level biomass of microbes molC/m2
-	real(r8), pointer :: gdocs(:)				! grid-level doc concentration molC/m2
-	real(r8), pointer :: gaces(:)				! grid-level acetate concentration molC/m2
+	real(r8), pointer :: gdocs(:)					! grid-level doc concentration molC/m2
+	real(r8), pointer :: gaces(:)					! grid-level acetate concentration molC/m2
 	real(r8), pointer :: gacebios(:)				! grid-level biomass of methanogen based on acetate molC/m2
 	real(r8), pointer :: gco2bios(:)				! grid-level biomass of methanogen based on CO2 and H2 molC/m2
-	real(r8), pointer :: gaerch4bios(:)			! grid-level biomass of aerobix methanotrophy molC/m2
+	real(r8), pointer :: gaerch4bios(:)				! grid-level biomass of aerobix methanotrophy molC/m2
 	real(r8), pointer :: ganaerch4bios(:)			! grid-level biomass of anaerobic methanotrophy molC/m2
    
-	real(r8), pointer :: cmicbiocs(:,:)			! column-level biomass of all microbes molC/m3
-	real(r8), pointer :: cdocs_pre(:,:)			! column-level concentration of DOC molC/m3 
+	real(r8), pointer :: cmicbiocs(:,:)				! column-level biomass of all microbes molC/m3
+	real(r8), pointer :: cdocs_pre(:,:)				! column-level concentration of DOC molC/m3 
 	real(r8), pointer :: cdocs(:,:)				! column-level concentration of DOC molC/m3 
 	real(r8), pointer :: cdocs_unsat(:,:)			! column-level concentration of DOC molC/m3 in unsaturated fraction
 	real(r8), pointer :: cdocs_sat(:,:)			! column-level concentration of DOC molC/m3 in saturated fraction
@@ -1621,16 +1621,16 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	l = clandunit(c)     
 	if (ltype(l) == istsoil .or. ltype(l) == istcrop) then 
 	do j = 1,nlevsoi
-	cdocs_unsat(c,j) 				= cdocs_unsat(c,j) * 12.	! convert from mmol/m3 to gC/m3
-	caces_unsat(c,j) 				= caces_unsat(c,j) * 12.	! convert from mmol/m3 to gC/m3
-	cacebios_unsat(c,j) 				= cacebios_unsat(c,j) * 12.	! convert from mmol/m3 to gC/m3
-	cco2bios_unsat(c,j) 				= cco2bios_unsat(c,j) * 12. 	! convert from mmol/m3 to gC/m3
-	caerch4bios_unsat(c,j) 			= caerch4bios_unsat(c,j) * 12.	! convert from mmol/m3 to gC/m3
+	cdocs_unsat(c,j) 				= cdocs_unsat(c,j) * 12.			! convert from mmol/m3 to gC/m3
+	caces_unsat(c,j) 				= caces_unsat(c,j) * 12.			! convert from mmol/m3 to gC/m3
+	cacebios_unsat(c,j) 				= cacebios_unsat(c,j) * 12.		! convert from mmol/m3 to gC/m3
+	cco2bios_unsat(c,j) 				= cco2bios_unsat(c,j) * 12. 		! convert from mmol/m3 to gC/m3
+	caerch4bios_unsat(c,j) 			= caerch4bios_unsat(c,j) * 12.		! convert from mmol/m3 to gC/m3
 	canaerch4bios_unsat(c,j) 			= canaerch4bios_unsat(c,j) * 12.	! convert from mmol/m3 to gC/m3
-	ccon_o2s_unsat(c,j) 				= ccon_o2s_unsat(c,j) * 32.	! convert from mmol/m3 to gC/m3
-	ccon_ch4s_unsat(c,j) 				= ccon_ch4s_unsat(c,j) * 12.	! convert from mmol/m3 to gC/m3
-	ccon_h2s_unsat(c,j) 				= ccon_h2s_unsat(c,j) * 2.	! convert from mmol/m3 to gC/m3
-	ccon_co2s_unsat(c,j) 				= ccon_co2s_unsat(c,j) * 12.	! convert from mmol/m3 to gC/m3
+	ccon_o2s_unsat(c,j) 				= ccon_o2s_unsat(c,j) * 32.		! convert from mmol/m3 to gC/m3
+	ccon_ch4s_unsat(c,j) 			= ccon_ch4s_unsat(c,j) * 12.		! convert from mmol/m3 to gC/m3
+	ccon_h2s_unsat(c,j) 				= ccon_h2s_unsat(c,j) * 2.		! convert from mmol/m3 to gC/m3
+	ccon_co2s_unsat(c,j) 			= ccon_co2s_unsat(c,j) * 12.		! convert from mmol/m3 to gC/m3
 	end do
 	end if
 	end do
