@@ -1002,7 +1002,7 @@ if(j >= jwaterhead_unsat(c)) then
 	H2Cons = 4. * (H2AceProd + H2CH4Prod)
 
 	H2Cons = max(0._r8, H2Cons)
-!	H2Cons = max(0._r8, ccon_h2s_unsat(c,j))	
+	ccon_h2s_unsat(c,j) = max(0._r8, ccon_h2s_unsat(c,j))	
 	
 	if(ccon_h2s_unsat(c,j) >= H2Cons) then
 	H2Cons = H2Cons
@@ -1330,7 +1330,7 @@ else
 	H2Cons = 4. * (H2AceProd + H2CH4Prod)
 
 	H2Cons = max(0._r8, H2Cons)
-!	H2Cons = max(0._r8, ccon_h2s_unsat(c,j))	
+	ccon_h2s_unsat(c,j) = max(0._r8, ccon_h2s_unsat(c,j))	
 	
 	if(ccon_h2s_unsat(c,j) >= H2Cons) then
 	H2Cons = H2Cons
@@ -1782,7 +1782,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	H2Cons = 4. * (H2AceProd + H2CH4Prod)
 
 	H2Cons = max(0._r8, H2Cons)
-!	H2Cons = max(0._r8, ccon_h2s_sat(c,j))	
+	ccon_h2s_sat(c,j) = max(0._r8, ccon_h2s_sat(c,j))	
 	
 	if(ccon_h2s_sat(c,j) >= H2Cons) then
 	H2Cons = H2Cons
