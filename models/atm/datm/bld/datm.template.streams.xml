@@ -291,7 +291,7 @@
    <variableNames                              >
       ZBOT     z
       TBOT     tbot
-      RH       rh
+      QBOT     shum
       WIND     wind
       PRECTmms precn
       FSDS     swdn
