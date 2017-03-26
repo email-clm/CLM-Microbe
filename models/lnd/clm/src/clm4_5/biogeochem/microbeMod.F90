@@ -972,7 +972,7 @@ if(j >= jwaterhead_unsat(c)) then
 	ACConcentration = 0.0
 	end if
 	
-	if(ccon_h2s_unsat(c,j) <= m_dCH4H2min) then
+!	if(ccon_h2s_unsat(c,j) <= m_dCH4H2min) then
 	! Xiaofeng replaced the following two lines code with new mechanism of CH4 production from CO2 
 	!back to orgional on 7/11/2013
 	H2AceProd = 0
@@ -983,36 +983,36 @@ if(j >= jwaterhead_unsat(c)) then
 	!	* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect / 10.
 	!H2AceProd = 0	
 	!print *, "HCH4Prod: ", HCH4Prod	
-	else
-	if(ccon_h2s_unsat(c,j) <= m_dAceH2min) then
+!	else
+!	if(ccon_h2s_unsat(c,j) <= m_dAceH2min) then
 	H2CH4Prod = m_dGrowRH2Methanogens / m_dYH2Methanogens * cco2bios_unsat(c,j) &
 	* ccon_h2s_unsat(c,j) / ( ccon_h2s_unsat(c,j) + m_dKH2ProdCH4) &
 		* ccon_co2s_unsat(c,j) / (ccon_co2s_unsat(c,j) + m_dKCO2ProdCH4) &
 		* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect
-	H2AceProd = 0
+!	H2AceProd = 0
 !write(iulog,*) "H2CH4Prod: ", H2CH4Prod
-	else
+!	else
 	H2AceProd = m_dH2ProdAcemax * ccon_h2s_unsat(c,j) / (ccon_h2s_unsat(c,j) + m_dKH2ProdAce) &
 	* cco2bios_unsat(c,j) / (cco2bios_unsat(c,j) + m_dKCO2ProdAce) &
 		* (m_dH2AceProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect
-	H2CH4Prod = 0
-	end if
-	end if
+!	H2CH4Prod = 0
+!	end if
+!	end if
 			
 	H2Cons = 4. * (H2AceProd + H2CH4Prod)
 
 	H2Cons = max(0._r8, H2Cons)
-	H2Cons = max(0._r8, ccon_h2s_unsat(c,j))	
+!	H2Cons = max(0._r8, ccon_h2s_unsat(c,j))	
 	
 	if(ccon_h2s_unsat(c,j) >= H2Cons) then
 	H2Cons = H2Cons
 	ccon_h2s_unsat(c,j) = ccon_h2s_unsat(c,j) - H2Cons
-	Else
+	else
 	dTempratio = ccon_h2s_unsat(c,j) / H2Cons
 	dTempH2 = ccon_h2s_unsat(c,j)
-	H2Cons = ccon_h2s_unsat(c,j)
+!	H2Cons = ccon_h2s_unsat(c,j)
 	ccon_h2s_unsat(c,j) = 0
-	H2AceProd = 4 * H2AceProd * dTempratio * dTempH2
+	H2AceProd = H2AceProd * dTempratio
 	H2CH4Prod = dTempH2 - H2AceProd
 	end if
 		
@@ -1330,7 +1330,7 @@ else
 	H2Cons = 4. * (H2AceProd + H2CH4Prod)
 
 	H2Cons = max(0._r8, H2Cons)
-	H2Cons = max(0._r8, ccon_h2s_unsat(c,j))	
+!	H2Cons = max(0._r8, ccon_h2s_unsat(c,j))	
 	
 	if(ccon_h2s_unsat(c,j) >= H2Cons) then
 	H2Cons = H2Cons
@@ -1338,9 +1338,9 @@ else
 	Else
 	dTempratio = ccon_h2s_unsat(c,j) / H2Cons
 	dTempH2 = ccon_h2s_unsat(c,j)
-	H2Cons = ccon_h2s_unsat(c,j)
+!	H2Cons = ccon_h2s_unsat(c,j)
 	ccon_h2s_unsat(c,j) = 0
-	H2AceProd = 4 * H2AceProd * dTempratio * dTempH2
+	H2AceProd = H2AceProd * dTempratio
 	H2CH4Prod = dTempH2 - H2AceProd
 	end if
 		
@@ -1751,7 +1751,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	end if
 	
 	!print *, "H2: ", m_dH2, " ch4h2min: ", m_dCH4H2min, "CO2: ", m_dCO2
-	if(ccon_h2s_sat(c,j) <= m_dCH4H2min) then
+!	if(ccon_h2s_sat(c,j) <= m_dCH4H2min) then
 	! Xiaofeng replaced the following two lines code with new mechanism of CH4 production from CO2 
 	!back to orgional on 7/11/2013
 	H2AceProd = 0
@@ -1762,37 +1762,37 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	!	* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect / 10.
 	!H2AceProd = 0	
 	!print *, "HCH4Prod: ", HCH4Prod	
-	else
-	if(ccon_h2s_sat(c,j) <= m_dAceH2min) then
+!	else
+!	if(ccon_h2s_sat(c,j) <= m_dAceH2min) then
 	H2CH4Prod = m_dGrowRH2Methanogens / m_dYH2Methanogens * cco2bios_sat(c,j) &
 	* ccon_h2s_sat(c,j) / ( ccon_h2s_sat(c,j) + m_dKH2ProdCH4) &
 		* ccon_co2s_sat(c,j) / (ccon_co2s_sat(c,j) + m_dKCO2ProdCH4) &
 		* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect
-	H2AceProd = 0
+!	H2AceProd = 0
 	!print *, "H2CH4Prod: ", H2CH4Prod
-	else
+!	else
 	H2AceProd = m_dH2ProdAcemax * ccon_h2s_sat(c,j) / (ccon_h2s_sat(c,j) + m_dKH2ProdAce) &
 	* cco2bios_sat(c,j) / (cco2bios_sat(c,j) + m_dKCO2ProdAce) &
 		* (m_dH2AceProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect
-	H2CH4Prod = 0
+!	H2CH4Prod = 0
 
-	end if
-	end if
+!	end if
+!	end if
 			
 	H2Cons = 4. * (H2AceProd + H2CH4Prod)
 
 	H2Cons = max(0._r8, H2Cons)
-	H2Cons = max(0._r8, ccon_h2s_sat(c,j))	
+!	H2Cons = max(0._r8, ccon_h2s_sat(c,j))	
 	
 	if(ccon_h2s_sat(c,j) >= H2Cons) then
 	H2Cons = H2Cons
 	ccon_h2s_sat(c,j) = ccon_h2s_sat(c,j) - H2Cons
-	Else
+	else
 	dTempratio = ccon_h2s_sat(c,j) / H2Cons
 	dTempH2 = ccon_h2s_sat(c,j)
-	H2Cons = ccon_h2s_sat(c,j)
+!	H2Cons = ccon_h2s_sat(c,j)
 	ccon_h2s_sat(c,j) = 0
-	H2AceProd = 4 * H2AceProd * dTempratio * dTempH2
+	H2AceProd = H2AceProd * dTempratio
 	H2CH4Prod = dTempH2 - H2AceProd
 	end if
 		
