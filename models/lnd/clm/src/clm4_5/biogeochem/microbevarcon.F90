@@ -227,7 +227,7 @@ module microbevarcon
 	real(r8) :: m_dAirCO2 = 16.295 !; // mM/m3
 	
 	! not in the parameter file
-	real(r8) :: m_dPlantTrans = 0.68
+	real(r8) :: m_dPlantTrans = 0.68 / 48.0
 	real(r8) :: g_dMaxH2inWater = 4.73e-4
   
 	real(r8) :: pHmin = 4.0
