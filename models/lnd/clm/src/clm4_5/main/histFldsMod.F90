@@ -1773,43 +1773,43 @@ contains
          ptr_col=cmic%caces_sat_prod) 
 
 
-    call hist_addfld2d (fname='CCON_CH4S', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_CH4S', units='gC/m3', type2d='levgrnd', &
          avgflag='A', long_name='column ch4 concentration', &
          ptr_col=cmic%ccon_ch4s)
-    call hist_addfld2d (fname='CCON_CH4S_UNSAT', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_CH4S_UNSAT', units='gC/m3', type2d='levgrnd', &
          avgflag='A', long_name='column ch4 concentration in unsaturated fraction', &
          ptr_col=cmic%ccon_ch4s_unsat)
-    call hist_addfld2d (fname='CCON_CH4S_SAT', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_CH4S_SAT', units='gC/m3', type2d='levgrnd', &
          avgflag='A', long_name='column ch4 concentration in saturated fraction', &
          ptr_col=cmic%ccon_ch4s_sat)
  
-    call hist_addfld2d (fname='CCON_CO2S', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_CO2S', units='gC/m3', type2d='levgrnd', &
          avgflag='A', long_name='column co2 concentration', &
          ptr_col=cmic%ccon_co2s)
-    call hist_addfld2d (fname='CCON_CO2S_UNSAT', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_CO2S_UNSAT', units='gC/m3', type2d='levgrnd', &
          avgflag='A', long_name='column co2 concentration in unsaturated fraction', &
          ptr_col=cmic%ccon_co2s_unsat)
-    call hist_addfld2d (fname='CCON_CO2S_SAT', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_CO2S_SAT', units='gC/m3', type2d='levgrnd', &
          avgflag='A', long_name='column co2 concentration in saturated fraction', &
          ptr_col=cmic%ccon_co2s_sat)
 	 
-    call hist_addfld2d (fname='CCON_H2S', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_H2S', units='gH/m3', type2d='levgrnd', &
          avgflag='A', long_name='column h2 concentration', &
          ptr_col=cmic%ccon_h2s)
-    call hist_addfld2d (fname='CCON_H2S_UNSAT', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_H2S_UNSAT', units='gH/m3', type2d='levgrnd', &
          avgflag='A', long_name='column h2 concentration in unsaturated fraction', &
          ptr_col=cmic%ccon_h2s_unsat)
-    call hist_addfld2d (fname='CCON_H2S_SAT', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_H2S_SAT', units='gH/m3', type2d='levgrnd', &
          avgflag='A', long_name='column h2 concentration in saturated fraction', &
          ptr_col=cmic%ccon_h2s_sat)
  
-    call hist_addfld2d (fname='CCON_O2S', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_O2S', units='gO/m3', type2d='levgrnd', &
          avgflag='A', long_name='column o2 concentration', &
          ptr_col=cmic%ccon_o2s)
-    call hist_addfld2d (fname='CCON_O2S_UNSAT', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_O2S_UNSAT', units='gO/m3', type2d='levgrnd', &
          avgflag='A', long_name='column o2 concentration in unsaturated fraction', &
          ptr_col=cmic%ccon_o2s_unsat)
-    call hist_addfld2d (fname='CCON_O2S_SAT', units='mol/m3', type2d='levgrnd', &
+    call hist_addfld2d (fname='CCON_O2S_SAT', units='gO/m3', type2d='levgrnd', &
          avgflag='A', long_name='column o2 concentration in saturated fraction', &
          ptr_col=cmic%ccon_o2s_sat)
 	 
