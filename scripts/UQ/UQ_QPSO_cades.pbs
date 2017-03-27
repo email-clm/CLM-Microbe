@@ -4,12 +4,12 @@
 #PBS -q batch
 #PBS -M ricciutodm@ornl.gov
 #PBS -l nodes=2:ppn=32
-#PBS -l walltime=24:00:00
+#PBS -l walltime=48:00:00
 #PBS -j oe
 #PBS -S /bin/csh -V
 #PBS -W group_list=cades-ccsi
 
 cd /home/$USER/models/CLM_SPRUCE/scripts/UQ
 
-mpirun -np 64 --hostfile $PBS_NODEFILE ./QPSO > QPSO_log.txt
+/software/dev_tools/swtree/cs400_centos7.2_pe2016-08/openmpi/1.10.3/centos7.2_gnu5.3.0/bin/mpirun -np 64 --hostfile $PBS_NODEFILE ./QPSO > QPSO_log.txt
 python UQ_runbest.py 

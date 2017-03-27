@@ -60,10 +60,10 @@ MODULE ceo
 ! Probability of ranking w.r.t. objective
     Real(dp), Parameter :: pf = 0.45d0    
 
-    Integer(i4b), parameter :: refresh = 2 ! Iterations between progress chks
+    Integer(i4b), parameter :: refresh = 3 ! Iterations between progress chks
     Integer(i4b) :: n_x                      ! Number of variables
     Integer(i4b), parameter :: mu = 15  !15       ! Number of parents
-    Integer(i4b), parameter :: lambda = 64   ! Number of individuals in 
+    Integer(i4b), parameter :: lambda = 128   ! Number of individuals in 
                                              !   the population
     Real(dp) :: alpha                        ! ISRES randomization range 
                                              !   (originally 0.2)

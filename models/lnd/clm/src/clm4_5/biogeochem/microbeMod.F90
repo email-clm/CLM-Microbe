@@ -1159,15 +1159,16 @@ if(j >= jwaterhead_unsat(c)) then
 	!end if
 	
 !	if(ccon_o2s(c,j) < 0.0001) then
-!	AOMCH4Oxid = m_dGrowRAOMMethanotrophs / m_dYAOMMethanotrophs * canaerch4bios(c,j) * &
-!		ccon_ch4s(c,j)  / (ccon_ch4s(c,j)  + m_dKAOMCH4OxidCH4) * (m_dAOMCH4OxidQ10 ** ((soiltemp(c,j) - 13.5) / 10.)) * pHeffect
+	AOMCH4Oxid = m_dGrowRAOMMethanotrophs / m_dYAOMMethanotrophs * canaerch4bios_unsat(c,j) * &
+		ccon_ch4s_unsat(c,j)  / (ccon_ch4s_unsat(c,j)  + m_dKAOMCH4OxidCH4) * (m_dAOMCH4OxidQ10 ** ((soiltemp(c,j) - 13.5) / 10.)) &
+		* (1.0 - min(1.0, ccon_o2s_unsat(c,j) / 4.6)) * pHeffect
 !	endif
 !	
-!	if(AOMCH4Oxid < ccon_ch4s(c,j)) then
-!	AOMCH4Oxid = AOMCH4Oxid
-!	else
-!	AOMCH4Oxid = ccon_ch4s(c,j)
-!	end if	
+	if(AOMCH4Oxid < ccon_ch4s_unsat(c,j)) then
+	AOMCH4Oxid = AOMCH4Oxid
+	else
+	AOMCH4Oxid = ccon_ch4s_unsat(c,j)
+	end if	
 		
 	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - AOMCH4Oxid
 	ccon_ch4s_unsat(c,j) = max(0._r8, ccon_ch4s_unsat(c,j))
@@ -1448,15 +1449,16 @@ else
 	!end if
 	
 !	if(ccon_o2s(c,j) < 0.0001) then
-!	AOMCH4Oxid = m_dGrowRAOMMethanotrophs / m_dYAOMMethanotrophs * canaerch4bios(c,j) * &
-!		ccon_ch4s(c,j)  / (ccon_ch4s(c,j)  + m_dKAOMCH4OxidCH4) * (m_dAOMCH4OxidQ10 ** ((soiltemp(c,j) - 13.5) / 10.)) * pHeffect
+	AOMCH4Oxid = m_dGrowRAOMMethanotrophs / m_dYAOMMethanotrophs * canaerch4bios_unsat(c,j) * &
+		ccon_ch4s_unsat(c,j)  / (ccon_ch4s_unsat(c,j)  + m_dKAOMCH4OxidCH4) * (m_dAOMCH4OxidQ10 ** ((soiltemp(c,j) - 13.5) / 10.)) &
+		* (1. - min(1.0, ccon_o2s_unsat(c,j) / 4.6)) * pHeffect
 !	endif
 !	
-!	if(AOMCH4Oxid < ccon_ch4s(c,j)) then
-!	AOMCH4Oxid = AOMCH4Oxid
-!	else
-!	AOMCH4Oxid = ccon_ch4s(c,j)
-!	end if	
+	if(AOMCH4Oxid < ccon_ch4s_unsat(c,j)) then
+	AOMCH4Oxid = AOMCH4Oxid
+	else
+	AOMCH4Oxid = ccon_ch4s_unsat(c,j)
+	end if	
 		
 	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - AOMCH4Oxid
 	ccon_ch4s_unsat(c,j) = max(0._r8, ccon_ch4s_unsat(c,j))
@@ -1947,15 +1949,16 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	!end if
 	
 !	if(ccon_o2s(c,j) < 0.0001) then
-!	AOMCH4Oxid = m_dGrowRAOMMethanotrophs / m_dYAOMMethanotrophs * canaerch4bios(c,j) * &
-!		ccon_ch4s(c,j)  / (ccon_ch4s(c,j)  + m_dKAOMCH4OxidCH4) * (m_dAOMCH4OxidQ10 ** ((soiltemp(c,j) - 13.5) / 10.)) * pHeffect
+	AOMCH4Oxid = m_dGrowRAOMMethanotrophs / m_dYAOMMethanotrophs * canaerch4bios_sat(c,j) * &
+		ccon_ch4s_sat(c,j)  / (ccon_ch4s_sat(c,j)  + m_dKAOMCH4OxidCH4) * (m_dAOMCH4OxidQ10 ** ((soiltemp(c,j) - 13.5) / 10.)) &
+		* (1.0 - min(1.0, ccon_o2s_sat(c,j) / 4.6))* pHeffect
 !	endif
 !	
-!	if(AOMCH4Oxid < ccon_ch4s(c,j)) then
-!	AOMCH4Oxid = AOMCH4Oxid
-!	else
-!	AOMCH4Oxid = ccon_ch4s(c,j)
-!	end if	
+	if(AOMCH4Oxid < ccon_ch4s_sat(c,j)) then
+	AOMCH4Oxid = AOMCH4Oxid
+	else
+	AOMCH4Oxid = ccon_ch4s_sat(c,j)
+	end if	
 		
 	ccon_ch4s_sat(c,j) = ccon_ch4s_sat(c,j) - AOMCH4Oxid
 	ccon_ch4s_sat(c,j) = max(0._r8, ccon_ch4s_sat(c,j))
@@ -1984,7 +1987,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 
 	!~ cacebios_sat(c,j) 			= cacebios_sat(c,j) + min((AceMethanogenGrowth - AceMethanogenDying), 0._r8) 
 	!~ cco2bios_sat(c,j) 			= cco2bios_sat(c,j) + min((H2MethanogenGrowth - H2MethanogenDying), 0._r8)
-	!~ caerch4bios_sat(c,j) 			= caerch4bios_sat(c,j) + min((MethanotrophGrowth - MethanotrophDying), 0._r8)
+	!~ caerch4bios_sat(c,j) 		= caerch4bios_sat(c,j) + min((MethanotrophGrowth - MethanotrophDying), 0._r8)
 	!~ canaerch4bios_sat(c,j) 		= canaerch4bios_sat(c,j) + min((AOMMethanotrophGrowth - AOMMethanotrophDying), 0._r8) 
 
 	cacebios_sat(c,j) 			= cacebios_sat(c,j) + AceMethanogenGrowth - AceMethanogenDying

@@ -5,7 +5,12 @@ flnr 12 0.05 0.3
 flnr 13 0.05 0.3
 crit_onset_gdd -1 25 500
 leaf_long 13 0.6 1.5
+stem_leaf 3 -3.5 -1.0
+stem_leaf 4 -3.5 -1.0
 stem_leaf 12 0.05 0.5
+croot_stem 3 0.05 0.8
+croot_stem 4 0.05 0.8
+croot_stem 12 0.05 0.8
 slatop 4  0.00854 0.01302
 slatop 3  0.00255 0.00475
 slatop 12 0.00833 0.0154
@@ -14,7 +19,9 @@ froot_leaf 3 0.3 2.0
 froot_leaf 4 0.3 2.0
 froot_leaf 12 0.3 2.0
 froot_leaf 13 0.3 2.0
-mp -1 5.5 11.0
+mp 3  5.0 12.0
+mp 4  5.0 12.0
+mp 12 5.0 12.0
 bdnr -1 0.001 0.75
 qflx_h2osfc_surfrate 0 8e-8 3e-7
 rsub_top_max 0 1e-5 1.8e-5
@@ -22,6 +29,9 @@ leafcn 3  64.2 79.4
 leafcn 4  57.2 71.2
 leafcn 12 20.8 44.9
 leafcn 13 34.2 49.8
-ksomfac -1 0.75 12
+grperc -1 0.10 0.50
 br_mr -1 1.00e-6 5.00e-6
+q10_mr -1 1.2 3.8
+r_mort -1 0.005 0.05
+lwtop_ann -1 0.2 0.9
 decomp_depth_efolding -1 0.1 0.6

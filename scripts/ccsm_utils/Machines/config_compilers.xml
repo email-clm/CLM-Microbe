@@ -456,6 +456,49 @@ for mct, etc.
   <LIB_NETCDF>/home/zdr/netcdf-4.0_gfortran/lib</LIB_NETCDF>
 </compiler>
 
+<compiler MACH="oic5" COMPILER="gnu">
+  <NETCDF_PATH>/home/zdr/netcdf-4.0_gfortran</NETCDF_PATH>
+  <ADD_SLIBS> -L/user/lib64 -llapack -lblas -L/home/zdr/netcdf-4.0_gfortran/lib -lnetcdf </ADD_SLIBS>
+  <INC_NETCDF>/home/zdr/netcdf-4.0_gfortran/include</INC_NETCDF>
+  <LIB_NETCDF>/home/zdr/netcdf-4.0_gfortran/lib</LIB_NETCDF>
+</compiler>
+
+<compiler COMPILER="gnu" MACH="cades">
+      <ADD_CPPDEFS> -DFORTRANUNDERSCORE -DNO_R16</ADD_CPPDEFS>
+      <ADD_CFLAGS compile_threaded="true"> -fopenmp </ADD_CFLAGS>
+      <ADD_FFLAGS compile_threaded="true"> -fopenmp </ADD_FFLAGS>
+      <ADD_LDFLAGS compile_threaded="true"> -L$(GCC_ROOT)/lib64/gcc/x86_64-unknown-linux-gnu/5.3.0 -fopenmp </ADD_LDFLAGS>
+      <ADD_CMAKE_OPTS MODEL="cism"> -D CISM_GNU=ON </ADD_CMAKE_OPTS>
+      <FIXEDFLAGS>  -ffixed-form </FIXEDFLAGS>
+      <FREEFLAGS> -ffree-form </FREEFLAGS>
+      <ADD_FFLAGS DEBUG="TRUE"> -g -Wall </ADD_FFLAGS>
+      <!-- -ffree-line-length-none and -ffixed-line-length-none need to be in FFLAGS rather than in FIXEDFLAGS/FREEFLAGS 
+                                            so that these are passed to cmake builds (cmake builds don't use FIXEDFLAGS and FREEFLAGS). -->
+      <FFLAGS> -O -fconvert=big-endian -ffree-line-length-none -ffixed-line-length-none -fno-range-check</FFLAGS>
+      <FFLAGS_NOOPT> -O0 </FFLAGS_NOOPT>
+      <FC_AUTO_R8> -fdefault-real-8 </FC_AUTO_R8>
+      <!-- user install gcc -->
+      <SFC> $(gfortran) </SFC>
+      <SCC> $(gcc) </SCC>
+      <SCXX> $(gxx) </SCXX>
+      <MPIFC> $(mpif90) </MPIFC>
+      <MPICC> $(mpicc)  </MPICC>
+      <MPICXX> $(mpicxx) </MPICXX>
+      <CXX_LINKER>FORTRAN</CXX_LINKER>
+      <SUPPORTS_CXX>TRUE</SUPPORTS_CXX>
+      <!-- user installed/loaded NETCDF/HDF5/LAPACK libraries, install directories MUST be specified in 'env_mach_specific.cades -->
+      <NETCDF_PATH>$(NETCDF_PATH)</NETCDF_PATH>
+      <HDF5_ROOT>$(HDF5_ROOT)</HDF5_ROOT>
+      <LAPACK_LIBDIR>$(LAPACK_LIBDIR)</LAPACK_LIBDIR>
+      <BLAS_LIBDIR>$(BLAS_LIBDIR)</BLAS_LIBDIR>
+      <ADD_LDFLAGS MODEL="driver" > -L$(NETCDF_PATH)/lib -Wl,-rpath=$(NETCDF_PATH)/lib -lnetcdff -lnetcdf \
+              -L$(HDF5_ROOT)/lib -Wl,-rpath=$(HDF5_ROOT)/lib -lhdf5_hl -lhdf5 \
+              -L$(LAPACK_LIBDIR) -Wl,-rpath=$(LAPACK_LIBDIR) \
+              -L$(BLAS_LIBDIR) -Wl,-rpath=$(BLAS_LIBDIR)
+      </ADD_LDFLAGS>
+      <PFUNIT_PATH></PFUNIT_PATH>
+</compiler>
+
 <compiler MACH="yellowstone">
   <PIO_CONFIG_OPTS> --enable-filesystem-hints=gpfs </PIO_CONFIG_OPTS>
   <NETCDF_PATH>$(NETCDF)</NETCDF_PATH>

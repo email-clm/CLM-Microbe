@@ -267,11 +267,16 @@ SUBROUTINE model_objf(x,f,g)
     end do
     close(9)
 
-    !Call python script to manage simulation
     call system('python UQ_runens.py --ens_num ' // grouptag(2:6) // &
-         ' --parm_list ' // 'parm_list --parm_data ./parm_data_files/' // &
-         'parm_data_' // grouptag(2:6) // ' --constraints ' // &
-         '/home/zdr/models/CLM_SPRUCE/scripts/UQ/constraints')
+     ' --parm_list ' // 'parm_list --parm_data ./parm_data_files/' // &
+     'parm_data_' // grouptag(2:6) // ' --constraints constraints')
+
+
+    !Call python script to manage simulation
+    !call system('python UQ_runens.py --ens_num ' // grouptag(2:6) // &
+    !     ' --parm_list ' // 'parm_list --parm_data ./parm_data_files/' // &
+    !     'parm_data_' // grouptag(2:6) // ' --constraints ' // &
+    !     '/home/zdr/models/CLM_SPRUCE/scripts/UQ/constraints')
 
     !get the sum of squared errors
     open(unit=9, file='./ssedata/mysse_' // grouptag(2:6) // '.txt')

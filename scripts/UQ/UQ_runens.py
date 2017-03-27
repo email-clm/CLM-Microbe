@@ -16,7 +16,7 @@ from optparse import OptionParser
 
 parser = OptionParser()
 
-parser.add_option("--runroot", dest="runroot", default="../../run", \
+parser.add_option("--runroot", dest="runroot", default="", \
                   help="Directory where the run would be created")
 parser.add_option("--ens_num", dest="ensnum", default=1, \
                   help="Ensemble member number")
@@ -28,6 +28,8 @@ parser.add_option("--constraints", dest="constraints", default="", \
                   help="Directory containing constraining variables")
 parser.add_option("--norun", dest="norun", default=False, action="store_true", \
                   help="Don't run model (use for testing purposes)")
+parser.add_option("--machine", dest="machine", default="cades", \
+                  help="My machine")
 
 (options, args) = parser.parse_args()
 
@@ -83,10 +85,26 @@ parm_values=[]
 myinput = open(options.parm_list, 'r')
 lnum=0
 
+username = getpass.getuser()
+if (options.machine == 'cades' and options.runroot == ''):
+    options.runroot = '/lustre/or-hydra/cades-ccsi/scratch/'+username
+elif (options.runroot == ''):
+    options.runroot = '../../run'
+
+
 #get parameter names and PFT information
+casenames = []
 for s in myinput:
     if (lnum == 0):
-        casename=s.strip()
+        if ('20TR' in s or '1850' in s):
+            casenames.append(s.strip())
+            isfullrun = False
+        else:
+            casenames.append(s.strip()+'_I1850CLM45CN_ad_spinup')
+            casenames.append(s.strip()+'_I1850CLM45CN')
+            casenames.append(s.strip()+'_I20TRCLM45CN')
+            #for now, hard-code the number of years for ad_spinup and final spinup
+            isfullrun = True
     else:
         pdata = s.split()
         #print pdata
@@ -104,97 +122,125 @@ myinput.close()
 n_parameters = len(parm_names)
 gst=str(100000+int(options.ensnum))
 
-#create ensemble directory from original case 
-orig_dir = str(os.path.abspath(options.runroot)+'/'+casename+'/run')
-ens_dir  = os.path.abspath(options.runroot)+'/UQ/'+casename+'/g'+gst[1:]
-
-os.system('mkdir -p '+options.runroot+'/UQ/'+casename+'/g'+gst[1:]+'/timing/checkpoints')
-os.system('cp '+orig_dir+'/*_in* '+ens_dir)
-os.system('cp '+orig_dir+'/*nml '+ens_dir)
-os.system('cp '+orig_dir+'/*stream* '+ens_dir)
-os.system('cp '+orig_dir+'/*.r.*.nc '+ens_dir)
-os.system('cp '+orig_dir+'/*.rc '+ens_dir)
-os.system('cp '+orig_dir+'/*para*.nc '+ens_dir)
-os.system('cp '+orig_dir+'/*initial* '+ens_dir)
-os.system('cp '+orig_dir+'/*pftdyn* '+ens_dir)
-os.system('cp '+ens_dir+'/microbepar_in '+ens_dir+'/microbepar_in_orig')
-username = getpass.getuser()
-os.system('cp /home/'+username+'/models/CLM_SPRUCE/inputdata/lnd/clm2/paramdata/'+ \
+#create ensemble directories from original case(s)
+isfirstcase = True
+workdir = os.path.abspath('.')
+for casename in casenames: 
+    orig_dir = str(os.path.abspath(options.runroot)+'/'+casename+'/run')
+    ens_dir  = os.path.abspath(options.runroot)+'/UQ/'+casename+'/g'+gst[1:]
+    print 'test1'
+    os.system('mkdir -p '+options.runroot+'/UQ/'+casename+'/g'+gst[1:]+'/timing/checkpoints')
+    os.system('cp '+orig_dir+'/*_in* '+ens_dir)
+    os.system('cp '+orig_dir+'/*nml '+ens_dir)
+    os.system('cp '+orig_dir+'/*stream* '+ens_dir)
+    #os.system('cp '+orig_dir+'/*.r.*.nc '+ens_dir)
+    os.system('cp '+orig_dir+'/*.rc '+ens_dir)
+    os.system('cp '+orig_dir+'/*para*.nc '+ens_dir)
+    os.system('cp '+orig_dir+'/*initial* '+ens_dir)
+    os.system('cp '+orig_dir+'/*pftdyn* '+ens_dir)
+    print casename, 'test2'
+    os.system('cp '+ens_dir+'/microbepar_in '+ens_dir+'/microbepar_in_orig')
+    username = getpass.getuser()
+    os.system('cp /home/'+username+'/models/CLM_SPRUCE/inputdata/lnd/clm2/paramdata/'+ \
                'clm_params_spruce_calveg.nc '+ens_dir+'/clm_params_'+ \
                gst[1:]+".nc")	
-inifile = ens_dir+'/'+casename+'.clm2.r.1974-01-01-00000.nc'
+    if (isfullrun):     #Full spinup simulation
+        mydrv_in = open(orig_dir+'/drv_in','r')
+        for s in mydrv_in:
+            if ('stop_n' in s and 'ad_spinup' in casename):
+                nyears_ad_spinup = int(s.split()[2])
+            elif ('stop_n' in s and '1850' in casename and \
+                  'ad_spinup' not in casename):
+                nyears_final_spinup =  int(s.split()[2])
+        mydrv_in.close()
+
+        inifile=''
+        if ('1850' in casename and 'ad_spinup' not in casename):
+            yst = str(10000+nyears_ad_spinup+1)
+            inifile = ens_dir_last+'/'+casename_last+'.clm2.r.'+yst[1:]+'-01-01-00000.nc'
+        if ('20TR' in casename):
+            yst = str(10000+nyears_final_spinup+1)
+            inifile = ens_dir_last+'/'+casename_last+'.clm2.r.'+yst[1:]+'-01-01-00000.nc'
+    else:                #Trasient case only
+        inifile = ens_dir+'/'+casename+'.clm2.r.1974-01-01-00000.nc'
+    casename_last = casename
+    ens_dir_last = ens_dir
+
+
 #inifile =  ens_dir+'/SPRUCE-finalspinup-peatland-carbon-initial.nc'
-cwdc=getvar(inifile, 'cwdc_vr')
-ierr = putvar(inifile, 'cwdc_vr', cwdc*0.0)
-cwdn=getvar(inifile, 'cwdn_vr')
-ierr = putvar(inifile, 'cwdn_vr', cwdn*0.0)
-lit1 = getvar(inifile, 'litr1c_vr')
-ierr = putvar(inifile, 'litr1c_vr', lit1*0.0)
-lit1 = getvar(inifile, 'litr1n_vr')
-ierr = putvar(inifile, 'litr1n_vr', lit1*0.0)
-lit2 = getvar(inifile, 'litr2c_vr')
-ierr = putvar(inifile, 'litr2c_vr', lit2*0.0)
-lit2 = getvar(inifile, 'litr2n_vr')
-ierr = putvar(inifile, 'litr2n_vr', lit2*0.0)
-lit3 = getvar(inifile, 'litr3c_vr')
-ierr = putvar(inifile, 'litr3c_vr', lit3*0.0)
-lit3 = getvar(inifile, 'litr3n_vr')
-ierr = putvar(inifile, 'litr3n_vr', lit3*0.0)
+#cwdc=getvar(inifile, 'cwdc_vr')
+#ierr = putvar(inifile, 'cwdc_vr', cwdc*0.0)
+#cwdn=getvar(inifile, 'cwdn_vr')
+#ierr = putvar(inifile, 'cwdn_vr', cwdn*0.0)
+#lit1 = getvar(inifile, 'litr1c_vr')
+#ierr = putvar(inifile, 'litr1c_vr', lit1*0.0)
+#lit1 = getvar(inifile, 'litr1n_vr')
+#ierr = putvar(inifile, 'litr1n_vr', lit1*0.0)
+#lit2 = getvar(inifile, 'litr2c_vr')
+#ierr = putvar(inifile, 'litr2c_vr', lit2*0.0)
+#lit2 = getvar(inifile, 'litr2n_vr')
+#ierr = putvar(inifile, 'litr2n_vr', lit2*0.0)
+#lit3 = getvar(inifile, 'litr3c_vr')
+#ierr = putvar(inifile, 'litr3c_vr', lit3*0.0)
+#lit3 = getvar(inifile, 'litr3n_vr')
+#ierr = putvar(inifile, 'litr3n_vr', lit3*0.0)
 
-#loop through all filenames, change directories in namelists, change parameter values
-for f in os.listdir(ens_dir):
-    if (os.path.isfile(ens_dir+'/'+f) and (f[-2:] == 'in' or f[-3:] == 'nml' or 'streams' in f)):
-        myinput=open(ens_dir+'/'+f)
-        myoutput=open(ens_dir+'/'+f+'.tmp','w')
-        for s in myinput:
-            if ('fpftcon' in s):
-                est = str(100000+int(options.ensnum))
-                myoutput.write(" fpftcon = './clm_params_"+est[1:]+".nc'\n")
-                #Hard-coded parameter file
-                pftfile = ens_dir+'/clm_params_'+est[1:]+'.nc'
-                microbefile = ens_dir+'/microbepar_in'
-                pnum = 0
-                for p in parm_names:
-                    if ('m_XXXX' in p):   #Assume this is a microbe_par parameter
-                        moutput = open(microbefile,'w')
-                        minput = open(microbefile+'_orig','r')
-                        for s2 in minput:
-                            if (p.lower() in s2.lower()):
-                                moutput.write(p+'   '+str(parm_values[pnum]) \
+    #loop through all filenames, change directories in namelists, change parameter values
+    for f in os.listdir(ens_dir):
+        if (os.path.isfile(ens_dir+'/'+f) and (f[-2:] == 'in' or f[-3:] == 'nml' or 'streams' in f)):
+            myinput=open(ens_dir+'/'+f)
+            myoutput=open(ens_dir+'/'+f+'.tmp','w')
+            for s in myinput:
+                if ('finidat = ' in s):
+                    myoutput.write(" finidat = '"+inifile+"'\n")
+                elif ('fpftcon' in s):
+                    est = str(100000+int(options.ensnum))
+                    myoutput.write(" fpftcon = './clm_params_"+est[1:]+".nc'\n")
+                    #Hard-coded parameter file
+                    pftfile = ens_dir+'/clm_params_'+est[1:]+'.nc'
+                    microbefile = ens_dir+'/microbepar_in'
+                    pnum = 0
+                    for p in parm_names:
+                        if (p[0:2] == 'm_' or p[0:2] == 'k_'):   #Assume this is a microbe_par parameter
+                            moutput = open(microbefile,'w')
+                            minput = open(microbefile+'_orig','r')
+                            for s2 in minput:
+                                if (p.lower() in s2.lower()):
+                                    moutput.write(p+'   '+str(parm_values[pnum]) \
                                                   +'\n')
-                            else:
-                                moutput.write(s2)
-                        minput.close()
-                        moutput.close()
-                        os.system('cp '+microbefile+' '+microbefile+'_orig')
-                    else:
-                        if (pnum == 0):
-                          stem_leaf = getvar(pftfile, 'stem_leaf')
-                          stem_leaf[2:5]=-1
-                          ierr = putvar(pftfile, 'stem_leaf', stem_leaf)
-                        param = getvar(pftfile, p)
-                        if (parm_indices[pnum] > 0):
-                            param[parm_indices[pnum]-1] = parm_values[pnum]
-                        elif (parm_indices[pnum] == 0):
-                            param = parm_values[pnum]
+                                else:
+                                    moutput.write(s2)
+                            minput.close()
+                            moutput.close()
+                            os.system('cp '+microbefile+' '+microbefile+'_orig')
                         else:
-                            param[:] = parm_values[pnum]
+                            if (pnum == 0):
+                                stem_leaf = getvar(pftfile, 'stem_leaf')
+                                stem_leaf[2:5]=-1
+                                ierr = putvar(pftfile, 'stem_leaf', stem_leaf)
+                            param = getvar(pftfile, p)
+                            if (parm_indices[pnum] > 0):
+                                param[parm_indices[pnum]-1] = parm_values[pnum]
+                            elif (parm_indices[pnum] == 0):
+                                param = parm_values[pnum]
+                            else:
+                                param[:] = parm_values[pnum]
                         ierr = putvar(pftfile, p, param)
-                    pnum = pnum+1
-            #elif ('logfile =' in s):
-            #    myoutput.write(s.replace('`date +%y%m%d-%H%M%S`',timestr))
-            else:
-                myoutput.write(s.replace(orig_dir,ens_dir))
-        myoutput.close()
-        myinput.close()
-        os.system(' mv '+ens_dir+'/'+f+'.tmp '+ens_dir+'/'+f)
+                        pnum = pnum+1
+                #elif ('logfile =' in s):
+                #    myoutput.write(s.replace('`date +%y%m%d-%H%M%S`',timestr))
+                else:
+                    myoutput.write(s.replace(orig_dir,ens_dir))
+            myoutput.close()
+            myinput.close()
+            os.system(' mv '+ens_dir+'/'+f+'.tmp '+ens_dir+'/'+f)
 
-workdir = os.path.abspath('.')
-
-os.chdir(ens_dir)
-if (options.norun == False):
-    os.system(orig_dir+'/../bld/cesm.exe > ccsm_log.txt')
-                    
+    os.chdir(ens_dir)
+    if (isfirstcase):
+        exedir = os.path.abspath(orig_dir+'/../bld/')
+    if (options.norun == False):
+        os.system(exedir+'/cesm.exe > ccsm_log.txt')
+    isfirstcase=False
 
 #---------  code to post-process ensebmle member and cacluate total normalized SSE ----------
 sse=0
