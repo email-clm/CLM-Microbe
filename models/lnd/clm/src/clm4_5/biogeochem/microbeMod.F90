@@ -1118,7 +1118,7 @@ if(j >= jwaterhead_unsat(c)) then
 	end if
 
 	O2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_o2s_unsat(c,j) - c_atm(g,2)) * nppratio / (100. * z(j))  !* bgnpp_timestep(c) / bgnpp_avg(c)
-	O2PlantFlux = min(O2PlantFlux, (ccon_o2s_unsat(c,j) - c_atm(g,2))) * dz(j)
+	O2PlantFlux = max(O2PlantFlux, (ccon_o2s_unsat(c,j) - c_atm(g,2))) * dz(j)
 	
 	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - O2PlantFlux / dz(j)
 
@@ -1916,7 +1916,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	end if
 	
 	O2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_o2s_sat(c,j) - c_atm(g,2)) * nppratio / (100. * z(j))  !* bgnpp_timestep(c) / bgnpp_avg(c)
-	O2PlantFlux = min(O2PlantFlux, (ccon_o2s_sat(c,j) - c_atm(g,2))) * dz(j)
+	O2PlantFlux = max(O2PlantFlux, (ccon_o2s_sat(c,j) - c_atm(g,2))) * dz(j)
 	
 	ccon_o2s_sat(c,j) = ccon_o2s_sat(c,j) - O2PlantFlux / dz(j)
 
