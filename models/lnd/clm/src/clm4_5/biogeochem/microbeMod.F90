@@ -148,15 +148,15 @@ implicit none
    
 	real(r8), pointer :: cmicbiocs(:,:)				! column-level biomass of all microbes molC/m3
 	real(r8), pointer :: cdocs_pre(:,:)				! column-level concentration of DOC molC/m3 
-	real(r8), pointer :: cdocs(:,:)				! column-level concentration of DOC molC/m3 
+	real(r8), pointer :: cdocs(:,:)					! column-level concentration of DOC molC/m3 
 	real(r8), pointer :: cdocs_unsat(:,:)			! column-level concentration of DOC molC/m3 in unsaturated fraction
-	real(r8), pointer :: cdocs_sat(:,:)			! column-level concentration of DOC molC/m3 in saturated fraction
-	real(r8), pointer :: cmicbions(:,:)			! column-level biomass of all microbes molN/m3
-	real(r8), pointer :: cdons(:,:)				! column-level concentration of DON molN/m3 
+	real(r8), pointer :: cdocs_sat(:,:)				! column-level concentration of DOC molC/m3 in saturated fraction
+	real(r8), pointer :: cmicbions(:,:)				! column-level biomass of all microbes molN/m3
+	real(r8), pointer :: cdons(:,:)					! column-level concentration of DON molN/m3 
 	real(r8), pointer :: cdons_unsat(:,:)			! column-level concentration of DON molN/m3 in unsaturated fraction
-	real(r8), pointer :: cdons_sat(:,:)			! column-level concentration of DON molN/m3 in saturated fraction
-	real(r8), pointer :: cdons_min(:,:)			! minteralization of DON
-	real(r8), pointer :: caces(:,:)				! column-level concentration of acetate molC/m3
+	real(r8), pointer :: cdons_sat(:,:)				! column-level concentration of DON molN/m3 in saturated fraction
+	real(r8), pointer :: cdons_min(:,:)				! minteralization of DON
+	real(r8), pointer :: caces(:,:)					! column-level concentration of acetate molC/m3
 	real(r8), pointer :: cacebios(:,:)				! column-level biomass of methanogen based on acetate molC/m3
 	real(r8), pointer :: cco2bios(:,:)				! column-level biomass of methanogen based on CO2/H2 molC/m3
 	real(r8), pointer :: caerch4bios(:,:)			! column-level biomass of aerobix methanotrophy molC/m3
@@ -191,19 +191,19 @@ implicit none
 	real(r8), pointer :: ccon_h2s_sat(:,:)			! column-level concentration of H2 in saturated fraction  mol H2/m3
 	
 	integer, pointer :: ltype(:)					! type of land unit
-	integer, pointer :: ptype(:)				! type of plant functional type
+	integer, pointer :: ptype(:)					! type of plant functional type
 	integer, pointer :: clandunit(:)				! index of land nnit in column
 	real(r8), pointer :: soilpH_unsat(:,:)			! soil pH for unsaturated fraction soil column
-	real(r8), pointer :: soilpH_sat(:,:)			! soil pH for saturated fraction soil column
+	real(r8), pointer :: soilpH_sat(:,:)				! soil pH for saturated fraction soil column
 	real(r8), pointer :: soiltemp(:,:)				! soil temperature
 	real(r8), pointer :: sand(:)					! sand
 	real(r8), pointer :: silt(:)					! silt
-!	real(r8), pointer :: psi(:)					! water potential
-!	real(r8), pointer :: psisat(:)					! water potential at saturated
-	real(r8), pointer :: vwc(:,:)				! volumetic water content
+!	real(r8), pointer :: psi(:)						! water potential
+!	real(r8), pointer :: psisat(:)						! water potential at saturated
+	real(r8), pointer :: vwc(:,:)					! volumetic water content
 	real(r8), pointer :: vwcsat(:,:)				! volumetic water content at saturation
 
-	real(r8), pointer :: fsat_pre(:)    			! finundated from previous timestep
+	real(r8), pointer :: fsat_pre(:)    				! finundated from previous timestep
 	real(r8), pointer :: c_atm(:,:)     			! CH4, O2, CO2 atmospheric conc  (mol/m3)
 	real(r8), pointer :: flux_ch4(:)    			! gridcell CH4 flux to atm. (kg C/m**2/s)
 
@@ -989,7 +989,7 @@ if(j >= jwaterhead_unsat(c)) then
 	* ccon_h2s_unsat(c,j) / ( ccon_h2s_unsat(c,j) + m_dKH2ProdCH4) &
 		* ccon_co2s_unsat(c,j) / (ccon_co2s_unsat(c,j) + m_dKCO2ProdCH4) &
 		* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect &
-		* (1.0 - min(1.0, ccon_co2s_unsat(c,j) / 10.0))
+		* (1.0 - min(1.0, ccon_co2s_unsat(c,j) / 9.2))  !9.375 is the 21% oxgen
 !	H2AceProd = 0
 !write(iulog,*) "H2CH4Prod: ", H2CH4Prod
 !	else
@@ -1769,7 +1769,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	* ccon_h2s_sat(c,j) / ( ccon_h2s_sat(c,j) + m_dKH2ProdCH4) &
 		* ccon_co2s_sat(c,j) / (ccon_co2s_sat(c,j) + m_dKCO2ProdCH4) &
 		* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect&
-		* (1.0 - min(1.0, ccon_co2s_unsat(c,j) / 10.0))
+		* (1.0 - min(1.0, ccon_co2s_unsat(c,j) / 9.2))
 !	H2AceProd = 0
 	!print *, "H2CH4Prod: ", H2CH4Prod
 !	else
@@ -2005,7 +2005,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	
 	ch4_prod_ace_depth_sat(c,j) 			= CH4Prod 
 	ch4_prod_co2_depth_sat(c,j) 			= H2CH4Prod
-	ch4_oxid_o2_depth_sat(c,j) 				= CH4Oxid
+	ch4_oxid_o2_depth_sat(c,j) 			= CH4Oxid
 	ch4_oxid_aom_depth_sat(c,j) 			= AOMCH4Oxid
 	ch4_aere_depth_sat(c,j) 				= CH4PlantFlux
 	ch4_dif_depth_sat(c,j) 				= 0._r8
@@ -2021,14 +2021,14 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	o2_cons_depth_sat(c,j) 				= AerO2Cons + CH4O2Cons
 	o2_aere_depth_sat(c,j) 				= O2PlantFlux
 	o2_aere_oxid_depth_sat(c,j) 			= PlantO2Cons
-	o2_decomp_depth_sat(c,j) 				= co2_decomp_depth_sat (c,j)		! mole / m3
-	o2_dif_depth_sat(c,j) 					= 0._r8
+	o2_decomp_depth_sat(c,j) 			= co2_decomp_depth_sat (c,j)		! mole / m3
+	o2_dif_depth_sat(c,j) 				= 0._r8
 
 	h2_prod_depth_sat(c,j) 				= ACH2Prod
 	h2_cons_depth_sat(c,j) 				= H2Cons
 	h2_aere_depth_sat(c,j) 				= H2PlantFlux
-	h2_diff_depth_sat(c,j) 					= H2PlantFlux
-	h2_ebul_depth_sat(c,j) 				= H2PlantFlux
+	h2_diff_depth_sat(c,j) 				= 0.0
+	h2_ebul_depth_sat(c,j) 				= 0.0
        end do
 ! average to grid level fluxes or state variables    
 	tem1 = Henry_kHpc_w(1) * exp (Henry_C_w(1) * (1/soiltemp(c,1) - 1/kh_tbase))
@@ -2042,31 +2042,31 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	tem4 = 1. / tem4 * atmh2 * 1000. / 2.
 	
 	ch4_surf_aere_sat(c)				= 0._r8
-	ch4_surf_ebul_sat(c) 				= 0._r8
+	ch4_surf_ebul_sat(c) 			= 0._r8
 	ch4_surf_dif_sat(c) 				= 0._r8
 	ch4_surf_netflux_sat(c)			= 0._r8
 	
 	co2_surf_aere_sat(c)				= 0._r8
-	co2_surf_ebul_sat(c) 				= 0._r8
+	co2_surf_ebul_sat(c) 			= 0._r8
 	co2_surf_dif_sat(c) 				= 0._r8
 	co2_surf_netflux_sat(c)			= 0._r8
 	
 	o2_surf_aere_sat(c)				= 0._r8
 	o2_surf_dif_sat(c) 				= 0._r8
-	o2_surf_netflux_sat(c)				= 0._r8
+	o2_surf_netflux_sat(c)			= 0._r8
 	
 	h2_surf_aere_sat(c)				= 0._r8
 	h2_surf_ebul_sat(c) 				= 0._r8
 	h2_surf_dif_sat(c) 				= 0._r8
-	h2_surf_netflux_sat(c)				= 0._r8
+	h2_surf_netflux_sat(c)			= 0._r8
 	
 if(soiltemp(c,1) < SHR_CONST_TKFRZ) then
 	ch4_surf_aere_sat(c)				= 0._r8
-	ch4_surf_ebul_sat(c) 				= 0._r8
+	ch4_surf_ebul_sat(c) 			= 0._r8
 	ch4_surf_dif_sat(c) 				= 0._r8
 		
 	co2_surf_aere_sat(c)				= 0._r8
-	co2_surf_ebul_sat(c) 				= 0._r8
+	co2_surf_ebul_sat(c) 			= 0._r8
 	co2_surf_dif_sat(c) 				= 0._r8
 		
 	o2_surf_aere_sat(c)				= 0._r8
@@ -2094,10 +2094,10 @@ else
 
 	do j = 1,nlevsoi
 	ch4_surf_aere_sat(c)				= ch4_surf_aere_sat(c) + ch4_aere_depth_sat(c,j) * dz(c,j)
-	ch4_surf_ebul_sat(c) 				= ch4_surf_ebul_sat(c) + ch4_ebul_depth_sat(c,j)  * dz(c,j)
+	ch4_surf_ebul_sat(c) 			= ch4_surf_ebul_sat(c) + ch4_ebul_depth_sat(c,j)  * dz(c,j)
 		
 	co2_surf_aere_sat(c)				= co2_surf_aere_sat(c) + co2_aere_depth_sat(c,j) * dz(c,j)
-	co2_surf_ebul_sat(c) 				= co2_surf_ebul_sat(c) + co2_ebul_depth_sat(c,j) * dz(c,j)
+	co2_surf_ebul_sat(c) 			= co2_surf_ebul_sat(c) + co2_ebul_depth_sat(c,j) * dz(c,j)
 		
 	o2_surf_aere_sat(c)				= o2_surf_aere_sat(c) + o2_aere_depth_sat(c,j) * dz(c,j)
 	
