@@ -988,7 +988,8 @@ if(j >= jwaterhead_unsat(c)) then
 	H2CH4Prod = m_dGrowRH2Methanogens / m_dYH2Methanogens * cco2bios_unsat(c,j) &
 	* ccon_h2s_unsat(c,j) / ( ccon_h2s_unsat(c,j) + m_dKH2ProdCH4) &
 		* ccon_co2s_unsat(c,j) / (ccon_co2s_unsat(c,j) + m_dKCO2ProdCH4) &
-		* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect
+		* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect &
+		* (1.0 - min(1.0, ccon_co2s_unsat(c,j) / 10.0))
 !	H2AceProd = 0
 !write(iulog,*) "H2CH4Prod: ", H2CH4Prod
 !	else
@@ -1767,7 +1768,8 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	H2CH4Prod = m_dGrowRH2Methanogens / m_dYH2Methanogens * cco2bios_sat(c,j) &
 	* ccon_h2s_sat(c,j) / ( ccon_h2s_sat(c,j) + m_dKH2ProdCH4) &
 		* ccon_co2s_sat(c,j) / (ccon_co2s_sat(c,j) + m_dKCO2ProdCH4) &
-		* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect
+		* (m_dH2CH4ProdQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect&
+		* (1.0 - min(1.0, ccon_co2s_unsat(c,j) / 10.0))
 !	H2AceProd = 0
 	!print *, "H2CH4Prod: ", H2CH4Prod
 !	else
