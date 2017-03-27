@@ -752,7 +752,7 @@ implicit none
 	ccon_ch4s_unsat(c,j) 			= ccon_ch4s_unsat(c,j) / 12. 		!/ dz(c,j)
 	ccon_h2s_unsat(c,j) 			= ccon_h2s_unsat(c,j) / 2. 			!/ dz(c,j)
 	ccon_co2s_unsat(c,j) 			= ccon_co2s_unsat(c,j) / 12. 		!/ dz(c,j)
-	write(iulog,*)"c ", c, " j ",j," ", ccon_o2s_unsat(c,j), " ",ccon_o2s_sat(c,j)
+!	write(iulog,*)"c ", c, " j ",j," ", ccon_o2s_unsat(c,j), " ",ccon_o2s_sat(c,j)
 	
 	cdocs_sat(c,j) 				= cdocs_sat(c,j) / 12. 			!/ dz(c,j)
 	caces_sat(c,j) 				= caces_sat(c,j) / 12. 			!/ dz(c,j)
@@ -785,7 +785,7 @@ implicit none
 		roothr_vr(c,j) = roothr_vr(c,j) + roothr(p)*rootfr_vr(p,j)*wtcol(p)
 		froot_r(c,j) = froot_r(c,j) + froot_mr(p)*rootfr_vr(p,j)*wtcol(p)
 		rootfraction(c,j) = rootfraction(c,j) + rootfr_vr(p,j)*wtcol(p)
-write(iulog,*) "roothr_vr(c,j)",j, " j ", roothr_vr(c,j), "roothr(p)", roothr(p), "rootfr_vr(p,j)", rootfr_vr(p,j), "wtcol(p)", wtcol(p), "rootfraction(c,j)", rootfraction(c,j)
+		!write(iulog,*) "roothr_vr(c,j)",j, " j ", roothr_vr(c,j), "roothr(p)", roothr(p), "rootfr_vr(p,j)", rootfr_vr(p,j), "wtcol(p)", wtcol(p), "rootfraction(c,j)", rootfraction(c,j)
 		ccon_co2s_sat(c,j) = ccon_co2s_sat(c,j) + froot_r(c,j) / 12.0 + hr_vr(c,j) / 12.0
 		
                anpp = annsum_npp(p) ! g C / m^2/yr
