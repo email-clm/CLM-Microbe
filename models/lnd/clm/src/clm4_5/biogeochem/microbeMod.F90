@@ -1130,6 +1130,8 @@ if(j >= jwaterhead_unsat(c)) then
 	end if
 		
 	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - PlantO2Cons
+	
+	ccon_o2s_unsat(c,j) = max(0.0, ccon_o2s_unsat(c,j) - o2_decomp_depth_unsat(c,j))
 		
 	if(ccon_o2s_unsat(c,j) < 0._r8) then
 	ccon_o2s_unsat(c,j) = 0._r8
@@ -1422,6 +1424,8 @@ else
 	AerO2Cons = m_drAer * ACCO2Prod
 	CH4O2Cons = m_drCH4Oxid * CH4Oxid
 	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - (AerO2Cons + CH4O2Cons) - OxidAce2CO2
+	
+	ccon_o2s_unsat(c,j) = max(0.0, ccon_o2s_unsat(c,j) - o2_decomp_depth_unsat(c,j))
 	
 	if(ccon_o2s_unsat(c,j) < 0) then
 	ccon_o2s_unsat(c,j) = 0
@@ -1921,7 +1925,9 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	end if
 	
 	ccon_o2s_sat(c,j) = ccon_o2s_sat(c,j) - PlantO2Cons
-		
+	
+	ccon_o2s_sat(c,j) = max(0.0, ccon_o2s_sat(c,j) - o2_decomp_depth_sat(c,j))
+	
 	if(ccon_o2s_sat(c,j) < 0) then
 	ccon_o2s_sat(c,j) = 0
 	end if
