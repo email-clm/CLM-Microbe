@@ -794,7 +794,7 @@ implicit none
                     annavg_agnpp(p) > 0._r8 .and. annavg_bgnpp(p) > 0._r8) then
                     nppratio = annavg_bgnpp(p) / (annavg_agnpp(p) + annavg_bgnpp(p))
                   else
-                    nppratio = 0.5_r8
+                    nppratio = 0.025_r8
                   end if		
 	        end if
 		end do
@@ -1118,8 +1118,13 @@ if(j >= jwaterhead_unsat(c)) then
 	ccon_o2s_unsat(c,j) = 0._r8
 	end if
 
-	O2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_o2s_unsat(c,j) - c_atm(g,2)) * nppratio / (100. * z(c,j))  !* bgnpp_timestep(c) / bgnpp_avg(c)
-	O2PlantFlux = max(O2PlantFlux, (ccon_o2s_unsat(c,j) - c_atm(g,2))) * dz(c,j)
+	O2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_o2s_unsat(c,j) - c_atm(g,2)) * nppratio / z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)
+	if(ccon_o2s_unsat(c,j) > c_atm(g,2)) then
+	O2PlantFlux = 0._r8
+	else
+	O2PlantFlux = O2PlantFlux * dz(c,j)
+	!O2PlantFlux = max(O2PlantFlux, (ccon_o2s_unsat(c,j) - c_atm(g,2))) * dz(c,j)
+	end if
 	
 	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - O2PlantFlux / dz(c,j)
 
@@ -1917,7 +1922,12 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	end if
 	
 	O2PlantFlux = m_dPlantTrans * rootfraction(c,j) * rootfraction(c,j) * (ccon_o2s_sat(c,j) - c_atm(g,2)) * nppratio / (100. * z(c,j))  !* bgnpp_timestep(c) / bgnpp_avg(c)
-	O2PlantFlux = max(O2PlantFlux, (ccon_o2s_sat(c,j) - c_atm(g,2))) * dz(c,j)
+	if(ccon_o2s_sat(c,j) > c_atm(g,2))) then
+	O2PlantFlux = 0._r8
+	else
+	O2PlantFlux = O2PlantFlux * dz(c,j)
+	!O2PlantFlux = max(O2PlantFlux, (ccon_o2s_sat(c,j) - c_atm(g,2))) * dz(c,j)
+	end if
 	
 	ccon_o2s_sat(c,j) = ccon_o2s_sat(c,j) - O2PlantFlux / dz(c,j)
 
