@@ -1128,7 +1128,7 @@ if(j >= jwaterhead_unsat(c)) then
 	
 	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - O2PlantFlux / dz(c,j)
 	
-	ccon_o2s_unsat(c,j) = min(ccon_o2s_unsat(c,j) - c_atm(g,2))
+	ccon_o2s_unsat(c,j) = min(ccon_o2s_unsat(c,j), c_atm(g,2))
 
 	PlantO2Cons = O2PlantFlux * 0.001
 	
