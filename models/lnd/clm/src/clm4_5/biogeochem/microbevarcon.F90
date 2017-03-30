@@ -35,7 +35,7 @@ module microbevarcon
   real(r8), PARAMETER :: Mmmin = 0.1
   real(r8), PARAMETER :: MFGbiomin = 1e-15
 
-  integer, parameter :: nummicrobepar = 102
+  integer, parameter :: nummicrobepar = 103
   real(r8) :: q10ch4base = 295._r8  ! Rough estimate from comparison between Walter and previous CLM-CH4 data
   ! Uses Michigan bog data from Shannon & White
   ! This is the temperature at which the effective f_ch4 actually equals the constant f_ch4.
@@ -438,6 +438,7 @@ q10ch4base                         = dummy(i); i=i+1
 	m_doms1_f = dummy(i); i=i+1
 	m_doms2_f = dummy(i); i=i+1
 	m_doms3_f = dummy(i); i=i+1
+	m_dPlantTrans = dummy(i); i=i+1
     
     !xiaofeng xu creared new mechanisms and the new parameters         
 end if
@@ -552,6 +553,7 @@ end if
     call mpi_bcast (m_doms1_f, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (m_doms2_f, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (m_doms3_f, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (m_dPlantTrans, 1 , MPI_REAL8, 0, mpicom, ierr)
     
     if (masterproc) then
        write(iulog,*) 'Successfully read CH4 namelist'
@@ -665,6 +667,7 @@ end if
 	write(iulog,*)'m_doms1_f = ', m_doms1_f
 	write(iulog,*)'m_doms2_f = ', m_doms2_f
 	write(iulog,*)'m_doms3_f = ', m_doms3_f
+	write(iulog,*)'m_dPlantTrans = ', m_dPlantTrans
 	
        if (ch4offline) write(iulog,*)'CH4 Model will be running offline and not affect fluxes to atmosphere.'
        if (aereoxid >= 0._r8) write(iulog,*) 'Fixed aerenchyma oxidation has been selected.'
