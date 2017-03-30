@@ -1023,7 +1023,7 @@ if(j >= jwaterhead_unsat(c)) then
 	H2CH4Prod = max(0._r8, H2CH4Prod)
 	
 	if(ccon_h2s_unsat(c,j)>g_dMaxH2inWater) then
-	H2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_h2s_unsat(c,j) - g_dMaxH2inWater) * nppratio !* bgnpp_timestep(c) / bgnpp_avg(c)
+	H2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_h2s_unsat(c,j) - g_dMaxH2inWater) * nppratio*exp(-z(c,j)/0.1)/z(c,j)/100. !* bgnpp_timestep(c) / bgnpp_avg(c)
 	else
 	H2PlantFlux = 0._r8
 	end if
@@ -1096,7 +1096,7 @@ if(j >= jwaterhead_unsat(c)) then
 	
 !write(iulog,*) "CH4PlantFlux: ", m_dPlantTrans, " ", rootfr_vr(c,j), ccon_ch4s_unsat(c,j), m_dCH4min !, tempavg_bgnpp(c), annavg_bgnpp(c)
 	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_unsat(c,j) > m_dCH4min) then
-	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min) * nppratio  !* bgnpp_timestep(c) / bgnpp_avg(c)		
+	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min) * nppratio*exp(-z(c,j)/0.1)/z(c,j)/100.  !* bgnpp_timestep(c) / bgnpp_avg(c)		
 	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4PlantFlux
 	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min), 0._r8)  ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
 	else
@@ -1118,15 +1118,15 @@ if(j >= jwaterhead_unsat(c)) then
 	ccon_o2s_unsat(c,j) = 0._r8
 	end if
 
-	O2PlantFlux = m_dPlantTrans * rootfraction(c,j) * (ccon_o2s_unsat(c,j) - c_atm(g,2)) * nppratio / z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c) * exp(-z(c,j) / 0.1) 
+	O2PlantFlux = m_dPlantTrans*rootfraction(c,j)*(ccon_o2s_unsat(c,j) - c_atm(g,2))*nppratio*exp(-z(c,j)/0.1)/z(c,j)/100.  !* bgnpp_timestep(c) / bgnpp_avg(c) * exp(-z(c,j) / 0.1) 
 	if(ccon_o2s_unsat(c,j) > c_atm(g,2)) then
 	O2PlantFlux = 0._r8
 	else
-	O2PlantFlux = O2PlantFlux * dz(c,j)
+	O2PlantFlux = O2PlantFlux !* dz(c,j)
 	!O2PlantFlux = max(O2PlantFlux, (ccon_o2s_unsat(c,j) - c_atm(g,2))) * dz(c,j)
 	end if
 	
-	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - O2PlantFlux / dz(c,j)
+	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - O2PlantFlux !/ dz(c,j)
 	
 	ccon_o2s_unsat(c,j) = min(ccon_o2s_unsat(c,j), c_atm(g,2))
 
@@ -1828,7 +1828,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	!end if
 	!else
 	if(ccon_h2s_sat(c,j)>g_dMaxH2inWater) then
-	H2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_h2s_sat(c,j) - g_dMaxH2inWater) * nppratio  !* bgnpp_timestep(c) / bgnpp_avg(c)
+	H2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_h2s_sat(c,j) - g_dMaxH2inWater) * nppratio*exp(-z(c,j)/0.1)/z(c,j)/100.  !* bgnpp_timestep(c) / bgnpp_avg(c)
 	else
 	H2PlantFlux = 0._r8
 	end if
@@ -1903,7 +1903,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	end if
 	
 	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1) then
-	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min) * nppratio  !* bgnpp_timestep(c) / bgnpp_avg(c)		
+	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min) * nppratio*exp(-z(c,j)/0.1)/z(c,j)/100.  !* bgnpp_timestep(c) / bgnpp_avg(c)		
 	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min), 0._r8) 					! mmol/L
 	else
 	CH4PlantFlux = 0._r8
@@ -1923,15 +1923,15 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	ccon_o2s_sat(c,j) = 0
 	end if
 	
-	O2PlantFlux = m_dPlantTrans * rootfraction(c,j) * (ccon_o2s_sat(c,j) - c_atm(g,2)) * nppratio / z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)* exp(-z(c,j) / 0.1) 
+	O2PlantFlux = m_dPlantTrans * rootfraction(c,j) * (ccon_o2s_sat(c,j) - c_atm(g,2)) * nppratio*exp(-z(c,j)/0.1)/z(c,j)/100. 
 	if(ccon_o2s_sat(c,j) > c_atm(g,2)) then
 	O2PlantFlux = 0._r8
 	else
-	O2PlantFlux = O2PlantFlux * dz(c,j)
+	O2PlantFlux = O2PlantFlux !* dz(c,j)
 	!O2PlantFlux = max(O2PlantFlux, (ccon_o2s_sat(c,j) - c_atm(g,2))) * dz(c,j)
 	end if
 	
-	ccon_o2s_sat(c,j) = ccon_o2s_sat(c,j) - O2PlantFlux / dz(c,j)
+	ccon_o2s_sat(c,j) = ccon_o2s_sat(c,j) - O2PlantFlux !/ dz(c,j)
 	
 	ccon_o2s_sat(c,j) = min(ccon_o2s_sat(c,j), c_atm(g,2))
 
