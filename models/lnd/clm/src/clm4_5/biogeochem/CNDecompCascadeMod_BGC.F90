@@ -41,7 +41,7 @@ module CNDecompCascadeMod_BGC
 !
 ! !PUBLIC DATA MEMBERS:
 !#if (defined VERTSOILC) || (defined MICROBE)
-   real(r8), public :: decomp_depth_efolding = 0.5_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
+!   real(r8), public :: decomp_depth_efolding = 0.5_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
 !#endif
    real(r8), public :: froz_q10 = 1.5_r8                 ! separate q10 for frozen soil respiration rates.  default to same as above zero rates
 #if (defined LCH4) || (defined MICROBE)
