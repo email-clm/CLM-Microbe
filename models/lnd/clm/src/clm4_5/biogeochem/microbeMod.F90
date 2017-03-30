@@ -794,7 +794,7 @@ implicit none
                     annavg_agnpp(p) > 0._r8 .and. annavg_bgnpp(p) > 0._r8) then
                     nppratio = annavg_bgnpp(p) / (annavg_agnpp(p) + annavg_bgnpp(p))
                   else
-                    nppratio = 0.025_r8
+                    nppratio = 0.1_r8
                   end if		
 	        end if
 		end do

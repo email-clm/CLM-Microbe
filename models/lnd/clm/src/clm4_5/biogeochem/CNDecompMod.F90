@@ -34,9 +34,9 @@ module CNDecompMod
 ! !PUBLIC MEMBER FUNCTIONS:
    public:: CNDecompAlloc
 
-#ifdef MICROBE
-   real(r8), public :: decomp_depth_efolding = 0.5_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
-#endif
+!#ifdef MICROBE
+!   real(r8), public :: decomp_depth_efolding = 0.17_r8 !0.5    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
+!#endif
 
 !
 ! !REVISION HISTORY:
@@ -65,7 +65,7 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
    use clm_time_manager, only: get_step_size
    use clm_varpar   , only: nlevsoi,nlevgrnd,nlevdecomp,ndecomp_cascade_transitions,ndecomp_pools
    use pft2colMod      , only: p2c
- !  use pftvarcon , only: decomp_depth_efolding
+   use pftvarcon , only: decomp_depth_efolding
  
 #ifdef MICROBE
    USE microbevarcon , only: plant2doc, som2doc, micbiocn, micbioMR, CUEref, CUEt, Tcueref 
