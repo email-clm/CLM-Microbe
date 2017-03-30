@@ -1118,7 +1118,7 @@ if(j >= jwaterhead_unsat(c)) then
 	ccon_o2s_unsat(c,j) = 0._r8
 	end if
 
-	O2PlantFlux = m_dPlantTrans * (ccon_o2s_unsat(c,j) - c_atm(g,2)) * nppratio * exp(-z(c,j) / 0.1) / z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c) rootfraction(c,j) * 
+	O2PlantFlux = m_dPlantTrans * rootfraction(c,j) * (ccon_o2s_unsat(c,j) - c_atm(g,2)) * nppratio / z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c) * exp(-z(c,j) / 0.1) 
 	if(ccon_o2s_unsat(c,j) > c_atm(g,2)) then
 	O2PlantFlux = 0._r8
 	else
@@ -1265,10 +1265,10 @@ else
 	ACConcentration = 0.0
 	ACConcentration = ACConcentration + cdocs_unsat(c,j) ! m mol C / m3
 	
-	ccon_ch4s_unsat(c,j)	= c_atm(g,1)
-	ccon_o2s_unsat(c,j)	= c_atm(g,2)
-	ccon_co2s_unsat(c,j)	= c_atm(g,3)
-	ccon_h2s_unsat(c,j)	= c_atm(g,4)
+!	ccon_ch4s_unsat(c,j)	= c_atm(g,1)
+!	ccon_o2s_unsat(c,j)	= c_atm(g,2)
+!	ccon_co2s_unsat(c,j)	= c_atm(g,3)
+!	ccon_h2s_unsat(c,j)	= c_atm(g,4)
 	
  !~ write(iulog,*) "j: ", j, " o2: ", ccon_o2s_unsat(c,j)
 
@@ -1923,7 +1923,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	ccon_o2s_sat(c,j) = 0
 	end if
 	
-	O2PlantFlux = m_dPlantTrans * (ccon_o2s_sat(c,j) - c_atm(g,2)) * nppratio * exp(-z(c,j) / 0.1) / z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)rootfraction(c,j) * rootfraction(c,j)
+	O2PlantFlux = m_dPlantTrans * rootfraction(c,j) * (ccon_o2s_sat(c,j) - c_atm(g,2)) * nppratio / z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)* exp(-z(c,j) / 0.1) 
 	if(ccon_o2s_sat(c,j) > c_atm(g,2)) then
 	O2PlantFlux = 0._r8
 	else
