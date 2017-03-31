@@ -31,7 +31,7 @@ som2avc 0.25
 m_dKAc  50
 m_dAceProdACmax  0.0015
 m_dKAceProdO2  	0.004
-m_dH2ProdAcemax  0.0015
+m_dH2ProdAcemax  0.005
 m_dKH2ProdAce  	1.65e-5
 m_dKCO2ProdAce  8.25e-6
 m_dGrowRH2Methanogens  	0.02
@@ -78,7 +78,7 @@ k_dom			0.042
 k_bacteria			0.56
 k_fungi			0.56
 dom_diffus		7.6e-7
-m_Fick_ad 0.75
+m_Fick_ad 0.01
 m_rf_s1m 0.28
 m_rf_s2m 0.46
 m_rf_s3m 0.55
@@ -98,7 +98,7 @@ m_domf_f 0.3
 m_doms1_f 0.2
 m_doms2_f 0.15
 m_doms3_f 0.05
-m_dPlantTrans 0.0014
+m_dPlantTrans 0.0008
 AOM				0.9
 H2maxCH4		1
 AcemaxCH4		2
