@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#/usr/bin/env python
 
 import os, sys, csv, time, math
 from optparse import OptionParser
@@ -82,6 +82,8 @@ parser.add_option("--cruncep", dest="cruncep", default=False, \
                   action="store_true", help = 'Use CRU-NCEP meteorology')
 parser.add_option("--csmdir", dest="csmdir", default='..', \
                   help = "base CESM directory (default = ../)")
+parser.add_option("--diags", dest="diags", default=False, \
+                  action="store_true", help = 'output for SPRUCE diagnostics')
 parser.add_option("--exeroot_case", dest="exeroot_case", default='', \
                    help = "Root for executable (do not rebuild)")
 parser.add_option("--exit_spinup", action="store_true", \
@@ -99,9 +101,9 @@ parser.add_option("--finidat_year", dest="finidat_year", default=-1, \
 parser.add_option("--harvmod", action="store_true", dest="harvmod", \
                       default=False, help = "Turn on harvest modificaton" \
                       "All harvest is performed in first timestep")
-parser.add_option("--hist_mfilt", dest="hist_mfilt", default=-1, \
+parser.add_option("--hist_mfilt", dest="hist_mfilt", default=1, \
                   help = 'number of output timesteps per file')
-parser.add_option("--hist_nhtfrq", dest="hist_nhtfrq", default=-999, \
+parser.add_option("--hist_nhtfrq", dest="hist_nhtfrq", default=-8760, \
                   help = 'output file timestep')
 parser.add_option("--hist_vars", dest="hist_vars", default='', \
                   help = 'use hist_vars file')
@@ -120,7 +122,7 @@ parser.add_option("--metdir", dest="metdir", default="none", \
                   help = 'subdirectory for met data forcing')
 parser.add_option("--MICROBE", dest="MICROBE", default=False, \
                   help = 'To turn on MICROBE with CN', action="store_true")
-parser.add_option("--mpilib", dest="mpilib", default="mpich", \
+parser.add_option("--mpilib", dest="mpilib", default="mpi-serial", \
                       help = "mpi library (openmpi*, mpich, ibm, mpi-serial)")
 parser.add_option("--ninst", dest="ninst", default=1, \
                   help = 'number of land model instances')
@@ -531,7 +533,7 @@ if (options.refcase == 'none'):
 #-------------- env_run.xml modifications -------------------------
     if (options.runroot != ''):
         os.system('./xmlchange -file env_run.xml -id RUNDIR -val '+rundir)
-        os.system('./xmlchange -file env_run.xml -id DOUT_S -val TRUE')
+        os.system('./xmlchange -file env_run.xml -id DOUT_S -val FALSE')
         os.system('./xmlchange -file env_run.xml -id DOUT_S_ROOT -val ' \
                       +runroot+'/archive/'+casename)
     if (options.ccsm_input != ''):
@@ -656,23 +658,70 @@ if (options.refcase == 'none'):
         output.write(" add_temperature = "+str(options.add_temperature)+"\n")
         output.write(" add_co2 = "+str(options.add_co2)+"\n")
 	#history file options
-        if (options.hist_mfilt != -1):
-            if ('20TR' in compset):
-              output.write(" hist_mfilt = "+ str(options.hist_mfilt)+','+str(options.hist_mfilt)+'\n')
-              output.write(' hist_dov2xy = .true., .false.\n')
-              output.write(" hist_fincl2 = 'AGNPP', 'GPP', 'NPP', 'AR', 'MR', 'GR', 'TLAI', 'DEADSTEMC', 'LIVESTEMC', 'FROOTC', 'DEADCROOTC', 'LIVECROOTC', 'LEAFC', \
-                                  'QVEGT', 'QVEGE', 'BTRAN', 'FPSN', 'FPG'\n")
-            else:
-              output.write(" hist_mfilt = "+ str(options.hist_mfilt)+"\n")
-        if (options.hist_nhtfrq != -999):
-            if ('20TR' in compset):
-              output.write(" hist_nhtfrq = "+ str(options.hist_nhtfrq)+','+ str(options.hist_nhtfrq)+"\n")
-            else:
-              output.write(" hist_nhtfrq = "+ str(options.hist_nhtfrq)+"\n")
+
+        #outputs for SPRUCE MiP and Jiafu's diagnostics code:
+        var_list_hourly = ['GPP', 'NEE', 'NEP', 'NPP', 'LEAFC_ALLOC', 'AGNPP', \
+                'CPOOL_TO_DEADSTEMC', 'LIVECROOTC_XFER_TO_LIVECROOTC', 'DEADCROOTC_XFER_TO_DEADCROOTC', \
+                'CPOOL_TO_LIVECROOTC', 'CPOOL_TO_DEADCROOTC', 'FROOTC_ALLOC', 'AR', 'LEAF_MR', 'CPOOL_LEAF_GR',
+                'TRANSFER_LEAF_GR', 'CPOOL_LEAF_STORAGE_GR', 'LIVESTEM_MR', 'CPOOL_LIVESTEM_GR', \
+                'TRANSFER_LIVESTEM_GR', 'CPOOL_LIVESTEM_STORAGE_GR', 'CPOOL_DEADSTEM_GR', 'TRANSFER_DEADSTEM_GR', \
+                'CPOOL_DEADSTEM_STORAGE_GR', 'LIVECROOT_MR', 'CPOOL_LIVECROOT_GR', 'TRANSFER_LIVECROOT_GR', \
+                'CPOOL_LIVECROOT_STORAGE_GR', 'CPOOL_DEADCROOT_GR', 'TRANSFER_DEADCROOT_GR', 'CPOOL_DEADCROOT_STORAGE_GR', \
+                'FROOT_MR', 'CPOOL_FROOT_GR', 'TRANSFER_FROOT_GR', 'CPOOL_FROOT_STORAGE_GR', 'FSH', 'EFLX_LH_TOT', \
+                'Rnet', 'FCTR', 'FGEV', 'FCEV', 'SOILLIQ', 'QOVER', 'QDRAI', 'TOTVEGC', 'LEAFC', 'LIVESTEMC', 'DEADSTEMC', \
+                'FROOTC', 'LIVECROOTC', 'DEADCROOTC', 'TG', 'TV', 'TSA', 'TSOI', 'DEADSTEMC_STORAGE', \
+                'LIVESTEMC_STORAGE', 'DEADCROOTC_STORAGE', 'LIVECROOTC_STORAGE', 'CPOOL_TO_DEADSTEMC_STORAGE', \
+                'CPOOL_TO_LIVESTEMC_STORAGE', 'CPOOL_TO_DEADCROOTC_STORAGE', 'CPOOL_TO_LIVECROOTC_STORAGE', \
+                'ER', 'HR', 'FROOTC_STORAGE', 'LEAFC_STORAGE', 'LEAFC_XFER', 'FROOTC_XFER', 'LIVESTEMC_XFER', \
+                'DEADSTEMC_XFER', 'LIVECROOTC_XFER', 'DEADCROOTC_XFER', 'SR', 'HR_vr', 'CH4_SURF_NETFLUX', 'FIRA', \
+                'FSA', 'FSDS', 'FLDS', 'TBOT', 'RAIN', 'SNOW', 'WIND', 'PBOT', 'QBOT', 'QVEGT', 'QVEGE', 'QSOIL', \
+                'QFLX_SUB_SNOW', 'QFLX_DEW_GRND', 'QH2OSFC', 'H2OSOI']
+        var_list_daily = ['TOTLITC', 'TOTSOMC', 'CWDC', 'LITR1C_vr', 'LITR2C_vr', 'LITR3C_vr', 'SOIL1C_vr', 'SOIL2C_vr', \
+                          'SOIL3C_vr', 'SOIL4C_vr', 'CDOCS', 'CCON_CH4S', 'H2OSFC', 'ZWT', 'SNOWDP', 'TLAI'] 
+        var_list_pft = ['GPP', 'NPP', 'LEAFC_ALLOC', 'AGNPP', 'CPOOL_TO_DEADSTEMC', 'LIVECROOTC_XFER_TO_LIVECROOTC', \
+	        'DEADCROOTC_XFER_TO_DEADCROOTC', 'CPOOL_TO_LIVECROOTC', 'CPOOL_TO_DEADCROOTC', 'FROOTC_ALLOC', \
+                'AR', 'LEAF_MR', 'CPOOL_LEAF_GR', 'TRANSFER_LEAF_GR', 'CPOOL_LEAF_STORAGE_GR', 'LIVESTEM_MR', \
+                'CPOOL_LIVESTEM_GR', 'TRANSFER_LIVESTEM_GR', 'CPOOL_LIVESTEM_STORAGE_GR', 'CPOOL_DEADSTEM_GR', \
+                'TRANSFER_DEADSTEM_GR', 'CPOOL_DEADSTEM_STORAGE_GR', 'LIVECROOT_MR', 'CPOOL_LIVECROOT_GR', 'TRANSFER_LIVECROOT_GR', \
+                'CPOOL_LIVECROOT_STORAGE_GR', 'CPOOL_DEADCROOT_GR', 'TRANSFER_DEADCROOT_GR', 'CPOOL_DEADCROOT_STORAGE_GR', \
+                'FROOT_MR', 'CPOOL_FROOT_GR', 'TRANSFER_FROOT_GR', 'CPOOL_FROOT_STORAGE_GR', 'FCTR', 'FCEV', 'TOTVEGC', 'LEAFC', \
+                'LIVESTEMC', 'DEADSTEMC', 'FROOTC', 'LIVECROOTC', 'DEADCROOTC', 'DEADSTEMC_STORAGE', \
+                'LIVESTEMC_STORAGE', 'DEADCROOTC_STORAGE', 'LIVECROOTC_STORAGE', 'CPOOL_TO_DEADSTEMC_STORAGE', \
+                'CPOOL_TO_LIVESTEMC_STORAGE', 'CPOOL_TO_DEADCROOTC_STORAGE', 'CPOOL_TO_LIVECROOTC_STORAGE', \
+                'FROOTC_STORAGE', 'LEAFC_STORAGE', 'LEAFC_XFER', 'FROOTC_XFER', 'LIVESTEMC_XFER', \
+                'DEADSTEMC_XFER', 'LIVECROOTC_XFER', 'DEADCROOTC_XFER']
+
+        if ('20TR' in compset and options.diags):
+            output.write(" hist_mfilt = 1, 8760, 365, 365\n")
+            output.write(' hist_dov2xy = .true., .true., .true., .false.\n')
+            output.write(' hist_empty_htapes = .true.\n')
+            h0st = ' hist_fincl1 = '
+            h1st = ' hist_fincl2 = '
+            h2st = ' hist_fincl3 = ' 
+            h3st = ' hist_fincl4 = '
+            for v in var_list_hourly:
+	       h0st = h0st+"'"+v+"',"
+               h1st = h1st+"'"+v+"',"          
+               h2st = h2st+"'"+v+"',"          
+            for v in var_list_daily:
+               h0st = h0st+"'"+v+"',"    
+               h2st = h2st+"'"+v+"',"
+            for v in var_list_pft:
+               h3st = h3st+"'"+v+"',"
+            output.write(h0st[:-1]+'\n')
+            output.write(h1st[:-1]+'\n')
+            output.write(h2st[:-1]+'\n')
+            output.write(h3st[:-1]+'\n')
+        else:
+            output.write(" hist_mfilt = "+ str(options.hist_mfilt)+"\n")
+        if ('20TR' in compset and options.diags):
+            output.write(" hist_nhtfrq = 0, -1, -24, -24\n")
+        else:
+            output.write(" hist_nhtfrq = "+ str(options.hist_nhtfrq)+"\n")
         if (options.hist_vars != ''):
             output.write(" hist_empty_htapes = .true.\n")
             #read hist_vars file
-            hvars_file = open('../'+options.hist_vars)
+            vars_file = open('../'+options.hist_vars)
             myline = " hist_fincl1 = "
             for s2 in hvars_file:
                 if line2 ==0:

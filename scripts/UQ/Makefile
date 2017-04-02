@@ -1,6 +1,12 @@
-F90 = /software/tools/spack/opt/spack/linux-x86_64/gcc-5.3.0/openmpi-1.10.2-w26llp27jmybo7wlgoqxjrtptltmripg/bin/mpif90
-CC  = /software/tools/spack/opt/spack/linux-x86_64/gcc-5.3.0/openmpi-1.10.2-w26llp27jmybo7wlgoqxjrtptltmripg/bin/mpicc
+#CADES
+#F90 = /software/dev_tools/swtree/cs400_centos7.2_pe2016-08/openmpi/1.10.3/centos7.2_gnu5.3.0/bin/mpif90
+#CC = /software/dev_tools/swtree/cs400_centos7.2_pe2016-08/openmpi/1.10.3/centos7.2_gnu5.3.0/bin/mpicc
+#BASE_NETCDF=/software/user_tools/current/cades-ccsi/netcdf4/4.4.0/openmpi-1.10-gcc-5.3
 
+#OIC
+#F90=/projects/cesm/devtools/mpich-3.0.4-gcc4.8.1/bin/mpif90
+#CC=/projects/cesm/devtools/mpich-3.0.4-gcc4.8.1/bin/mpicc
+#BASE_NETCDF=/home/zdr/netcdf-4.0
 
 # Define environment
 ENVIRON = -DERGO
@@ -19,7 +25,6 @@ FSRCDIR = ./srctmp
 
 #directories
 OD = ./obj
-BASE_NETCDF=/software/user_tools/current/cades-ccsi/netcdf4/4.4.0/openmpi-1.10.2-gcc-5.3
 INCDIR = -I/usr/include -I$(BASE_NETCDF)/include 
 LIBDIR = -L. -L$(BASE_NETCDF)/lib 
 

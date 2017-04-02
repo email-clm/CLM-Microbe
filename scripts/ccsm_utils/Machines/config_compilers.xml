@@ -450,17 +450,57 @@ for mct, etc.
 </compiler>
 
 <compiler MACH="oic2" COMPILER="gnu">
-  <NETCDF_PATH>/home/zdr/netcdf-4.0_gfortran</NETCDF_PATH>
-  <ADD_SLIBS> -L/user/lib64 -llapack -lblas -L/home/zdr/netcdf-4.0_gfortran/lib -lnetcdf </ADD_SLIBS>
-  <INC_NETCDF>/home/zdr/netcdf-4.0_gfortran/include</INC_NETCDF>
-  <LIB_NETCDF>/home/zdr/netcdf-4.0_gfortran/lib</LIB_NETCDF>
+  <NETCDF_PATH>/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53</NETCDF_PATH>
+  <SFC>/projects/cesm/devtools/gcc-5.3.0/bin/gfortran</SFC>
+  <SCC>/projects/cesm/devtools/gcc-5.3.0/bin/gcc</SCC>
+  <SCXX>/projects/cesm/devtools/gcc-5.3.0/bin/g++</SCXX>
+  <MPIFC>/projects/cesm/devtools/mpich-3.2-gcc53/bin/mpif90</MPIFC>
+  <MPICC>/projects/cesm/devtools/mpich-3.2-gcc53/bin/mpicc</MPICC>
+  <MPICXX>/projects/cesm/devtools/mpich-3.2-gcc53/bin/mpic++</MPICXX>
+  <INC_NETCDF>/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53/include</INC_NETCDF>
+  <LIB_NETCDF>/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53/lib</LIB_NETCDF>
+  <FFLAGS> -O -fconvert=big-endian -ffree-line-length-none -ffixed-line-length-none -fno-range-check</FFLAGS>
+  <FFLAGS_NOOPT> -O0 </FFLAGS_NOOPT>
+  <FC_AUTO_R8> -fdefault-real-8 </FC_AUTO_R8>
+  <CXX_LINKER>FORTRAN</CXX_LINKER>
+  <SUPPORTS_CXX>TRUE</SUPPORTS_CXX>
+  <HDF5_ROOT>/projects/cesm/devtools/hdf5-1.8.16-mpich32-gcc53</HDF5_ROOT>
+  <LAPACK_LIBDIR>/projects/cesm/devtools/petsc-mpich32-gcc53</LAPACK_LIBDIR>
+  <BLAS_LIBDIR>/projects/cesm/devtools/petsc-mpich32-gcc53</BLAS_LIBDIR>
+  <ADD_SLIBS> -L/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53/lib -lnetcdff -lnetcdf \
+              -Wl,-rpath=/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53/lib
+                -L/projects/cesm/devtools/hdf5-1.8.16-mpich32-gcc53/lib -lhdf5_hl -lhdf5\
+              -Wl,-rpath=projects/cesm/devtools/hdf5-1.8.16-mpich32-gcc53/lib  \
+                -L/projects/cesm/devtools/petsc-mpich32-gcc53/lib -llapack -lblas \
+              -Wl,rpath=/projects/cesm/devtools/petsc-mpich32-gcc53/lib 
+  </ADD_SLIBS>
 </compiler>
 
 <compiler MACH="oic5" COMPILER="gnu">
-  <NETCDF_PATH>/home/zdr/netcdf-4.0_gfortran</NETCDF_PATH>
-  <ADD_SLIBS> -L/user/lib64 -llapack -lblas -L/home/zdr/netcdf-4.0_gfortran/lib -lnetcdf </ADD_SLIBS>
-  <INC_NETCDF>/home/zdr/netcdf-4.0_gfortran/include</INC_NETCDF>
-  <LIB_NETCDF>/home/zdr/netcdf-4.0_gfortran/lib</LIB_NETCDF>
+  <NETCDF_PATH>/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53</NETCDF_PATH>
+  <SFC>/projects/cesm/devtools/gcc-5.3.0/bin/gfortran</SFC>
+  <SCC>/projects/cesm/devtools/gcc-5.3.0/bin/gcc</SCC>
+  <SCXX>/projects/cesm/devtools/gcc-5.3.0/bin/g++</SCXX>
+  <MPIFC>/projects/cesm/devtools/mpich-3.2-gcc53/bin/mpif90</MPIFC>
+  <MPICC>/projects/cesm/devtools/mpich-3.2-gcc53/bin/mpicc</MPICC>
+  <MPICXX>/projects/cesm/devtools/mpich-3.2-gcc53/bin/mpic++</MPICXX>
+  <INC_NETCDF>/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53/include</INC_NETCDF>
+  <LIB_NETCDF>/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53/lib</LIB_NETCDF>
+  <FFLAGS> -O -fconvert=big-endian -ffree-line-length-none -ffixed-line-length-none -fno-range-check</FFLAGS>
+  <FFLAGS_NOOPT> -O0 </FFLAGS_NOOPT>
+  <FC_AUTO_R8> -fdefault-real-8 </FC_AUTO_R8>
+  <CXX_LINKER>FORTRAN</CXX_LINKER>
+  <SUPPORTS_CXX>TRUE</SUPPORTS_CXX>
+  <HDF5_ROOT>/projects/cesm/devtools/hdf5-1.8.16-mpich32-gcc53</HDF5_ROOT>
+  <LAPACK_LIBDIR>/projects/cesm/devtools/petsc-mpich32-gcc53</LAPACK_LIBDIR>
+  <BLAS_LIBDIR>/projects/cesm/devtools/petsc-mpich32-gcc53</BLAS_LIBDIR>
+  <ADD_SLIBS> -L/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53/lib -lnetcdff -lnetcdf \
+              -Wl,-rpath=/projects/cesm/devtools/netcdf-4.4.0-mpich32-gcc53/lib
+                -L/projects/cesm/devtools/hdf5-1.8.16-mpich32-gcc53/lib -lhdf5_hl -lhdf5\
+              -Wl,-rpath=projects/cesm/devtools/hdf5-1.8.16-mpich32-gcc53/lib  \
+                -L/projects/cesm/devtools/petsc-mpich32-gcc53/lib -llapack -lblas \
+              -Wl,rpath=/projects/cesm/devtools/petsc-mpich32-gcc53/lib
+  </ADD_SLIBS>
 </compiler>
 
 <compiler COMPILER="gnu" MACH="cades">

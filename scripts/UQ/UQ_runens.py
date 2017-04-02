@@ -18,13 +18,15 @@ parser = OptionParser()
 
 parser.add_option("--runroot", dest="runroot", default="", \
                   help="Directory where the run would be created")
+parser.add_option("--best", dest="best", default=False, action= \
+                  "store_true", help="Run best parameter set only")
 parser.add_option("--ens_num", dest="ensnum", default=1, \
                   help="Ensemble member number")
-parser.add_option("--parm_list", dest="parm_list", default="", \
+parser.add_option("--parm_list", dest="parm_list", default="./parm_list", \
                   help="File containing parameter names/pfts to modify")
 parser.add_option("--parm_data", dest="parm_data", default="", \
                   help="File containing parameter values and ranges")
-parser.add_option("--constraints", dest="constraints", default="", \
+parser.add_option("--constraints", dest="constraints", default="./constraints", \
                   help="Directory containing constraining variables")
 parser.add_option("--norun", dest="norun", default=False, action="store_true", \
                   help="Don't run model (use for testing purposes)")
@@ -114,13 +116,25 @@ for s in myinput:
 myinput.close()
 
 #get parameter values
-myinput = open(options.parm_data, 'r')
-for s in myinput:    
-    parm_values.append(float(s))
-myinput.close()
+if (options.best):
+    myinput = open('qpso_best.txt', 'r')
+    lnum = 0
+    for s in myinput:
+        if (lnum >= 2):
+            parm_values.append(float(s.split()[2]))
+        lnum=lnum+1
+    myinput.close()
+else:
+    myinput = open(options.parm_data, 'r')
+    for s in myinput:    
+        parm_values.append(float(s))
+    myinput.close()
 
 n_parameters = len(parm_names)
-gst=str(100000+int(options.ensnum))
+if (options.best):
+    gst = '1best'
+else:
+    gst=str(100000+int(options.ensnum))
 
 #create ensemble directories from original case(s)
 isfirstcase = True
@@ -194,7 +208,10 @@ for casename in casenames:
                 if ('finidat = ' in s):
                     myoutput.write(" finidat = '"+inifile+"'\n")
                 elif ('fpftcon' in s):
-                    est = str(100000+int(options.ensnum))
+                    if (options.best):
+                        est = '1best'
+                    else:
+                        est = str(100000+int(options.ensnum))
                     myoutput.write(" fpftcon = './clm_params_"+est[1:]+".nc'\n")
                     #Hard-coded parameter file
                     pftfile = ens_dir+'/clm_params_'+est[1:]+'.nc'

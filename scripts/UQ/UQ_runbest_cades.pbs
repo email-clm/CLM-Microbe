@@ -1,0 +1,14 @@
+#!/bin/csh -f
+
+#PBS -N ERGO_CLM
+#PBS -q batch
+#PBS -M ricciutodm@ornl.gov
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=8:00:00
+#PBS -j oe
+#PBS -S /bin/csh -V
+#PBS -W group_list=cades-ccsi
+
+cd /home/$USER/models/CLM_SPRUCE/scripts/UQ
+
+python UQ_runens.py --best --runroot /lustre/or-hydra/cades-ccsi/scratch/$USER/

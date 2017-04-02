@@ -1,0 +1,38 @@
+#!/bin/csh -f
+
+#PBS -N ens_CLM_SPRUCE
+#PBS -q batch
+#PBS -M ricciutodm@ornl.gov
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=6:00:00
+#PBS -j oe
+#PBS -S /bin/csh -V
+#PBS -W group_list=cades-ccsi
+
+set scriptsdir = /home/$USER/models/CLM_SPRUCE/scripts
+set rundir = /lustre/or-hydra/cades-ccsi/scratch/$USER
+set prefix = TEST
+
+cd $scriptsdir
+
+#run transient simulation from 1850-2010
+#Comment this section out if the 2011 restart file already exists.
+python runCLM.py --caseidprefix $prefix\_T0.00 --runroot $rundir --nofire --harvmod --humhol --rmold --compset I20TRCLM45CN --mach cades --MICROBE --tstep 1 --run_n 161 --cpl_bypass --finidat $scriptsdir/../inputdata/lnd/clm2/inidata/SPRUCE-finalspinup-peatland-carbon-initial.nc  --site US-SPR --add_temperature 0.0 --no_submit --runroot $rundir
+cd $prefix\_T0.00_US-SPR_I20TRCLM45CN
+./$prefix\_T0.00_US-SPR_I20TRCLM45CN.run
+ 
+#loop over 10 cases 2011-2030 (treatments begin in 2015)
+foreach t (0.00 2.25 4.50 6.75 9.00)
+  foreach co2 (0 500) 
+    cd $scriptsdir
+    if ( $co2 == 0 ) then 
+      set casename = $prefix\_T$t
+    else
+      set casename = $prefix\_T$t\CO2
+    endif
+    python runCLM.py --caseidprefix $casename --startyear_run 2011 --nofire --harvmod --humhol --rmold --compset I20TRCLM45CN --mach cades --MICROBE --tstep 1 --run_n 20 --cpl_bypass --runroot $rundir --finidat $rundir/$prefix\_T0.00_US-SPR_I20TRCLM45CN/run/$prefix\_T0.00_US-SPR_I20TRCLM45CN.clm2.r.2011-01-01-00000.nc --site US-SPR --diags --add_temperature $t --add_co2 $co2 --no_submit 
+    cd $casename\_US-SPR_I20TRCLM45CN
+    ./$casename\_US-SPR_I20TRCLM45CN.run &
+  end
+end
+sleep 7200
