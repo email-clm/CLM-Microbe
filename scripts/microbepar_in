@@ -55,7 +55,7 @@ m_dKH2ProdCH4  		7.75e-6
 m_dKCO2ProdCH4  	3.1e-5
 m_dH2CH4ProdQ10  	1.5
 m_dH2AceProdQ10  	1.5 
-m_dKCH4ProdAce  	50.0 
+m_dKCH4ProdAce  	20.0 
 m_dKCH4ProdO2  	0.015
 m_dCH4ProdQ10  	1.5 
 m_drCH4Prod  		0.5 
