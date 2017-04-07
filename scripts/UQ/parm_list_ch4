@@ -1,6 +1,6 @@
 US-SPR_I20TRCLM45CN
-m_dKAc -1 20 120
-m_dAceProdAcmax -1 0.00035 0.35
+m_dKAce -1 20 120
+m_dAceProdACmax -1 0.00035 0.35
 m_dGrowRH2methanogens -1 0.0005 0.041
 m_dDeadRH2methanogens -1 0.0001 0.031
 m_dGrowRAceMethanogens -1 0.00025 0.18

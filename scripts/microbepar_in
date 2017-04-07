@@ -28,7 +28,7 @@ fin_use_fsat  0
 atmch4  1.7e-6
 lit2avc 0.25
 som2avc 0.25
-m_dKAc  50
+m_dKAce  50
 m_dAceProdACmax  0.0015
 m_dKAceProdO2  	0.004
 m_dH2ProdAcemax  0.005
@@ -45,7 +45,7 @@ m_dDeadRMethanotrophs  	0.001
 m_dYMethanotrophs  	0.40 
 m_dGrowRAOMMethanotrophs 0.00001
 m_dDeadRAOMMethanotrophs 0.005
-m_dYAOMMethanotrophs  	0.15 
+m_dYAOMMethanotrophs 	0.15 
 m_dAceProdQ10  		1.5
 m_dACProdQ10 		1.5 
 m_dACMinQ10  		1.5 
