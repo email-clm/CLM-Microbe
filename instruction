@@ -33,5 +33,6 @@ hist_nhtfrq = -24
 
 user_nl_datm
 
+copy microbepar_in file to your run directory
 
 
