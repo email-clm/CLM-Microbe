@@ -22,6 +22,16 @@ L372, 1x1pt_US-Brw, it needs to be consistent with the real data (/inputdata in 
 L425, change the CO2 concentration as appropriate
 L430, 433, 436, 439, mask file should be consistent with the L372 (for exmpert only)
 
+user_nl_clm
+&clm_inparm
+hist_mfilt = 365
+hist_nhtfrq = -24
+ fsurdat = '/storage/projects/inputdata/lnd/clm2/surfdata_map/surfdata_1x1pt_NGEE_US-Brw_I20TRCLM45CN_simyr1850.nc'
+ fpftcon = '/storage/xxu/cases/SJ_CN_ad_spinup/pft-physiology.c130801.Sanjiang_CN-SJ1_I1850CLM45CN.nc'
+ stream_fldfilename_ndep = '/storage/projects/inputdata/lnd/clm2/ndepdata/fndep_clm_hist_simyr1849-2006_1.9x2.5_c100428.nc'
+/
+
+user_nl_datm
 
 
 
