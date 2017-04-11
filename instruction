@@ -1,6 +1,9 @@
+git clone case
 
-
-
+edit env_build.xml
+L37, change user account to your own account
+L70, append "-microbe on"
 
 edit env_run.xml
 L19, change the path to your own directory
+
