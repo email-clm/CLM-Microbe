@@ -6,4 +6,22 @@ L70, append "-microbe on"
 
 edit env_run.xml
 L19, change the path to your own directory
+L56 ndays -> nyears
+L59, change the number for the exact duratin of simulation
+L70, optional (for expert only), for restarting points
+L79, optional (for expert only), for resubmission
+L288 & 230, if using different machines, it might needs modifications
+L299, default is true, change to false if you do not want to archive
+L302, optional (for expert only)
+L328, CLM1PT
+L337, starting year of the meteorological data
+L339, ending year of the meterological data
+L357, -mask navy
+L369, on
+L372, 1x1pt_US-Brw, it needs to be consistent with the real data (/inputdata in the folder)
+L425, change the CO2 concentration as appropriate
+L430, 433, 436, 439, mask file should be consistent with the L372 (for exmpert only)
+
+
+
 
