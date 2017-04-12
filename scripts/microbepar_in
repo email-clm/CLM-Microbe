@@ -69,7 +69,7 @@ m_dKAerO2  		0.0010
 m_dAerDecomQ10  	2.0
 m_drCH4Oxid  		2 
 m_dKe  			0.03 
-m_dCH4min 		50.0 
+m_dCH4min 		0.05 
 m_dAirCH4  		0.0893 
 m_dAirH2    		0.0257 
 m_dAirO2    		9.375e3 
