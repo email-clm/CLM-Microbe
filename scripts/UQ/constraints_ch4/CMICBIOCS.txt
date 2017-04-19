@@ -1,0 +1,3 @@
+Year DOY Depth Value uncertainty
+2013 165 20 60.0 30.
+2013 165 100 50.0 25.
