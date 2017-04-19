@@ -1,0 +1,9 @@
+1. Copy the entire folder -UQ to the case foler
+2. edit file /QPSO_src/qpso.f90
+L39, machine name, oic, cades
+L49, file name
+L155 file name and path for observational data
+3. edit file Makefile
+Uncomment the machine in use and its path for F90, CC and BASE_NETCDF
+4. make QPSO
+5. qsub UQ_PQSO_cades.pbs
