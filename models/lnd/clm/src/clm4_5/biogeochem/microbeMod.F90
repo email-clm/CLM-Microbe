@@ -794,7 +794,7 @@ implicit none
                     annavg_agnpp(p) > 0._r8 .and. annavg_bgnpp(p) > 0._r8) then
                     nppratio = annavg_bgnpp(p) / (annavg_agnpp(p) + annavg_bgnpp(p))
                   else
-                    nppratio = 0.1_r8
+                    nppratio = 0.25_r8
                   end if		
 	        end if
 		end do
@@ -1096,9 +1096,9 @@ if(j >= jwaterhead_unsat(c)) then
 	
 !write(iulog,*) "CH4PlantFlux: ", m_dPlantTrans, " ", rootfr_vr(c,j), ccon_ch4s_unsat(c,j), m_dCH4min !, tempavg_bgnpp(c), annavg_bgnpp(c)
 	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_unsat(c,j) > m_dCH4min) then
-	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min) * nppratio*exp(-z(c,j)/0.1)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
+	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min) * nppratio*exp(-z(c,j)/0.65)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
 	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4PlantFlux
-	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min), 0._r8)  ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
+	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min) * 0.1, 0._r8) * exp(-z(c,j)/0.25)  ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
 	else
 	CH4PlantFlux = 0._r8
 	CH4Ebull = 0._r8
@@ -1903,8 +1903,8 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	end if
 	
 	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1) then
-	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min) * nppratio*exp(-z(c,j)/0.1)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
-	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min), 0._r8) 					! mmol/L
+	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min) * nppratio*exp(-z(c,j)/0.65)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
+	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min) * 0.1, 0._r8) * exp(-z(c,j)/0.25) 					! mmol/L
 	else
 	CH4PlantFlux = 0._r8
 	CH4Ebull = 0._r8

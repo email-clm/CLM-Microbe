@@ -43,6 +43,7 @@ subroutine CNGapMortality (num_soilc, filter_soilc, num_soilp, filter_soilp)
    use clm_time_manager, only: get_days_per_year
    use clm_varcon      , only: secspday
    use pftvarcon       , only: npcropmin, r_mort
+   use microbevarcon
 !
 ! !ARGUMENTS:
    implicit none
@@ -296,15 +297,11 @@ subroutine CNGapMortality (num_soilc, filter_soilc, num_soilp, filter_soilp)
       ! pft-level gap mortality carbon fluxes
       ! displayed pools
       m_leafc_to_litter(p)               = leafc(p)               * m
-      m_frootc_to_litter(p)              = frootc(p)              * m
+      m_frootc_to_litter(p)              = frootc(p)              * m * (1.0-plant2doc)
       m_livestemc_to_litter(p)           = livestemc(p)           * m
       m_deadstemc_to_litter(p)           = deadstemc(p)           * m
       m_livecrootc_to_litter(p)          = livecrootc(p)          * m
       m_deadcrootc_to_litter(p)          = deadcrootc(p)          * m
-#if(defined MICROBE)
-      m_frootc_to_doc(p)         = frootc(p)         * 0.0
-      m_frootn_to_don(p)         = frootn(p)         * 0.0
-#endif
 
       ! storage pools
       m_leafc_storage_to_litter(p)       = leafc_storage(p)       * m
@@ -327,7 +324,7 @@ subroutine CNGapMortality (num_soilc, filter_soilc, num_soilp, filter_soilp)
       ! pft-level gap mortality nitrogen fluxes
       ! displayed pools
       m_leafn_to_litter(p)               = leafn(p)               * m
-      m_frootn_to_litter(p)              = frootn(p)              * m
+      m_frootn_to_litter(p)              = frootn(p)              * m * (1.0-plant2doc)
       m_livestemn_to_litter(p)           = livestemn(p)           * m
       m_deadstemn_to_litter(p)           = deadstemn(p)           * m
       m_livecrootn_to_litter(p)          = livecrootn(p)          * m
@@ -349,6 +346,11 @@ subroutine CNGapMortality (num_soilc, filter_soilc, num_soilp, filter_soilp)
       m_deadstemn_xfer_to_litter(p)      = deadstemn_xfer(p)      * m
       m_livecrootn_xfer_to_litter(p)     = livecrootn_xfer(p)     * m
       m_deadcrootn_xfer_to_litter(p)     = deadcrootn_xfer(p)     * m
+
+#if(defined MICROBE)
+      m_frootc_to_doc(p)         = frootc(p)         * m * plant2doc
+      m_frootn_to_don(p)         = frootn(p)         * m * plant2doc
+#endif
 
 ! added by F. Li and S. Levis
 #if (defined CNDV)
