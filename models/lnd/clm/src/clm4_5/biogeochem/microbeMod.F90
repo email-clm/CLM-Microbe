@@ -377,7 +377,10 @@ implicit none
 	real(r8), pointer :: annsum_npp(:)   		! annual sum NPP (gC/m2/yr)
 	real(r8), pointer :: annavg_agnpp(:) 		! (gC/m2/s) annual average aboveground NPP
 	real(r8), pointer :: annavg_bgnpp(:) 		! (gC/m2/s) annual average belowground NPP
-
+	real(r8), pointer :: col_npp(:) 			! (gC/m2/s) colunm net primary production
+	real(r8), pointer :: col_rr(:) 				! (gC/m2/s) colunm root respiration
+	real(r8), pointer :: cannsum_npp(:) 			!  annual nitrogen depsotion rate
+	
 	real(r8), pointer :: decomp_cpools_vr(:,:,:)    ! (gC/m3)  vertically-resolved decomposing (litter, cwd, soil) c pools
 	real(r8), pointer :: decomp_npools_vr(:,:,:)    ! (gC/m3)  vertically-resolved decomposing (litter, cwd, soil) N pools
 
@@ -389,6 +392,8 @@ implicit none
 	real(r8) :: jwt(1:2)
 #endif
 
+	real(r8) :: nppratio(lbc:ubc)
+	
 	real(r8) :: roothr_vr(lbc:ubc,1:nlevdecomp)
 	real(r8) :: rootfraction(lbc:ubc,1:nlevdecomp)
 	
@@ -424,7 +429,7 @@ implicit none
 	real(r8) :: AOMMethanotrophDying = 0.		! death rate of anaerobic oxidation of methane 
 	
 	real(r8) :: tem1, tem2, tem3, tem4		! four temporary variables
-	real(r8) :: anpp, nppratio				! above-ground npp, ratio of daily npp to annual total npp
+	real(r8) :: anpp!, nppratio				! above-ground npp, ratio of daily npp to annual total npp
         real(r8) :: OxidAce2CO2                           ! oxidaiton of acetate to co2 (nromally sufficient oxygen), distinguish from aceteclastic methanogenesis
 
 ! !OTHER LOCAL VARIABLES:
@@ -679,6 +684,9 @@ implicit none
 	annsum_npp            			=> pepv%annsum_npp
 	annavg_agnpp          			=> pcf%annavg_agnpp
 	annavg_bgnpp          			=> pcf%annavg_bgnpp
+	col_npp            				=> pcf_a%npp
+	col_rr            				=> pcf_a%rr
+	cannsum_npp 				=> cps%cannsum_npp
 
 	decomp_cpools_vr              		=> ccs%decomp_cpools_vr
 	decomp_npools_vr              		=> cns%decomp_npools_vr
@@ -753,9 +761,9 @@ implicit none
 	caerch4bios_unsat(c,j) 		= caerch4bios_unsat(c,j) / 12. 		!/ dz(c,j)
 	canaerch4bios_unsat(c,j) 		= canaerch4bios_unsat(c,j) / 12. 		!/ dz(c,j)
 	ccon_o2s_unsat(c,j) 			= ccon_o2s_unsat(c,j) / 32. 		!/ dz(c,j)
-	ccon_ch4s_unsat(c,j) 			= ccon_ch4s_unsat(c,j) / 12. 		!/ dz(c,j)
+	ccon_ch4s_unsat(c,j) 		= ccon_ch4s_unsat(c,j) / 12. 		!/ dz(c,j)
 	ccon_h2s_unsat(c,j) 			= ccon_h2s_unsat(c,j) / 2. 			!/ dz(c,j)
-	ccon_co2s_unsat(c,j) 			= ccon_co2s_unsat(c,j) / 12. 		!/ dz(c,j)
+	ccon_co2s_unsat(c,j) 		= ccon_co2s_unsat(c,j) / 12. 		!/ dz(c,j)
 !	write(iulog,*)"c ", c, " j ",j," ", ccon_o2s_unsat(c,j), " ",ccon_o2s_sat(c,j)
 	
 	cdocs_sat(c,j) 				= cdocs_sat(c,j) / 12. 			!/ dz(c,j)
@@ -780,6 +788,9 @@ implicit none
 		c = filter_soilc(fp)
 		roothr_vr(c,:) = 0.0_r8
 		rootfraction(c,:)=0.0_r8
+		nppratio(c) = max(1e-9,col_rr(c)) * 1e+6 / max(cannsum_npp(c), 0.01)
+!write(iulog, *) nppratio(c)," nppratio", col_npp(c), cannsum_npp(c)
+		nppratio(c) = min(1.0, nppratio(c))
 	end do
 	do j=1,nlevsoi
 		do fp = 1, num_soilp
@@ -792,15 +803,15 @@ implicit none
 		!write(iulog,*) "roothr_vr(c,j)",j, " j ", roothr_vr(c,j), "roothr(p)", roothr(p), "rootfr_vr(p,j)", rootfr_vr(p,j), "wtcol(p)", wtcol(p), "rootfraction(c,j)", rootfraction(c,j)
 		ccon_co2s_sat(c,j) = ccon_co2s_sat(c,j) + froot_r(c,j) / 12.0 + hr_vr(c,j) / 12.0
 		
-               anpp = annsum_npp(p) ! g C / m^2/yr
-               anpp = max(anpp, 0._r8) ! NPP can be negative b/c of consumption of storage pools
-                  if (annavg_agnpp(p) /= spval .and. annavg_bgnpp(p) /= spval .and. &
-                    annavg_agnpp(p) > 0._r8 .and. annavg_bgnpp(p) > 0._r8) then
-                    nppratio = annavg_bgnpp(p) / (annavg_agnpp(p) + annavg_bgnpp(p))
-                  else
-                    nppratio = 0.01_r8
-                  end if
-                    nppratio = max(0.01_r8, nppratio)		
+               !~ anpp = annsum_npp(p) ! g C / m^2/yr
+               !~ anpp = max(anpp, 0._r8) ! NPP can be negative b/c of consumption of storage pools
+                  !~ if (annavg_agnpp(p) /= spval .and. annavg_bgnpp(p) /= spval .and. &
+                    !~ annavg_agnpp(p) > 0._r8 .and. annavg_bgnpp(p) > 0._r8) then
+                    !~ nppratio = annavg_bgnpp(p) / (annavg_agnpp(p) + annavg_bgnpp(p))
+                  !~ else
+                    !~ nppratio = 0.01_r8
+                  !~ end if
+                    !~ nppratio = max(0.01_r8, nppratio)		
 	        end if
 		end do
 	end do
@@ -1028,7 +1039,7 @@ if(j >= jwaterhead_unsat(c)) then
 	H2CH4Prod = max(0._r8, H2CH4Prod)
 	
 	if(ccon_h2s_unsat(c,j)>g_dMaxH2inWater) then
-	H2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_h2s_unsat(c,j) - g_dMaxH2inWater) * nppratio*exp(-z(c,j)/0.1)/z(c,j) !* bgnpp_timestep(c) / bgnpp_avg(c)
+	H2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_h2s_unsat(c,j) - g_dMaxH2inWater) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j) !* bgnpp_timestep(c) / bgnpp_avg(c)
 	else
 	H2PlantFlux = 0._r8
 	end if
@@ -1101,16 +1112,17 @@ if(j >= jwaterhead_unsat(c)) then
 	
 !write(iulog,*) "CH4PlantFlux: ", m_dPlantTrans, " ", rootfr_vr(c,j), ccon_ch4s_unsat(c,j), m_dCH4min !, tempavg_bgnpp(c), annavg_bgnpp(c)
 	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_unsat(c,j) > m_dCH4min/5.0) then
-	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min / 5.0) * nppratio*exp(-z(c,j)/0.65)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
+	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min / 5.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
 	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4PlantFlux
-	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min) * 0.1, 0._r8) * exp(-z(c,j)/1.25)  ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
+	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min), 0._r8) * (exp(0.5 * (j - 0.5))-1) * 20.0 !* exp(-z(c,j)/1.25)   ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
 	else
-	CH4PlantFlux = 0.25 * m_dPlantTrans *  rootfraction(c,j)*(ccon_ch4s_unsat(c,j) - m_dCH4min / 5.0) * nppratio*exp(-z(c,j)/0.65)/z(c,j)
+	CH4PlantFlux = 0.0 * m_dPlantTrans *  rootfraction(c,j)*(ccon_ch4s_unsat(c,j) - m_dCH4min / 5.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)
 	CH4Ebull = 0._r8
 	endif
-	
+
 	CH4PlantFlux = max(CH4PlantFlux, 0._r8)
 	CH4Ebull = max(CH4Ebull, 0._r8)
+	CH4Ebull = min(CH4Ebull, ccon_ch4s_unsat(c,j) / 2.0)
 	
 	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) !- CH4Ebull
 		
@@ -1123,8 +1135,8 @@ if(j >= jwaterhead_unsat(c)) then
 	ccon_o2s_unsat(c,j) = 0._r8
 	end if
 
-	O2PlantFlux = m_dPlantTrans*rootfraction(c,j)*(ccon_o2s_unsat(c,j) - c_atm(g,2))*nppratio*exp(-z(c,j)/0.1)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c) * exp(-z(c,j) / 0.1) 
-	if(ccon_o2s_unsat(c,j) > c_atm(g,2)) then
+	O2PlantFlux = m_dPlantTrans*rootfraction(c,j)*(ccon_o2s_unsat(c,j) - c_atm(g,2))*nppratio(c)*exp(-z(c,j)/0.15)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c) * exp(-z(c,j) / 0.1) 
+	if(ccon_o2s_unsat(c,j) > c_atm(g,2) .or. soiltemp(c,jwaterhead_unsat(c)) < -0.1) then
 	O2PlantFlux = 0._r8
 	else
 	O2PlantFlux = O2PlantFlux !* dz(c,j)
@@ -1428,11 +1440,11 @@ else
 	ccon_ch4s_unsat(c,j) = 0
 	end if
 	
-	!CH4PlantFlux = 0._r8
-	!CH4Ebull = 0._r8
+	CH4PlantFlux = 0._r8
+	CH4Ebull = 0._r8
 		
-	!CH4PlantFlux = max(CH4PlantFlux, 0._r8)
-	!CH4Ebull = max(CH4Ebull, 0._r8)
+	CH4PlantFlux = max(CH4PlantFlux, 0._r8)
+	CH4Ebull = max(CH4Ebull, 0._r8)
 		
 	!	// For O2 dyndamics
 	AerO2Cons = m_drAer * ACCO2Prod
@@ -1599,41 +1611,42 @@ if((soiltemp(c,jwaterhead_unsat(c)) < SHR_CONST_TKFRZ) .or. (jwaterhead_unsat(c)
 	o2_surf_dif_unsat(c) 		= 0._r8
 !	o2_surf_aere_unsat(c) 	= 0._r8	
 else
-	ch4_surf_dif_unsat(c) 	= ccon_ch4s_unsat(c,j) - tem1	! max(0._r8, (ccon_ch4s_unsat(c,1) - tem1))  ! solubility of ch4 is 0.0000227g/L
+	ch4_surf_dif_unsat(c) 	= (ccon_ch4s_unsat(c,j) - tem1) / 10.0	! max(0._r8, (ccon_ch4s_unsat(c,1) - tem1))  ! solubility of ch4 is 0.0000227g/L
 	ccon_ch4s_unsat(c,jwaterhead_unsat(c)) = ccon_ch4s_unsat(c,jwaterhead_unsat(c)) - ch4_surf_dif_unsat(c)
 	ch4_surf_dif_unsat(c) 	= ch4_surf_dif_unsat(c) * dz(c,jwaterhead_unsat(c))
 
-	o2_surf_dif_unsat(c) 	= ccon_o2s_unsat(c,jwaterhead_unsat(c)) - tem2		! max(0._r8, (ccon_o2s_unsat(c,1) - tem4))  ! solubility of ch4 is 0.00004/L
+	o2_surf_dif_unsat(c) 	= (ccon_o2s_unsat(c,jwaterhead_unsat(c)) - tem2)		! max(0._r8, (ccon_o2s_unsat(c,1) - tem4))  ! solubility of ch4 is 0.00004/L
 	ccon_o2s_unsat(c,jwaterhead_unsat(c)) = ccon_o2s_unsat(c,jwaterhead_unsat(c)) - o2_surf_dif_unsat(c)
 	o2_surf_dif_unsat(c) 	= o2_surf_dif_unsat(c) * dz(c,jwaterhead_unsat(c))
 
-	co2_surf_dif_unsat(c) 	= ccon_co2s_unsat(c,jwaterhead_unsat(c)) - tem3		! max(0._r8, (ccon_co2s_unsat(c,1) - tem3))  ! solubility of ch4 is 0.002/L
+	co2_surf_dif_unsat(c) 	= (ccon_co2s_unsat(c,jwaterhead_unsat(c)) - tem3)		! max(0._r8, (ccon_co2s_unsat(c,1) - tem3))  ! solubility of ch4 is 0.002/L
 	ccon_co2s_unsat(c,jwaterhead_unsat(c)) = ccon_co2s_unsat(c,jwaterhead_unsat(c)) - co2_surf_dif_unsat(c)
 	co2_surf_dif_unsat(c) 	= co2_surf_dif_unsat(c) * dz(c,jwaterhead_unsat(c))
 
-	h2_surf_dif_unsat(c) 	= ccon_h2s_unsat(c,jwaterhead_unsat(c)) - tem4 		! max(0._r8, (ccon_h2s_unsat(c,1) - tem2))  ! solubility of ch4 is 0.0000015/L
+	h2_surf_dif_unsat(c) 	= (ccon_h2s_unsat(c,jwaterhead_unsat(c)) - tem4) / 10.0 		! max(0._r8, (ccon_h2s_unsat(c,1) - tem2))  ! solubility of ch4 is 0.0000015/L
 	ccon_h2s_unsat(c,jwaterhead_unsat(c)) = ccon_h2s_unsat(c,jwaterhead_unsat(c)) - h2_surf_dif_unsat(c)
 	h2_surf_dif_unsat(c) 	= h2_surf_dif_unsat(c) * dz(c,jwaterhead_unsat(c))
 
 	do j = 1,nlevsoi
 	ch4_surf_aere_unsat(c)			= ch4_surf_aere_unsat(c) + ch4_aere_depth_unsat(c,j) * dz(c,j)
-	ch4_surf_ebul_unsat(c) 			= ch4_surf_ebul_unsat(c) + ch4_ebul_depth_unsat(c,j) * dz(c,j) 
+!	ch4_surf_ebul_unsat(c) 			= ch4_surf_ebul_unsat(c) + ch4_ebul_depth_unsat(c,j) * dz(c,j)
 	
 	co2_surf_aere_unsat(c)			= co2_surf_aere_unsat(c) + co2_aere_depth_unsat(c,j) * dz(c,j)
-	co2_surf_ebul_unsat(c) 			= co2_surf_ebul_unsat(c) + co2_ebul_depth_unsat(c,j) * dz(c,j)
+!	co2_surf_ebul_unsat(c) 			= co2_surf_ebul_unsat(c) + co2_ebul_depth_unsat(c,j) * dz(c,j)
 	
 	o2_surf_aere_unsat(c)				= o2_surf_aere_unsat(c) + o2_aere_depth_unsat(c,j) * dz(c,j)
 	
 	h2_surf_aere_unsat(c)				= h2_surf_aere_unsat(c) + h2_aere_depth_unsat(c,j) * dz(c,j)
-	h2_surf_ebul_unsat(c) 				= h2_surf_ebul_unsat(c) + h2_ebul_depth_unsat(c,j) * dz(c,j)
+!	h2_surf_ebul_unsat(c) 				= h2_surf_ebul_unsat(c) + h2_ebul_depth_unsat(c,j) * dz(c,j)
 	end do
 !end if
 end if  ! end if of the frozen mechanism in trapping gases in soil
 
-	ch4_surf_netflux_unsat(c) 			= ch4_surf_netflux_unsat(c) + ch4_surf_dif_unsat(c) + ch4_surf_aere_unsat(c) + ch4_surf_ebul_unsat(c)
+	ch4_surf_netflux_unsat(c) 			= ch4_surf_netflux_unsat(c) + (ch4_surf_dif_unsat(c) + ch4_surf_aere_unsat(c) + ch4_surf_ebul_unsat(c)) / 3.0
 	co2_surf_netflux_unsat(c) 			= co2_surf_netflux_unsat(c) + co2_surf_dif_unsat(c) + co2_surf_aere_unsat(c) + co2_surf_ebul_unsat(c)
 	o2_surf_netflux_unsat(c) 			= o2_surf_netflux_unsat(c) + o2_surf_dif_unsat(c) + o2_surf_aere_unsat(c)
 	h2_surf_netflux_unsat(c) 			= h2_surf_netflux_unsat(c) + h2_surf_dif_unsat(c) + h2_surf_aere_unsat(c) + h2_surf_ebul_unsat(c)
+	
 !write(iulog,*) "xiaofeng here! ", ch4_surf_netflux_unsat(c), ch4_surf_dif_unsat(c), ch4_surf_aere_unsat(c), ch4_surf_ebul_unsat(c)
 	end do
 
@@ -1832,8 +1845,8 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	!H2PlantFlux = (m_dH2 - g_dMaxH2inWater)
 	!end if
 	!else
-	if(ccon_h2s_sat(c,j)>g_dMaxH2inWater) then
-	H2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_h2s_sat(c,j) - g_dMaxH2inWater) * nppratio*exp(-z(c,j)/0.1)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)
+	if(ccon_h2s_sat(c,j)>g_dMaxH2inWater .and. soiltemp(c,jwaterhead_unsat(c)) > -0.1) then
+	H2PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_h2s_sat(c,j) - g_dMaxH2inWater) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)
 	else
 	H2PlantFlux = 0._r8
 	end if
@@ -1908,14 +1921,16 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	end if
 	
 	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1) then
-	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min / 5.0) * nppratio*exp(-z(c,j)/0.65)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
-	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min) * 0.1, 0._r8) * exp(-z(c,j)/1.25) 					! mmol/L
+	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min / 5.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
+	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min)*0.15, 0._r8) !/ (exp(0.5 * (j - 0.5))-1) * 20.0 !* exp(-z(c,j)/1.25) 				! mmol/L
 	else
-	CH4PlantFlux = 0.25 * m_dPlantTrans * rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min / 5.0) * nppratio*exp(-z(c,j)/0.65)/z(c,j)
+	CH4PlantFlux = 0.0 * m_dPlantTrans * rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min / 5.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)
 	CH4Ebull = 0._r8
 	endif
 	
 	CH4PlantFlux = max(CH4PlantFlux, 0._r8)
+	CH4Ebull = max(CH4Ebull, 0._r8)
+	CH4Ebull = min(CH4Ebull, ccon_ch4s_sat(c,j) / 2.0)
 	
 	ccon_ch4s_sat(c,j) = ccon_ch4s_sat(c,j) - CH4PlantFlux !- CH4Ebull 
 		
@@ -1928,8 +1943,8 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	ccon_o2s_sat(c,j) = 0
 	end if
 
-	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_o2s_sat(c,j) > c_atm(g,2)) then
-	O2PlantFlux = m_dPlantTrans * rootfraction(c,j) * (ccon_o2s_sat(c,j) - c_atm(g,2)) * nppratio*exp(-z(c,j)/0.1)/z(c,j) 
+	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_o2s_sat(c,j) < c_atm(g,2)) then
+	O2PlantFlux = m_dPlantTrans * rootfraction(c,j) * (ccon_o2s_sat(c,j) - c_atm(g,2)) * nppratio(c)*exp(-z(c,j)/0.15)/z(c,j) 
 	else
 	O2PlantFlux = 0._r8
 	!O2PlantFlux = O2PlantFlux !* dz(c,j)
@@ -2109,19 +2124,19 @@ if(soiltemp(c,1) < SHR_CONST_TKFRZ) then
 	h2_surf_ebul_sat(c) 				= 0._r8
 	h2_surf_dif_sat(c) 				= 0._r8
 else
-	ch4_surf_dif_sat(c) = (ccon_ch4s_sat(c,1) - tem1) / 2.0 		!max(0._r8, (ccon_ch4s_sat(c,1) - tem1))  ! solubility of ch4 is 0.0000227g/L
+	ch4_surf_dif_sat(c) = (ccon_ch4s_sat(c,1) - tem1) / 10.0 		!max(0._r8, (ccon_ch4s_sat(c,1) - tem1))  ! solubility of ch4 is 0.0000227g/L
 	ccon_ch4s_sat(c,1) = ccon_ch4s_sat(c,1) - ch4_surf_dif_sat(c)
 	ch4_surf_dif_sat(c) = ch4_surf_dif_sat(c) * dz(c,1)
 
-	o2_surf_dif_sat(c) = (ccon_o2s_sat(c,1) - tem2) / 2.0 			!max(0._r8, (ccon_o2s_sat(c,1) - tem4))  ! solubility of ch4 is 0.00004/L
+	o2_surf_dif_sat(c) = (ccon_o2s_sat(c,1) - tem2)			!max(0._r8, (ccon_o2s_sat(c,1) - tem4))  ! solubility of ch4 is 0.00004/L
 	ccon_o2s_sat(c,1) = ccon_o2s_sat(c,1) - o2_surf_dif_sat(c)
 	o2_surf_dif_sat(c) = o2_surf_dif_sat(c) * dz(c,1)
 
-	co2_surf_dif_sat(c) = (ccon_co2s_sat(c,1) - tem3) / 2.0 		!max(0._r8, (ccon_co2s_sat(c,1) - tem3))  ! solubility of ch4 is 0.002/L
+	co2_surf_dif_sat(c) = (ccon_co2s_sat(c,1) - tem3) 		!max(0._r8, (ccon_co2s_sat(c,1) - tem3))  ! solubility of ch4 is 0.002/L
 	ccon_co2s_sat(c,1) = ccon_co2s_sat(c,1) - co2_surf_dif_sat(c)
 	co2_surf_dif_sat(c) = co2_surf_dif_sat(c) * dz(c,1)
 
-	h2_surf_dif_sat(c) = (ccon_h2s_sat(c,1) - tem4) / 2.0 			!max(0._r8, (ccon_h2s_sat(c,1) - tem2))  ! solubility of ch4 is 0.0000015/L
+	h2_surf_dif_sat(c) = (ccon_h2s_sat(c,1) - tem4) / 10.0 			!max(0._r8, (ccon_h2s_sat(c,1) - tem2))  ! solubility of ch4 is 0.0000015/L
 	ccon_h2s_sat(c,1) = ccon_h2s_sat(c,1) - h2_surf_dif_sat(c) 
 	h2_surf_dif_sat(c) = h2_surf_dif_sat(c) * dz(c,1)
 
@@ -2141,7 +2156,7 @@ else
 ! gas move up
 	l = clandunit(c)     
 	if (ltype(l) == istsoil .or. ltype(l) == istcrop) then 
-	do j = 2,nlevsoi
+	do j = 3,nlevsoi
 	if(j > jwaterhead_unsat(c) .and. j < nlevsoi) then
 		ch4_ebul_depth_unsat(c,j) = max(0._r8, ch4_ebul_depth_unsat(c,j))
 !		o2_ebul_depth_unsat(c,j) = max(0._r8, o2_ebul_depth_unsat(c,j))
@@ -2166,32 +2181,37 @@ else
 		co2_ebul_depth_sat(c,j) = max(0._r8, co2_ebul_depth_sat(c,j))
 		h2_ebul_depth_sat(c,j) = max(0._r8, h2_ebul_depth_sat(c,j))
 		
-		ccon_ch4s_sat(c,j-1) = (ccon_ch4s_sat(c,j-1) * dz(c,j-1) + ch4_ebul_depth_sat(c,j)) / dz(c,j-1)
-		ccon_ch4s_sat(c,j) = (ccon_ch4s_sat(c,j) * dz(c,j) - ch4_ebul_depth_sat(c,j)) / dz(c,j)
+		ccon_ch4s_sat(c,j-1) = (ccon_ch4s_sat(c,j-1) * dz(c,j-1) + ch4_ebul_depth_sat(c,j) * dz(c,j)) / dz(c,j-1)
+		ccon_ch4s_sat(c,j) = (ccon_ch4s_sat(c,j) * dz(c,j) - ch4_ebul_depth_sat(c,j) * dz(c,j)) / dz(c,j)
 		
 !		ccon_o2s_sat(c,j-1) = (ccon_o2s_sat(c,j-1) * dz(c,j-1) + o2_ebul_depth_sat(c,j)) / dz(c,j-1)
 !		ccon_o2s_sat(c,j) = (ccon_o2s_sat(c,j) * dz(c,j) - o2_ebul_depth_sat(c,j)) / dz(c,j)
 
-		ccon_co2s_sat(c,j-1) = (ccon_co2s_sat(c,j-1) * dz(c,j-1) + co2_ebul_depth_sat(c,j)) / dz(c,j-1)
-		ccon_co2s_sat(c,j) = (ccon_co2s_sat(c,j) * dz(c,j) - co2_ebul_depth_sat(c,j)) / dz(c,j)
+		ccon_co2s_sat(c,j-1) = (ccon_co2s_sat(c,j-1) * dz(c,j-1) + co2_ebul_depth_sat(c,j)* dz(c,j)) / dz(c,j-1)
+		ccon_co2s_sat(c,j) = (ccon_co2s_sat(c,j) * dz(c,j) - co2_ebul_depth_sat(c,j)* dz(c,j)) / dz(c,j)
 
-		ccon_h2s_sat(c,j-1) = (ccon_h2s_sat(c,j-1) * dz(c,j-1) + h2_ebul_depth_sat(c,j)) / dz(c,j-1)
-		ccon_h2s_sat(c,j) = (ccon_h2s_sat(c,j) * dz(c,j) - h2_ebul_depth_sat(c,j)) / dz(c,j)
+		ccon_h2s_sat(c,j-1) = (ccon_h2s_sat(c,j-1) * dz(c,j-1) + h2_ebul_depth_sat(c,j)* dz(c,j)) / dz(c,j-1)
+		ccon_h2s_sat(c,j) = (ccon_h2s_sat(c,j) * dz(c,j) - h2_ebul_depth_sat(c,j)* dz(c,j)) / dz(c,j)
 !	write(iulog,*) "after ", ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)
 	end do
         end if
 ! end gas move up
-
-	ch4_surf_ebul_sat(c) 			= ch4_surf_ebul_sat(c) + ch4_ebul_depth_sat(c,1) * dz(c,1)
-!	o2_surf_ebul_sat(c) 				= o2_surf_ebul_sat(c) + o2_ebul_depth_sat(c,1) * dz(c,1)
-	co2_surf_ebul_sat(c) 			= co2_surf_ebul_sat(c) + co2_ebul_depth_sat(c,1) * dz(c,1)
-	h2_surf_ebul_sat(c) 				= h2_surf_ebul_sat(c) + h2_ebul_depth_sat(c,1) * dz(c,1)
+	do j = 1,nlevsoi
+	ch4_surf_ebul_sat(c) 			= ch4_surf_ebul_sat(c) + ch4_ebul_depth_sat(c,j) * dz(c,j) !+ ch4_ebul_depth_sat(c,2) * dz(c,2)
+!	o2_surf_ebul_sat(c) 				= o2_surf_ebul_sat(c) + o2_ebul_depth_sat(c,1) * dz(c,1) + o2_ebul_depth_sat(c,2) * dz(c,2)
+	co2_surf_ebul_sat(c) 			= co2_surf_ebul_sat(c) + co2_ebul_depth_sat(c,j) * dz(c,j) !+ co2_ebul_depth_sat(c,2) * dz(c,2)
+	h2_surf_ebul_sat(c) 				= h2_surf_ebul_sat(c) + h2_ebul_depth_sat(c,j) * dz(c,j) !+ h2_ebul_depth_sat(c,2) * dz(c,2)
+	end do
+!	ch4_surf_ebul_sat(c) 			= ch4_surf_ebul_sat(c) + ch4_ebul_depth_sat(c,1) * dz(c,1) + ch4_ebul_depth_sat(c,2) * dz(c,2)
+!!	o2_surf_ebul_sat(c) 				= o2_surf_ebul_sat(c) + o2_ebul_depth_sat(c,1) * dz(c,1) + o2_ebul_depth_sat(c,2) * dz(c,2)
+!	co2_surf_ebul_sat(c) 			= co2_surf_ebul_sat(c) + co2_ebul_depth_sat(c,1) * dz(c,1) + co2_ebul_depth_sat(c,2) * dz(c,2)
+!	h2_surf_ebul_sat(c) 				= h2_surf_ebul_sat(c) + h2_ebul_depth_sat(c,1) * dz(c,1) + h2_ebul_depth_sat(c,2) * dz(c,2)
 	
 end if
 
 	ch4_surf_netflux_sat(c) 			= ch4_surf_netflux_sat(c) + ch4_surf_dif_sat(c) + ch4_surf_aere_sat(c) + ch4_surf_ebul_sat(c)
 	co2_surf_netflux_sat(c) 			= co2_surf_netflux_sat(c) + co2_surf_dif_sat(c) + co2_surf_aere_sat(c) + co2_surf_ebul_sat(c)
-	o2_surf_netflux_sat(c) 			= o2_surf_netflux_sat(c) + o2_surf_dif_sat(c) + o2_surf_aere_sat(c)
+	o2_surf_netflux_sat(c) 			= o2_surf_netflux_sat(c) + o2_surf_dif_sat(c) + o2_surf_aere_sat(c) !+ o2_surf_ebul_sat(c)
 	h2_surf_netflux_sat(c) 			= h2_surf_netflux_sat(c) + h2_surf_dif_sat(c) + h2_surf_aere_sat(c) + h2_surf_ebul_sat(c)
 ! average to grid level fluxes or state variables    
 end do
@@ -2995,64 +3015,6 @@ implicit none
 	end do
         end if
 	end do
-
-! gas move up
-	!~ do fc = 1,num_micbioc
-        !~ c = filter_micbioc(fc)
-	!~ l = clandunit(c)     
-	!~ if (ltype(l) == istsoil .or. ltype(l) == istcrop) then 
-	!~ do j = 2,nlevsoi
-	!~ if(j > jwaterhead_unsat(c) .and. j < nlevsoi) then
-		!~ ccon_ch4s_unsat_temp(c,j) = (ccon_ch4s_unsat(c,j-1) - ccon_ch4s_unsat(c,j)) * Fick_D_w(1) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
-		!~ ccon_o2s_unsat_temp(c,j) = (ccon_o2s_unsat(c,j-1) - ccon_o2s_unsat(c,j)) * Fick_D_w(2) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
-		!~ ccon_co2s_unsat_temp(c,j) = (ccon_co2s_unsat(c,j-1) - ccon_co2s_unsat(c,j)) * Fick_D_w(3) * m_Fick_ad * 1.0e-4 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
-		!~ ccon_h2s_unsat_temp(c,j) = (ccon_h2s_unsat(c,j-1) - ccon_h2s_unsat(c,j)) * Fick_D_w(4) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
-		
-		!~ ccon_ch4s_unsat_temp(c,j) = min(0.0, ccon_ch4s_unsat_temp(c,j))
-		!~ ccon_o2s_unsat_temp(c,j) = min(0.0, ccon_o2s_unsat_temp(c,j))
-		!~ ccon_co2s_unsat_temp(c,j) = min(0.0, ccon_co2s_unsat_temp(c,j))
-		!~ ccon_h2s_unsat_temp(c,j) = min(0.0, ccon_h2s_unsat_temp(c,j))
-		
-		!~ ccon_ch4s_unsat(c,j-1) = (ccon_ch4s_unsat(c,j-1) * dz(c,j-1) - ccon_ch4s_unsat_temp(c,j)) / dz(c,j-1)
-		!~ ccon_ch4s_unsat(c,j) = (ccon_ch4s_unsat(c,j) * dz(c,j) + ccon_ch4s_unsat_temp(c,j)) / dz(c,j)
-		
-		!~ ccon_o2s_unsat(c,j-1) = (ccon_o2s_unsat(c,j-1) * dz(c,j-1) - ccon_o2s_unsat_temp(c,j)) / dz(c,j-1)
-		!~ ccon_o2s_unsat(c,j) = (ccon_o2s_unsat(c,j) * dz(c,j) + ccon_o2s_unsat_temp(c,j)) / dz(c,j)
-
-		!~ ccon_co2s_unsat(c,j-1) = (ccon_co2s_unsat(c,j-1) * dz(c,j-1) - ccon_co2s_unsat_temp(c,j)) / dz(c,j-1)
-		!~ ccon_co2s_unsat(c,j) = (ccon_co2s_unsat(c,j) * dz(c,j) + ccon_co2s_unsat_temp(c,j)) / dz(c,j)
-
-		!~ ccon_h2s_unsat(c,j-1) = (ccon_h2s_unsat(c,j-1) * dz(c,j-1) - ccon_h2s_unsat_temp(c,j)) / dz(c,j-1)
-		!~ ccon_h2s_unsat(c,j) = (ccon_h2s_unsat(c,j) * dz(c,j) + ccon_h2s_unsat_temp(c,j)) / dz(c,j)
-	!~ end if
-	!~ ! for the saturation portion
-!~ !	write(iulog,*) "before ", j, ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)
-		!~ ccon_ch4s_sat_temp(c,j) = (ccon_ch4s_sat(c,j-1) - ccon_ch4s_sat(c,j)) * Fick_D_w(1) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
-		!~ ccon_o2s_sat_temp(c,j) = (ccon_o2s_sat(c,j-1) - ccon_o2s_sat(c,j)) * Fick_D_w(2) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
-		!~ ccon_co2s_sat_temp(c,j) = (ccon_co2s_sat(c,j-1) - ccon_co2s_sat(c,j)) * Fick_D_w(3) * m_Fick_ad * 1.0e-4 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
-		!~ ccon_h2s_sat_temp(c,j) = (ccon_h2s_sat(c,j-1) - ccon_h2s_sat(c,j)) * Fick_D_w(4) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
-!~ !	write(iulog,*) "temp ", ccon_ch4s_sat_temp(c,j)
-		!~ ccon_ch4s_sat_temp(c,j) = min(0.0, ccon_ch4s_sat_temp(c,j))
-		!~ ccon_o2s_sat_temp(c,j) = min(0.0, ccon_o2s_sat_temp(c,j))
-		!~ ccon_co2s_sat_temp(c,j) = min(0.0, ccon_co2s_sat_temp(c,j))
-		!~ ccon_h2s_sat_temp(c,j) = min(0.0, ccon_h2s_sat_temp(c,j))
-		
-		!~ ccon_ch4s_sat(c,j-1) = (ccon_ch4s_sat(c,j-1) * dz(c,j-1) - ccon_ch4s_sat_temp(c,j)) / dz(c,j-1)
-		!~ ccon_ch4s_sat(c,j) = (ccon_ch4s_sat(c,j) * dz(c,j) + ccon_ch4s_sat_temp(c,j)) / dz(c,j)
-		
-		!~ ccon_o2s_sat(c,j-1) = (ccon_o2s_sat(c,j-1) * dz(c,j-1) - ccon_o2s_sat_temp(c,j)) / dz(c,j-1)
-		!~ ccon_o2s_sat(c,j) = (ccon_o2s_sat(c,j) * dz(c,j) + ccon_o2s_sat_temp(c,j)) / dz(c,j)
-
-		!~ ccon_co2s_sat(c,j-1) = (ccon_co2s_sat(c,j-1) * dz(c,j-1) - ccon_co2s_sat_temp(c,j)) / dz(c,j-1)
-		!~ ccon_co2s_sat(c,j) = (ccon_co2s_sat(c,j) * dz(c,j) + ccon_co2s_sat_temp(c,j)) / dz(c,j)
-
-		!~ ccon_h2s_sat(c,j-1) = (ccon_h2s_sat(c,j-1) * dz(c,j-1) - ccon_h2s_sat_temp(c,j)) / dz(c,j-1)
-		!~ ccon_h2s_sat(c,j) = (ccon_h2s_sat(c,j) * dz(c,j) + ccon_h2s_sat_temp(c,j)) / dz(c,j)
-!~ !	write(iulog,*) "after ", ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)
-	!~ end do
-        !~ end if
-	!~ end do
-! end gas move up
 
 #if (defined HUM_HOL)
         hum_frac = 0.75
