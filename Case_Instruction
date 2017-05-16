@@ -1,4 +1,4 @@
-1. git clone case
+1. git clone model
 git clone https://github.com/email-clm/clm-microbe.git clm-microbe 
 
 2. Create a new case
