@@ -42,6 +42,10 @@ hist_nhtfrq = -24
  stream_fldfilename_ndep = '/storage/projects/inputdata/lnd/clm2/ndepdata/fndep_clm_hist_simyr1849-2006_1.9x2.5_c100428.nc'
 /
 
+# notice the resolution of the spatial data when determining these numbers
+# notice the resolution of the spatial data when determining these numbers
+
+
 user_nl_datm
 
 6. get data or parameter ready
