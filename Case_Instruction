@@ -42,11 +42,17 @@ hist_nhtfrq = -24
  stream_fldfilename_ndep = '/storage/projects/inputdata/lnd/clm2/ndepdata/fndep_clm_hist_simyr1849-2006_1.9x2.5_c100428.nc'
 /
 
+Create surface and dynamic PFT file if needed.
 NUMLON, order of cell along longitudal direction # notice the resolution of the spatial data when determining these numbers
 NUMLAT, order of cell along latidual direction # notice the resolution of the spatial data when determining these numbers
-ncks -d lsmlon,NUMLON,NUMLON -d lsmlat,NUMLAT, NUMLAT /storage/projects/inputdata/lnd/clm2/surfdata_map/surfdata_360x720cru_simyr1850_c130415.nc surfdata_1x1pt_Sanjiang_CN-SJ1_I1850CLM45CN_simyr1850.nc
-ncks -d lsmlon,267,267 -d lsmlat,275,275 /storage/projects/inputdata/lnd/clm2/surfdata_map/surfdata_360x720cru_simyr1850_c130415.nc surfdata_1x1pt_Sanjiang_CN-SJ1_I1850CLM45CN_simyr1850.nc
-for Sanjiang station (N47.5, E131.5)
+
+ncks -d lsmlon,NUMLON,NUMLON -d lsmlat,NUMLAT, NUMLAT /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_360x720cru_simyr1850_c130415.nc surfdata_1x1pt_%case%_simyr1850.nc
+ncks -d lsmlon,267,267 -d lsmlat,275,275 /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_360x720cru_simyr1850_c130415.nc surfdata_1x1pt_Sanjiang_CN-SJ1_I1850CLM45CN_simyr1850.nc
+for Sanjiang station (N 47.51, E 133.5)
+
+dyn file
+ncks -d lsmlon,267,267 -d lsmlat,275,275 /storage/projects/inputdata/lnd/clm2/surfdata/surfdata.pftdyn_0.5x0.5_simyr1850-2010.nc surfdata.pftdyn_1x1pt_%case%_simry1850-2010.nc
+ncks -d lsmlon,267,267 -d lsmlat,275,275 /storage/projects/inputdata/lnd/clm2/surfdata/surfdata.pftdyn_0.5x0.5_simyr1850-2010.nc surfdata.pftdyn_1x1pt_Sanjiang_CN-SJ1_simry1850-2010.nc
 
 user_nl_datm
 
