@@ -4,7 +4,7 @@ git clone https://github.com/email-clm/clm-microbe.git clm-microbe
 if you want to clone an older vesion
 git clone https://github.com/email-clm/clm-microbe.git clm-microbe
 cd clm-microbe
-git reset --hard 5d87124 (head on May 16th, could be head of any other commits)
+git reset --hard 5d87124 (head on May 16th, 2017, could be head of any other commits)
 
 2. Create a new case
 ./create_newcase --case test --mach peony --compset ICN --res CLM_USRDAT -compiler gnu
