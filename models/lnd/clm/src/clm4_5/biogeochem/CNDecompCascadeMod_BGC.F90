@@ -688,6 +688,9 @@ subroutine init_decompcascade(begc, endc)
    doms2_f = m_doms2_f
    doms3_f = m_doms3_f
    doms4_f = 1.0 - domb_f - domf_f - doms1_f - doms2_f - doms3_f
+   bs4_f = max(0._r8, bs4_f)
+   fs4_f = max(0._r8, fs4_f)
+   doms4_f = max(0._r8, doms4_f)
 #endif
 
    
