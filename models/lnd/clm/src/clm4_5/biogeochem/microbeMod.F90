@@ -959,7 +959,7 @@ if(j >= jwaterhead_unsat(c)) then
 	    
 	AceProd = 2.0 / 3.0 * m_dAceProdACmax * ACConcentration / (ACConcentration + m_dKAce) &
 		* (m_dACMinQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect &
-		* (1. - (caces_unsat(c,j) / (caces_unsat(c,j) + 1.))) * (log(minpsi/psi)/log(minpsi/maxpsi))
+		* (1. - (caces_unsat(c,j) / (caces_unsat(c,j) + 0.1))) * (log(minpsi/psi)/log(minpsi/maxpsi))
 	ACH2Prod = AceProd / 6.0
 	ACCO2Prod = 0.5 * AceProd
 ! Xiaofeng replaced the above conditional code with control by oxygen with the control with soil moiture
@@ -1116,7 +1116,7 @@ if(j >= jwaterhead_unsat(c)) then
 	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_unsat(c,j) > m_dCH4min/5.0) then
 	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min / 5.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
 !	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4PlantFlux
-	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min), 0._r8) * exp(-z(c,j)/1.25) ! (exp(0.5 * (j - 0.5))-1) !* exp(-z(c,j)/1.25)   ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
+	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min), 0._r8) * exp(-z(c,j)/1.25) * (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) ! (exp(0.5 * (j - 0.5))-1) !* exp(-z(c,j)/1.25)   ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
 	else
 	CH4PlantFlux = 0.0 * m_dPlantTrans *  rootfraction(c,j)*(ccon_ch4s_unsat(c,j) - m_dCH4min / 5.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)
 	CH4Ebull = 0._r8
@@ -1742,7 +1742,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	    
 	AceProd = 2.0 / 3.0 * m_dAceProdACmax * ACConcentration / (ACConcentration + m_dKAce) &
 		* (m_dACMinQ10 ** ((soiltemp(c,j) - 286.65) / 10.)) * pHeffect &
-		* (1. - (caces_sat(c,j) / (caces_sat(c,j) + 1.))) * (log(minpsi/psi)/log(minpsi/maxpsi))
+		* (1. - (caces_sat(c,j) / (caces_sat(c,j) + 0.1))) * (log(minpsi/psi)/log(minpsi/maxpsi))
 	ACH2Prod = AceProd / 6.0
 	ACCO2Prod = 0.5 * AceProd
 ! Xiaofeng replaced the above conditional code with control by oxygen with the control with soil moiture
