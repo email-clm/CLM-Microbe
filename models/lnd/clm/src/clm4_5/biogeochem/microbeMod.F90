@@ -1907,7 +1907,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	
 	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_sat(c,j) > m_dCH4min/5.0) then
 	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
-	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min) /dt, 0._r8) * exp(-z(c,j)/1.25) * (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) !/ (exp(0.5 * (j - 0.5))-1) * 20.0 !* exp(-z(c,j)/1.25) 				! mmol/L
+	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min) /dt, 0._r8) * nppratio(c) * exp(-z(c,j)/0.25) !* (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) !/ (exp(0.5 * (j - 0.5))-1) * 20.0 !* exp(-z(c,j)/1.25) 				! mmol/L
 	else
 	CH4PlantFlux = 0.0 * m_dPlantTrans * rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)
 	CH4Ebull = 0._r8
@@ -1915,10 +1915,20 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	
 	CH4PlantFlux = max(CH4PlantFlux, 0._r8)
 	CH4Ebull = max(CH4Ebull, 0._r8)
-	CH4Ebull = min(CH4Ebull, ccon_ch4s_sat(c,j) / 2.0)
+!	CH4Ebull = min(CH4Ebull, ccon_ch4s_sat(c,j) / 2.0)
 	
+	if((ccon_ch4s_sat(c,j) - m_dCH4min) > (CH4PlantFlux + CH4Ebull) * dt) then
 	ccon_ch4s_sat(c,j) = ccon_ch4s_sat(c,j) - CH4PlantFlux * dt - CH4Ebull * dt
-		
+	else
+	tem4 = (ccon_ch4s_sat(c,j) - m_dCH4min) / ((CH4PlantFlux + CH4Ebull) * dt)
+	tem4 = max(0._r8 , tem4)
+	ccon_ch4s_sat(c,j) = ccon_ch4s_sat(c,j) - (CH4PlantFlux + CH4Ebull) * tem4 * dt
+	CH4PlantFlux = CH4PlantFlux * tem4
+	CH4Ebull = CH4Ebull * tem4
+	endif
+	
+	ccon_ch4s_sat(c,j) = max(0._r8 , ccon_ch4s_sat(c,j))
+
 	!	// For O2 dyndamics
 	AerO2Cons = m_drAer * ACCO2Prod
 	CH4O2Cons = m_drCH4Oxid * CH4Oxid
@@ -2109,19 +2119,19 @@ if(soiltemp(c,1) < SHR_CONST_TKFRZ) then
 	h2_surf_ebul_sat(c) 				= 0._r8
 	h2_surf_dif_sat(c) 				= 0._r8
 else
-	ch4_surf_dif_sat(c) = (ccon_ch4s_sat(c,1) - tem1) * (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) / 4.0 / dt 		!max(0._r8, (ccon_ch4s_sat(c,1) - tem1))  ! solubility of ch4 is 0.0000227g/L
+	ch4_surf_dif_sat(c) = (ccon_ch4s_sat(c,1) - tem1) / dt !* (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) 		!max(0._r8, (ccon_ch4s_sat(c,1) - tem1))  ! solubility of ch4 is 0.0000227g/L
 	ccon_ch4s_sat(c,1) = ccon_ch4s_sat(c,1) - ch4_surf_dif_sat(c) * dt
 	ch4_surf_dif_sat(c) = ch4_surf_dif_sat(c) * dz(c,1)
 
-	o2_surf_dif_sat(c) = (ccon_o2s_sat(c,1) - tem2) * (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) / 4.0 / dt			!max(0._r8, (ccon_o2s_sat(c,1) - tem4))  ! solubility of ch4 is 0.00004/L
+	o2_surf_dif_sat(c) = (ccon_o2s_sat(c,1) - tem2) / dt !* (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) 			!max(0._r8, (ccon_o2s_sat(c,1) - tem4))  ! solubility of ch4 is 0.00004/L
 	ccon_o2s_sat(c,1) = ccon_o2s_sat(c,1) - o2_surf_dif_sat(c) * dt
 	o2_surf_dif_sat(c) = o2_surf_dif_sat(c) * dz(c,1)
 
-	co2_surf_dif_sat(c) = (ccon_co2s_sat(c,1) - tem3) * (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) / 4.0 / dt 		!max(0._r8, (ccon_co2s_sat(c,1) - tem3))  ! solubility of ch4 is 0.002/L
+	co2_surf_dif_sat(c) = (ccon_co2s_sat(c,1) - tem3) / dt !* (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) 		!max(0._r8, (ccon_co2s_sat(c,1) - tem3))  ! solubility of ch4 is 0.002/L
 	ccon_co2s_sat(c,1) = ccon_co2s_sat(c,1) - co2_surf_dif_sat(c) * dt
 	co2_surf_dif_sat(c) = co2_surf_dif_sat(c) * dz(c,1)
 
-	h2_surf_dif_sat(c) = (ccon_h2s_sat(c,1) - tem4) * (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) / 4.0 / dt 			!max(0._r8, (ccon_h2s_sat(c,1) - tem2))  ! solubility of ch4 is 0.0000015/L
+	h2_surf_dif_sat(c) = (ccon_h2s_sat(c,1) - tem4) / dt !* (2.0 ** ((soiltemp(c,j) - 286.65) / 10.))			!max(0._r8, (ccon_h2s_sat(c,1) - tem2))  ! solubility of ch4 is 0.0000015/L
 	ccon_h2s_sat(c,1) = ccon_h2s_sat(c,1) - h2_surf_dif_sat(c) * dt
 	h2_surf_dif_sat(c) = h2_surf_dif_sat(c) * dz(c,1)
 
