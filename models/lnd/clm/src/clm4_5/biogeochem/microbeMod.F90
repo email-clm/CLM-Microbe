@@ -2509,7 +2509,7 @@ end do
             do fc = 1,num_soilc
                c = filter_soilc(fc)
 !	      write(iulog,*) "microbial mod: ",decomp_cpools_vr(c,j,i_dom), cdocs(c,j), decomp_npools_vr(c,j,i_dom), cdons(c,j)
-      cdons_min(c,j) = cdons_min(c,j) + decomp_npools_vr(c,j,i_dom) - (cdocs(c,j)) / cn_dom
+!      cdons_min(c,j) = cdons_min(c,j) + decomp_npools_vr(c,j,i_dom) - (cdocs(c,j)) / cn_dom
       decomp_cpools_vr(c,j,i_dom) = (cdocs(c,j)) ! gC/m3
       decomp_npools_vr(c,j,i_dom) = (cdocs(c,j)) / cn_dom
            end do
