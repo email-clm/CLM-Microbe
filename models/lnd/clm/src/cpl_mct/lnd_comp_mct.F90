@@ -1141,7 +1141,7 @@ contains
         a2l%forc_t(g)       = a2l%atm_input(1,1,1,tindex(1))*wt1 + a2l%atm_input(1,1,1,tindex(2))*wt2      
         a2l%forc_th(g)      = a2l%atm_input(1,1,1,tindex(1))*wt1 + a2l%atm_input(1,1,1,tindex(2))*wt2
         tbot                = a2l%atm_input(1,1,1,tindex(1))*wt1 + a2l%atm_input(1,1,1,tindex(2))*wt2
-        if (yr .ge. startyear_experiment .and. yr .le. endyear_experiment) then
+        if (yr .ge. startyear_experiment .and. yr .le. endyear_experiment .and. add_temperature .ge. 0) then
           a2l%forc_t(g) = a2l%forc_t(g) + add_temperature
           a2l%forc_th(g) = a2l%forc_th(g) + add_temperature
           tbot = tbot + add_temperature
@@ -1160,6 +1160,11 @@ contains
         a2l%forc_q(g) = q
         a2l%forc_lwrad(g)   =(a2l%atm_input(4,1,1,tindex(1))*wt1 + a2l%atm_input(4,1,1,tindex(2))*wt2)     
         swndr               =(a2l%atm_input(5,1,1,tindex(1))*wt1 + a2l%atm_input(5,1,1,tindex(2))*wt2) * 0.50_R8
+
+        !Longwave changes due to enclosure
+        if (yr .ge. startyear_experiment .and. yr .le. endyear_experiment .and. add_temperature .ge. 0) then
+            a2l%forc_lwrad(g) = 0.33_r8*a2l%forc_lwrad(g) + 0.67_r8*(0.95_r8*5.670373e-8_r8*tbot**4) 
+        end if
         ratio_rvrf =   min(0.99_R8,max(0.29548_R8 + 0.00504_R8*swndr  &
                         -1.4957e-05_R8*swndr**2 + 1.4881e-08_R8*swndr**3,0.01_R8))
         !NOTE - CURRENTLY USING LINEAR INTERPOLATION FOR SOLAR RADIATION.
@@ -1172,6 +1177,12 @@ contains
         a2l%forc_solad(g,1) = ratio_rvrf*swvdr
         swvdf               =(a2l%atm_input(5,1,1,tindex(1))*wt1 + a2l%atm_input(5,1,1,tindex(2))*wt2)*0.50_R8
         a2l%forc_solai(g,1) = (1._R8 - ratio_rvrf)*swvdf
+        if (yr .ge. startyear_experiment .and. yr .le. endyear_experiment .and. add_temperature .ge. 0) then
+            a2l%forc_solad(g,1) = a2l%forc_solad(g,1) * 0.80_r8
+            a2l%forc_solad(g,2) = a2l%forc_solad(g,2) * 0.80_r8
+            a2l%forc_solai(g,1) = a2l%forc_solai(g,1) * 0.80_r8
+            a2l%forc_solai(g,2) = a2l%forc_solai(g,2) * 0.80_r8
+        end if
         frac = (a2l%forc_t(g) - 273.15)*0.5_R8                  ! ramp near freezing
         frac = min(1.0_R8,max(0.0_R8,frac))           ! bound in [0,1]
         !Don't interpolate rainfall data
