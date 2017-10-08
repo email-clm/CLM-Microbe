@@ -1331,7 +1331,7 @@ endif
                !! use separate (possibly equal) t funcs above and below freezing point
                !! t_scalar(c,j)= (1.5**((t_soisno(c,j)-(SHR_CONST_TKFRZ+25._r8))/10._r8))
                if (t_soisno(c,j) .ge. SHR_CONST_TKFRZ) then
-                  t_scalar(c,j)= (1.5**((t_soisno(c,j)-(SHR_CONST_TKFRZ+25._r8))/10._r8))
+                  t_scalar(c,j)= (1.35**((t_soisno(c,j)-(SHR_CONST_TKFRZ+25._r8))/10._r8))
                else
                   t_scalar(c,j)= (1.5**(-25._r8/10._r8))*(froz_q10**((t_soisno(c,j)-SHR_CONST_TKFRZ)/10._r8))
                endif
@@ -1426,9 +1426,9 @@ endif
          decomp_k(c,j,i_litr3) = k_l3 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
          decomp_k(c,j,i_cwd) = k_frag * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
          decomp_k(c,j,i_soil1) = k_s1 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
-         decomp_k(c,j,i_soil2) = k_s2 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
-         decomp_k(c,j,i_soil3) = k_s3 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
-         decomp_k(c,j,i_soil4) = k_s4 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
+         decomp_k(c,j,i_soil2) = k_s2 * (1.5 ** ((t_soisno(c,j)-(SHR_CONST_TKFRZ+25.0))/10._r8)) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
+         decomp_k(c,j,i_soil3) = k_s3 * (2.0 ** ((t_soisno(c,j)-(SHR_CONST_TKFRZ+25.0))/10._r8)) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
+         decomp_k(c,j,i_soil4) = k_s4 * (2.5 ** ((t_soisno(c,j)-(SHR_CONST_TKFRZ+25.0))/10._r8)) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
 	 decomp_k(c,j,i_bacteria) = ck_bacteria * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
 	 decomp_k(c,j,i_fungi) = ck_fungi * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
 	 decomp_k(c,j,i_dom) = ck_dom * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
