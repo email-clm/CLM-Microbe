@@ -28,8 +28,8 @@ fin_use_fsat  0
 atmch4  1.7e-6
 lit2avc 0.25
 som2avc 0.25
-m_dKAce 6
-m_dAceProdACmax  0.0000015
+m_dKAce 12
+m_dAceProdACmax  0.000015
 m_dKAceProdO2  	0.004
 m_dH2ProdAcemax  0.005
 m_dKH2ProdAce  	1.65e-5
@@ -37,8 +37,8 @@ m_dKCO2ProdAce  8.25e-6
 m_dGrowRH2Methanogens  	0.02
 m_dDeadRH2Methanogens  	0.001
 m_dYH2Methanogens  	0.1
-m_dGrowRAceMethanogens  0.02
-m_dDeadRAceMethanogens  0.01
+m_dGrowRAceMethanogens  0.01
+m_dDeadRAceMethanogens  0.02
 m_dYAceMethanogens  	0.2
 m_dGrowRMethanotrophs  	0.001
 m_dDeadRMethanotrophs  	0.001
@@ -74,10 +74,10 @@ m_dAirCH4  		0.0893
 m_dAirH2    		0.0257 
 m_dAirO2    		9.375e3 
 m_dAirCO2    		16.295 
-k_dom			0.04
-k_bacteria		0.25
-k_fungi			0.25
-dom_diffus		3.6e-6
+k_dom			0.1
+k_bacteria		0.2
+k_fungi			0.2
+dom_diffus		3.6e-4
 m_Fick_ad 1.5
 m_rf_s1m 0.28
 m_rf_s2m 0.46
