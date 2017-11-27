@@ -1,4 +1,5 @@
-This file was created on March 31, 2017 set the model simulation for 100 years. The key purposes are (1) make all variables reasonable, such as oxygen, hdrogen, methane, carbon dioxide concentration along soil profile; (2) keep soil carbon and nitrogen consistent. Previous version of initial file has updated carbon and nitrogen pool for litter and soil, while the total carbon and oxygen etc were not updated.
+
+This file was updated on Nov 27, 2017. The update was carried out with new simulation of 2000 years of AD spin up and 100 years of final spin up. The carbon in litter, soil pools were updated to observational carbon density. The oxygen, hdrogen, methane, carbon dioxide concentration along soil profile are in reasonable ranges.
 Xiaofeng Xu
 xxu@mail.sdsu.edu
  
