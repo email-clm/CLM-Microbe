@@ -146,6 +146,14 @@ subroutine init_decompcascade(begc, endc)
    real(r8) :: s3m_ff		! fraction of carbon to fungi from s3
    real(r8) :: s4m_fb		! fraction of carbon to bacteria from s4
    real(r8) :: s4m_ff		! fraction of carbon to fungi from s4
+ 
+   real(r8) :: l1dom_f	! fraction of carbon from l1 to DOM
+   real(r8) :: l2dom_f	! fraction of carbon from l2 to DOM
+   real(r8) :: l3dom_f	! fraction of carbon from l3 to DOM
+   real(r8) :: s1dom_f	! fraction of carbon from s1 to DOM
+   real(r8) :: s2dom_f	! fraction of carbon from s2 to DOM
+   real(r8) :: s3dom_f	! fraction of carbon from s3 to DOM
+   real(r8) :: s4dom_f	! fraction of carbon from s4 to DOM
    
    real(r8) :: batm_f		! fraction of carbon from bacteria to atmosphere
    real(r8) :: bdom_f	! fraction of carbon from bacteria to dissolved organic matter
@@ -159,14 +167,14 @@ subroutine init_decompcascade(begc, endc)
    real(r8) :: fs2_f		! fraction of carbon from fungi to s2
    real(r8) :: fs3_f		! fraction of carbon from fungi to s3
    real(r8) :: fs4_f		! fraction of carbon from fungi to s4
-   
+
    real(r8) :: domb_f	! fraction of carbon to bacteria from dissolved organic matter
    real(r8) :: domf_f		! fraction of carbon to fungi from dissolved organic matter
    real(r8) :: doms1_f	! fraction of carbon to bacteria from s1
    real(r8) :: doms2_f	! fraction of carbon to fungi from s2
    real(r8) :: doms3_f	! fraction of carbon to bacteria from s3
    real(r8) :: doms4_f	! fraction of carbon to fungi from s4
-   
+
 #endif
 
    integer :: i_litr1
@@ -213,6 +221,13 @@ subroutine init_decompcascade(begc, endc)
    integer :: i_domf    	!32
    integer :: i_batm
    integer :: i_fatm   	!34
+   integer :: i_l1dom
+   integer :: i_l2dom
+   integer :: i_l3dom
+   integer :: i_s1dom    	!38
+   integer :: i_s2dom
+   integer :: i_s3dom   	!40
+   integer :: i_s4dom   	!41
 #else
    integer :: i_l1s1
    integer :: i_l2s2
@@ -651,6 +666,30 @@ subroutine init_decompcascade(begc, endc)
    s3m_ff = 1.0 - s3m_fb
    s4m_fb = (cn_bacteria / initial_cn_ratio(i_soil4))**0.6 / ((cn_bacteria / initial_cn_ratio(i_soil4))**0.6 + (cn_fungi / initial_cn_ratio(i_soil4))**0.6)
    s4m_ff = 1.0 - s4m_fb
+   
+   l1dom_f	= 0.2
+   l2dom_f	= 0.16
+   l3dom_f	= 0.12
+   s1dom_f	 = 0.36
+   s2dom_f	 = 0.28
+   s3dom_f	 = 0.20
+   s4dom_f	 = 0.12
+  
+   l1m_fb = l1m_fb * (1.0 - l1dom_f)
+   l1m_ff = l1m_ff * (1.0 - l1dom_f)
+   l2m_fb = l2m_fb * (1.0 - l2dom_f)
+   l2m_ff = l2m_ff * (1.0 - l2dom_f)
+   l3m_fb = l3m_fb * (1.0 - l3dom_f)
+   l3m_ff = l3m_ff * (1.0 - l3dom_f)
+   s1m_fb = s1m_fb * (1.0 - s1dom_f)
+   s1m_ff = s1m_ff * (1.0 - s1dom_f)
+   s2m_fb = s2m_fb * (1.0 - s2dom_f)
+   s2m_ff = s2m_ff * (1.0 - s2dom_f)
+   s3m_fb = s3m_fb * (1.0 - s3dom_f)
+   s3m_ff = s3m_ff * (1.0 - s3dom_f)
+   s4m_fb = s4m_fb * (1.0 - s4dom_f)
+   s4m_ff = s4m_ff * (1.0 - s4dom_f)
+   
    !batm_f = 0.05
    !bdom_f = 0.25
    !bs1_f = 0.1
@@ -933,6 +972,55 @@ subroutine init_decompcascade(begc, endc)
    cascade_donor_pool(i_fatm) = i_fungi
    cascade_receiver_pool(i_fatm) = i_atm
    pathfrac_decomp_cascade(begc:endc,1:nlevdecomp,i_fatm) = fatm_f
+    
+   i_l1dom = 35
+   cascade_step_name(i_l1dom) = 'L1DOM'
+   rf_decomp_cascade(begc:endc,1:nlevdecomp,i_l1dom) = 1.0 - rf_l1m
+   cascade_donor_pool(i_l1dom) = i_litr1
+   cascade_receiver_pool(i_l1dom) = i_dom
+   pathfrac_decomp_cascade(begc:endc,1:nlevdecomp,i_l1dom) = l1dom_f
+   
+   i_l2dom = 36
+   cascade_step_name(i_l2dom) = 'L2DOM'
+   rf_decomp_cascade(begc:endc,1:nlevdecomp,i_l2dom) = 1.0 - rf_l2m
+   cascade_donor_pool(i_l2dom) = i_litr2
+   cascade_receiver_pool(i_l2dom) = i_dom
+   pathfrac_decomp_cascade(begc:endc,1:nlevdecomp,i_l2dom) = l2dom_f
+
+   i_l3dom = 37
+   cascade_step_name(i_l3dom) = 'L3DOM'
+   rf_decomp_cascade(begc:endc,1:nlevdecomp,i_l3dom) = 1.0 - rf_l3m
+   cascade_donor_pool(i_l3dom) = i_litr3
+   cascade_receiver_pool(i_l3dom) = i_dom
+   pathfrac_decomp_cascade(begc:endc,1:nlevdecomp,i_l3dom) = l3dom_f
+   
+   i_s1dom = 38
+   cascade_step_name(i_s1dom) = 'S1DOM'
+   rf_decomp_cascade(begc:endc,1:nlevdecomp,i_s1dom) = 1.0 - rf_s1m
+   cascade_donor_pool(i_s1dom) = i_soil1
+   cascade_receiver_pool(i_s1dom) = i_dom
+   pathfrac_decomp_cascade(begc:endc,1:nlevdecomp,i_s1dom) = s1dom_f
+   
+   i_s2dom = 39
+   cascade_step_name(i_s2dom) = 'S2DOM'
+   rf_decomp_cascade(begc:endc,1:nlevdecomp,i_s2dom) = 1.0 - rf_s2m
+   cascade_donor_pool(i_s2dom) = i_soil2
+   cascade_receiver_pool(i_s2dom) = i_dom
+   pathfrac_decomp_cascade(begc:endc,1:nlevdecomp,i_s2dom) = s2dom_f
+   
+   i_s3dom = 40
+   cascade_step_name(i_s3dom) = 'S3DOM'
+   rf_decomp_cascade(begc:endc,1:nlevdecomp,i_s3dom) = 1.0 - rf_s3m
+   cascade_donor_pool(i_s3dom) = i_soil3
+   cascade_receiver_pool(i_s3dom) = i_dom
+   pathfrac_decomp_cascade(begc:endc,1:nlevdecomp,i_s3dom) = s3dom_f 
+   
+   i_s4dom = 41
+   cascade_step_name(i_s4dom) = 'S4DOM'
+   rf_decomp_cascade(begc:endc,1:nlevdecomp,i_s4dom) = 1.0 - rf_s4m
+   cascade_donor_pool(i_s4dom) = i_soil4
+   cascade_receiver_pool(i_s4dom) = i_dom
+   pathfrac_decomp_cascade(begc:endc,1:nlevdecomp,i_s4dom) = s4dom_f
 #else
    i_l1s1 = 1
    cascade_step_name(i_l1s1) = 'L1S1'
@@ -1431,7 +1519,7 @@ endif
          decomp_k(c,j,i_soil4) = k_s4 * (2.5 ** ((t_soisno(c,j)-(SHR_CONST_TKFRZ+25.0))/10._r8)) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
 	 decomp_k(c,j,i_bacteria) = ck_bacteria * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
 	 decomp_k(c,j,i_fungi) = ck_fungi * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
-	 decomp_k(c,j,i_dom) = ck_dom * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
+	 decomp_k(c,j,i_dom) = ck_dom * (1.25 ** ((t_soisno(c,j)-(SHR_CONST_TKFRZ+25.0))/10._r8))* w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt
 !write(*,*) "scarlar: ",o_scalar(c,j),w_scalar(c,j),t_scalar(c,j),depth_scalar(c,j),c,j
 #else
          decomp_k(c,j,i_litr1) = k_l1 * t_scalar(c,j) * w_scalar(c,j) * depth_scalar(c,j) * o_scalar(c,j) / dt

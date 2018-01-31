@@ -1113,13 +1113,13 @@ if(j >= jwaterhead_unsat(c)) then
 	end if
 	
 !write(iulog,*) "CH4PlantFlux: ", m_dPlantTrans, " ", rootfr_vr(c,j), ccon_ch4s_unsat(c,j), m_dCH4min !, tempavg_bgnpp(c), annavg_bgnpp(c)
-	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_unsat(c,j) > m_dCH4min/5.0) then
-	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min / 5.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
+	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_unsat(c,j) > m_dCH4min/1.0) then
+	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_unsat(c,j) - m_dCH4min / 1.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
 !	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4PlantFlux
-	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min), 0._r8) * nppratio(c) * exp(-z(c,j)/0.25) !* (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) ! (exp(0.5 * (j - 0.5))-1) !* exp(-z(c,j)/1.25)   ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
+	CH4Ebull = max((ccon_ch4s_unsat(c,j) - m_dCH4min), 0._r8) * nppratio(c) * exp(-z(c,j)/0.35) !* (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) ! (exp(0.5 * (j - 0.5))-1) !* exp(-z(c,j)/1.25)   ! mmol/L     ! current these two equation have same threshold, will need to be corrected later
 	else
-	CH4PlantFlux = 0.0 * m_dPlantTrans *  rootfraction(c,j)*(ccon_ch4s_unsat(c,j) - m_dCH4min / 5.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)
-	CH4Ebull = 0._r8
+	CH4PlantFlux = 0.0 * m_dPlantTrans *  rootfraction(c,j)*(ccon_ch4s_unsat(c,j) - m_dCH4min / 1.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)
+	!CH4Ebull = 0._r8
 	endif
 
 	CH4PlantFlux = max(CH4PlantFlux, 0._r8)
@@ -1905,12 +1905,12 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 	ccon_ch4s_sat(c,j) = 0
 	end if
 	
-	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_sat(c,j) > m_dCH4min/5.0) then
-	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
-	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min) /dt, 0._r8) * nppratio(c) * exp(-z(c,j)/0.25) !* (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) !/ (exp(0.5 * (j - 0.5))-1) * 20.0 !* exp(-z(c,j)/1.25) 				! mmol/L
+	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_sat(c,j) > m_dCH4min/1.0) then
+	CH4PlantFlux = m_dPlantTrans *  rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min/1.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c)		
+	CH4Ebull = max((ccon_ch4s_sat(c,j) - m_dCH4min) /dt, 0._r8) * nppratio(c) * exp(-z(c,j)/0.35) !* (2.0 ** ((soiltemp(c,j) - 286.65) / 10.)) !/ (exp(0.5 * (j - 0.5))-1) * 20.0 !* exp(-z(c,j)/1.25) 				! mmol/L
 	else
-	CH4PlantFlux = 0.0 * m_dPlantTrans * rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)
-	CH4Ebull = 0._r8
+	CH4PlantFlux = 0.0 * m_dPlantTrans * rootfraction(c,j) * (ccon_ch4s_sat(c,j) - m_dCH4min/1.0) * nppratio(c)*exp(-z(c,j)/0.25)/z(c,j)
+	!CH4Ebull = 0._r8
 	endif
 	
 	CH4PlantFlux = max(CH4PlantFlux, 0._r8)
@@ -2971,10 +2971,10 @@ implicit none
 	if (ltype(l) == istsoil .or. ltype(l) == istcrop) then 
 	do j = 2,nlevsoi
 	if(j > jwaterhead_unsat(c) .and. j < nlevsoi) then
-		ccon_ch4s_unsat_temp(c,j) = (ccon_ch4s_unsat(c,j-1) - ccon_ch4s_unsat(c,j)) * Fick_D_w(1) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
-		ccon_o2s_unsat_temp(c,j) = (ccon_o2s_unsat(c,j-1) - ccon_o2s_unsat(c,j)) * Fick_D_w(2) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
-		ccon_co2s_unsat_temp(c,j) = (ccon_co2s_unsat(c,j-1) - ccon_co2s_unsat(c,j)) * Fick_D_w(3) * m_Fick_ad * 1.0e-4 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
-		ccon_h2s_unsat_temp(c,j) = (ccon_h2s_unsat(c,j-1) - ccon_h2s_unsat(c,j)) * Fick_D_w(4) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
+		ccon_ch4s_unsat_temp(c,j) = (ccon_ch4s_unsat(c,j-1) - ccon_ch4s_unsat(c,j)) * Fick_D_w(1) * m_Fick_ad * 1.0e-3 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
+		ccon_o2s_unsat_temp(c,j) = (ccon_o2s_unsat(c,j-1) - ccon_o2s_unsat(c,j)) * Fick_D_w(2) * m_Fick_ad * 1.0e-3 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
+		ccon_co2s_unsat_temp(c,j) = (ccon_co2s_unsat(c,j-1) - ccon_co2s_unsat(c,j)) * Fick_D_w(3) * m_Fick_ad * 1.0e-3 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
+		ccon_h2s_unsat_temp(c,j) = (ccon_h2s_unsat(c,j-1) - ccon_h2s_unsat(c,j)) * Fick_D_w(4) * m_Fick_ad * 1.0e-3 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
 		
 		ccon_ch4s_unsat(c,j-1) = (ccon_ch4s_unsat(c,j-1) * dz(c,j-1) - ccon_ch4s_unsat_temp(c,j)) / dz(c,j-1)
 		ccon_ch4s_unsat(c,j) = (ccon_ch4s_unsat(c,j) * dz(c,j) + ccon_ch4s_unsat_temp(c,j)) / dz(c,j)
@@ -2989,12 +2989,12 @@ implicit none
 		ccon_h2s_unsat(c,j) = (ccon_h2s_unsat(c,j) * dz(c,j) + ccon_h2s_unsat_temp(c,j)) / dz(c,j)
 	end if
 	! for the saturation portion
-!	write(iulog,*) "before ", j, ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)
-		ccon_ch4s_sat_temp(c,j) = (ccon_ch4s_sat(c,j-1) - ccon_ch4s_sat(c,j)) * Fick_D_w(1) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
-		ccon_o2s_sat_temp(c,j) = (ccon_o2s_sat(c,j-1) - ccon_o2s_sat(c,j)) * Fick_D_w(2) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
-		ccon_co2s_sat_temp(c,j) = (ccon_co2s_sat(c,j-1) - ccon_co2s_sat(c,j)) * Fick_D_w(3) * m_Fick_ad * 1.0e-4 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
-		ccon_h2s_sat_temp(c,j) = (ccon_h2s_sat(c,j-1) - ccon_h2s_sat(c,j)) * Fick_D_w(4) * m_Fick_ad * 1.0e-4 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
-!	write(iulog,*) "temp ", ccon_ch4s_sat_temp(c,j)
+	!write(iulog,*) "before ", j, ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)
+		ccon_ch4s_sat_temp(c,j) = (ccon_ch4s_sat(c,j-1) - ccon_ch4s_sat(c,j)) * Fick_D_w(1) * m_Fick_ad * 1.0e-3 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
+		ccon_o2s_sat_temp(c,j) = (ccon_o2s_sat(c,j-1) - ccon_o2s_sat(c,j)) * Fick_D_w(2) * m_Fick_ad * 1.0e-3 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
+		ccon_co2s_sat_temp(c,j) = (ccon_co2s_sat(c,j-1) - ccon_co2s_sat(c,j)) * Fick_D_w(3) * m_Fick_ad * 1.0e-3 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
+		ccon_h2s_sat_temp(c,j) = (ccon_h2s_sat(c,j-1) - ccon_h2s_sat(c,j)) * Fick_D_w(4) * m_Fick_ad * 1.0e-3 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
+!	!write(iulog,*) "temp ", ccon_ch4s_sat_temp(c,j)
 		ccon_ch4s_sat(c,j-1) = (ccon_ch4s_sat(c,j-1) * dz(c,j-1) - ccon_ch4s_sat_temp(c,j)) / dz(c,j-1)
 		ccon_ch4s_sat(c,j) = (ccon_ch4s_sat(c,j) * dz(c,j) + ccon_ch4s_sat_temp(c,j)) / dz(c,j)
 		
@@ -3006,7 +3006,7 @@ implicit none
 
 		ccon_h2s_sat(c,j-1) = (ccon_h2s_sat(c,j-1) * dz(c,j-1) - ccon_h2s_sat_temp(c,j)) / dz(c,j-1)
 		ccon_h2s_sat(c,j) = (ccon_h2s_sat(c,j) * dz(c,j) + ccon_h2s_sat_temp(c,j)) / dz(c,j)
-!	write(iulog,*) "after ", ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)
+	!write(iulog,*) "after ", ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)
 	end do
         end if
 	end do
