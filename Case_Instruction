@@ -25,7 +25,7 @@ L56 ndays -> nyears
 L59, change the number for the exact duratin of simulation
 L70, optional (for expert only), for restarting points
 L79, optional (for expert only), for resubmission
-L288 & 230, if using different machines, it might needs modifications
+L288 & 290, if using different machines, it might needs modifications
 L299, default is true, change to false if you do not want to archive
 L302, optional (for expert only)
 L328, CLM1PT
