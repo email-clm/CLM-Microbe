@@ -15,7 +15,7 @@ ncks -d ni,405,405 -d nj,321,321 /storage/projects/inputdata/atm/datm7/domain.cl
 ncks -d ni,409,409 -d nj,317,317 /storage/projects/inputdata/atm/datm7/domain.clm/domain.360x720_ORCHIDEE0to360.100409.nc /storage/projects/inputdata/atm/datm7/domain.clm/domain.lnd.1x1pt_US-IVO_navy.nc
 ncks -d ni,574,574 -d nj,264,264 /storage/projects/inputdata/atm/datm7/domain.clm/domain.360x720_ORCHIDEE0to360.100409.nc /storage/projects/inputdata/atm/datm7/domain.clm/domain.lnd.1x1pt_US-DUR_navy.nc
 ncks -d ni,425,425 -d nj,310,310 /storage/projects/inputdata/atm/datm7/domain.clm/domain.360x720_ORCHIDEE0to360.100409.nc /storage/projects/inputdata/atm/datm7/domain.clm/domain.lnd.1x1pt_US-ALS_navy.nc
-ncks -d ni,485,485 -d nj,247,247 /storage/projects/inputdata/atm/datm7/domain.clm/domain.360x720_ORCHIDEE0to360.100409.nc /storage/projects/inputdata/atm/datm7/domain.clm/domain.lnd.1x1pt_US-SMR_navy.nc
+ncks -d ni,486,486 -d nj,247,247 /storage/projects/inputdata/atm/datm7/domain.clm/domain.360x720_ORCHIDEE0to360.100409.nc /storage/projects/inputdata/atm/datm7/domain.clm/domain.lnd.1x1pt_US-SMR_navy.nc
 ncks -d ni,578,578 -d nj,266,266 /storage/projects/inputdata/atm/datm7/domain.clm/domain.360x720_ORCHIDEE0to360.100409.nc /storage/projects/inputdata/atm/datm7/domain.clm/domain.lnd.1x1pt_US-SAL_navy.nc
 ncks -d ni,577,577 -d nj,268,268 /storage/projects/inputdata/atm/datm7/domain.clm/domain.360x720_ORCHIDEE0to360.100409.nc /storage/projects/inputdata/atm/datm7/domain.clm/domain.lnd.1x1pt_US-HBF_navy.nc
 ncks -d ni,387,387 -d nj,311,311 /storage/projects/inputdata/atm/datm7/domain.clm/domain.360x720_ORCHIDEE0to360.100409.nc /storage/projects/inputdata/atm/datm7/domain.clm/domain.lnd.1x1pt_US-TEL_navy.nc
