@@ -4,7 +4,7 @@ ncks -d lsmlon,256,256 -d lsmlat,265,265 /storage/projects/inputdata/lnd/clm2/su
 ncks -d lsmlon,230,230 -d lsmlat,233,233 /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_360x720cru_simyr1850_c130415.nc /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_1x1pt_CN-QYZ_I1850CLM45CN_simyr1850.nc
 ncks -d lsmlon,233,233 -d lsmlat,254,254 /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_360x720cru_simyr1850_c130415.nc /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_1x1pt_CN-YC1_I1850CLM45CN_simyr1850.nc
 ncks -d lsmlon,203,203 -d lsmlat,255,255 /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_360x720cru_simyr1850_c130415.nc /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_1x1pt_CN-QH1_I1850CLM45CN_simyr1850.nc
-ncks -d lsmlon,233,233 -d lsmlat,264,264 /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_360x720cru_simyr1850_c130415.nc /storage/projects/inputdata/lnd/clm2/surfdata/urfdata_1x1pt_CN-NMG_I1850CLM45CN_simyr1850.nc
+ncks -d lsmlon,233,233 -d lsmlat,264,264 /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_360x720cru_simyr1850_c130415.nc /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_1x1pt_CN-NMG_I1850CLM45CN_simyr1850.nc
 
 ncks -d lsmlon,267,267 -d lsmlat,250,250 /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_360x720cru_simyr1850_c130415.nc /storage/projects/inputdata/lnd/clm2/surfdata/surfdata_1x1pt_CN-GZL_I1850CLM45CN_simyr1850.nc
 
