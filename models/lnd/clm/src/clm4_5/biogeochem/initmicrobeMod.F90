@@ -965,7 +965,9 @@ subroutine initTimeConst_microbe
   real(r8), pointer :: caces_prod(:,:)
   real(r8), pointer :: caces_sat_prod(:,:)
   real(r8), pointer :: caces_unsat_prod(:,:)
-  
+  real(r8), pointer :: caces_prod_h2(:,:)
+  real(r8), pointer :: caces_sat_prod_h2(:,:)
+  real(r8), pointer :: caces_unsat_prod_h2(:,:)
   real(r8), pointer :: dochr_vr(:,:)
   real(r8), pointer :: micbio_hr_vr(:,:,:)
   real(r8), pointer :: micbio_hr(:,:)
@@ -1042,7 +1044,10 @@ subroutine initTimeConst_microbe
 	caces_prod          			=> cmic%caces_prod
 	caces_unsat_prod          		=> cmic%caces_unsat_prod
 	caces_sat_prod   			=> cmic%caces_sat_prod
-  
+  	caces_prod_h2          			=> cmic%caces_prod_h2
+	caces_unsat_prod_h2          		=> cmic%caces_unsat_prod_h2
+	caces_sat_prod_h2   			=> cmic%caces_sat_prod_h2
+	
 	dochr_vr          				=> cmic%dochr_vr
 	micbio_hr_vr          			=> cmic%micbio_hr_vr
 	micbio_hr          			=> cmic%micbio_hr
@@ -1119,6 +1124,9 @@ subroutine initTimeConst_microbe
 	caces_prod(c,nlevsoi+1:nlevgrnd) 			= 0.
 	caces_sat_prod(c,nlevsoi+1:nlevgrnd) 		= 0.
 	caces_unsat_prod(c,nlevsoi+1:nlevgrnd) 		= 0.
+	caces_prod_h2(c,nlevsoi+1:nlevgrnd) 			= 0.
+	caces_sat_prod_h2(c,nlevsoi+1:nlevgrnd) 		= 0.
+	caces_unsat_prod_h2(c,nlevsoi+1:nlevgrnd) 		= 0.
       
 	dochr_vr(c,nlevsoi+1:nlevgrnd) 				= 0.
 !	micbiohr_vr(c,nlevsoi+1:nlevgrnd) 			= 0.
