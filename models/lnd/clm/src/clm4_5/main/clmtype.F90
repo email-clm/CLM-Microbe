@@ -1723,6 +1723,10 @@ type, public :: column_microbe_type
    real(r8), pointer :: caces_unsat_prod(:,:)			! column-level acetate in unsaturated fraction      
    real(r8), pointer :: caces_sat_prod(:,:)			! column-level acetate in saturated fraction        
 
+   real(r8), pointer :: caces_prod_h2(:,:)                      	! column-level acetogenesis
+   real(r8), pointer :: caces_unsat_prod_h2(:,:)			! column-level acetogenesis in unsaturated fraction      
+   real(r8), pointer :: caces_sat_prod_h2(:,:)			! column-level acetogenesis in saturated fraction        
+
 ! we set it as part of fine root respiration
    real(r8), Pointer :: cn_microbe(:,:)
    

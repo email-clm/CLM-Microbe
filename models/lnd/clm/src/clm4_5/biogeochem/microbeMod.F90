@@ -176,6 +176,10 @@ implicit none
 	real(r8), pointer :: caces_prod(:,:)				! acetate acid production
 	real(r8), pointer :: caces_unsat_prod(:,:)		! acetate acid produciton in unsaturation fraction of soil column
 	real(r8), pointer :: caces_sat_prod(:,:)			! acetate acid produciton in saturation fraction of soil column
+
+	real(r8), pointer :: caces_prod_h2(:,:)				! acetogenesis
+	real(r8), pointer :: caces_unsat_prod_h2(:,:)		! acetogenesis in unsaturation fraction of soil column
+	real(r8), pointer :: caces_sat_prod_h2(:,:)			! acetogenesis in saturation fraction of soil column
   
 	real(r8), pointer :: ccon_ch4s(:,:)				! column-level concentration of CH4 mol C/m3
 	real(r8), pointer :: ccon_o2s(:,:)				! column-level concentration of O2 mol O2/m3
@@ -503,7 +507,11 @@ implicit none
 	caces_prod 				=> cmic%caces_prod
 	caces_unsat_prod 			=> cmic%caces_unsat_prod
 	caces_sat_prod				=> cmic%caces_sat_prod
-	
+
+	caces_prod_h2 				=> cmic%caces_prod_h2
+	caces_unsat_prod_h2 		=> cmic%caces_unsat_prod_h2
+	caces_sat_prod_h2			=> cmic%caces_sat_prod_h2
+		
 	caces 					=> cmic%caces
 	caces_unsat 				=> cmic%caces_unsat
 	caces_sat 					=> cmic%caces_sat
@@ -2447,6 +2455,7 @@ end do
 	cdocs(c,j) 				= cdocs_unsat(c,j) * (1.0 - micfinundated) + cdocs_sat(c,j) * micfinundated
 	caces(c,j) 				= caces_unsat(c,j) * (1.0 - micfinundated)  + caces_sat(c,j) * micfinundated
 	caces_prod(c,j) 		= caces_unsat_prod(c,j) * (1.0 - micfinundated)  + caces_sat_prod(c,j) * micfinundated
+	caces_prod_h2(c,j) 		= caces_unsat_prod_h2(c,j) * (1.0 - micfinundated)  + caces_sat_prod_h2(c,j) * micfinundated
 	cacebios(c,j) 			= cacebios_unsat(c,j) * (1.0 - micfinundated)  + cacebios_sat(c,j) * micfinundated
 	cco2bios(c,j) 			= cco2bios_unsat(c,j) * (1.0 - micfinundated)  + cco2bios_sat(c,j) * micfinundated
 	caerch4bios(c,j) 		= caerch4bios_unsat(c,j) * (1.0 - micfinundated)  + caerch4bios_sat(c,j) * micfinundated

@@ -4472,6 +4472,9 @@ contains
     allocate(cmic%caces_prod(beg:end,1:nlevgrnd))
     allocate(cmic%caces_unsat_prod(beg:end,1:nlevgrnd))
     allocate(cmic%caces_sat_prod(beg:end,1:nlevgrnd))
+    allocate(cmic%caces_prod_h2(beg:end,1:nlevgrnd))
+    allocate(cmic%caces_unsat_prod_h2(beg:end,1:nlevgrnd))
+    allocate(cmic%caces_sat_prod_h2(beg:end,1:nlevgrnd))
 
 !    allocate(cmic%ch4_dfsat_flux(beg:end))
 !    allocate(cmic%zwt_ch4_unsat(beg:end))
@@ -4667,7 +4670,10 @@ contains
     cmic%caces_prod(beg:end,1:nlevgrnd) = 0_r8
     cmic%caces_unsat_prod(beg:end,1:nlevgrnd) = 0_r8
     cmic%caces_sat_prod(beg:end,1:nlevgrnd) = 0_r8
-
+    cmic%caces_prod_h2(beg:end,1:nlevgrnd) = 0_r8
+    cmic%caces_unsat_prod_h2(beg:end,1:nlevgrnd) = 0_r8
+    cmic%caces_sat_prod_h2(beg:end,1:nlevgrnd) = 0_r8
+    
 !    cmic%ch4_dfsat_flux(beg:end) = nan
 !    cmic%zwt_ch4_unsat(beg:end) = nan
     cmic%fsat_pre(beg:end) = spval ! To detect first time-step

@@ -1772,6 +1772,15 @@ contains
          avgflag='A', long_name=' production rate of available acetic acid in saturated fraction', &
          ptr_col=cmic%caces_sat_prod) 
 
+    call hist_addfld2d (fname='CACES_PROD_H2', units='molC/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='acetogenesis production rate', &
+         ptr_col=cmic%caces_prod_h2) 
+    call hist_addfld2d (fname='CACES_UNSAT_PROD_H2', units='molC/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name=' acetogenesis in unsaturated fraction', &
+         ptr_col=cmic%caces_unsat_prod_h2) 
+    call hist_addfld2d (fname='CACES_SAT_PROD_H2', units='molC/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name=' acetogenesis in saturated fraction', &
+         ptr_col=cmic%caces_sat_prod_h2) 
 
     call hist_addfld2d (fname='CCON_CH4S', units='gC/m3', type2d='levgrnd', &
          avgflag='A', long_name='column ch4 concentration', &

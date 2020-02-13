@@ -365,6 +365,7 @@ real(r8), pointer :: cdons(:,:)
 real(r8), pointer :: cdons_min(:,:)                 ! nitrogen mineralization from don
 real(r8), pointer :: caces(:,:)      
 real(r8), pointer :: caces_prod(:,:)      
+real(r8), pointer :: caces_prod_h2(:,:)      
 real(r8), pointer :: micbio_hr_vr(:,:,:) 
 real(r8), pointer :: micbio_hr(:,:) 
 real(r8), pointer :: micbiohr_col(:) 
@@ -721,7 +722,8 @@ real(r8), pointer :: mic_fch4_col(:)
    cdons           				=> cmic%cdons
    cdons_min           			=> cmic%cdons_min
    caces           				=> cmic%caces
-   caces_prod           			=> cmic%caces_prod
+   caces_prod           		=> cmic%caces_prod
+   caces_prod_h2           		=> cmic%caces_prod_h2
    
    ch4_surf_netflux 			=> cmic%ch4_surf_netflux
    co2_surf_netflux	 		=> cmic%co2_surf_netflux

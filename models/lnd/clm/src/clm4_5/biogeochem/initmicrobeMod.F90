@@ -176,6 +176,10 @@ end subroutine initmicrobe
 	real(r8), pointer :: caces_unsat_prod(:,:)			! column-level acetate in unsaturated fraction      
 	real(r8), pointer :: caces_sat_prod(:,:)				! column-level acetate in saturated fraction        
 	real(r8), pointer :: caces_prod(:,:)				! column-level acetate in saturated fraction        
+
+	real(r8), pointer :: caces_unsat_prod_h2(:,:)			! column-level acetogenesis in unsaturated fraction      
+	real(r8), pointer :: caces_sat_prod_h2(:,:)				! column-level acetogenesis in saturated fraction        
+	real(r8), pointer :: caces_prod_h2(:,:)				! column-level acetogenesis in saturated fraction        
    
    	real(r8), pointer :: micbion_col(:)				! (gN/m2) total column nitrogen in microbial biomass 
 	real(r8), pointer :: don_col(:)					! (gN/m2) total column dissolved organic nitrogen
@@ -380,6 +384,10 @@ end subroutine initmicrobe
 	caces_sat_prod				=> cmic%caces_sat_prod
 	caces_prod					=> cmic%caces_prod
 
+	caces_unsat_prod_h2			=> cmic%caces_unsat_prod_h2
+	caces_sat_prod_h2			=> cmic%caces_sat_prod_h2
+	caces_prod_h2				=> cmic%caces_prod_h2
+	
 	ccon_ch4s          			=> cmic%ccon_ch4s
 	ccon_co2s          			=> cmic%ccon_co2s
 	ccon_o2s         				=> cmic%ccon_o2s
@@ -609,14 +617,17 @@ end subroutine initmicrobe
 	if(caces_unsat(c,j) == spval .or. arbinit) 					caces_unsat(c,j) = 0._r8
 	if(caces_sat(c,j) == spval .or. arbinit) 					caces_sat(c,j) = 0._r8
 	if(caces_prod(c,j) == spval .or. arbinit) 					caces_prod(c,j) = 0._r8
-	if(caces_unsat_prod(c,j) == spval .or. arbinit) 				caces_unsat_prod(c,j) = 0._r8
+	if(caces_unsat_prod(c,j) == spval .or. arbinit) 			caces_unsat_prod(c,j) = 0._r8
 	if(caces_sat_prod(c,j) == spval .or. arbinit) 				caces_sat_prod(c,j) = 0._r8
+	if(caces_prod_h2(c,j) == spval .or. arbinit) 				caces_prod_h2(c,j) = 0._r8
+	if(caces_unsat_prod_h2(c,j) == spval .or. arbinit) 			caces_unsat_prod_h2(c,j) = 0._r8
+	if(caces_sat_prod_h2(c,j) == spval .or. arbinit) 			caces_sat_prod_h2(c,j) = 0._r8
 	if(cacebios(c,j) == spval .or. arbinit) 					cacebios(c,j) = 1e-15_r8
 	if(cacebios_unsat(c,j) == spval .or. arbinit) 				cacebios_unsat(c,j) = 1e-15_r8
-	if(cacebios_sat(c,j) == spval .or. arbinit) 					cacebios_sat(c,j) = 1e-15_r8
+	if(cacebios_sat(c,j) == spval .or. arbinit) 				cacebios_sat(c,j) = 1e-15_r8
 	if(cco2bios(c,j) == spval .or. arbinit) 					cco2bios(c,j) = 1e-15_r8
 	if(cco2bios_unsat(c,j) == spval .or. arbinit) 				cco2bios_unsat(c,j) = 1e-15_r8
-	if(cco2bios_sat(c,j) == spval .or. arbinit) 					cco2bios_sat(c,j) = 1e-15_r8
+	if(cco2bios_sat(c,j) == spval .or. arbinit) 				cco2bios_sat(c,j) = 1e-15_r8
 	if(caerch4bios(c,j) == spval .or. arbinit) 					caerch4bios(c,j) = 1e-15_r8
 	if(caerch4bios_unsat(c,j) == spval .or. arbinit) 				caerch4bios_unsat(c,j) = 1e-15_r8
 	if(caerch4bios_sat(c,j) == spval .or. arbinit) 				caerch4bios(c,j) = 1e-15_r8  
@@ -779,7 +790,9 @@ end subroutine initmicrobe
 	caces_prod(c,j) = 0._r8
 	caces_unsat_prod(c,j) = 0._r8
 	caces_sat_prod(c,j) = 0._r8
-	
+	caces_prod_h2(c,j) = 0._r8
+	caces_unsat_prod_h2(c,j) = 0._r8
+	caces_sat_prod_h2(c,j) = 0._r8	
 	ccon_ch4s(c,j) = 0._r8
 	ccon_co2s(c,j) = 0._r8
 	ccon_o2s(c,j) = 0._r8

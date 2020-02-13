@@ -290,6 +290,45 @@ contains
     end if
 
     if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CACES_PROD_H2', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='acetogenesis ', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CACES_PROD_H2', data=cmic%caces_prod_h2, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+   
+   if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CACES_UNSAT_PROD_H2', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='acetogenesis in unsaturated fraction', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CACES_UNSAT_PROD_H2', data=cmic%caces_unsat_prod_h2, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+    
+    if (flag == 'define') then
+       call ncd_defvar(ncid=ncid, varname='CACES_SAT_PROD_H2', xtype=ncd_double, &
+            dim1name='column', dim2name='levgrnd', switchdim=.true., &
+            long_name='acetogenesis in saturated fraction', units='mol/m^3')
+    else if (flag == 'read' .or. flag == 'write') then
+       call ncd_io(varname='CACES_SAT_PROD_H2', data=cmic%caces_sat_prod_h2, &
+            dim1name='column', switchdim=.true., &
+            ncid=ncid, flag=flag, readvar=readvar)
+       if (flag=='read' .and. .not. readvar) then
+          if (is_restart()) call endrun()
+       end if
+    end if
+
+    if (flag == 'define') then
        call ncd_defvar(ncid=ncid, varname='CDOCS_PRE', xtype=ncd_double, &
             dim1name='column', dim2name='levgrnd', switchdim=.true., &
             long_name='previous time step DOC concentration', units='mol/m^3')
