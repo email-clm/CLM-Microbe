@@ -1250,6 +1250,8 @@ if(j >= jwaterhead_unsat(c)) then
 		
 !write(iulog,*) "xiaofeng here ", c,j,cacebios_unsat(c,j),cco2bios_unsat(c,j),caerch4bios_unsat(c,j),canaerch4bios_unsat(c,j)
 	cdocs_unsat(c,j) = ACConcentration
+	caces_unsat_prod(c,j)					= AceProd
+	caces_unsat_prod_h2(c,j)				= H2AceProd
 
 	ch4_prod_ace_depth_unsat(c,j) 			= CH4Prod 
 	ch4_prod_co2_depth_unsat(c,j) 			= H2CH4Prod
@@ -1531,7 +1533,9 @@ else
 	
 !write(iulog,*) "xiaofeng here2 ", c,j,cacebios_unsat(c,j),cco2bios_unsat(c,j),caerch4bios_unsat(c,j),canaerch4bios_unsat(c,j)	
 	cdocs_unsat(c,j) = ACConcentration
-
+	caces_unsat_prod(c,j)					= AceProd
+	caces_unsat_prod_h2(c,j)				= H2AceProd
+	
 	ch4_prod_ace_depth_unsat(c,j) 			= CH4Prod 
 	ch4_prod_co2_depth_unsat(c,j) 			= H2CH4Prod
 	ch4_oxid_o2_depth_unsat(c,j) 			= CH4Oxid
@@ -2053,7 +2057,8 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 !write(iulog,*) "grow, dead: ",	MethanotrophGrowth," ", MethanotrophDying," ", AOMMethanotrophGrowth," ", AOMMethanotrophDying
 
 	cdocs_sat(c,j) 						= ACConcentration
-	
+	caces_unsat_prod(c,j)					= AceProd
+	caces_unsat_prod_h2(c,j)				= H2AceProd	
 	ch4_prod_ace_depth_sat(c,j) 			= CH4Prod 
 	ch4_prod_co2_depth_sat(c,j) 			= H2CH4Prod
 	ch4_oxid_o2_depth_sat(c,j) 			= CH4Oxid
