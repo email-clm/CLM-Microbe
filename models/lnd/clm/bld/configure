@@ -58,6 +58,10 @@ OPTIONS
                             (ONLY valid for CLM4.5!)
      -microbe <name>        Turn Microbe model: [on | off]
                               Requires bgc=cn/cndv (Carbon Nitrogen model)
+			      
+     -misotope <name>        Turn stable isotopic methane model: [on | off]
+			Requires microbe model on
+			      
      -clm_root <dir>        Root directory of clm source code 
                             (default: directory above location of this script)
      -cppdefs <string>      A string of user specified CPP defines.  Appended to
@@ -160,6 +164,7 @@ GetOptions(
     "vsoilc_centbgc=s"          => \$opts{'vsoilc_centbgc'},
     "clm4me=s"                  => \$opts{'clm4me'},
     "microbe=s"                 => \$opts{'microbe'},
+    "misotope=s"                 => \$opts{'misotope'},
     "exlaklayers=s"             => \$opts{'exlaklayers'},
     "h|help"                    => \$opts{'help'},
     "nofire"                    => \$opts{'nofire'},
@@ -480,7 +485,22 @@ if ($print>=2) {
      print "Microbe module in CLM4.5 actived: .$eol";
    }
 }
-
+#-----------------------------------------------------------------------------------------------
+#CLM4.5 Microbe model with isotopic function
+if( defined($opts{'misotope'}) ) {
+  $cfg_ref->set('misotope', $opts{'misotope'});
+}
+my misotope = $cfg_ref->get('misotope');
+if (  ($misotope eq "on")&&($microbe ne "on") ) {
+   die <<"EOF";
+** Cannot turn methane isotopic module because microbe mode is off**
+EOF
+}
+if ($print>=2) {
+   if ($misotope eq "on") {
+     print "Microbe mode with isotopic module actived: .$eol";
+   }
+}
 #-----------------------------------------------------------------------------------------------
 # Vertical soil-Carbon, CENTURY-BGC, split prognostic mineral pool option 
 # and elimination of inconsistent duplicate soil hydraulic parameters
@@ -688,6 +708,9 @@ if ( $snicar_frc eq 'on' ) {
 }
 if ($microbe eq 'on') {
     $cfg_cppdefs .= " -DMICROBE"
+}
+if ($misotope eq 'on') {
+    $cfg_cppdefs .= " -DMISOTOPE"
 }
 
 # CPP defines to put on Makefile
