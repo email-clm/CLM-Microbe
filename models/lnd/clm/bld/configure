@@ -57,11 +57,7 @@ OPTIONS
                               Requires bgc=cn/cndv (Carbon Nitrogen model)
                             (ONLY valid for CLM4.5!)
      -microbe <name>        Turn Microbe model: [on | off]
-                              Requires bgc=cn/cndv (Carbon Nitrogen model)
-			      
-     -misotope <name>        Turn stable isotopic methane model: [on | off]
-			Requires microbe model on
-			      
+                              Requires bgc=cn/cndv (Carbon Nitrogen model)   
      -clm_root <dir>        Root directory of clm source code 
                             (default: directory above location of this script)
      -cppdefs <string>      A string of user specified CPP defines.  Appended to
@@ -164,7 +160,6 @@ GetOptions(
     "vsoilc_centbgc=s"          => \$opts{'vsoilc_centbgc'},
     "clm4me=s"                  => \$opts{'clm4me'},
     "microbe=s"                 => \$opts{'microbe'},
-    "misotope=s"                 => \$opts{'misotope'},
     "exlaklayers=s"             => \$opts{'exlaklayers'},
     "h|help"                    => \$opts{'help'},
     "nofire"                    => \$opts{'nofire'},

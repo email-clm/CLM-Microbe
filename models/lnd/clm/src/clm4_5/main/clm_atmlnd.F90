@@ -66,13 +66,19 @@ module clm_atmlnd
      real(r8), pointer :: forc_aer(:,:)    => null() ! aerosol deposition array
 #if (defined LCH4) || (defined MICROBE)
      real(r8), pointer :: forc_pch4(:)    !CH4 partial pressure (Pa)
+     if(use_c13) then
+     real(r8), pointer :: forc_pch4_c13(:)    !13CH4 partial pressure (Pa)
+     end if
+      if(use_c14) then
+     real(r8), pointer :: forc_pch4_c14(:)    !14CH4 partial pressure (Pa)
+     end if    
 #endif
 
 #ifdef MICROBE ! more will be added
-     real(r8), pointer :: forc_ph2(:)    ! N2O partial pressure (Pa)
-!     real(r8), pointer :: forc_pno(:)    ! N2O partial pressure (Pa)
+     real(r8), pointer :: forc_ph2(:)    ! h2 partial pressure (Pa)
+!     real(r8), pointer :: forc_pno(:)    ! NO partial pressure (Pa)
 !     real(r8), pointer :: forc_pn2o(:)    ! N2O partial pressure (Pa)
-!     real(r8), pointer :: forc_pnh3(:)    ! N2O partial pressure (Pa)
+!     real(r8), pointer :: forc_pnh3(:)    ! NH3 partial pressure (Pa)
 #endif
   end type atm2lnd_type
 
@@ -365,6 +371,13 @@ end subroutine init_atm2lnd_type
   endif
 #if (defined LCH4) || (defined MICROBE)
   l2a%flux_ch4(beg:end) = ival
+  if(use_c13) then
+    l2a%flux_ch4_c13(beg:end) = ival
+  endif
+!  if(use_c14) then				! place holder for 14C
+!    l2a%flux_ch4_c14(beg:end) = ival
+!  endif
+
 #endif
 
 #if (defined MICROBE)

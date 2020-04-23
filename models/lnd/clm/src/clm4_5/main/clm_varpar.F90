@@ -41,38 +41,38 @@ module clm_varpar
   integer, parameter :: nlevsno     =   5     ! maximum number of snow layers
   ! For CH4 code
 #ifdef MICROBE
-  integer, parameter :: ngases = 8 ! CH4, O2, & CO2, H2, NO, N2O, NH3, N2
+  integer, parameter :: ngases = 8 		! CH4, O2, & CO2, H2, NO, N2O, NH3, N2
 #else
-  integer, parameter :: ngases = 3 ! CH4, O2, & CO2
+  integer, parameter :: ngases = 3 		! CH4, O2, & CO2
 #endif
 
-  integer, parameter :: nlevcan     =   1     ! number of leaf layers in canopy
-  integer, parameter :: numwat      =   5     ! number of water types (soil, ice, 2 lakes, wetland)
-  integer, parameter :: numrad      =   2     ! number of solar radiation bands: vis, nir
-  integer, parameter :: ivis        =   1     ! index for visible band
-  integer, parameter :: inir        =   2     ! index for near-infrared band
-  integer, parameter :: numsolar    =   2     ! number of solar type bands: direct, diffuse
-  integer, parameter :: ndst        =   4     ! number of dust size classes (BGC only)
-  integer, parameter :: dst_src_nbr =   3     ! number of size distns in src soil (BGC only)
-  integer, parameter :: sz_nbr      = 200     ! number of sub-grid bins in large bin of dust size distribution (BGC only)
-  integer, parameter :: mxpft       =  24     ! maximum number of PFT's for any mode; might we set some of these automatically from reading pft-physiology?
-  integer, parameter :: numveg      =  16     ! number of veg types (without specific crop)
+  integer, parameter :: nlevcan     =   1     	! number of leaf layers in canopy
+  integer, parameter :: numwat      =   5     	! number of water types (soil, ice, 2 lakes, wetland)
+  integer, parameter :: numrad      =   2     	! number of solar radiation bands: vis, nir
+  integer, parameter :: ivis        =   1     		! index for visible band
+  integer, parameter :: inir        =   2     		! index for near-infrared band
+  integer, parameter :: numsolar    =   2     	! number of solar type bands: direct, diffuse
+  integer, parameter :: ndst        =   4     	! number of dust size classes (BGC only)
+  integer, parameter :: dst_src_nbr =   3     	! number of size distns in src soil (BGC only)
+  integer, parameter :: sz_nbr      = 200     	! number of sub-grid bins in large bin of dust size distribution (BGC only)
+  integer, parameter :: mxpft       =  24     	! maximum number of PFT's for any mode; might we set some of these automatically from reading pft-physiology?
+  integer, parameter :: numveg      =  16     	! number of veg types (without specific crop)
 #if (defined VICHYDRO)
-  integer, parameter :: nlayer      =   3     ! number of VIC soil layer --Added by AWang
-  integer, parameter :: nlayert     =   8     ! number of VIC soil layer + 3 lower thermal layers
+  integer, parameter :: nlayer      =   3     	! number of VIC soil layer --Added by AWang
+  integer, parameter :: nlayert     =   8     	! number of VIC soil layer + 3 lower thermal layers
 #endif
 #if (defined CROP)
-  integer, parameter :: numpft      = mxpft   ! actual # of pfts (without bare)
-  integer, parameter :: numcft      =  10     ! actual # of crops
+  integer, parameter :: numpft      = mxpft   	! actual # of pfts (without bare)
+  integer, parameter :: numcft      =  10     	! actual # of crops
 #else
   integer, parameter :: numpft      = numveg  ! actual # of pfts (without bare)
-  integer, parameter :: numcft      =   2     ! actual # of crops
+  integer, parameter :: numcft      =   2     	! actual # of crops
 #endif
   integer, parameter :: maxpatch_pft= MAXPATCH_PFT ! max number of plant functional types in naturally vegetated landunit
-  integer, parameter :: numurbl     = 3       ! number of urban landunits
+  integer, parameter :: numurbl     = 3       	! number of urban landunits
 
-  integer            :: nlevdecomp                    ! number of biogeochemically active soil layers
-  integer            :: nlevdecomp_full               ! number of biogeochemical layers (includes lower layers that are biogeochemically inactive)
+  integer            :: nlevdecomp                    	! number of biogeochemically active soil layers
+  integer            :: nlevdecomp_full               	! number of biogeochemical layers (includes lower layers that are biogeochemically inactive)
 
 ! -------------------------------------------------------
 ! Module Varaibles (initialized in clm_varpar_init)

@@ -334,6 +334,13 @@ contains
 #if (defined MICROBE)
      !column microbial variables at column level
      call init_column_microbe_type(begc, endc, cmic)
+     
+     if (use_c13) then
+    call init_column_microbe_type(begc, endc, cmicc13)
+     end if
+     if (use_c14) then
+    call init_column_microbe_type(begc, endc, cmicc14)
+     end if    
 #endif
 
     ! column nitrogen flux variables at column level
@@ -382,6 +389,12 @@ contains
 #if (defined MICROBE)
     ! gridcell: ch4 variables
     call init_gridcell_microbe_type(begg, endg, gmic)
+	if(use_c13) then
+	call init_gridcell_microbe_type(begg, endg, gmicc13)
+	end if
+	if(use_c14) then
+	call init_gridcell_microbe_type(begg, endg, gmicc14)
+	end if
 #endif
 
   end subroutine initClmtype
