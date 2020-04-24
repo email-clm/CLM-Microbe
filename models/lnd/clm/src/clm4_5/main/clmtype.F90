@@ -1621,9 +1621,9 @@ endif
 #endif  
 end type column_cstate_type
 
-type(column_cstate_type), target :: ccs      !column carbon state
-type(column_cstate_type), target :: cc13s    !column carbon-13 state
-type(column_cstate_type), target :: cc14s    !column carbon-14 state
+type(column_cstate_type), target :: ccs      	!column carbon state
+type(column_cstate_type), target :: cc13s    	!column carbon-13 state
+type(column_cstate_type), target :: cc14s   	!column carbon-14 state
 
 !----------------------------------------------------
 ! column methane variables structure
@@ -1783,132 +1783,131 @@ type, public :: column_microbe_type
 !   real(r8), pointer :: layer_sat_lag(:,:) 				! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
 
 	real(r8), pointer :: ch4_prod_ace_depth_unsat(:,:)	! ch4 production of acecaltic methanonnesis ion status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_prod_co2_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_oxid_o2_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_oxid_aom_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_aere_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_dif_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_ebul_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: co2_prod_ace_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: co2_decomp_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: co2_cons_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: co2_ebul_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: co2_aere_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: co2_dif_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: o2_cons_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: o2_aere_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: o2_aere_oxid_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: o2_decomp_depth_unsat(:,:)	! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: o2_dif_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: h2_prod_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: h2_cons_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: h2_aere_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: h2_diff_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: h2_ebul_depth_unsat(:,:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_surf_aere_unsat(:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_surf_ebul_unsat(:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_surf_dif_unsat(:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: ch4_surf_netflux_unsat(:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: co2_surf_aere_unsat(:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: co2_surf_ebul_unsat(:)		! Lagged saturation status of soil layer in the unsaturated zone (1 = sat)
-	real(r8), pointer :: co2_surf_dif_unsat(:)
-	real(r8), pointer :: co2_surf_netflux_unsat(:)
-	real(r8), pointer :: o2_surf_aere_unsat(:)
-	real(r8), pointer :: o2_surf_dif_unsat(:)
-	real(r8), pointer :: o2_surf_netflux_unsat(:)
-	real(r8), pointer :: h2_surf_aere_unsat(:)
-	real(r8), pointer :: h2_surf_ebul_unsat(:)
-	real(r8), pointer :: h2_surf_dif_unsat(:)
-	real(r8), pointer :: h2_surf_netflux_unsat(:)
+	real(r8), pointer :: ch4_prod_co2_depth_unsat(:,:)	! hydrogenotrophic methanogenesis of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_oxid_o2_depth_unsat(:,:)	! oxic methanotroph of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_oxid_aom_depth_unsat(:,:)	! AOM of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_aere_depth_unsat(:,:)	! CH4 plant-mediated transprot of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_dif_depth_unsat(:,:)		! CH4 diffusion transport of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_ebul_depth_unsat(:,:)	! CH4 ebulition of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_prod_ace_depth_unsat(:,:)	! CO2 prouction from acetate of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_decomp_depth_unsat(:,:)	! CO2 production from SOM decomposition of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_cons_depth_unsat(:,:)	! CO2 concentration in soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_ebul_depth_unsat(:,:)		! CO2 ebulition of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_aere_depth_unsat(:,:)	! CO2 plant-mediated transprot of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_dif_depth_unsat(:,:)		! CO2 diffusion transport of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: o2_cons_depth_unsat(:,:)		! O2 concentration of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: o2_aere_depth_unsat(:,:)		! O2 plant-mediated trasnport of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: o2_aere_oxid_depth_unsat(:,:)	! O2 used for methane oxidaiton during plant-mediated transport of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: o2_decomp_depth_unsat(:,:)	! O2 consumed for SOM decomositon of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: o2_dif_depth_unsat(:,:)		! O2 diffusion of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: h2_prod_depth_unsat(:,:)		! H2 production of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: h2_cons_depth_unsat(:,:)		! H2 concentration of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: h2_aere_depth_unsat(:,:)		! H2 plant-mediated transport of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: h2_diff_depth_unsat(:,:)		! H2 diffusion transport of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: h2_ebul_depth_unsat(:,:)		! H2 ebulition transport of soil layer in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_surf_aere_unsat(:)		! CH4 plant-mediated transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_surf_ebul_unsat(:)		! CH4 ebulition transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_surf_dif_unsat(:)		! CH4 diffusion transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_surf_netflux_unsat(:)		! net CH4 flux at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_surf_aere_unsat(:)		! CO2 plant-mediated transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_surf_ebul_unsat(:)		! CO2 ebulition transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_surf_dif_unsat(:)		! CO2 diffusion transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: co2_surf_netflux_unsat(:)		! net CO2 flux at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: o2_surf_aere_unsat(:)		! O2 plant-mediated transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: o2_surf_dif_unsat(:)			! O2 diffusion transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: o2_surf_netflux_unsat(:)		! net O2 flux at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: h2_surf_aere_unsat(:)		! H2 plant-mediated transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: h2_surf_ebul_unsat(:)		! H2 ebulition transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: h2_surf_dif_unsat(:)			! H2 diffusion transport at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: h2_surf_netflux_unsat(:)		! net H2 flux at surface in the unsaturated zone (1 = sat)
 
-	real(r8), pointer :: ch4_prod_ace_depth_sat(:,:)
-	real(r8), pointer :: ch4_prod_co2_depth_sat(:,:)
-	real(r8), pointer :: ch4_oxid_o2_depth_sat(:,:)
-	real(r8), pointer :: ch4_oxid_aom_depth_sat(:,:)
-	real(r8), pointer :: ch4_aere_depth_sat(:,:)
-	real(r8), pointer :: ch4_dif_depth_sat(:,:)
-	real(r8), pointer :: ch4_ebul_depth_sat(:,:)
-	real(r8), pointer :: co2_prod_ace_depth_sat(:,:)
-	real(r8), pointer :: co2_decomp_depth_sat(:,:)
-	real(r8), pointer :: co2_cons_depth_sat(:,:)
-	real(r8), pointer :: co2_ebul_depth_sat(:,:)
-	real(r8), pointer :: co2_aere_depth_sat(:,:)
-	real(r8), pointer :: co2_dif_depth_sat(:,:)
-	real(r8), pointer :: o2_cons_depth_sat(:,:)
-	real(r8), pointer :: o2_aere_depth_sat(:,:)
-	real(r8), pointer :: o2_aere_oxid_depth_sat(:,:)
-	real(r8), pointer :: o2_decomp_depth_sat(:,:)
-	real(r8), pointer :: o2_dif_depth_sat(:,:)
-	real(r8), pointer :: h2_prod_depth_sat(:,:)
-	real(r8), pointer :: h2_cons_depth_sat(:,:)
-	real(r8), pointer :: h2_aere_depth_sat(:,:)
-	real(r8), pointer :: h2_diff_depth_sat(:,:)
-	real(r8), pointer :: h2_ebul_depth_sat(:,:)
-	real(r8), pointer :: ch4_surf_aere_sat(:)
-	real(r8), pointer :: ch4_surf_ebul_sat(:)
-	real(r8), pointer :: ch4_surf_dif_sat(:)
-	real(r8), pointer :: ch4_surf_netflux_sat(:)
-	real(r8), pointer :: co2_surf_aere_sat(:)
-	real(r8), pointer :: co2_surf_ebul_sat(:)
-	real(r8), pointer :: co2_surf_dif_sat(:)
-	real(r8), pointer :: co2_surf_netflux_sat(:)
-	real(r8), pointer :: o2_surf_aere_sat(:)
-	real(r8), pointer :: o2_surf_dif_sat(:)
-	real(r8), pointer :: o2_surf_netflux_sat(:)
-	real(r8), pointer :: h2_surf_aere_sat(:)
-	real(r8), pointer :: h2_surf_ebul_sat(:)
-	real(r8), pointer :: h2_surf_dif_sat(:)
-	real(r8), pointer :: h2_surf_netflux_sat(:)
+	real(r8), pointer :: ch4_prod_ace_depth_sat(:,:)	! ch4 production of acecaltic methanonnesis ion status of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_prod_co2_depth_sat(:,:)	! hydrogenotrophic methanogenesis of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_oxid_o2_depth_sat(:,:)	! oxic methanotroph of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_oxid_aom_depth_sat(:,:)	! AOM of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_aere_depth_sat(:,:)		! CH4 plant-mediated transprot of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_dif_depth_sat(:,:)		! CH4 diffusion transport of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_ebul_depth_sat(:,:)		! CH4 ebulition of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_prod_ace_depth_sat(:,:)	! CO2 prouction from acetate of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_decomp_depth_sat(:,:)	! CO2 production from SOM decomposition of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_cons_depth_sat(:,:)		! CO2 concentration in soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_ebul_depth_sat(:,:)		! CO2 ebulition of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_aere_depth_sat(:,:)		! CO2 plant-mediated transprot of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_dif_depth_sat(:,:)		! CO2 diffusion transport of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: o2_cons_depth_sat(:,:)		! O2 concentration of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: o2_aere_depth_sat(:,:)		! O2 plant-mediated trasnport of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: o2_aere_oxid_depth_sat(:,:)	! O2 used for methane oxidaiton during plant-mediated transport of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: o2_decomp_depth_sat(:,:)	! O2 consumed for SOM decomositon of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: o2_dif_depth_sat(:,:)		! O2 diffusion of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: h2_prod_depth_sat(:,:)		! H2 production of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: h2_cons_depth_sat(:,:)		! H2 concentration of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: h2_aere_depth_sat(:,:)		! H2 plant-mediated transport of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: h2_diff_depth_sat(:,:)		! H2 diffusion transport of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: h2_ebul_depth_sat(:,:)		! H2 ebulition transport of soil layer in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_surf_aere_sat(:)			! CH4 plant-mediated transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_surf_ebul_sat(:)			! CH4 ebulition transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_surf_dif_sat(:)			! CH4 diffusion transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: ch4_surf_netflux_sat(:)		! net CH4 flux at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_surf_aere_sat(:)			! CO2 plant-mediated transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_surf_ebul_sat(:)			! CO2 ebulition transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_surf_dif_sat(:)			! CO2 diffusion transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: co2_surf_netflux_sat(:)		! net CO2 flux at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: o2_surf_aere_sat(:)			! O2 plant-mediated transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: o2_surf_dif_sat(:)			! O2 diffusion transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: o2_surf_netflux_sat(:)		! net O2 flux at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: h2_surf_aere_sat(:)			! H2 plant-mediated transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: h2_surf_ebul_sat(:)			! H2 ebulition transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: h2_surf_dif_sat(:)			! H2 diffusion transport at surface in the saturated zone (1 = sat)
+	real(r8), pointer :: h2_surf_netflux_sat(:)		! net H2 flux at surface in the saturated zone (1 = sat)
 
-
-	real(r8), pointer :: ch4_prod_ace_depth(:,:)
-	real(r8), pointer :: ch4_prod_co2_depth(:,:)
-	real(r8), pointer :: ch4_oxid_o2_depth(:,:)
-	real(r8), pointer :: ch4_oxid_aom_depth(:,:)
-	real(r8), pointer :: ch4_aere_depth(:,:)
-	real(r8), pointer :: ch4_dif_depth(:,:)
-	real(r8), pointer :: ch4_ebul_depth(:,:)
-	real(r8), pointer :: co2_prod_ace_depth(:,:)
-	real(r8), pointer :: co2_decomp_depth(:,:)
-	real(r8), pointer :: co2_cons_depth(:,:)
-	real(r8), pointer :: co2_ebul_depth(:,:)
-	real(r8), pointer :: co2_aere_depth(:,:)
-	real(r8), pointer :: co2_dif_depth(:,:)
-	real(r8), pointer :: o2_cons_depth(:,:)
-	real(r8), pointer :: o2_aere_depth(:,:)
-	real(r8), pointer :: o2_aere_oxid_depth(:,:)
-	real(r8), pointer :: o2_decomp_depth(:,:)
-	real(r8), pointer :: o2_dif_depth(:,:)
-	real(r8), pointer :: h2_prod_depth(:,:)
-	real(r8), pointer :: h2_cons_depth(:,:)
-	real(r8), pointer :: h2_aere_depth(:,:)
-	real(r8), pointer :: h2_diff_depth(:,:)
-	real(r8), pointer :: h2_ebul_depth(:,:)
-	real(r8), pointer :: ch4_surf_aere(:)
-	real(r8), pointer :: ch4_surf_ebul(:)
-	real(r8), pointer :: ch4_surf_dif(:)
-	real(r8), pointer :: ch4_surf_netflux(:)
-	real(r8), pointer :: co2_surf_aere(:)
-	real(r8), pointer :: co2_surf_ebul(:)
-	real(r8), pointer :: co2_surf_dif(:)
-	real(r8), pointer :: co2_surf_netflux(:)
-	real(r8), pointer :: o2_surf_aere(:)
-	real(r8), pointer :: o2_surf_dif(:)
-	real(r8), pointer :: o2_surf_netflux(:)
-	real(r8), pointer :: h2_surf_aere(:)
-	real(r8), pointer :: h2_surf_ebul(:)
-	real(r8), pointer :: h2_surf_dif(:)
-	real(r8), pointer :: h2_surf_netflux(:)
+	real(r8), pointer :: ch4_prod_ace_depth(:,:)		! ch4 production of acecaltic methanonnesis ion status of soil layer
+	real(r8), pointer :: ch4_prod_co2_depth(:,:)		! hydrogenotrophic methanogenesis of soil layer
+	real(r8), pointer :: ch4_oxid_o2_depth(:,:)		! oxic methanotroph of soil layer
+	real(r8), pointer :: ch4_oxid_aom_depth(:,:)		! AOM of soil layer
+	real(r8), pointer :: ch4_aere_depth(:,:)			! CH4 plant-mediated transprot of soil layer
+	real(r8), pointer :: ch4_dif_depth(:,:)			! CH4 diffusion transport of soil layer
+	real(r8), pointer :: ch4_ebul_depth(:,:)			! CH4 ebulition of soil layer 
+	real(r8), pointer :: co2_prod_ace_depth(:,:)		! CO2 prouction from acetate of soil layer 
+	real(r8), pointer :: co2_decomp_depth(:,:)		! CO2 production from SOM decomposition of soil layer
+	real(r8), pointer :: co2_cons_depth(:,:)			! CO2 concentration in soil layer
+	real(r8), pointer :: co2_ebul_depth(:,:)			! CO2 ebulition of soil layer  
+	real(r8), pointer :: co2_aere_depth(:,:)			! CO2 plant-mediated transprot of soil layer
+	real(r8), pointer :: co2_dif_depth(:,:)			! CO2 diffusion transport of soil layer 
+	real(r8), pointer :: o2_cons_depth(:,:)			! O2 concentration of soil layer 
+	real(r8), pointer :: o2_aere_depth(:,:)			! O2 plant-mediated trasnport of soil layer
+	real(r8), pointer :: o2_aere_oxid_depth(:,:)		! O2 used for methane oxidaiton during plant-mediated transport of soil layer
+	real(r8), pointer :: o2_decomp_depth(:,:)		! O2 consumed for SOM decomositon of soil layer i 
+	real(r8), pointer :: o2_dif_depth(:,:)			! O2 diffusion of soil layer 
+	real(r8), pointer :: h2_prod_depth(:,:)			! H2 production of soil layer 
+	real(r8), pointer :: h2_cons_depth(:,:)			! H2 concentration of soil layer 
+	real(r8), pointer :: h2_aere_depth(:,:)			! H2 plant-mediated transport of soil layer 
+	real(r8), pointer :: h2_diff_depth(:,:)			! H2 diffusion transport of soil layer
+	real(r8), pointer :: h2_ebul_depth(:,:)			! H2 ebulition transport of soil layer 
+	real(r8), pointer :: ch4_surf_aere(:)			! CH4 plant-mediated transport at surface
+	real(r8), pointer :: ch4_surf_ebul(:)			! CH4 ebulition transport at surface 
+	real(r8), pointer :: ch4_surf_dif(:)				! CH4 diffusion transport at surface
+	real(r8), pointer :: ch4_surf_netflux(:)			! net CH4 flux at surface
+	real(r8), pointer :: co2_surf_aere(:)			! CO2 plant-mediated transport at surface 
+	real(r8), pointer :: co2_surf_ebul(:)			! CO2 ebulition transport at surface
+	real(r8), pointer :: co2_surf_dif(:)				! CO2 diffusion transport at surface
+	real(r8), pointer :: co2_surf_netflux(:)			! net CO2 flux at surface 
+	real(r8), pointer :: o2_surf_aere(:)			! O2 plant-mediated transport at surface 
+	real(r8), pointer :: o2_surf_dif(:)				! O2 diffusion transport at surface
+	real(r8), pointer :: o2_surf_netflux(:)			! net O2 flux at surface 
+	real(r8), pointer :: h2_surf_aere(:)			! H2 plant-mediated transport at surface
+	real(r8), pointer :: h2_surf_ebul(:)			! H2 ebulition transport at surface
+	real(r8), pointer :: h2_surf_dif(:)				! H2 diffusion transport at surface
+	real(r8), pointer :: h2_surf_netflux(:)			! et H2 flux at surface 
 	
 end type column_microbe_type
 
 type(column_microbe_type) :: cmic
 if (use_c13) then
-type(column_microbe_type) :: cmicc13
+type(column_microbe_type) :: cmicc13				! 13C for microbial variables at columne level 
 end if
 
 if (use_c14) then
-type(column_microbe_type) :: cmicc14
+type(column_microbe_type) :: cmicc14				! 14C for microbial variables at columne level
 end if
 
 #endif
@@ -2508,6 +2507,12 @@ endif
 end type gridcell_microbe_type
 
 type(gridcell_microbe_type) :: gmic
+if(use_c13) then
+type(gridcell_microbe_type) :: gmicc13			! 13C isotope for methane module
+end if
+if(use_c14) then
+type(gridcell_microbe_type) :: gmicc14			! place holder ofr c14
+end if
 #endif
 
 !----------------------------------------------------
