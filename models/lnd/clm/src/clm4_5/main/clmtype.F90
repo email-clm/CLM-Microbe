@@ -1601,24 +1601,8 @@ type, public :: column_cstate_type
    real(r8), pointer :: anaerch4bio_col(:)		! (gC/m2) total column microbial biomass carbon in anaerobic methanotrophy
    real(r8), pointer :: ccon_ch4s_col(:)		! gC/m2 column-level concentration of CH4
    real(r8), pointer :: ccon_co2s_col(:)		! gC/m2 column-level concentration of CO2   
-
-if (use_c13) then
-   real(r8), pointer :: micbiohr_col_c13(:)		! (gC/m2) total column microbial respiration in 13C
-   real(r8), pointer :: micbioc_col_c13(:)			! (gC/m2) total column carbon in microbial biomass in 13C
-   real(r8), pointer :: doc_col_c13(:)			! (gC/m2) total column dissolved organic carbon in 13C
-   real(r8), pointer :: dochr_col_c13(:)			! (gC/m2) total column decomposition of dissolved organic carbon in 13C 
-   real(r8), pointer :: dochr_vr_c13(:,:)       		! vertically resoluved dissolved organic carbon in 13C
-   real(r8), pointer :: ace_col_c13(:)			! (gC/m2) total column carbon in acetate acid in 13C 
-   real(r8), pointer :: ace_prod_col_c13(:)		! (gC/m2) total column carbon in acetate acid in 13C 
-   real(r8), pointer :: acebios_col_c13(:)			! (gC/m2) total column microbial biomass carbon in methanogen based on acetate in 13C 
-   real(r8), pointer :: co2bio_col_c13(:)			! (gC/m2) total column microbial biomass carbon in methanogen based on CO2/H2 in 13C 
-   real(r8), pointer :: aerch4bio_col_c13(:)		! (gC/m2) total column microbial biomass carbon in aerobic methanotrophy in 13C 
-   real(r8), pointer :: anaerch4bio_col_c13(:)		! (gC/m2) total column microbial biomass carbon in anaerobic methanotrophy in 13C
-   real(r8), pointer :: ccon_ch4s_col_c13(:)		! gC/m2 column-level concentration of CH4 in 13C
-   real(r8), pointer :: ccon_co2s_col_c13(:)		! gC/m2 column-level concentration of CO2 in 13C   
-endif
-
 #endif  
+
 end type column_cstate_type
 
 type(column_cstate_type), target :: ccs      	!column carbon state
