@@ -872,6 +872,158 @@ end subroutine CIsoFlux3
 !-----------------------------------------------------------------------
 !BOP
 !
+! !IROUTINE: CIsoFlux4
+!
+! !INTERFACE:
+subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
+!
+! !DESCRIPTION:
+! On the radiation time step, set the carbon isotopic fluxes for methane module
+!
+! !USES:
+   use clmtype
+   use clm_varpar, only : max_pft_per_col
+
+!
+! !ARGUMENTS:
+   implicit none
+   integer, intent(in) :: num_soilc         ! number of soil columns filter
+   integer, intent(in) :: filter_soilc(:)   ! filter for soil columns
+   character(len=*), intent(in) :: isotope  ! 'c13' or 'c14'
+!
+! !CALLED FROM:
+! subroutine CNEcosystemDyn
+!
+! !REVISION HISTORY:
+!
+! !LOCAL VARIABLES:
+! !OTHER LOCAL VARIABLES:
+!   type(pft_type), pointer :: p
+   type(column_type), pointer :: c
+!   type(pft_cflux_type), pointer :: pcisof
+ !  type(pft_cstate_type), pointer :: pcisos
+   type(column_cflux_type), pointer :: ccisof
+   type(column_cstate_type), pointer :: ccisos
+   integer :: fp,pi,l,pp
+   integer :: fc,cc,j
+!   real(r8), pointer :: ptrp(:)         ! pointer to input pft array
+!   real(r8), pointer :: ptrc(:)         ! pointer to output column array
+
+!   real(r8), pointer :: croot_prof(:,:) ! (1/m) profile of coarse roots
+!   real(r8), pointer :: stem_prof(:,:)  ! (1/m) profile of stems
+!   integer , pointer :: npfts(:)        ! number of pfts for each column
+!   integer , pointer :: pfti(:)         ! beginning pft index for each column
+!   real(r8), pointer :: wtcol(:)        ! weight (relative to column) for this pft (0-1)
+!   logical , pointer :: pactive(:)      ! true=>do computations on this pft (see reweightMod for details)
+
+
+!
+!EOP
+!-----------------------------------------------------------------------
+	! set local pointers
+   p => pft
+   c => col
+   select case (isotope)
+   case ('c14')
+      pcisof =>  pc14f
+      pcisos =>  pc14s
+      ccisof =>  cc14f
+      ccisos =>  cc14s
+   case ('c13')
+      pcisof =>  pc13f
+      pcisos =>  pc13s
+      ccisof =>  cc13f
+      ccisos =>  cc13s
+   case default
+      call endrun('CNCIsoFluxMod: iso must be either c13 or c14')
+   end select
+   croot_prof                     => pps%croot_prof
+   stem_prof                      => pps%stem_prof
+   npfts                          =>col%npfts
+   pfti                           =>col%pfti
+   wtcol                          =>pft%wtcol
+   pactive                        => pft%active
+
+	
+   ! pft-level fire mortality fluxes
+   
+   call CIsoFluxCalc(pcisof%m_leafc_to_fire, pcf%m_leafc_to_fire, &
+                     pcisos%leafc, pcs%leafc, &
+                     num_soilp, filter_soilp, 1._r8, 0, isotope)
+   
+   call CIsoFluxCalc(pcisof%m_leafc_storage_to_fire, pcf%m_leafc_storage_to_fire, &
+                     pcisos%leafc_storage, pcs%leafc_storage, &
+                     num_soilp, filter_soilp, 1._r8, 0, isotope)
+   
+   call CIsoFluxCalc(pcisof%m_leafc_xfer_to_fire, pcf%m_leafc_xfer_to_fire, &
+                     pcisos%leafc_xfer, pcs%leafc_xfer, &
+                     num_soilp, filter_soilp, 1._r8, 0, isotope)
+   
+   call CIsoFluxCalc(pcisof%m_frootc_to_fire, pcf%m_frootc_to_fire, &
+                     pcisos%frootc, pcs%frootc, &
+                     num_soilp, filter_soilp, 1._r8, 0, isotope)
+   
+   call CIsoFluxCalc(pcisof%m_frootc_storage_to_fire, pcf%m_frootc_storage_to_fire, &
+                     pcisos%frootc_storage, pcs%frootc_storage, &
+                     num_soilp, filter_soilp, 1._r8, 0, isotope)
+   
+   call CIsoFluxCalc(pcisof%m_frootc_xfer_to_fire, pcf%m_frootc_xfer_to_fire, &
+                     pcisos%frootc_xfer, pcs%frootc_xfer, &
+                     num_soilp, filter_soilp, 1._r8, 0, isotope)
+   
+   call CIsoFluxCalc(pcisof%m_livestemc_to_fire, pcf%m_livestemc_to_fire, &
+                     pcisos%livestemc, pcs%livestemc, &
+                     num_soilp, filter_soilp, 1._r8, 0, isotope)
+   
+   call CIsoFluxCalc(pcisof%m_livestemc_storage_to_fire, pcf%m_livestemc_storage_to_fire, &
+                     pcisos%livestemc_storage, pcs%livestemc_storage, &
+                     num_soilp, filter_soilp, 1._r8, 0, isotope)
+   
+
+
+   
+   ! calculate the column-level flux of deadstem and deadcrootc to cwdc as the result of fire mortality.
+   do pi = 1,max_pft_per_col
+      do fc = 1,num_soilc
+         cc = filter_soilc(fc)
+         if ( pi <=  npfts(cc) ) then
+            pp = pfti(cc) + pi - 1
+            if (pactive(pp)) then
+               do j = 1, nlevdecomp
+                  !ccisof%fire_mortality_c_to_cwdc(cc,j) = ccisof%fire_mortality_c_to_cwdc(cc,j) + &
+                  !     pcisof%m_deadstemc_to_litter_fire(pp) * wtcol(pp) * stem_prof(pp,j)
+                  !ccisof%fire_mortality_c_to_cwdc(cc,j) = ccisof%fire_mortality_c_to_cwdc(cc,j) + &
+                  !     pcisof%m_deadcrootc_to_litter_fire(pp) * wtcol(pp) * croot_prof(pp,j)
+               end do
+            end if
+         end if
+      end do
+   end do
+
+
+   do fc = 1,num_soilc
+      cc = filter_soilc(fc)
+      do j = 1, nlevdecomp
+         do l = 1, ndecomp_pools
+            if ( ccs%decomp_cpools_vr(cc,j,l) /= 0._r8) then
+               !ccisof%m_decomp_cpools_to_fire_vr(cc,j,l)  =  ccf%m_decomp_cpools_to_fire_vr(cc,j,l) * &
+               !     (ccisos%decomp_cpools_vr(cc,j,l) / ccs%decomp_cpools_vr(cc,j,l)) * 1._r8
+            else
+               !ccisof%m_decomp_cpools_to_fire_vr(cc,j,l) = 0._r8
+            end if
+         end do
+      end do
+   end do
+
+
+                    
+end subroutine CIsoFlux4
+!-----------------------------------------------------------------------
+
+
+!-----------------------------------------------------------------------
+!BOP
+!
 ! !IROUTINE: CNCIsoLitterToColumn
 !
 ! !INTERFACE:

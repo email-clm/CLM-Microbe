@@ -898,7 +898,7 @@ subroutine CNiniTimeVar()
             leafc_storage(p) = 0._r8
          else
             if (evergreen(ivt(p)) == 1._r8) then
-               leafc(p) = 10._r8
+               leafc(p) = 50._r8
                leafc_storage(p) = 0._r8
             else if (ivt(p) >= npcropmin) then ! prognostic crop types
                leafc(p) = 0._r8

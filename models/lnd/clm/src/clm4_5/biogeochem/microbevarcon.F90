@@ -35,7 +35,7 @@ module microbevarcon
   real(r8), PARAMETER :: Mmmin = 0.1
   real(r8), PARAMETER :: MFGbiomin = 1e-15
 
-  integer, parameter :: nummicrobepar = 103
+  integer, parameter :: nummicrobepar = 110
   real(r8) :: q10ch4base = 295._r8  ! Rough estimate from comparison between Walter and previous CLM-CH4 data
   ! Uses Michigan bog data from Shannon & White
   ! This is the temperature at which the effective f_ch4 actually equals the constant f_ch4.
@@ -174,7 +174,7 @@ module microbevarcon
   real(r8) :: atmo2 = 209460e-6_r8    ! Atmospheric CH4 mixing ratio to prescribe if not provided by the atmospheric model
   real(r8) :: atmco2 = 397e-6_r8    ! Atmospheric CH4 mixing ratio to prescribe if not provided by the atmospheric model
   real(r8) :: atmh2 = 0.55e-6_r8    ! Atmospheric CH4 mixing ratio to prescribe if not provided by the atmospheric model
-  
+
   real(r8) :: plant2doc = 0.2             ! fraction of litter decomposition to available carbon
   real(r8) :: som2doc = 0.05          ! fraction of soil organic matter decomposition to available carbon
 
@@ -229,6 +229,16 @@ module microbevarcon
 	! not in the parameter file
 	real(r8) :: m_dPlantTrans = 0.68 / 48.0
 	real(r8) :: g_dMaxH2inWater = 4.73e-4
+	
+	!Penning, H., P. Claus, P. Casper, and R. Conrad. 2006. Carbon isotope fractionation during acetoclastic methanogenesis by Methanosaeta concilii in culture and a lake sediment. 
+	! Applied and Environmental Microbiology 72:5648-5652.
+	real(r8) :: frac_doc = 1.0			! fractionation factor for DOC production
+	real(r8) :: frac_ace = 1.0			! fractionation factor for acetate production
+	real(r8) :: frac_acch4 = 1.0		! fractionation factor for aceclatic methanogenesis
+	real(r8) :: frac_hych4 = 1.0		! fractionation factor for hydrogenotrophic methanogenesis
+ 	real(r8) :: frac_acetogenesis = 1.0	! fractionation factor for acetogenesis
+	real(r8) :: frac_ch4ox = 1.0		! fractionation factor for methanotrophy
+ 	real(r8) :: frac_ch4aom = 1.0		! fractionation factor for anaerobic oxidation of methane
   
 	real(r8) :: pHmin = 4.0
 	real(r8) :: pHmax = 10.
@@ -307,7 +317,7 @@ contains
     integer :: ierr                 ! error code
     integer :: unitn                ! unit for namelist file
     character(len=40) :: ch4parname(nummicrobepar)  ! subroutine name
-character(LEN=256)::locfn='./microbepar_in'
+    character(LEN=256)::locfn='./microbepar_in'
 !-----------------------------------------------------------------------
 
 real(r8)::dummy(nummicrobepar)
@@ -414,6 +424,15 @@ q10ch4base                         = dummy(i); i=i+1
 	m_dAirH2 = dummy(i); i=i+1
 	m_dAirO2 = dummy(i); i=i+1
 	m_dAirCO2 = dummy(i); i=i+1
+	
+	frac_doc = dummy(i); i=i+1	
+	frac_ace = dummy(i); i=i+1	
+	frac_acch4 = dummy(i); i=i+1	
+	frac_hych4 = dummy(i); i=i+1		
+	frac_acetogenesis = dummy(i); i=i+1		
+	frac_ch4ox = dummy(i); i=i+1		
+	frac_ch4aom = dummy(i); i=i+1		
+	
 	k_dom = dummy(i); i=i+1
 	k_bacteria = dummy(i); i=i+1
 	k_fungi = dummy(i); i=i+1
@@ -528,6 +547,15 @@ end if
     call mpi_bcast (m_dAirH2, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (m_dAirO2, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (m_dAirCO2, 1 , MPI_REAL8, 0, mpicom, ierr)
+ 
+    call mpi_bcast (frac_doc, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (frac_ace, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (frac_acch4, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (frac_hych4, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (frac_acetogenesis, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (frac_ch4ox, 1 , MPI_REAL8, 0, mpicom, ierr)
+    call mpi_bcast (frac_ch4aom, 1 , MPI_REAL8, 0, mpicom, ierr)
+    	
     call mpi_bcast (k_dom, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (k_bacteria, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (k_fungi, 1 , MPI_REAL8, 0, mpicom, ierr)
@@ -643,6 +671,15 @@ end if
 	write(iulog,*)'m_dAirH2 = ', m_dAirH2
 	write(iulog,*)'m_dAirO2 = ', m_dAirO2
 	write(iulog,*)'m_dAirCO2 = ', m_dAirCO2
+	
+	write(iulog,*)'frac_doc = ', frac_doc
+	write(iulog,*)'frac_ace = ', frac_ace
+	write(iulog,*)'frac_acch4 = ', frac_acch4
+	write(iulog,*)'frac_hych4 = ', frac_hych4
+	write(iulog,*)'frac_acetogenesis = ', frac_acetogenesis
+	write(iulog,*)'frac_ch4ox = ', frac_ch4ox
+	write(iulog,*)'frac_ch4aom = ', frac_ch4aom
+	
 	write(iulog,*)'k_dom = ', k_dom
 	write(iulog,*)'k_bacteria = ', k_bacteria
 	write(iulog,*)'k_fungi = ', k_fungi

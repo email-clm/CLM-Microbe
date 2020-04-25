@@ -264,18 +264,18 @@ module clm_varcon
 #endif
 
 #ifdef MICROBE
-  real(r8) :: c_h_inv(ngases)    ! http://www.mpch-mainz.mpg.de/~sander/res/henry.html
-					! Compilation of Henry’s Law Constants for Inorganic and Organic Species of Potential Importance in Environmental Chemistry
+  real(r8) :: c_h_inv(ngases)    	! http://www.mpch-mainz.mpg.de/~sander/res/henry.html
+							! Compilation of Henry’s Law Constants for Inorganic and Organic Species of Potential Importance in Environmental Chemistry
   data c_h_inv(1:8) /1600._r8, 1500._r8, 2400._r8, 500._r8, 1700._r8, 2600._r8, 4100._r8, 1300._r8/ ! CH4, O2, CO2, H2, NO, N2O, NH3, N2
-  real(r8) :: kh_theta(ngases)    ! Henry's constant (L.atm/mol) at standard temperature (298K)
+  real(r8) :: kh_theta(ngases)    	! Henry's constant (L.atm/mol) at standard temperature (298K)
   data kh_theta(1:8) /714.29_r8, 769.23_r8, 29.4_r8, 1282.1_r8, 555.6_r8, 42.7_r8, 0.02_r8, 1538.5_r8/ ! CH4, O2, CO2, H2, NO, N2O, NH3, N2
-  real(r8) :: kh_tbase = 298._r8 ! base temperature for calculation of Henry's constant (K)
+  real(r8) :: kh_tbase = 298._r8 	! base temperature for calculation of Henry's constant (K)
 #else
-  real(r8) :: c_h_inv(ngases)    ! constant (K) for Henry's law (4.12, Wania)
+  real(r8) :: c_h_inv(ngases)   		! constant (K) for Henry's law (4.12, Wania)
   data c_h_inv(1:3) /1600._r8, 1500._r8, 2400._r8/ ! CH4, O2, CO2
-  real(r8) :: kh_theta(ngases)    ! Henry's constant (L.atm/mol) at standard temperature (298K)
+  real(r8) :: kh_theta(ngases)    	! Henry's constant (L.atm/mol) at standard temperature (298K)
   data kh_theta(1:3) /714.29_r8, 769.23_r8, 29.4_r8/ ! CH4, O2, CO2
-  real(r8) :: kh_tbase = 298._r8 ! base temperature for calculation of Henry's constant (K)
+  real(r8) :: kh_tbase = 298._r8 	! base temperature for calculation of Henry's constant (K)
 #endif
   
 ! !PUBLIC MEMBER FUNCTIONS:
