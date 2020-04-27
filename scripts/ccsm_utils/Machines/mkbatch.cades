@@ -33,15 +33,13 @@ endif
 
 cat >! $file << EOF1
 #!/bin/csh -f
-#PBS -N ${jobname}
-#PBS -q batch
-#PBS -l nodes=${mppnodes}:ppn=$ppn
-#PBS -l walltime=${walltime}
-#PBS -j oe
-#PBS -S /bin/csh -V
-#PBS -W group_list=cades-ccsi
-#PBS -A ccsi
-#PBS -l qos=std
+#SBATCH -J ${jobname}
+#SBATCH -p burst
+#SBATCH -N ${mppnodes}
+#SBATCH --ntasks-per-node=$ppn
+#SBATCH -t ${walltime}
+#SBATCH --mem=128G
+#SBATCH -A ccsi
 EOF1
 
 #################################################################################

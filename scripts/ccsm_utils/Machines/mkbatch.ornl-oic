@@ -42,7 +42,7 @@ cat >! $file << EOF1
 #PBS -r n
 #PBS -j oe
 #PBS -m abe
-#PBS -M xxu@mail.sdsu.edu
+#PBS -M xxu@sdsu.edu
 #PBS -S /bin/csh -V
 
 ##BSUB -l nodes=${nodes}:ppn=${taskpernode}:walltime=${tlimit}

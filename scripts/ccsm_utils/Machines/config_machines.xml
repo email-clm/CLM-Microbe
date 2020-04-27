@@ -71,15 +71,15 @@
          <MAX_TASKS_PER_NODE>32</MAX_TASKS_PER_NODE>
 </machine>
 
-<machine MACH="ornl-oic">
+<machine MACH="ubuntu">
          <DESC>ORNL XE6, os is Linux, 32 pes/node, batch system is PBS</DESC>
-         <COMPILERS>pgi</COMPILERS>
+         <COMPILERS>gnu</COMPILERS>
          <MPILIBS>mpich,mpi-serial</MPILIBS>
-         <RUNDIR>/home/u9x/output/$CASE/run</RUNDIR>
-         <EXEROOT>/home/u9x/output/$CASE</EXEROOT>
-         <DIN_LOC_ROOT>/home/u9x/ccsm_inputdata</DIN_LOC_ROOT>
-         <DIN_LOC_ROOT_CLMFORC>/home/u9x/ccsm_inputdata</DIN_LOC_ROOT_CLMFORC>
-         <DOUT_S_ROOT>/home/u9x/output</DOUT_S_ROOT>
+         <RUNDIR>/home/clm/CLM_SPRUCE/run/$CASE/run</RUNDIR>
+         <EXEROOT>/home/clm/CLM_SPRUCE/run/$CASE/bld</EXEROOT>
+         <DIN_LOC_ROOT>/home/clm/CLM_SPRUCE/inputdata</DIN_LOC_ROOT>
+         <DIN_LOC_ROOT_CLMFORC>/home/clm/CLM_SPURCE/inputdata</DIN_LOC_ROOT_CLMFORC>
+         <DOUT_S_ROOT>/home/clm/CLM_SPRUCE/run/archive</DOUT_S_ROOT>
          <OS>Linux</OS>
          <BATCHQUERY>qstat -f</BATCHQUERY>
          <BATCHSUBMIT>qsub</BATCHSUBMIT>
@@ -376,8 +376,8 @@
          <OS>LINUX</OS>
          <COMPILERS>pgi,gnu</COMPILERS>
          <MPILIBS>mpich,mpi-serial,openmpi</MPILIBS>
-         <RUNDIR>/home/$CCSMUSER/output/$CASE/run</RUNDIR>
-         <EXEROOT>/home/$CCSMUSER/output/$CASE/bld</EXEROOT>
+         <RUNDIR>/home/$CCSMUSER/models/CLM_SPRUCE/run/$CASE/run</RUNDIR>
+         <EXEROOT>/home/$CCSMUSER/models/CLM_SPRUCE/run/$CASE/bld</EXEROOT>
          <DIN_LOC_ROOT>/home/$CCSMUSER/ccsm_inputdata</DIN_LOC_ROOT>
          <DIN_LOC_ROOT_CLMFORC>/home/u9x/ccsm_inputdata/atm/datm7</DIN_LOC_ROOT_CLMFORC>
          <DOUT_S_ROOT>/home/$CCSMUSER/output/archive/$CASE</DOUT_S_ROOT>
@@ -392,11 +392,11 @@
          <OS>LINUX</OS>
          <COMPILERS>pgi,gnu</COMPILERS>
          <MPILIBS>mpich,mpi-serial,openmpi</MPILIBS>
-         <RUNDIR>/home/$CCSMUSER/models/clm4_5_06/run/$CASE/run</RUNDIR>
-         <EXEROOT>/home/$CCSMUSER/models/clm4_5_06/run/$CASE/bld</EXEROOT>
+         <RUNDIR>/home/$CCSMUSER/models/CLM_SPRUCE/run/$CASE/run</RUNDIR>
+         <EXEROOT>/home/$CCSMUSER/models/CLM_SPRUCE/run/$CASE/bld</EXEROOT>
          <DIN_LOC_ROOT>/home/$CCSMUSER/models/ccsm_inputdata</DIN_LOC_ROOT>
          <DIN_LOC_ROOT_CLMFORC>/home/$CCSMUSER/models/ccsm_inputdata/atm/datm7</DIN_LOC_ROOT_CLMFORC>
-         <DOUT_S_ROOT>/home/$CCSMUSER/models/clm4_5_06/run/archive/$CASE</DOUT_S_ROOT>
+         <DOUT_S_ROOT>/home/$CCSMUSER/models/CLM_SPRUCE/run/archive/$CASE</DOUT_S_ROOT>
          <DOUT_L_MSROOT>UNSET</DOUT_L_MSROOT>
          <BATCHQUERY>qstat</BATCHQUERY>
          <BATCHSUBMIT>qsub</BATCHSUBMIT>
@@ -407,7 +407,7 @@
    <!-- customize these fields as appropriate for your system (max tasks) and
                                       desired layout (change '${group}/${USER}' to your
         prefered location). -->
-      <DESC> OR-CONDO, CADES-CCSI, os is Linux, 32 pes/nodes, batch system is PBS</DESC>
+      <DESC> OR-CONDO, CADES-CCSI, os is Linux, 32 pes/nodes, batch system is SLURM</DESC>
       <OS>LINUX</OS>
       <COMPILERS>gnu,intel</COMPILERS>
       <MPILIBS>openmpi,mpi-serial</MPILIBS>
@@ -419,7 +419,7 @@
       <DOUT_L_MSROOT>csm/$CASE</DOUT_L_MSROOT>
       <CCSM_BASELINE>/lustre/or-hydra/cades-ccsi/proj-shared/project_acme/baselines</CCSM_BASELINE>
       <BATCHQUERY>qstat -f </BATCHQUERY>
-      <BATCHSUBMIT>qsub </BATCHSUBMIT>
+      <BATCHSUBMIT>sbatch </BATCHSUBMIT>
       <SUPPORTED_BY>Fengming Yuan</SUPPORTED_BY>
       <GMAKE_J>4</GMAKE_J>
       <MAX_TASKS_PER_NODE>32</MAX_TASKS_PER_NODE>

@@ -417,7 +417,13 @@ for mct, etc.
 
 <compiler COMPILER="gnu" MACH="yellowstone">
   <ADD_CPPDEFS> -DNO_MPIMOD </ADD_CPPDEFS>
-  <LAPACK_LIBDIR> /glade/apps/opt/lib </LAPACK_LIBDIR>
+  <LAPACK_LIBDIR> /usr/lib </LAPACK_LIBDIR>
+</compiler>
+
+<compiler COMPILER="gnu" MACH="ubuntu">
+  <LAPACK_LIBDIR>/usr/lib</LAPACK_LIBDIR>
+  <NETCDF_PATH>/usr</NETCDF_PATH>
+  <SLIBS> -L$(NETCDF_PATH)/lib -lnetcdf -lnetcdff </SLIBS>
 </compiler>
 
 <compiler COMPILER="cray" MACH="lynx">

@@ -1,0 +1,9 @@
+npop        = 128                        !number of particles
+niter       = 200                       !number of iterations
+beta_l      = 0.4d0                     !Lowest for beta
+beta_u      = 0.7d0                     !Highest for beta
+restart     = .false.                   !Is a restart run
+machine     = cades                     !Fill in correct machine and uncomment this line
+case        = BIOM_T0.00_US-SPR_I20TRCLM45CN   !Name of case directory
+parm_list   = parm_list_biomass       !File containing parameter names and ranges
+constraints = constraints_biomass      !Directory containing constraints files

@@ -65,12 +65,12 @@ setenv BLAS_LIBDIR /software/tools/spack/opt/spack/linux-x86_64/gcc-5.3.0/netlib
 
 # CMake is required for building PIO
 #module load linux-x86_64/cmake@3.4.0%gcc@5.3.0+ncurses-sr4jjqc
-module load cmake/3.6.1
+module load cmake/3.12.0
 
 # for PFLOTRAN
 setenv PETSC_DIR $USER_SOFTWARES/petsc4pf/openmpi-1.10.2-gcc-5.3
 setenv PETSC_ARCH arch-orcondo-openmpi-gcc53-debug
-
+#setenv PERL5LIB /software/user_tools/current/cades-ccsi/perl5/lib/perl5/
 setenv PETSC_LIB ${PETSC_DIR}/lib
 
 #-------------------------------------------------------------------------------
