@@ -73,7 +73,14 @@ m_dCH4min 		0.05
 m_dAirCH4  		0.0893 
 m_dAirH2    		0.0257 
 m_dAirO2    		9.375e3 
-m_dAirCO2    		16.295 
+m_dAirCO2    		16.295
+frac_doc			1.0
+frac_ace			1.0
+frac_acch4			1.0
+frac_hych4		1.0
+frac_acetogenesis	1.0
+frac_ch4ox		1.0
+frac_ch4aom		1.0
 k_dom			0.007
 k_bacteria		0.22
 k_fungi			0.22
