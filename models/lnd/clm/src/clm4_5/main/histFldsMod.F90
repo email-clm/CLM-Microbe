@@ -2052,7 +2052,605 @@ contains
     call hist_addfld2d (fname='H2_EBUL_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
          avgflag='A', long_name='ebullisive h2 transport along depth in saturated fraction', &
          ptr_col=cmic%h2_ebul_depth_sat)
+
+if(use_c13) then
+!   call hist_addfld2d (fname='C13_CMICBIOCS', units='gc/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column level microbial biomass carbon C13', &
+!         ptr_col=cmicc13%cmicbiocs)
+ 
+!    call hist_addfld2d (fname='C13_CACEBIOS', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column level biomass of acetotrophic methanogens', &
+!         ptr_col=cmicc13%cacebios)
+!    call hist_addfld2d (fname='C13_CACEBIOS_UNSAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of acetotrophic methanogens in unsaturated fraction', &
+!         ptr_col=cmicc13%cacebios_unsat)
+!    call hist_addfld2d (fname='C13_CACEBIOS_SAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of acetotrophic methanogens in saturated fraction', &
+!         ptr_col=cmicc13%cacebios_sat)
+
+!    call hist_addfld2d (fname='C13_CCO2BIOS', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of hydrogenotrophic methanogens', &
+!         ptr_col=cmicc13%cco2bios)
+!    call hist_addfld2d (fname='C13_CCO2BIOS_UNSAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of hydrogenotrophic methanogens in unsaturated fraction', &
+!         ptr_col=cmicc13%cco2bios_unsat)
+!    call hist_addfld2d (fname='C13_CCO2BIOS_SAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of hydrogenotrophic methanogens in saturated fraction', &
+!         ptr_col=cmicc13%cco2bios_sat)
+
+!    call hist_addfld2d (fname='C13_CAERCH4BIOS', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of aerobic methanotrophs', &
+!         ptr_col=cmicc13%caerch4bios)
+!    call hist_addfld2d (fname='C13_CAERCH4BIOS_UNSAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of aerobic methanotrophs in unsaturated fraction', &
+!         ptr_col=cmicc13%caerch4bios_unsat)
+!    call hist_addfld2d (fname='C13_CAERCH4BIOS_SAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of aerobic methanotrophs in saturated fraction', &
+!         ptr_col=cmicc13%caerch4bios_sat)
 	 
+!    call hist_addfld2d (fname='C13_CANAERCH4BIOS', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of anaerobic methanotrophs', &
+!         ptr_col=cmicc13%canaerch4bios)
+!    call hist_addfld2d (fname='C13_CANAERCH4BIOS_UNSAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of anaerobic methanotrophs in unsaturated fraction', &
+!         ptr_col=cmicc13%canaerch4bios_unsat)
+!    call hist_addfld2d (fname='C13_CANAERCH4BIOS_SAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of anaerobic methanotrophs in saturated fraction', &
+!         ptr_col=cmicc13%canaerch4bios_sat)
+
+    call hist_addfld2d (fname='C13_CDOCS', units='gc/m3', type2d='levgrnd', &
+         avgflag='A', long_name='dissolved organic carbon', &
+         ptr_col=cmicc13%cdocs) 
+!    call hist_addfld2d (fname='C13_CDOCS_UNSAT', units='gc/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='dissolved organic carbon in unsaturated fraction', &
+!         ptr_col=cmicc13%cdocs_unsat) 
+!    call hist_addfld2d (fname='C13_CDOCS_SAT', units='gc/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='dissolved organic carbon in saturated fraction', &
+!         ptr_col=cmicc13%cdocs_sat) 
+	 
+    call hist_addfld2d (fname='C13_CACES', units='molC/m3', type2d='levgrnd', &
+         avgflag='A', long_name='available acetic acid', &
+         ptr_col=cmicc13%caces) 
+!    call hist_addfld2d (fname='C13_CACES_UNSAT', units='molC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='available acetic acid in unsaturated fraction', &
+!         ptr_col=cmicc13%caces_unsat) 
+!    call hist_addfld2d (fname='C13_CACES_SAT', units='molC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='available acetic acid in saturated fraction', &
+!         ptr_col=cmicc13%caces_sat) 
+
+    call hist_addfld1d (fname='C13_CH4_SURF_AERE', units='mol/m2/s',  &
+         avgflag='A', long_name='plant-mediated transport of CH4 flux for inundated area; (+ to atm)', &
+         ptr_col=cmicc13%ch4_surf_aere)
+!    call hist_addfld1d (fname='C13_CH4_SURF_AERE_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='aerenchyma surface CH4 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%ch4_surf_aere_sat)
+!    call hist_addfld1d (fname='C13_CH4_SURF_AERE_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='aerenchyma surface CH4 flux for non-inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%ch4_surf_aere_unsat)
+	 
+    call hist_addfld1d (fname='C13_CH4_SURF_EBUL', units='mol/m2/s',  &
+         avgflag='A', long_name='ebulition effluex of CH4 from inundated area; (+ to atm)', &
+         ptr_col=cmicc13%ch4_surf_ebul)
+!    call hist_addfld1d (fname='C13_CH4_SURF_EBUL_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='ebullition surface CH4 flux; (+ to atm)', &
+!         ptr_col=cmicc13%ch4_surf_ebul_sat)
+!   call hist_addfld1d (fname='C13_CH4_SURF_EBUL_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='ebullition surface CH4 flux; (+ to atm)', &
+!         ptr_col=cmicc13%ch4_surf_ebul_unsat)
+	 
+    call hist_addfld1d (fname='C13_CH4_SURF_DIFF', units='mol/m2/s',  &
+         avgflag='A', long_name='diffusive surface CH4 flux for inundated / lake area; (+ to atm)', &
+         ptr_col=cmicc13%ch4_surf_dif)
+!    call hist_addfld1d (fname='C13_CH4_SURF_DIF_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='diffusive surface CH4 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%ch4_surf_dif_sat)
+!    call hist_addfld1d (fname='C13_CH4_SURF_DIF_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='diffusive surface CH4 flux for non-inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%ch4_surf_dif_unsat)
+	 
+    call hist_addfld1d (fname='C13_CH4_SURF_NETFLUX', units='mol/m2/s',  &
+         avgflag='A', long_name='net flux of ch4; (+ to atm)', &
+         ptr_col=cmicc13%ch4_surf_netflux)
+!    call hist_addfld1d (fname='C13_CH4_SURF_NETFLUX_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='net flux of surface CH4 flux for inundated ; (+ to atm)', &
+!         ptr_col=cmicc13%ch4_surf_netflux_sat)
+!    call hist_addfld1d (fname='C13_CH4_SURF_NETFLUX_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='net flux of surface CH4 flux for non-inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%ch4_surf_netflux_unsat)
+	 
+!    call hist_addfld1d (fname='C13_CO2_SURF_AERE', units='mol/m2/s',  &
+!         avgflag='A', long_name='plant-mediated transport of CO2 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%co2_surf_aere)
+!    call hist_addfld1d (fname='C13_CO2_SURF_AERE_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='plant-mediated transport of CO2 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%co2_surf_aere_unsat)
+!    call hist_addfld1d (fname='C13_CO2_SURF_AERE_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='plant-mediated transport of CO2 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%co2_surf_aere_sat)
+	 
+!    call hist_addfld1d (fname='C13_CO2_SURF_EBUL', units='mol/m2/s',  &
+!         avgflag='A', long_name='ebulition effluex of CO2 from inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%co2_surf_ebul)
+	 
+!    call hist_addfld1d (fname='C13_CO2_SURF_DIFF', units='mol/m2/s',  &
+!         avgflag='A', long_name='diffusive surface CO2 flux for inundated / lake area; (+ to atm)', &
+!         ptr_col=cmicc13%co2_surf_dif)
+	 
+!    call hist_addfld1d (fname='C13_CO2_SURF_NETFLUX', units='mol/m2/s',  &
+!         avgflag='A', long_name='net flux of CO2 inundated area; (+ to atm)', &
+!         ptr_col=cmicc13%co2_surf_netflux)
+
+    call hist_addfld2d (fname='C13_CACES_PROD', units='molC/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='available acetic acid production rate', &
+         ptr_col=cmicc13%caces_prod) 
+!    call hist_addfld2d (fname='C13_CACES_UNSAT_PROD', units='molC/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name=' production rate of available acetic acid in unsaturated fraction', &
+!         ptr_col=cmicc13%caces_unsat_prod) 
+!    call hist_addfld2d (fname='C13_CACES_SAT_PROD', units='molC/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name=' production rate of available acetic acid in saturated fraction', &
+!         ptr_col=cmicc13%caces_sat_prod) 
+
+    call hist_addfld2d (fname='C13_CACES_PROD_H2', units='molC/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='acetogenesis production rate', &
+         ptr_col=cmicc13%caces_prod_h2) 
+!    call hist_addfld2d (fname='C13_CACES_UNSAT_PROD_H2', units='molC/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name=' acetogenesis in unsaturated fraction', &
+!         ptr_col=cmicc13%caces_unsat_prod_h2) 
+!    call hist_addfld2d (fname='C13_CACES_SAT_PROD_H2', units='molC/m3/s', type2d='levgrnd', &
+!        avgflag='A', long_name=' acetogenesis in saturated fraction', &
+!         ptr_col=cmicc13%caces_sat_prod_h2) 
+
+    call hist_addfld2d (fname='C13_CCON_CH4S', units='gC/m3', type2d='levgrnd', &
+         avgflag='A', long_name='column ch4 concentration', &
+         ptr_col=cmicc13%ccon_ch4s)
+!    call hist_addfld2d (fname='C13_CCON_CH4S_UNSAT', units='gC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 concentration in unsaturated fraction', &
+!         ptr_col=cmicc13%ccon_ch4s_unsat)
+!    call hist_addfld2d (fname='C13_CCON_CH4S_SAT', units='gC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 concentration in saturated fraction', &
+!         ptr_col=cmicc13%ccon_ch4s_sat)
+ 
+    call hist_addfld2d (fname='C13_CCON_CO2S', units='gC/m3', type2d='levgrnd', &
+         avgflag='A', long_name='column co2 concentration', &
+         ptr_col=cmicc13%ccon_co2s)
+!    call hist_addfld2d (fname='C13_CCON_CO2S_UNSAT', units='gC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column co2 concentration in unsaturated fraction', &
+!         ptr_col=cmicc13%ccon_co2s_unsat)
+!    call hist_addfld2d (fname='C13_CCON_CO2S_SAT', units='gC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column co2 concentration in saturated fraction', &
+!         ptr_col=cmicc13%ccon_co2s_sat)
+	 
+    call hist_addfld2d (fname='C13_CH4_PROD_ACE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column ch4 production from acetate acid', &
+         ptr_col=cmicc13%ch4_prod_ace_depth)
+!    call hist_addfld2d (fname='C13_CH4_PROD_ACE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 production from acetate acid in unsaturated fraction', &
+!         ptr_col=cmicc13%ch4_prod_ace_depth_unsat)
+!    call hist_addfld2d (fname='C13_CH4_PROD_ACE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 production from acetate acid in saturated fraction', &
+!         ptr_col=cmicc13%ch4_prod_ace_depth_sat)
+	 
+    call hist_addfld2d (fname='C13_CH4_PROD_CO2_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column ch4 production from co2 + h2', &
+         ptr_col=cmicc13%ch4_prod_co2_depth)
+!    call hist_addfld2d (fname='C13_CH4_PROD_CO2_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 production from co2 + h2 in saturated fraction', &
+!         ptr_col=cmicc13%ch4_prod_co2_depth_unsat)
+!    call hist_addfld2d (fname='C13_CH4_PROD_CO2_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 production from co2 + h2 in saturated fraction', &
+!         ptr_col=cmicc13%ch4_prod_co2_depth_sat)
+	 
+    call hist_addfld2d (fname='C13_CH4_OXID_O2_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column aerobic ch4 oxidation in saturated fraction', &
+         ptr_col=cmicc13%ch4_oxid_o2_depth)
+!    call hist_addfld2d (fname='C13_CH4_OXID_O2_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column aerobic ch4 oxidation in saturated fraction', &
+!         ptr_col=cmicc13%ch4_oxid_o2_depth_unsat)
+!    call hist_addfld2d (fname='C13_CH4_OXID_O2_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column aerobic ch4 oxidation in saturated fraction', &
+!         ptr_col=cmicc13%ch4_oxid_o2_depth_sat)
+
+    call hist_addfld2d (fname='C13_CH4_OXID_AOM_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column anaerobic ch4 oxidation', &
+         ptr_col=cmicc13%ch4_oxid_aom_depth)
+!    call hist_addfld2d (fname='C13_CH4_OXID_AOM_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column anaerobic ch4 oxidation in saturated fraction', &
+!         ptr_col=cmicc13%ch4_oxid_aom_depth_unsat)
+!    call hist_addfld2d (fname='C13_CH4_OXID_AOM_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column anaerobic ch4 oxidation in saturated fraction', &
+!         ptr_col=cmicc13%ch4_oxid_aom_depth_sat)
+
+    call hist_addfld2d (fname='C13_CH4_AERE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='plant-mediated ch4 transport along depth', &
+         ptr_col=cmicc13%ch4_aere_depth)
+!    call hist_addfld2d (fname='C13_CH4_AERE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='plant-mediated ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%ch4_aere_depth_unsat)
+!    call hist_addfld2d (fname='C13_CH4_AERE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='plant-mediated ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%ch4_aere_depth_sat)
+
+    call hist_addfld2d (fname='C13_CH4_DIF_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='diffusive ch4 transport along depth', &
+         ptr_col=cmicc13%ch4_dif_depth) 
+!    call hist_addfld2d (fname='C13_CH4_DIF_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='diffusive ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%ch4_dif_depth_unsat) 
+!    call hist_addfld2d (fname='C13_CH4_DIF_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='diffusive ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%ch4_dif_depth_sat) 
+
+    call hist_addfld2d (fname='C13_CH4_EBUL_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='ebullitive ch4 transport along depth', &
+         ptr_col=cmicc13%ch4_ebul_depth)
+!    call hist_addfld2d (fname='C13_CH4_EBUL_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='ebullitive ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%ch4_ebul_depth_unsat)
+!    call hist_addfld2d (fname='C13_CH4_EBUL_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='ebullitive ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%ch4_ebul_depth_sat)
+
+!    call hist_addfld2d (fname='C13_CO2_PROD_ACE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production from acetate along depth', &
+!         ptr_col=cmicc13%co2_prod_ace_depth)
+!    call hist_addfld2d (fname='C13_CO2_PROD_ACE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production from acetate along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_prod_ace_depth_unsat)
+!    call hist_addfld2d (fname='C13_CO2_PROD_ACE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production from acetate along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_prod_ace_depth_sat)
+	 
+    call hist_addfld2d (fname='C13_CO2_DECOMP_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='co2 production of som decomposition along depth', &
+         ptr_col=cmicc13%co2_decomp_depth)
+!    call hist_addfld2d (fname='C13_CO2_DECOMP_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production of som decomposition along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_decomp_depth_unsat)
+!    call hist_addfld2d (fname='C13_CO2_DECOMP_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production of som decomposition along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_decomp_depth_sat)	 
+	 
+    call hist_addfld2d (fname='C13_CO2_CONS_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column co2 consumption along depth', &
+         ptr_col=cmicc13%co2_cons_depth)	 
+!    call hist_addfld2d (fname='C13_CO2_CONS_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column co2 consumption along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_cons_depth_unsat)	
+!    call hist_addfld2d (fname='C13_CO2_CONS_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column co2 consumption along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_cons_depth_sat)	
+	 
+!    call hist_addfld2d (fname='C13_CO2_EBUL_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='ebullisive co2 transport along depth', &
+!         ptr_col=cmicc13%co2_ebul_depth)
+!    call hist_addfld2d (fname='C13_CO2_EBUL_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='ebullisive co2 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_ebul_depth_unsat)
+!    call hist_addfld2d (fname='C13_CO2_EBUL_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='ebullisive co2 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_ebul_depth_sat)
+	 
+!    call hist_addfld2d (fname='C13_CO2_AERE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column plant-mediated transport of co2 along depth', &
+!         ptr_col=cmicc13%co2_aere_depth)
+!    call hist_addfld2d (fname='C13_CO2_AERE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column plant-mediated transport of co2 along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_aere_depth_unsat)
+!    call hist_addfld2d (fname='C13_CO2_AERE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column plant-mediated transport of co2 along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_aere_depth_sat)
+
+!    call hist_addfld2d (fname='C13_CO2_DIFF_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='diffusive co2 transport along depth', &
+!         ptr_col=cmicc13%co2_dif_depth)
+!    call hist_addfld2d (fname='C13_CO2_DIFF_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='diffusive co2 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_dif_depth_unsat)
+!    call hist_addfld2d (fname='C13_CO2_DIFF_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='diffusive co2 transport along depth in saturated fraction', &
+!         ptr_col=cmicc13%co2_dif_depth_sat)
+end if
+
+if(use_c14) then
+! Xiaofeng blocked all C13 and C14 output for unsatured and satured column, the whole column variabels were writted to files
+! 5/2/2020
+   call hist_addfld2d (fname='C14_CMICBIOCS', units='gc/m3', type2d='levgrnd', &
+         avgflag='A', long_name='column level microbial biomass carbon C14', &
+         ptr_col=cmicc14%cmicbiocs)
+ 
+!    call hist_addfld2d (fname='C14_CACEBIOS', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column level biomass of acetotrophic methanogens', &
+!         ptr_col=cmicc14%cacebios)
+!    call hist_addfld2d (fname='C14_CACEBIOS_UNSAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of acetotrophic methanogens in unsaturated fraction', &
+!         ptr_col=cmicc14%cacebios_unsat)
+!    call hist_addfld2d (fname='C14_CACEBIOS_SAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of acetotrophic methanogens in saturated fraction', &
+!         ptr_col=cmicc14%cacebios_sat)
+
+!    call hist_addfld2d (fname='C14_CCO2BIOS', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of hydrogenotrophic methanogens', &
+!         ptr_col=cmicc14%cco2bios)
+!    call hist_addfld2d (fname='C14_CCO2BIOS_UNSAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of hydrogenotrophic methanogens in unsaturated fraction', &
+!         ptr_col=cmicc14%cco2bios_unsat)
+!    call hist_addfld2d (fname='C14_CCO2BIOS_SAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of hydrogenotrophic methanogens in saturated fraction', &
+!         ptr_col=cmicc14%cco2bios_sat)
+
+!    call hist_addfld2d (fname='C14_CAERCH4BIOS', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of aerobic methanotrophs', &
+!         ptr_col=cmicc14%caerch4bios)
+!    call hist_addfld2d (fname='C14_CAERCH4BIOS_UNSAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of aerobic methanotrophs in unsaturated fraction', &
+!         ptr_col=cmicc14%caerch4bios_unsat)
+!    call hist_addfld2d (fname='C14_CAERCH4BIOS_SAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of aerobic methanotrophs in saturated fraction', &
+!         ptr_col=cmicc14%caerch4bios_sat)
+	 
+!    call hist_addfld2d (fname='C14_CANAERCH4BIOS', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of anaerobic methanotrophs', &
+!         ptr_col=cmicc14%canaerch4bios)
+!    call hist_addfld2d (fname='C14_CANAERCH4BIOS_UNSAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of anaerobic methanotrophs in unsaturated fraction', &
+!         ptr_col=cmicc14%canaerch4bios_unsat)
+!    call hist_addfld2d (fname='C14_CANAERCH4BIOS_SAT', units='mol/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='biomass of anaerobic methanotrophs in saturated fraction', &
+!         ptr_col=cmicc14%canaerch4bios_sat)
+
+    call hist_addfld2d (fname='C14_CDOCS', units='gc/m3', type2d='levgrnd', &
+         avgflag='A', long_name='dissolved organic carbon', &
+         ptr_col=cmicc14%cdocs) 
+!    call hist_addfld2d (fname='C14_CDOCS_UNSAT', units='gc/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='dissolved organic carbon in unsaturated fraction', &
+!         ptr_col=cmicc14%cdocs_unsat) 
+!    call hist_addfld2d (fname='C14_CDOCS_SAT', units='gc/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='dissolved organic carbon in saturated fraction', &
+!         ptr_col=cmicc14%cdocs_sat) 
+	 
+    call hist_addfld2d (fname='C14_CACES', units='molC/m3', type2d='levgrnd', &
+         avgflag='A', long_name='available acetic acid', &
+         ptr_col=cmicc14%caces) 
+!    call hist_addfld2d (fname='C14_CACES_UNSAT', units='molC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='available acetic acid in unsaturated fraction', &
+!         ptr_col=cmicc14%caces_unsat) 
+!    call hist_addfld2d (fname='C14_CACES_SAT', units='molC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='available acetic acid in saturated fraction', &
+!         ptr_col=cmicc14%caces_sat) 
+
+    call hist_addfld1d (fname='C14_CH4_SURF_AERE', units='mol/m2/s',  &
+         avgflag='A', long_name='plant-mediated transport of CH4 flux for inundated area; (+ to atm)', &
+         ptr_col=cmicc14%ch4_surf_aere)
+!    call hist_addfld1d (fname='C14_CH4_SURF_AERE_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='aerenchyma surface CH4 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%ch4_surf_aere_sat)
+!    call hist_addfld1d (fname='C14_CH4_SURF_AERE_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='aerenchyma surface CH4 flux for non-inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%ch4_surf_aere_unsat)
+	 
+    call hist_addfld1d (fname='C14_CH4_SURF_EBUL', units='mol/m2/s',  &
+         avgflag='A', long_name='ebulition effluex of CH4 from inundated area; (+ to atm)', &
+         ptr_col=cmicc14%ch4_surf_ebul)
+!    call hist_addfld1d (fname='C14_CH4_SURF_EBUL_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='ebullition surface CH4 flux; (+ to atm)', &
+!         ptr_col=cmicc14%ch4_surf_ebul_sat)
+!   call hist_addfld1d (fname='C14_CH4_SURF_EBUL_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='ebullition surface CH4 flux; (+ to atm)', &
+!         ptr_col=cmicc14%ch4_surf_ebul_unsat)
+	 
+    call hist_addfld1d (fname='C14_CH4_SURF_DIFF', units='mol/m2/s',  &
+         avgflag='A', long_name='diffusive surface CH4 flux for inundated / lake area; (+ to atm)', &
+         ptr_col=cmicc14%ch4_surf_dif)
+!    call hist_addfld1d (fname='C14_CH4_SURF_DIF_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='diffusive surface CH4 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%ch4_surf_dif_sat)
+!    call hist_addfld1d (fname='C14_CH4_SURF_DIF_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='diffusive surface CH4 flux for non-inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%ch4_surf_dif_unsat)
+	 
+    call hist_addfld1d (fname='C14_CH4_SURF_NETFLUX', units='mol/m2/s',  &
+         avgflag='A', long_name='net flux of ch4; (+ to atm)', &
+         ptr_col=cmicc14%ch4_surf_netflux)
+!    call hist_addfld1d (fname='C14_CH4_SURF_NETFLUX_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='net flux of surface CH4 flux for inundated ; (+ to atm)', &
+!         ptr_col=cmicc14%ch4_surf_netflux_sat)
+!    call hist_addfld1d (fname='C14_CH4_SURF_NETFLUX_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='net flux of surface CH4 flux for non-inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%ch4_surf_netflux_unsat)
+	 
+!    call hist_addfld1d (fname='C14_CO2_SURF_AERE', units='mol/m2/s',  &
+!         avgflag='A', long_name='plant-mediated transport of CO2 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%co2_surf_aere)
+!    call hist_addfld1d (fname='C14_CO2_SURF_AERE_UNSAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='plant-mediated transport of CO2 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%co2_surf_aere_unsat)
+!    call hist_addfld1d (fname='C14_CO2_SURF_AERE_SAT', units='mol/m2/s',  &
+!         avgflag='A', long_name='plant-mediated transport of CO2 flux for inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%co2_surf_aere_sat)
+	 
+!    call hist_addfld1d (fname='C14_CO2_SURF_EBUL', units='mol/m2/s',  &
+!         avgflag='A', long_name='ebulition effluex of CO2 from inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%co2_surf_ebul)
+	 
+!    call hist_addfld1d (fname='C14_CO2_SURF_DIFF', units='mol/m2/s',  &
+!         avgflag='A', long_name='diffusive surface CO2 flux for inundated / lake area; (+ to atm)', &
+!         ptr_col=cmicc14%co2_surf_dif)
+	 
+!    call hist_addfld1d (fname='C14_CO2_SURF_NETFLUX', units='mol/m2/s',  &
+!         avgflag='A', long_name='net flux of CO2 inundated area; (+ to atm)', &
+!         ptr_col=cmicc14%co2_surf_netflux)
+
+    call hist_addfld2d (fname='C14_CACES_PROD', units='molC/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='available acetic acid production rate', &
+         ptr_col=cmicc14%caces_prod) 
+!    call hist_addfld2d (fname='C14_CACES_UNSAT_PROD', units='molC/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name=' production rate of available acetic acid in unsaturated fraction', &
+!         ptr_col=cmicc14%caces_unsat_prod) 
+!    call hist_addfld2d (fname='C14_CACES_SAT_PROD', units='molC/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name=' production rate of available acetic acid in saturated fraction', &
+!         ptr_col=cmicc14%caces_sat_prod) 
+
+    call hist_addfld2d (fname='C14_CACES_PROD_H2', units='molC/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='acetogenesis production rate', &
+         ptr_col=cmicc14%caces_prod_h2) 
+!    call hist_addfld2d (fname='C14_CACES_UNSAT_PROD_H2', units='molC/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name=' acetogenesis in unsaturated fraction', &
+!         ptr_col=cmicc14%caces_unsat_prod_h2) 
+!    call hist_addfld2d (fname='C14_CACES_SAT_PROD_H2', units='molC/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name=' acetogenesis in saturated fraction', &
+!         ptr_col=cmicc14%caces_sat_prod_h2) 
+
+    call hist_addfld2d (fname='C14_CCON_CH4S', units='gC/m3', type2d='levgrnd', &
+         avgflag='A', long_name='column ch4 concentration', &
+         ptr_col=cmicc14%ccon_ch4s)
+!    call hist_addfld2d (fname='C14_CCON_CH4S_UNSAT', units='gC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 concentration in unsaturated fraction', &
+!         ptr_col=cmicc14%ccon_ch4s_unsat)
+!    call hist_addfld2d (fname='C14_CCON_CH4S_SAT', units='gC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 concentration in saturated fraction', &
+!         ptr_col=cmicc14%ccon_ch4s_sat)
+ 
+    call hist_addfld2d (fname='C14_CCON_CO2S', units='gC/m3', type2d='levgrnd', &
+         avgflag='A', long_name='column co2 concentration', &
+         ptr_col=cmicc14%ccon_co2s)
+!    call hist_addfld2d (fname='C14_CCON_CO2S_UNSAT', units='gC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column co2 concentration in unsaturated fraction', &
+!         ptr_col=cmicc14%ccon_co2s_unsat)
+!    call hist_addfld2d (fname='C14_CCON_CO2S_SAT', units='gC/m3', type2d='levgrnd', &
+!         avgflag='A', long_name='column co2 concentration in saturated fraction', &
+!         ptr_col=cmicc14%ccon_co2s_sat)
+	 
+    call hist_addfld2d (fname='C14_CH4_PROD_ACE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column ch4 production from acetate acid', &
+         ptr_col=cmicc14%ch4_prod_ace_depth)
+!    call hist_addfld2d (fname='C14_CH4_PROD_ACE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 production from acetate acid in unsaturated fraction', &
+!         ptr_col=cmicc14%ch4_prod_ace_depth_unsat)
+!    call hist_addfld2d (fname='C14_CH4_PROD_ACE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 production from acetate acid in saturated fraction', &
+!         ptr_col=cmicc14%ch4_prod_ace_depth_sat)
+	 
+    call hist_addfld2d (fname='C14_CH4_PROD_CO2_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column ch4 production from co2 + h2', &
+         ptr_col=cmicc14%ch4_prod_co2_depth)
+!    call hist_addfld2d (fname='C14_CH4_PROD_CO2_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 production from co2 + h2 in saturated fraction', &
+!         ptr_col=cmicc14%ch4_prod_co2_depth_unsat)
+!    call hist_addfld2d (fname='C14_CH4_PROD_CO2_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column ch4 production from co2 + h2 in saturated fraction', &
+!         ptr_col=cmicc14%ch4_prod_co2_depth_sat)
+	 
+    call hist_addfld2d (fname='C14_CH4_OXID_O2_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column aerobic ch4 oxidation in saturated fraction', &
+         ptr_col=cmicc14%ch4_oxid_o2_depth)
+!    call hist_addfld2d (fname='C14_CH4_OXID_O2_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column aerobic ch4 oxidation in saturated fraction', &
+!         ptr_col=cmicc14%ch4_oxid_o2_depth_unsat)
+!    call hist_addfld2d (fname='C14_CH4_OXID_O2_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column aerobic ch4 oxidation in saturated fraction', &
+!         ptr_col=cmicc14%ch4_oxid_o2_depth_sat)
+
+    call hist_addfld2d (fname='C14_CH4_OXID_AOM_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column anaerobic ch4 oxidation', &
+         ptr_col=cmicc14%ch4_oxid_aom_depth)
+!    call hist_addfld2d (fname='C14_CH4_OXID_AOM_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column anaerobic ch4 oxidation in saturated fraction', &
+!         ptr_col=cmicc14%ch4_oxid_aom_depth_unsat)
+!    call hist_addfld2d (fname='C14_CH4_OXID_AOM_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column anaerobic ch4 oxidation in saturated fraction', &
+!         ptr_col=cmicc14%ch4_oxid_aom_depth_sat)
+
+    call hist_addfld2d (fname='C14_CH4_AERE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='plant-mediated ch4 transport along depth', &
+         ptr_col=cmicc14%ch4_aere_depth)
+!    call hist_addfld2d (fname='C14_CH4_AERE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='plant-mediated ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%ch4_aere_depth_unsat)
+!    call hist_addfld2d (fname='C14_CH4_AERE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='plant-mediated ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%ch4_aere_depth_sat)
+
+    call hist_addfld2d (fname='C14_CH4_DIF_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='diffusive ch4 transport along depth', &
+         ptr_col=cmicc14%ch4_dif_depth) 
+!    call hist_addfld2d (fname='C14_CH4_DIF_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='diffusive ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%ch4_dif_depth_unsat) 
+!    call hist_addfld2d (fname='C14_CH4_DIF_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='diffusive ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%ch4_dif_depth_sat) 
+
+    call hist_addfld2d (fname='C14_CH4_EBUL_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='ebullitive ch4 transport along depth', &
+         ptr_col=cmicc14%ch4_ebul_depth)
+!    call hist_addfld2d (fname='C14_CH4_EBUL_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='ebullitive ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%ch4_ebul_depth_unsat)
+!    call hist_addfld2d (fname='C14_CH4_EBUL_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='ebullitive ch4 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%ch4_ebul_depth_sat)
+
+!    call hist_addfld2d (fname='C14_CO2_PROD_ACE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production from acetate along depth', &
+!         ptr_col=cmicc14%co2_prod_ace_depth)
+!    call hist_addfld2d (fname='C14_CO2_PROD_ACE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production from acetate along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_prod_ace_depth_unsat)
+!    call hist_addfld2d (fname='C14_CO2_PROD_ACE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production from acetate along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_prod_ace_depth_sat)
+	 
+    call hist_addfld2d (fname='C14_CO2_DECOMP_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='co2 production of som decomposition along depth', &
+         ptr_col=cmicc14%co2_decomp_depth)
+!    call hist_addfld2d (fname='C14_CO2_DECOMP_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production of som decomposition along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_decomp_depth_unsat)
+!    call hist_addfld2d (fname='C14_CO2_DECOMP_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='co2 production of som decomposition along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_decomp_depth_sat)	 
+	 
+    call hist_addfld2d (fname='C14_CO2_CONS_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column co2 consumption along depth', &
+         ptr_col=cmicc14%co2_cons_depth)	 
+!    call hist_addfld2d (fname='C14_CO2_CONS_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column co2 consumption along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_cons_depth_unsat)	
+!    call hist_addfld2d (fname='C14_CO2_CONS_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column co2 consumption along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_cons_depth_sat)	
+	 
+    call hist_addfld2d (fname='C14_CO2_EBUL_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='ebullisive co2 transport along depth', &
+         ptr_col=cmicc14%co2_ebul_depth)
+!    call hist_addfld2d (fname='C14_CO2_EBUL_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='ebullisive co2 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_ebul_depth_unsat)
+!    call hist_addfld2d (fname='C14_CO2_EBUL_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='ebullisive co2 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_ebul_depth_sat)
+	 
+    call hist_addfld2d (fname='C14_CO2_AERE_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='column plant-mediated transport of co2 along depth', &
+         ptr_col=cmicc14%co2_aere_depth)
+!    call hist_addfld2d (fname='C14_CO2_AERE_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column plant-mediated transport of co2 along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_aere_depth_unsat)
+!    call hist_addfld2d (fname='C14_CO2_AERE_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='column plant-mediated transport of co2 along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_aere_depth_sat)
+
+    call hist_addfld2d (fname='C14_CO2_DIFF_DEPTH', units='mol/m3/s', type2d='levgrnd', &
+         avgflag='A', long_name='diffusive co2 transport along depth', &
+         ptr_col=cmicc14%co2_dif_depth)
+!    call hist_addfld2d (fname='C14_CO2_DIFF_DEPTH_UNSAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='diffusive co2 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_dif_depth_unsat)
+!    call hist_addfld2d (fname='C14_CO2_DIFF_DEPTH_SAT', units='mol/m3/s', type2d='levgrnd', &
+!         avgflag='A', long_name='diffusive co2 transport along depth in saturated fraction', &
+!         ptr_col=cmicc14%co2_dif_depth_sat)
+end if
+
 ! Begin if hist_wrtch4diag block
     if (hist_wrtch4diag) then
 #ifdef CN

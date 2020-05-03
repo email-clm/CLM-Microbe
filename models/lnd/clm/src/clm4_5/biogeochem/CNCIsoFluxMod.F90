@@ -884,7 +884,7 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
 ! !USES:
    use clmtype
    use microbevarcon
-!   use clm_varpar, only : max_pft_per_col
+   use clm_varpar, only : nlevgrnd, nlevdecomp !, max_pft_per_col
 
 !
 ! !ARGUMENTS:
@@ -900,7 +900,7 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
 !
 ! !LOCAL VARIABLES:
 ! !OTHER LOCAL VARIABLES:
-!   type(pft_type), pointer :: p
+   type(pft_type), pointer :: p
    type(column_type), pointer :: c
 !   type(pft_cflux_type), pointer :: pcisof
  !  type(pft_cstate_type), pointer :: pcisos
@@ -910,7 +910,7 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
 #if(defined MICROBE)
    type(column_microbe_type), pointer :: ccisos
 #endif
-!   integer :: fp,pi,l,pp
+   integer :: i, fp,pi,l,pp
    integer :: fc,cc,j
 !   real(r8), pointer :: ptrp(:)         ! pointer to input pft array
 !   real(r8), pointer :: ptrc(:)         ! pointer to output column array
@@ -953,34 +953,45 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
    !pfti                           =>col%pfti
    !wtcol                          =>pft%wtcol
    !pactive                        => pft%active
-  
-!   call CIsoFluxCalc(ccisos%caces_prod, cmic%caces_prod, &
-!                     ccisos%cdocs, cmic%cdocs, &
-!                     num_soilc, filter_soilc, 1._r8, 0, isotope)
 
-   call CIsoFluxCalc(ccisos%caces_prod, cmic%caces_prod, &
+
+!   call CIsoFluxCalc_vr(ccisos%caces_prod, cmic%caces_prod, &
+!                     ccisos%cdocs, cmic%cdocs, &
+!                     num_soilc, filter_soilc, frac_doc, 0, isotope)
+
+   call CIsoFluxCalc_vr(ccisos%caces_prod, cmic%caces_prod, &
                      ccisos%cdocs, cmic%cdocs, &
                      num_soilc, filter_soilc, frac_ace, 0, isotope)
 		     
-   call CIsoFluxCalc(ccisos%ch4_prod_ace_depth, cmic%ch4_prod_ace_depth, &
+   call CIsoFluxCalc_vr(ccisos%ch4_prod_ace_depth, cmic%ch4_prod_ace_depth, &
                      ccisos%caces, cmic%caces, &
                      num_soilc, filter_soilc, frac_acch4, 0, isotope)
 
-   call CIsoFluxCalc(ccisos%ch4_prod_co2_depth, cmic%ch4_prod_co2_depth, &
+   call CIsoFluxCalc_vr(ccisos%ch4_prod_co2_depth, cmic%ch4_prod_co2_depth, &
                      ccisos%ccon_co2s, cmic%ccon_co2s, &
                      num_soilc, filter_soilc, frac_hych4, 0, isotope)
 		     
-   call CIsoFluxCalc(ccisos%caces_prod_h2, cmic%caces_prod_h2, &
+   call CIsoFluxCalc_vr(ccisos%caces_prod_h2, cmic%caces_prod_h2, &
                      ccisos%caces, cmic%caces, &
                      num_soilc, filter_soilc, frac_acetogenesis, 0, isotope)
 
-   call CIsoFluxCalc(ccisos%ch4_oxid_o2_depth, cmic%ch4_oxid_o2_depth, &
+   call CIsoFluxCalc_vr(ccisos%ch4_oxid_o2_depth, cmic%ch4_oxid_o2_depth, &
                      ccisos%ccon_ch4s, cmic%ccon_ch4s, &
                      num_soilc, filter_soilc, frac_ch4ox, 0, isotope)
 
-   call CIsoFluxCalc(ccisos%ch4_oxid_aom_depth, cmic%ch4_oxid_aom_depth, &
+   call CIsoFluxCalc_vr(ccisos%ch4_oxid_aom_depth, cmic%ch4_oxid_aom_depth, &
                      ccisos%ccon_ch4s, cmic%ccon_ch4s, &
                      num_soilc, filter_soilc, frac_ch4aom, 0, isotope)
+
+   call CIsoFluxCalc_vr(ccisos%ch4_aere_depth, cmic%ch4_aere_depth, &
+                     ccisos%ccon_ch4s, cmic%ccon_ch4s, &
+                     num_soilc, filter_soilc, 1.0_r8, 0, isotope)
+   call CIsoFluxCalc_vr(ccisos%ch4_dif_depth, cmic%ch4_dif_depth, &
+                     ccisos%ccon_ch4s, cmic%ccon_ch4s, &
+                     num_soilc, filter_soilc, 1.0_r8, 0, isotope)
+   call CIsoFluxCalc_vr(ccisos%ch4_ebul_depth, cmic%ch4_ebul_depth, &
+                     ccisos%ccon_ch4s, cmic%ccon_ch4s, &
+                     num_soilc, filter_soilc, 1.0_r8, 0, isotope)		     
 #endif
 
 end subroutine CIsoFlux4
@@ -1665,6 +1676,75 @@ end subroutine CIsoFluxCalc
 
 
 
+!-----------------------------------------------------------------------
+!BOP
+!
+! !IROUTINE: CIsoFluxCalc_vr
+!
+! !INTERFACE, isotope:
+subroutine CIsoFluxCalc_vr(ciso_flux, ctot_flux, ciso_state, ctot_state, &
+	                    num, filter, frax_c13, diag, isotope)
+!
+! !DESCRIPTION:
+! On the radiation time step, set the carbon isotopic flux
+! variables (except for gap-phase mortality and fire fluxes)
+!
+! !USES:
+   use clmtype
+   use clm_varpar, only : nlevdecomp
+!
+! !ARGUMENTS:
+   implicit none
+   real(r8), pointer   :: ciso_flux(:,:)      !OUTPUT isoC flux
+   real(r8), pointer   :: ctot_flux(:,:)      !INPUT  totC flux
+   real(r8), pointer   :: ciso_state(:,:)     !INPUT  isoC state, upstream pool
+   real(r8), pointer   :: ctot_state(:,:)     !INPUT  totC state, upstream pool
+   real(r8), intent(in):: frax_c13          ! fractionation factor (1 = no fractionation) for C13
+   integer, intent(in) :: num               ! number of filter members
+   integer, intent(in) :: filter(:)         ! filter indices
+   integer, intent(in) :: diag              ! 0=no diagnostics, 1=print diagnostics
+   character(len=*), intent(in) :: isotope  ! 'c13' or 'c14'
+
+!
+! !CALLED FROM:
+! subroutine CIsoFlux1
+!
+! !REVISION HISTORY:
+!
+! !OTHER LOCAL VARIABLES:
+   integer :: j,i,f     ! indices
+   real(r8) :: temp
+   real(r8) :: frax
+!
+
+   ! if C14, double the fractionation
+   select case (isotope)
+   case ('c14')
+      frax = 1._r8 + (1._r8 - frax_c13) * 2._r8
+   case ('c13')
+      frax = frax_c13
+   case default
+      call endrun('CIsoFluxCalc3D: iso must be either c13 or c14')
+   end select
+
+   ! loop over the supplied filter
+   do j = 1, nlevdecomp
+      do f = 1,num
+      i = filter(f)
+      if (ctot_state(i,j) /= 0._r8) then
+      	ciso_flux(i,j) = ctot_flux(i,j) * (ciso_state(i,j)/ctot_state(i,j)) * frax
+      else
+      	ciso_flux(i,j) = 0._r8
+      end if
+      
+      if (diag == 1) then
+      ! put diagnostic print statements here for isoC flux calculations
+      end if
+      end do
+   end do
+
+end subroutine CIsoFluxCalc_vr
+!-----------------------------------------------------------------------
 
 
 #endif
