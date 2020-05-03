@@ -183,12 +183,14 @@ subroutine CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, isoto
 		c = filter_soilc(fc)
 		cdocs(c,j) = ccisos%decomp_cpools_vr(c,j,i_dom)
 		
-		caces(c,j) = caces(c,j) + caces_prod(c,j)*dt + caces_prod_h2(c,j)*dt - ch4_prod_ace_depth(c,j)*dt
+		caces(c,j) = max(0._r8, (caces(c,j) + caces_prod(c,j)*dt + caces_prod_h2(c,j)*dt - ch4_prod_ace_depth(c,j)*dt))
 !		cacebios(c,j) = cacebios(c,j)
 !		cco2bios(c,j) = cco2bios(c,j)
 !		caerch4bios(c,j) = caerch4bios(c,j)
 !		canaerch4bios(c,j) = canaerch4bios(c,j)
-		ccon_ch4s(c,j)=ccon_ch4s(c,j)+ch4_prod_ace_depth(c,j)*dt+ch4_prod_co2_depth(c,j)*dt-ch4_oxid_o2_depth(c,j)*dt-ch4_oxid_aom_depth(c,j)*dt-ch4_aere_depth(c,j)*dt-ch4_dif_depth(c,j)*dt-ch4_ebul_depth(c,j)*dt
+		ccon_ch4s(c,j)=max(0._r8, (ccon_ch4s(c,j) + ch4_prod_ace_depth(c,j)*dt + ch4_prod_co2_depth(c,j)*dt - &
+		ch4_oxid_o2_depth(c,j)*dt - ch4_oxid_aom_depth(c,j)*dt - &
+		ch4_aere_depth(c,j)*dt - ch4_dif_depth(c,j)*dt - ch4_ebul_depth(c,j)*dt))
 	end do
 	end do
 

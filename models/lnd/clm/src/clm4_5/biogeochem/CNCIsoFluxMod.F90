@@ -1732,7 +1732,7 @@ subroutine CIsoFluxCalc_vr(ciso_flux, ctot_flux, ciso_state, ctot_state, &
       do f = 1,num
       i = filter(f)
       if (ctot_state(i,j) /= 0._r8) then
-      	ciso_flux(i,j) = ctot_flux(i,j) * (ciso_state(i,j)/ctot_state(i,j)) * frax
+      	ciso_flux(i,j) = ctot_flux(i,j) * (ciso_state(i,j)/(ctot_flux(i,j)+ctot_state(i,j))) * frax
       else
       	ciso_flux(i,j) = 0._r8
       end if
