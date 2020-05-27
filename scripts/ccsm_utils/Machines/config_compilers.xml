@@ -368,6 +368,32 @@ for mct, etc.
   <MPI_PATH></MPI_PATH>
 </compiler>
 
+<compiler MACH="changchun2" COMPILER="gnu">
+  <!-- As example, we put full path for all. 
+       But may not be neccessary if defined them in 'env_mach_specific.changchun2',
+       e.g. $(gcc), $(mpicc) ......
+ -->
+  <NETCDF_PATH>/usr/local/gcc-9.x/netcdf-4.x-hdf5</NETCDF_PATH>
+  <SFC>/usr/local/gcc-9.x/gcc-9.3/bin/gfortran</SFC>
+  <SCC>/usr/local/gcc-9.x/gcc-9.3/bin/gcc</SCC>
+  <SCXX>/usr/local/gcc-9.x/gcc-9.3/bin/g++</SCXX>
+  <MPIFC>/usr/local/gcc-9.x/mpich-3.3/bin/mpif90</MPIFC>
+  <MPICC>/usr/local/gcc-9.x/mpich-3.3/bin/mpicc</MPICC>
+  <MPICXX>/usr/local/gcc-9.x/mpich-3.3/bin/mpic++</MPICXX>
+  <FFLAGS> -O -fconvert=big-endian -ffree-line-length-none -ffixed-line-length-none -fno-range-check</FFLAGS>
+  <FFLAGS_NOOPT> -O0 </FFLAGS_NOOPT>
+  <FC_AUTO_R8> -fdefault-real-8 </FC_AUTO_R8>
+  <CXX_LINKER>FORTRAN</CXX_LINKER>
+  <SUPPORTS_CXX>TRUE</SUPPORTS_CXX>
+  <HDF5_ROOT>/usr/local/gcc-9.x/hdf5-1.12</HDF5_ROOT>
+  <LAPACK_LIBDIR>/usr/local/lib64</LAPACK_LIBDIR>
+  <BLAS_LIBDIR>/usr/local/lib64</BLAS_LIBDIR>
+  <ADD_SLIBS> -L$(NETCDF_PATH)/lib -lnetcdff -lnetcdf \
+              -L$(HDF5_ROOT)/lib -lhdf5_hl -lhdf5 \
+              -L$(LAPACK_LIBDIR) -llapack -L$(BLAS_LIBDIR) -lrefblas
+  </ADD_SLIBS>
+</compiler>
+
 <compiler MACH="peony">
   <NETCDF_PATH>/usr/local/netcdf-4.4-mpich32-gcc54</NETCDF_PATH>
   <PNETCDF_PATH></PNETCDF_PATH>
