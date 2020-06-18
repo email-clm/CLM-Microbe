@@ -338,7 +338,7 @@ for mct, etc.
 
 <compiler OS="Darwin">
    <ADD_CPPDEFS> -DSYSDARWIN </ADD_CPPDEFS>
-   <ADD_LDFLAGS MODEL="driver"> -all_load </ADD_LDFLAGS>
+   <!-- ADD_LDFLAGS MODEL="driver"> -all_load </ADD_LDFLAGS-->
 </compiler>
 
 <compiler COMPILER="intel" OS="Darwin" >
@@ -354,6 +354,29 @@ for mct, etc.
   <ESMF_LIBDIR></ESMF_LIBDIR>
   <MPI_LIB_NAME></MPI_LIB_NAME>
   <MPI_PATH></MPI_PATH>
+</compiler>
+
+<compiler MACH="mymac" COMPILER="gnu">
+  <!-- As example, we put full path for all.
+       But may not be neccessary if defined them in 'env_mach_specific.mymac',
+       e.g. $(gcc), $(mpicc) ......
+ -->
+  <NETCDF_PATH>/usr/local/gcc-x/netcdf-4.x-hdf5</NETCDF_PATH>
+  <SFC>/usr/local/gcc-x/gcc-x-clang/bin/gfortran</SFC>
+  <SCC>/usr/local/gcc-x/gcc-x-clang/bin/gcc</SCC>
+  <SCXX>/usr/local/gcc-x/gcc-x-clang/bin/g++</SCXX>
+  <MPIFC>/usr/local/gcc-x/mpich-3.3/bin/mpif90</MPIFC>
+  <MPICC>/usr/local/gcc-x/mpich-3.3/bin/mpicc</MPICC>
+  <MPICXX>/usr/local/gcc-x/mpich-3.3/bin/mpic++</MPICXX>
+  <FFLAGS> -O -fconvert=big-endian -ffree-line-length-none -ffixed-line-length-none -fno-range-check</FFLAGS>
+  <FFLAGS_NOOPT> -O0 </FFLAGS_NOOPT>
+  <FC_AUTO_R8> -fdefault-real-8 </FC_AUTO_R8>
+  <CXX_LINKER>FORTRAN</CXX_LINKER>
+  <SUPPORTS_CXX>TRUE</SUPPORTS_CXX>
+  <HDF5_ROOT>/usr/local/gcc-x/hdf5-1.10</HDF5_ROOT>
+  <LAPACK_LIBDIR>/usr/local/blas-lapack-dir</LAPACK_LIBDIR>
+  <BLAS_LIBDIR>/usr/local/blas-lapack-dir</BLAS_LIBDIR>
+  <ADD_LDFLAGS> $(shell $(NETCDF_PATH)/bin/nc-config --flibs) -L$(HDF5_ROOT)/lib -lhdf5_hl -lhdf5 -L$(LAPACK_LIBDIR) -llapack -L$(BLAS_LIBDIR) -lblas</ADD_LDFLAGS>
 </compiler>
 
 <compiler MACH="ornl-oic">

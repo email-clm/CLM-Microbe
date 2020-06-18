@@ -1064,7 +1064,7 @@ contains
           starti(1:3) = 1  
           counti(1:2) = 1
           !meteorological forcing
-#THISSITEFILE#
+!!#THISSITEFILE#
           ierr = nf90_inq_dimid(ncid, 'DTIME', dimid)
           ierr = nf90_Inquire_Dimension(ncid, dimid, len = a2l%timelen)
           counti(3) = a2l%timelen
@@ -1196,7 +1196,7 @@ contains
 
    !------------------------------------Nitrogen deposition----------------------------------------------
         if (nstep .eq. 0) then 
-#THISSITENDEPFILE#
+!#THISSITENDEPFILE#
           starti(:)=1
           counti(1:2)=1
           counti(3)=158
@@ -1234,7 +1234,7 @@ contains
           aerovars(12) = 'DSTX02WD'
           aerovars(13) = 'DSTX03WD'
           aerovars(14) = 'DSTX04WD'
-#THISSITEAEROFILE#
+!#THISSITEAEROFILE#
           do av=1,14
             ierr = nf90_inq_varid(ncid, trim(aerovars(av)), varid)
             ierr = nf90_get_var(ncid, varid, a2l%aero_input(av,1:1,1:1,1:1896))
@@ -1354,7 +1354,7 @@ contains
 #ifdef CPL_BYPASS
         !atmospheric CO2 (to be used for transient simulations only)
         if (nstep .eq. 0) then 
-#THISCO2FILE#
+!!#THISCO2FILE#
           ierr = nf90_inq_varid(ncid, 'CO2', varid)
           !add 13C input HERE
           ierr = nf90_get_var(ncid, varid, a2l%co2_input)
