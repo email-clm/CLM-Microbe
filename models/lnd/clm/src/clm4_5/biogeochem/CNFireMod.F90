@@ -87,10 +87,12 @@ subroutine CNFireInit( begg, endg )
 ! !LOCAL VARIABLES:
 !EOP
 !-----------------------------------------------------------------------
+#ifndef CPL_BYPASS
    call hdm_init(   begg, endg )
    call hdm_interp( )
    call lnfm_init(  begg, endg )
    call lnfm_interp()
+#endif
 
 !-----------------------------------------------------------------------
 end subroutine CNFireInit
@@ -116,8 +118,10 @@ subroutine CNFireInterp()
 ! !LOCAL VARIABLES:
 !EOP
 !-----------------------------------------------------------------------
+#ifndef CPL_BYPASS
    call hdm_interp()
    call lnfm_interp()
+#endif
 
 !-----------------------------------------------------------------------
 end subroutine CNFireInterp
@@ -340,6 +344,13 @@ subroutine CNFireArea (num_soilc, filter_soilc, num_soilp, filter_soilp)
   forc_snow  => clm_a2l%forc_snow
   latdeg     =>  grc%latdeg
  
+#ifdef CPL_BYPASS
+#ifndef NOFIRE
+  forc_hdm   => clm_a2l%forc_hdm
+  forc_lnfm  => clm_a2l%forc_lnfm
+#endif
+#endif
+
   !pft to column average 
   call p2c(num_soilc, filter_soilc, prec10,  prec10_col)
   call p2c(num_soilc, filter_soilc, prec60,  prec60_col)
