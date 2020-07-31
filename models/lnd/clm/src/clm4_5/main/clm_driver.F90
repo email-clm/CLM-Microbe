@@ -964,6 +964,7 @@ subroutine write_diagnostic (wrtdia, nstep)
            call endrun
         end if
      endif
+
      if (masterproc) then
         tsxyav = tsum / numg
         write(iulog,1000) nstep, tsxyav
@@ -972,10 +973,12 @@ subroutine write_diagnostic (wrtdia, nstep)
 
   else
 
+#ifndef CPL_BYPASS
      if (masterproc) then
         !write(iulog,*)'clm2: completed timestep ',nstep
         call shr_sys_flush(iulog)
      end if
+#endif
 
   endif
 

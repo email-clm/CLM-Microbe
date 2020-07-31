@@ -434,8 +434,6 @@ contains
     use decompMod       ,only : get_proc_bounds
     use abortutils      ,only : endrun
     use clm_varctl      ,only : iulog, create_glacier_mec_landunit 
-    use clm_varctl      ,only : startyear_experiment, endyear_experiment, add_temperature
-    use clm_varctl      ,only : add_co2
     use clm_varorb      ,only : eccen, obliqr, lambm0, mvelpp
     use shr_file_mod    ,only : shr_file_setLogUnit, shr_file_setLogLevel, &
                                 shr_file_getLogUnit, shr_file_getLogLevel
@@ -943,9 +941,25 @@ contains
     use clm_cpl_indices
     use clmtype
     use domainMod        , only : ldomain
-    use clm_time_manager,only : get_curr_date, get_nstep, get_curr_calday, get_step_size, &
-                                advance_timestep, set_nextsw_cday,update_rad_dtime   !DMR addition
+    use clm_time_manager,only : get_curr_date, get_nstep, get_curr_calday, get_step_size
     use netcdf
+
+#ifdef CPL_BYPASS
+    use shr_const_mod    , only : SHR_CONST_STEBOL
+    use shr_kind_mod     , only : r8 => shr_kind_r8, CL => shr_kind_CL
+    use fileutils        , only : getavu, relavu
+    use spmdmod          , only : masterproc, mpicom, iam, npes, MPI_REAL8, MPI_INTEGER, MPI_STATUS_SIZE
+    use ncdio_pio        , only : pio_subsystem
+    use shr_pio_mod      , only : shr_pio_getiotype
+    use clm_nlUtilsMod   , only : find_nlgroup_name
+
+    use clm_varctl       , only : metdata_type, metdata_bypass, metdata_biases, co2_file, aero_file
+    use clm_varctl       , only : const_climate_hist
+    use clm_varctl       , only : startdate_add_temperature, startdate_add_co2
+
+    use controlMod       , only : NLFilename
+
+#endif
 
     implicit none
 ! !ARGUMENTS:
@@ -971,17 +985,65 @@ contains
     real(r8) :: a0,a1,a2,a3,a4,a5,a6 ! coefficients for esat over water
     real(r8) :: b0,b1,b2,b3,b4,b5,b6 ! coefficients for esat over ice
     real(r8) :: tdc, t               ! Kelvins to Celcius function and its input
-    real(r8) :: swndf, swndr, swvdf, swvdr, ratio_rvrf, frac, q
-    real(r8) :: nph, timetemp(2)
-    integer ::  ierr, ncid, varid, dimid, yr, mon, day, tod, nindex(2), caldaym(13)
-    integer ::  aindex(2), tindex(2), starti(3), counti(3)
-    integer :: mystart, nyears_spinup 
-    real(r8) :: tbot, tempndep(1,1,158), thiscalday, wt1, wt2, temp(1,1,1,200000)
-    character(len=32), parameter :: sub = 'lnd_import_mct'
-    integer :: av, v, n
-    character(len=20) aerovars(14)
 
-    data caldaym / 1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 / 
+    character(len=32), parameter :: sub = 'lnd_import_mct'
+
+    integer ::  yr, mon, day, tod
+
+#ifdef CPL_BYPASS
+
+    integer  :: m,thism              ! indices
+    real(r8) :: vp                   ! water vapor pressure (Pa)
+    integer  :: thisng, np, num, nu_nml, nml_error
+    integer  :: ng_all(100000)
+    real(r8) :: swndf, swndr, swvdf, swvdr, ratio_rvrf, frac, q
+    real(r8) :: thiscosz, avgcosz, szenith
+    integer  :: swrad_period_len, swrad_period_start, thishr, thismin
+    real(r8) :: timetemp(2)
+    real(r8) :: latixy(500000), longxy(500000)
+    integer ::  ierr, varid, dimid, nindex(2), caldaym(13)
+    integer ::  ncid, met_ncids(14), mask_ncid, thisncid, ng, tm
+    integer ::  aindex(2), tindex(14,2), starti(3), counti(3)
+    integer ::  grid_map(500000), zone_map(500000)
+    integer ::  met_nvars, nyears_spinup, nyears_trans, starti_site, endi_site
+    real(r8) :: smap05_lat(360), smap05_lon(720)
+    real(r8) :: smapt62_lat(94), smapt62_lon(192)
+    real(r8) :: smap2_lat(96), smap2_lon(144)
+    real(r8) :: thisdist, mindist, thislon
+    real(r8) :: tbot, tempndep(1,1,158), thiscalday, wt1(14), wt2(14), thisdoy
+    real(r8) :: ea
+    real(r8) :: site_metdata(14,12)
+    real(r8) :: var_month_mean(12)
+    !real(r8) :: hdm1(720,360,1), hdm2(720,360,1)
+    !real(r8) :: lnfm1(192,94,2920)
+    !real(r8) :: ndep1(144,96,1), ndep2(144,96,1)
+    !real(r8) :: aerodata(14,144,96,14)
+    integer  :: lnfmind(2)
+    integer  :: var_month_count(12)
+    integer*2 :: temp(1,500000)
+    integer :: xtoget, ytoget, thisx, thisy, calday_start
+    integer :: sdate_addt, sy_addt, sm_addt, sd_addt
+    integer :: sdate_addco2, sy_addco2, sm_addco2, sd_addco2
+    character(len=200) metsource_str, thisline
+
+    integer :: av, v, n, nummetdims, g3, gtoget, ztoget, line, mystart, tod_start, thistimelen
+    character(len=20) aerovars(14), metvars(14)
+    character(len=3) zst
+    integer :: stream_year_first_lightng, stream_year_last_lightng, model_year_align_lightng
+    integer :: stream_year_first_popdens, stream_year_last_popdens, model_year_align_popdens
+    integer :: stream_year_first_ndep,    stream_year_last_ndep,    model_year_align_ndep
+    character(len=CL)  :: metdata_fname
+    character(len=CL)  :: lightngmapalgo = 'bilinear'! Mapping alogrithm
+    character(len=CL)  :: popdensmapalgo = 'bilinear'
+    character(len=CL)  :: ndepmapalgo    = 'bilinear'
+    character(len=CL)  :: stream_fldFileName_lightng ! lightning stream filename to read
+    character(len=CL)  :: stream_fldFileName_popdens ! poplulation density stream filename
+    character(len=CL)  :: stream_fldFileName_ndep    ! nitrogen deposition stream filename
+    logical :: use_sitedata, has_zonefile, use_daymet, use_livneh
+    integer status(MPI_STATUS_SIZE)
+
+    data caldaym / 1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 /
+#endif
 
     ! Constants to compute vapor pressure
     parameter (a0=6.107799961_r8    , a1=4.436518521e-01_r8, &
@@ -999,6 +1061,33 @@ contains
     tdc(t) = min( 50._r8, max(-50._r8,(t-SHR_CONST_TKFRZ)) )
     esatw(t) = 100._r8*(a0+t*(a1+t*(a2+t*(a3+t*(a4+t*(a5+t*a6))))))
     esati(t) = 100._r8*(b0+t*(b1+t*(b2+t*(b3+t*(b4+t*(b5+t*b6))))))
+
+#ifdef CPL_BYPASS
+    namelist /light_streams/         &
+        stream_year_first_lightng,  &
+        stream_year_last_lightng,   &
+        model_year_align_lightng,   &
+        lightngmapalgo,             &
+        stream_fldFileName_lightng
+
+    namelist /popd_streams/          &
+        stream_year_first_popdens,  &
+        stream_year_last_popdens,   &
+        model_year_align_popdens,   &
+        popdensmapalgo,             &
+        stream_fldFileName_popdens
+
+    namelist /ndepdyn_nml/        &
+        stream_year_first_ndep,  &
+        stream_year_last_ndep,   &
+        model_year_align_ndep,   &
+        ndepmapalgo,             &
+        stream_fldFileName_ndep
+
+    stream_fldFileName_lightng = ' '
+    stream_fldFileName_popdens = ' '
+#endif
+
 !
 ! !REVISION HISTORY:
 ! Author: Mariana Vertenstein
@@ -1028,6 +1117,7 @@ contains
     ! by 1000 mm/m resulting in an overall factor of unity.
     ! Below the units are therefore given in mm/s.
     
+    call get_curr_date( yr, mon, day, tod )
 
     do g = begg,endg
         i = 1 + (g - begg)
@@ -1036,230 +1126,916 @@ contains
         ! hierarchy is atm/glc/lnd/rof/ice/ocn.  so water sent from rof to land is negative,
         ! change the sign to indicate addition of water to system.
 
- 	 a2l%forc_flood(g)   = -x2l_l%rattr(index_x2l_Flrr_flood,i)  
+ 	    a2l%forc_flood(g)   = -x2l_l%rattr(index_x2l_Flrr_flood,i)
 
         a2l%volr(g)   =  x2l_l%rattr(index_x2l_Slrr_volr,i) &
                       * (ldomain%area(g) * 1.e6_r8)
 
 #ifdef CPL_BYPASS
+  !-----------------------------------------------------------------------------------------------------
+
         !read forcing data directly, bypass coupler
-        a2l%forc_flood(g)   = 0._r8
-        a2l%volr(g)   = 0._r8 
+        a2l%forc_flood(g) = 0._r8
+        a2l%volr(g)       = 0._r8
 
-        ! Determine required receive fields
-     
-        !placeholder to read point-level fire data directly (these do not yet exist)
-
-        !Get meteorological data (assuming default point level datset, must be concatenated to include whole record)
+        !Get meteorological data, concatenated to include whole record
         !Note we only do this at the first timestep and keep the whole forcing dataset in the memory
-        !This does NOT yet have restart capability.
-        nph = 3600._r8 / get_step_size()
-     
-  !-----------------------------------Meteorological forcing  NOTE:  ASSUMES HOURLY INPUT--------------
 
-        call get_curr_date( yr, mon, day, tod )	
+        !-----------------------------------Meteorological forcing  -----------------------------------
+
         thiscalday = get_curr_calday()
 
-        if (nstep .eq. 0) then
-          starti(1:3) = 1  
-          counti(1:2) = 1
+        !on first timestep, read all the met data for relevant gridcell(s) and store in array.
+        !   Met data are held in short integer format to save memory.
+        !   Each node must have enough memory to hold these data.
+        met_nvars=7
+        if (metdata_type(1:3) == 'cpl') met_nvars=14
+
+        if (a2l%loaded_bypassdata == 0) then
           !meteorological forcing
-#THISSITEFILE#
-          ierr = nf90_inq_dimid(ncid, 'DTIME', dimid)
-          ierr = nf90_Inquire_Dimension(ncid, dimid, len = a2l%timelen)
-          counti(3) = a2l%timelen
-          ierr = nf90_inq_varid(ncid, 'TBOT', varid)
-          ierr = nf90_get_var(ncid, varid, a2l%atm_input(1,1:1,1:1,1:a2l%timelen), starti, counti)
-          ierr = nf90_inq_varid(ncid, 'PSRF', varid)
-          ierr = nf90_get_var(ncid, varid, a2l%atm_input(2,1:1,1:1,1:a2l%timelen), starti, counti)
-          ierr = nf90_inq_varid(ncid, 'QBOT', varid)
-          ierr = nf90_get_Var(ncid, varid, a2l%atm_input(3,1:1,1:1,1:a2l%timelen), starti, counti)
-          ierr = nf90_inq_varid(ncid, 'FLDS', varid)
-          ierr = nf90_get_var(ncid, varid, a2l%atm_input(4,1:1,1:1,1:a2l%timelen), starti, counti)
-          ierr = nf90_inq_varid(ncid, 'FSDS', varid)
-          ierr = nf90_get_var(ncid, varid, a2l%atm_input(5,1:1,1:1,1:a2l%timelen), starti, counti)
-          ierr = nf90_inq_varid(ncid, 'PRECTmms', varid)
-          ierr = nf90_get_var(ncid, varid, a2l%atm_input(6,1:1,1:1,1:a2l%timelen), starti, counti)
-          ierr = nf90_inq_varid(ncid, 'WIND', varid)
-          ierr = nf90_get_var(ncid, varid, a2l%atm_input(7,1:1,1:1,1:a2l%timelen), starti, counti)
-          ierr = nf90_inq_varid(ncid, 'ZBOT', varid)
-          ierr = nf90_get_var(ncid, varid, a2l%atm_input(8,1:1,1:1,1:a2l%timelen), starti, counti)
-          starti(1) = 1
-          counti(1) = 2
-          ierr = nf90_inq_varid(ncid, 'DTIME', varid)
-          ierr = nf90_get_var(ncid, varid, timetemp, starti(1:1), counti(1:1))
-          nph = 86400*(timetemp(2)-timetemp(1))/get_step_size()  !number of model timeteps per forcing timestep
-          ierr = nf90_close(ncid)
-          !if input data are sub-hourly, average to hourly (temporary solution for existing half-hourly data)
-          if (nph .lt. 1) then 
-            do v=1,8
-              temp = a2l%atm_input(v:v,:,:,:)
-              do n=1,a2l%timelen/nint(1/nph)
-                 a2l%atm_input(v,1,1,n) = sum(temp(1,1,1,(n-1)*nint(1/nph)+1:n*nint(1/nph)))/nint(1/nph)
-              end do
-            end do
-            a2l%timelen = a2l%timelen/nint(1/nph)
-            nph = 1
-          end if
-
-          !Input data - IF YEARS CHANGED, THIS MUST BE CHANGED
-          !Align spinups and transient simulations
-          !figure out which year to start with (assuming spinups always use
-          !integer multiple of met cycles)
-          mystart = 2011
-          nyears_spinup = 5
-          do while (mystart > 1850)
-             mystart = mystart - nyears_spinup
-          end do
- 
-          if (yr .lt. 1850) then
-            a2l%start_tindex = mod(mod(yr-1,nyears_spinup) + (1850-mystart), nyears_spinup) * 8760 
+          if (index(metdata_type, 'qian') .gt. 0) then
+            a2l%metsource = 0
+          else if (index(metdata_type,'cru') .gt. 0) then
+            a2l%metsource = 1
+          else if (index(metdata_type,'site') .gt. 0) then
+            a2l%metsource = 2
+          else if (index(metdata_type,'princeton') .gt. 0) then
+            a2l%metsource = 3
+          else if (index(metdata_type,'gswp3') .gt. 0) then
+            a2l%metsource = 4
+          else if (index(metdata_type,'cpl') .gt. 0) then
+            a2l%metsource = 5
           else
-            a2l%start_tindex = mod(mod(yr-1850,nyears_spinup) + (1850-mystart), nyears_spinup) * 8760
+            call endrun( sub//' ERROR: Invalid met data source for cpl_bypass' )
           end if
 
-          tindex(1) = a2l%start_tindex
-          tindex(2) = tindex(1) + 1
-          if (tindex(1) .lt. 1) tindex(1) = a2l%timelen
-          if (tindex(2) .gt. a2l%timelen) tindex(2) = 1
+          use_livneh = .false.
+          use_daymet = .false.
+          if(index(metdata_type, 'livneh') .gt. 0) then
+              use_livneh = .true.
+          else if (index(metdata_type, 'daymet') .gt. 0) then
+              use_daymet = .true.
+          end if
+
+          metvars(1) = 'TBOT'
+          metvars(2) = 'PSRF'
+          metvars(3) = 'QBOT'
+          if (a2l%metsource .eq. 2) metvars(3) = 'RH'
+          if (a2l%metsource .ne. 5) metvars(4) = 'FSDS'
+          if (a2l%metsource .ne. 5) metvars(5) = 'PRECTmms'
+          if (a2l%metsource .ne. 5) metvars(6) = 'WIND'
+          metvars(4) = 'FSDS'
+          metvars(5) = 'PRECTmms'
+          metvars(6) = 'WIND'
+          metvars(7) = 'FLDS'
+          if (a2l%metsource .eq. 5) then
+              metvars(4) = 'SWNDF'
+              metvars(5) = 'RAINC'
+              metvars(6) = 'U'
+              metvars(8) = 'SWNDR'
+              metvars(9) = 'SWVDF'
+              metvars(10) = 'SWVDR'
+              metvars(11) = 'RAINL'
+              metvars(12) = 'SNOWC'
+              metvars(13) = 'SNOWL'
+              metvars(14) = 'V'
+          else
+              metvars(4) = 'FSDS'
+              metvars(5) = 'PRECTmms'
+              metvars(6) = 'WIND'
+          end if
+
+          !set defaults
+          a2l%startyear_met       = 1901
+          a2l%endyear_met_spinup  = 1920
+          if (a2l%metsource == 0) then
+            metsource_str = 'qian'
+            a2l%startyear_met       = 1948
+            a2l%endyear_met_spinup  = 1972
+            a2l%endyear_met_trans   = 2004
+          else if (a2l%metsource == 1) then
+            metsource_str = 'cruncep'
+            a2l%endyear_met_trans  = 2016
+          else if (a2l%metsource == 2) then
+            metsource_str = 'site'
+            !get year information from file
+            ierr = nf90_open(trim(metdata_bypass) // '/all_hourly.nc', nf90_nowrite, ncid)
+            ierr = nf90_inq_varid(ncid, 'start_year', varid)
+            ierr = nf90_get_var(ncid, varid, a2l%startyear_met)
+            ierr = nf90_inq_varid(ncid, 'end_year', varid)
+            ierr = nf90_get_var(ncid, varid, a2l%endyear_met_spinup)
+            ierr = nf90_close(ncid)
+            a2l%endyear_met_trans = a2l%endyear_met_spinup
+          else if (a2l%metsource == 3) then
+            metsource_str = 'princeton'
+            a2l%endyear_met_trans = 2012
+          else if (a2l%metsource == 4) then
+            a2l%endyear_met_trans  = 2014
+            if(index(metdata_type, 'v1') .gt. 0) a2l%endyear_met_trans  = 2010
+          else if (a2l%metsource == 5) then
+            a2l%startyear_met      = 566 !76
+            a2l%endyear_met_spinup = 590 !100
+            a2l%endyear_met_trans  = 590 !100
+          end if
+
+          if (use_livneh) then
+              a2l%startyear_met      = 1950
+              a2l%endyear_met_spinup = 1969
+          else if (use_daymet) then
+              a2l%startyear_met      = 1980
+              a2l%endyear_met_spinup = a2l%endyear_met_trans
+          end if
+
+          nyears_spinup = a2l%endyear_met_spinup - &
+                             a2l%startyear_met + 1
+          nyears_trans  = a2l%endyear_met_trans - &
+                             a2l%startyear_met  + 1
+
+          !check for site data in run directory (monthly mean T, precip)
+          inquire(file=trim(metdata_biases), exist=use_sitedata)
+
+          !get grid lat/lon information, zone mappings
+          inquire(file=trim(metdata_bypass) // '/zone_mappings.txt', exist=has_zonefile)
+          if (has_zonefile) then
+            open(unit=13, file=trim(metdata_bypass) // '/zone_mappings.txt')
+          else if (a2l%metsource .ne. 2) then
+            call endrun( sub//' ERROR: Zone mapping file does not exist for cpl_bypass' )
+          end if
+
+          if (a2l%metsource .ne. 2) then
+            ng = 0     !number of points
+            do v=1,500000
+              read(13,*, end=10), longxy(v), latixy(v), zone_map(v), grid_map(v)
+              ng = ng + 1
+            end do
+10          continue
+            close(unit=13)
+
+            !Figure out the closest point and which zone file to open
+            mindist=99999
+            do g3 = 1,ng
+              ! in CPL_BYPASS met dataset, longitude is in format of 0-360, but 'ldomain%lonc(g)' may or may not.
+              if (ldomain%lonc(g) .lt. 0) then
+                if (longxy(g3) >= 180) longxy(g3) = longxy(g3)-360._r8
+              else if (ldomain%lonc(g) .ge. 180) then
+                if (longxy(g3) < 0) longxy(g3) = longxy(g3) + 360._r8
+              end if
+              thisdist = 100*((latixy(g3) - ldomain%latc(g))**2 + &
+                              (longxy(g3) - ldomain%lonc(g))**2)**0.5
+              if (thisdist .lt. mindist) then
+                mindist = thisdist
+                ztoget = zone_map(g3)
+                gtoget = grid_map(g3)
+              end if
+            end do
+          else
+            gtoget = 1
+          end if
+
+          !get the site metdata for bias correction if they exist (lat/lons must match domain file)
+          if (use_sitedata) then
+            open(unit=9, file=trim(metdata_biases),status='old')
+            read(9,*) thisline
+            site_metdata(:,:)=-999._r8
+            do while ((site_metdata(1,1) .lt. ldomain%lonc(g) - 0.01 .or. &
+                    site_metdata(1,1) .gt. ldomain%lonc(g) + 0.01) .and. &
+                      (site_metdata(2,1) .lt. ldomain%latc(g) - 0.01 .or. &
+                       site_metdata(2,1) .gt. ldomain%latc(g) + 0.01))
+              read(9,*) site_metdata(1:7,1)
+              if (site_metdata(1,1) .lt. 0) site_metdata(1,1) = site_metdata(1,1)+360._r8
+            end do
+            do line=2,12
+              read(9,*) site_metdata(1:7,line)
+            end do
+            close(unit=9)
+          end if
+
+          do v=1,met_nvars
+            write(zst, '(I3)') 100+ztoget
+            if (a2l%metsource == 0) then
+                metdata_fname =  trim(metsource_str) // '_' // trim(metvars(v)) // '_z' // zst(2:3) // '.nc'
+            else if (a2l%metsource == 1) then
+                metdata_fname = 'CRUNCEP.v5_' // trim(metvars(v)) // '_1901-2013_z' // zst(2:3) // '.nc'
+                if (use_livneh .and. ztoget .ge. 16 .and. ztoget .le. 20) then
+                    metdata_fname = 'CRUNCEP5_Livneh_' // trim(metvars(v)) // '_1950-2013_z' // zst(2:3) // '.nc'
+                else if (use_daymet .and. ztoget .ge. 16 .and. ztoget .le. 20) then
+                    metdata_fname = 'CRUNCEP5_Daymet3_' // trim(metvars(v)) // '_1980-2013_z' // zst(2:3) // '.nc'
+                end if
+            else if (a2l%metsource == 2) then
+                metdata_fname = 'all_hourly.nc'
+            else if (a2l%metsource == 3) then
+               metdata_fname = 'Princeton_' // trim(metvars(v)) // '_1901-2012_z' // zst(2:3) // '.nc'
+                if (use_livneh .and. ztoget .ge. 16 .and. ztoget .le. 20) then
+                    metdata_fname = 'Princeton_Livneh_' // trim(metvars(v)) // '_1950-2012_z' // zst(2:3) // '.nc'
+                else if (use_daymet .and. ztoget .ge. 16 .and. ztoget .le. 20) then
+                    metdata_fname = 'Princeton_Daymet3_' // trim(metvars(v)) // '_1980-2012_z' // zst(2:3) // '.nc'
+                end if
+            else if (a2l%metsource == 4) then
+                metdata_fname = 'GSWP3_' // trim(metvars(v)) // '_1901-2014_z' // zst(2:3) // '.nc'
+                if(index(metdata_type, 'v1') .gt. 0) &
+                    metdata_fname = 'GSWP3_' // trim(metvars(v)) // '_1901-2010_z' // zst(2:3) // '.nc'
+
+                if (use_livneh .and. ztoget .ge. 16 .and. ztoget .le. 20) then
+                    metdata_fname = 'GSWP3_Livneh_' // trim(metvars(v)) // '_1950-2010_z' // zst(2:3) // '.nc'
+                else if (use_daymet .and. ztoget .ge. 16 .and. ztoget .le. 20) then
+                    metdata_fname = 'GSWP3_Daymet3_' // trim(metvars(v)) // '_1980-2010_z' // zst(2:3) // '.nc'
+                end if
+            else if (a2l%metsource == 5) then
+                    !metdata_fname = 'WCYCL1850S.ne30_' // trim(metvars(v)) // '_0076-0100_z' // zst(2:3) // '.nc'
+                    metdata_fname = 'CBGC1850S.ne30_' // trim(metvars(v)) // '_0566-0590_z' // zst(2:3) // '.nc'
+            end if
+
+            ierr = nf90_open(trim(metdata_bypass) // '/' // trim(metdata_fname), NF90_NOWRITE, met_ncids(v))
+            if (ierr .ne. 0) call endrun(msg=' ERROR: Failed to open cpl_bypass input meteorology file' )
+
+            !get timestep information
+            ierr = nf90_inq_dimid(met_ncids(v), 'DTIME', dimid)
+            ierr = nf90_Inquire_Dimension(met_ncids(v), dimid, len = a2l%timelen(v))
+
+            starti(1) = 1
+            counti(1) = 2
+            ierr = nf90_inq_varid(met_ncids(v), 'DTIME', varid)
+            ierr = nf90_get_var(met_ncids(v), varid, timetemp, starti(1:1), counti(1:1))
+            a2l%timeres(v)        = (timetemp(2)-timetemp(1))*24._r8
+            a2l%npf(v)            = 86400d0*(timetemp(2)-timetemp(1))/get_step_size()
+            a2l%timelen_spinup(v) = nyears_spinup*(365*nint(24./a2l%timeres(v)))
+
+            ierr = nf90_inq_varid(met_ncids(v), trim(metvars(v)), varid)
+
+            !get the conversion factors
+            ierr = nf90_get_att(met_ncids(v), varid, 'scale_factor', a2l%scale_factors(v))
+            if (ierr .ne. 0) a2l%scale_factors(v) = 1.0d0
+
+            ierr = nf90_get_att(met_ncids(v), varid, 'add_offset', a2l%add_offsets(v))
+            if (ierr .ne. 0) a2l%add_offsets(v) = 0.0d0
+
+            !get the met data
+            starti(1) = 1
+            starti(2) = gtoget
+            counti(1) = a2l%timelen_spinup(v)
+            counti(2) = 1
+            if (.not. const_climate_hist .and. (yr .ge. 1850 .or. use_sitedata)) counti(1) = a2l%timelen(v)
+
+            if (i == 1 .and. v == 1)  then
+              allocate(a2l%atm_input       (met_nvars,begg:endg,1,1:counti(1)))
+            end if
+
+            ierr = nf90_get_var(met_ncids(v), varid, a2l%atm_input(v,g:g,1,1:counti(1)), starti(1:2), counti(1:2))
+            ierr = nf90_close(met_ncids(v))
+
+            if (use_sitedata .and. v == 1) then
+                starti_site = max((nint(site_metdata(4,1))-a2l%startyear_met) * &
+                                     365*nint(24./a2l%timeres(v))+1,1)
+                endi_site   = (min(a2l%endyear_met_trans,nint(site_metdata(5,1))) - &
+                                     a2l%startyear_met+1)*(365*nint(24./a2l%timeres(v)))
+            end if
+
+            a2l%var_offset(v,g,:) = 0._r8
+            a2l%var_mult(v,g,:)   = 1._r8
+
+            if (use_sitedata) then
+              !Compute monthly biases for site vs. reanalysis
+              var_month_mean(:)  = 0._r8
+              var_month_count(:) = 0
+              do i=starti_site, endi_site
+                thisdoy = mod(i,365*nint(24./a2l%timeres(v)))/(nint(24./a2l%timeres(v)))+1
+                do m=1,12
+                  if (thisdoy .ge. caldaym(m) .and. thisdoy .lt. caldaym(m+1)) thism = m
+                enddo
+                var_month_mean(thism) = var_month_mean(thism) + (a2l%atm_input(v,g,1,i)* &
+                                          a2l%scale_factors(v) + a2l%add_offsets(v))
+                var_month_count(thism) = var_month_count(thism)+1
+              end do
+
+              do m = 1,12
+                var_month_mean(m) = var_month_mean(m)/var_month_count(m)
+                !calculate offset and linear bias factors for temperature and precipitation
+                if (v .eq. 1) a2l%var_offset(v,g,m) = (site_metdata(6,m)+SHR_CONST_TKFRZ) - var_month_mean(m)
+                if (v .eq. 5 .and. var_month_mean(m) .gt. 0) &
+                      a2l%var_mult(v,g,m) = (site_metdata(7,m))/(caldaym(m+1)-caldaym(m))/24._r8/ &
+                                                      3600._r8 / var_month_mean(m)
+              end do
+            end if
+
+            !Align spinups and transient simulations
+            !figure out which year to start with (assuming spinups always use integer multiple of met cycles)
+            mystart = a2l%startyear_met
+            do while (mystart > 1850)
+              mystart = mystart - nyears_spinup
+            end do
+            if (a2l%metsource == 5) mystart=1850
+
+            if (yr .lt. 1850) then
+              !a2l%tindex(g,v,1) = (mod(yr-1,nyears_spinup) + (1850-mystart)) * 365 * nint(24./a2l%timeres(v))
+              a2l%tindex(g,v,1) = mod(yr+1849-mystart,nyears_spinup) * 365 * nint(24./a2l%timeres(v))
+            else if (yr .le. a2l%endyear_met_spinup) then
+              !a2l%tindex(g,v,1) = (mod(yr-1850,nyears_spinup) + (1850-mystart)) * 365 * nint(24./a2l%timeres(v))
+              a2l%tindex(g,v,1) = mod(yr-mystart,nyears_spinup) * 365 * nint(24./a2l%timeres(v))
+            else
+              a2l%tindex(g,v,1) = (yr - a2l%startyear_met) * 365 * nint(24./a2l%timeres(v))
+            end if
+            !adjust for starts not at beginning of year (but currently MUST begin at hour 0)
+            a2l%tindex(g,v,1) = a2l%tindex(g,v,1) + (caldaym(mon)+day-2)* &
+                                         nint(24./a2l%timeres(v))
+
+            a2l%tindex(g,v,2) = a2l%tindex(g,v,1) + 1
+            if (a2l%tindex(g,v,1) == 0) then
+              a2l%tindex(g,v,1) = a2l%timelen(v)
+              if (yr .le. a2l%endyear_met_spinup) a2l%tindex(g,v,1) = a2l%timelen_spinup(v)
+             end if
+          end do    !end variable loop
         else
-          tindex(1) = mod(((nstep-1)+(a2l%start_tindex)*int(nph))/int(nph),a2l%timelen)+1
-          tindex(2) = tindex(1) + 1
-          if (tindex(1) .lt. 1) tindex(1) = a2l%timelen
-          if (tindex(2) .gt. a2l%timelen) tindex(2) = 1
+          do v=1,met_nvars
+            if (a2l%npf(v) - 1._r8 .gt. 1e-3) then
+              if (v .eq. 4 .or. v .eq. 5 .or. (v .ge. 8 .and. v .le. 13)) then    !rad/Precipitation
+                if (mod(tod/get_step_size(),nint(a2l%npf(v))) == 1 .and. nstep .gt. 3) then
+                  a2l%tindex(g,v,1) = a2l%tindex(g,v,1)+1
+                  a2l%tindex(g,v,2) = a2l%tindex(g,v,2)+1
+                end if
+              else
+                if (mod(tod/get_step_size()-1,nint(a2l%npf(v))) <= a2l%npf(v)/2._r8 .and. &
+                    mod(tod/get_step_size(),nint(a2l%npf(v))) > a2l%npf(v)/2._r8) then
+                  a2l%tindex(g,v,1) = a2l%tindex(g,v,1)+1
+                  a2l%tindex(g,v,2) = a2l%tindex(g,v,2)+1
+                end if
+              end if
+            else
+              a2l%tindex(g,v,1) = a2l%tindex(g,v,1)+nint(1/a2l%npf(v))
+              a2l%tindex(g,v,2) = a2l%tindex(g,v,2)+nint(1/a2l%npf(v))
+            end if
+
+            if (const_climate_hist .or. yr .le. a2l%startyear_met) then
+              if (a2l%tindex(g,v,1) .gt. a2l%timelen_spinup(v)) a2l%tindex(g,v,1) = 1
+              if (a2l%tindex(g,v,2) .gt. a2l%timelen_spinup(v)) a2l%tindex(g,v,2) = 1
+            else if (yr .gt. a2l%endyear_met_trans) then
+              if (a2l%tindex(g,v,1) .gt. a2l%timelen(v)) then
+                 a2l%tindex(g,v,1) = a2l%timelen(v)-a2l%timelen_spinup(v)+1
+              end if
+              if (a2l%tindex(g,v,2) .gt. a2l%timelen(v)) then
+                 a2l%tindex(g,v,2) = a2l%timelen(v)-a2l%timelen_spinup(v)+1
+              end if
+            end if
+
+            !if (yr .gt. a2l%startyear_met) then
+            !  if (a2l%tindex(g,v,1) .gt. a2l%timelen(v)) a2l%tindex(g,v,1) = 1
+            !  if (a2l%tindex(g,v,2) .gt. a2l%timelen(v)) a2l%tindex(g,v,2) = 1
+            !else
+            !  if (a2l%tindex(g,v,1) .gt. a2l%timelen_spinup(v)) a2l%tindex(g,v,1) = 1
+            !  if (a2l%tindex(g,v,2) .gt. a2l%timelen_spinup(v)) a2l%tindex(g,v,2) = 1
+            !end if
+          end do
         end if
-        
-        !get weights for interpolation (assumes hourly input)
-        if (nph .gt. 1) then
-           wt1 = 1._r8 - mod(nstep,int(nph))*1._r8/nph 
-           wt2 = 1._r8 - wt1
+
+        tindex = a2l%tindex(g,:,:)
+
+        !get weights for linear interpolation
+        do v=1,met_nvars
+          if (a2l%npf(v) - 1._r8 .gt. 1e-3) then
+               wt1(v) = 1._r8 - (mod((tod+86400)/get_step_size()-a2l%npf(v)/2._r8, &
+                   a2l%npf(v))*1._r8)/a2l%npf(v)
+               wt2(v) = 1._r8 - wt1(v)
+          else
+             wt1(v) = 0._r8
+             wt2(v) = 1._r8
+          end if
+        end do
+
+        !Air temperature
+        a2l%forc_t(g)  = min(((a2l%atm_input(1,g,1,tindex(1,1))*a2l%scale_factors(1)+ &
+                               a2l%add_offsets(1))*wt1(1) + (a2l%atm_input(1,g,1,tindex(1,2))* &
+                               a2l%scale_factors(1)+a2l%add_offsets(1))*wt2(1)) * &
+                                              a2l%var_mult(1,g,mon) + a2l%var_offset(1,g,mon), 323._r8)
+        a2l%forc_th(g) = min(((a2l%atm_input(1,g,1,tindex(1,1))*a2l%scale_factors(1)+ &
+                               a2l%add_offsets(1))*wt1(1) + (a2l%atm_input(1,g,1,tindex(1,2))* &
+                               a2l%scale_factors(1)+a2l%add_offsets(1))*wt2(1)) * &
+                               a2l%var_mult(1,g,mon) + a2l%var_offset(1,g,mon), 323._r8)
+
+        tbot = a2l%forc_t(g)
+
+        !Air pressure
+        a2l%forc_pbot(g) = max(((a2l%atm_input(2,g,1,tindex(2,1))*a2l%scale_factors(2)+ &
+                                 a2l%add_offsets(2))*wt1(2) + (a2l%atm_input(2,g,1,tindex(2,2)) &
+                                 *a2l%scale_factors(2)+a2l%add_offsets(2))*wt2(2)) * &
+                                 a2l%var_mult(2,g,mon) + a2l%var_offset(2,g,mon), 4e4_r8)
+        !Specific humidity
+        a2l%forc_q(g) = max(((a2l%atm_input(3,g,1,tindex(3,1))*a2l%scale_factors(3)+ &
+                                  a2l%add_offsets(3))*wt1(3) + (a2l%atm_input(3,g,1,tindex(3,2)) &
+                                  *a2l%scale_factors(3)+a2l%add_offsets(3))*wt2(3)) * &
+                                  a2l%var_mult(3,g,mon) + a2l%var_offset(3,g,mon), 1e-9_r8)
+        !
+        if (tbot > SHR_CONST_TKFRZ) then
+          e = esatw(tdc(tbot))
         else
-           wt1 = 1._r8
-           wt2 = 0._r8
+          e = esati(tdc(tbot))
+        end if
+        qsat = 0.622_r8*e / (a2l%forc_pbot(g) - 0.378_r8*e)
+        if (a2l%metsource == 2) then                            !convert RH to qbot, when input is actually RH
+          a2l%forc_q(g) = qsat * a2l%forc_q(g) / 100.0_r8
+        else if(a2l%forc_q(g)>qsat) then     ! data checking for specific humidity
+          a2l%forc_q(g) = qsat
         end if
 
-        a2l%forc_t(g)       = a2l%atm_input(1,1,1,tindex(1))*wt1 + a2l%atm_input(1,1,1,tindex(2))*wt2      
-        a2l%forc_th(g)      = a2l%atm_input(1,1,1,tindex(1))*wt1 + a2l%atm_input(1,1,1,tindex(2))*wt2
-        tbot                = a2l%atm_input(1,1,1,tindex(1))*wt1 + a2l%atm_input(1,1,1,tindex(2))*wt2
-        if (yr .ge. startyear_experiment .and. yr .le. endyear_experiment .and. add_temperature .ge. 0) then
-          a2l%forc_t(g) = a2l%forc_t(g) + add_temperature
-          a2l%forc_th(g) = a2l%forc_th(g) + add_temperature
-          tbot = tbot + add_temperature
+        !use longwave from file if provided
+        a2l%forc_lwrad(g) = ((a2l%atm_input(7,g,1,tindex(7,1))*a2l%scale_factors(7)+ &
+                                                        a2l%add_offsets(7))*wt1(7) + (a2l%atm_input(7,g,1,tindex(7,2)) &
+                                                        *a2l%scale_factors(7)+a2l%add_offsets(7))*wt2(7)) * &
+                                                        a2l%var_mult(7,g,mon) + a2l%var_offset(7,g,mon)
+        if (a2l%forc_lwrad(g) .le. 50 .or. a2l%forc_lwrad(g) .ge. 600) then
+        !Longwave radiation (calculated from air temperature, humidity)
+            e =  a2l%forc_pbot(g) * a2l%forc_q(g) / &
+                 (0.622_R8 + 0.378_R8 * a2l%forc_q(g) )
+            ea = 0.70_R8 + 5.95e-05_R8 * 0.01_R8 * e * exp(1500.0_R8/tbot)
+            a2l%forc_lwrad(g) = ea * SHR_CONST_STEBOL * tbot**4
         end if
 
-        a2l%forc_pbot(g)    = a2l%atm_input(2,1,1,tindex(1))*wt1 + a2l%atm_input(2,1,1,tindex(2))*wt2        
-        !if (a2l%forc_t(g) .gt. 273.15) then 
-        !   e                 =(a2l%atm_input(3,1,1,tindex(1))*wt1 + a2l%atm_input(3,1,1,tindex(2))*wt2) &
-	!                          * 0.01_R8 * esatw(tdc(tbot))
- 	!else
-        !  e                 =(a2l%atm_input(3,1,1,tindex(1))*wt1 + a2l%atm_input(3,1,1,tindex(2))*wt2) &
-	!                          * 0.01_R8 * esati(tdc(tbot))
-        !end if
-        !q = (0.622_R8 * e)/(a2l%forc_pbot(g) - 0.378_R8 * e)	
-        q = a2l%atm_input(3,1,1,tindex(1))*wt1 + a2l%atm_input(3,1,1,tindex(2))*wt2
-        a2l%forc_q(g) = q
-        a2l%forc_lwrad(g)   =(a2l%atm_input(4,1,1,tindex(1))*wt1 + a2l%atm_input(4,1,1,tindex(2))*wt2)     
-        swndr               =(a2l%atm_input(5,1,1,tindex(1))*wt1 + a2l%atm_input(5,1,1,tindex(2))*wt2) * 0.50_R8
+        !Shortwave radiation (cosine zenith angle interpolation)
+        thishr = (tod-get_step_size()/2)/3600
+        if (thishr < 0) thishr=thishr+24
+        thismin = mod((tod-get_step_size()/2)/60, 60)
+        thiscosz = max(cos(szenith(ldomain%lonc(g),ldomain%latc(g),0,int(thiscalday),thishr,thismin,0)* &
+                        3.14159265358979/180.0d0), 0.001d0)
+        avgcosz = 0d0
+        if (a2l%npf(4) - 1._r8 .gt. 1e-3) then
+          swrad_period_len   = get_step_size()*nint(a2l%npf(4))
+          swrad_period_start = ((tod-get_step_size()/2)/swrad_period_len) * swrad_period_len
+          !set to last period if first model timestep of the day
+          if (tod-get_step_size()/2 < 0) swrad_period_start = ((86400-get_step_size()/2)/swrad_period_len) * swrad_period_len
 
-        !Longwave changes due to enclosure
-        if (yr .ge. startyear_experiment .and. yr .le. endyear_experiment .and. add_temperature .ge. 0) then
-            a2l%forc_lwrad(g) = 0.33_r8*a2l%forc_lwrad(g) + 0.67_r8*(0.95_r8*5.670373e-8_r8*tbot**4) 
+          do tm=1,nint(a2l%npf(4))
+            !Get the average cosine zenith angle over the time resolution of the input data
+            thishr  = (swrad_period_start+(tm-1)*get_step_size()+get_step_size()/2)/3600
+            if (thishr > 23) thishr=thishr-24
+            thismin = mod((swrad_period_start+(tm-1)*get_step_size()+get_step_size()/2)/60, 60)
+            avgcosz  = avgcosz + max(cos(szenith(ldomain%lonc(g),ldomain%latc(g),0,int(thiscalday),thishr, thismin, 0) &
+                       *3.14159265358979/180.0d0), 0.001d0)/a2l%npf(4)
+          end do
+        else
+          avgcosz = thiscosz
         end if
-        ratio_rvrf =   min(0.99_R8,max(0.29548_R8 + 0.00504_R8*swndr  &
-                        -1.4957e-05_R8*swndr**2 + 1.4881e-08_R8*swndr**3,0.01_R8))
-        !NOTE - CURRENTLY USING LINEAR INTERPOLATION FOR SOLAR RADIATION.
-        a2l%forc_solad(g,2) = ratio_rvrf*swndr
-        swndf               =(a2l%atm_input(5,1,1,tindex(1))*wt1 + a2l%atm_input(5,1,1,tindex(2))*wt2)*0.50_R8
-        a2l%forc_solai(g,2) = (1._R8 - ratio_rvrf)*swndf
-        swvdr               =(a2l%atm_input(5,1,1,tindex(1))*wt1 + a2l%atm_input(5,1,1,tindex(2))*wt2)*0.50_R8
-        ratio_rvrf =   min(0.99_R8,max(0.17639_R8 + 0.00380_R8*swvdr  &
-                           -9.0039e-06_R8*swvdr**2 + 8.1351e-09_R8*swvdr**3,0.01_R8))
-        a2l%forc_solad(g,1) = ratio_rvrf*swvdr
-        swvdf               =(a2l%atm_input(5,1,1,tindex(1))*wt1 + a2l%atm_input(5,1,1,tindex(2))*wt2)*0.50_R8
-        a2l%forc_solai(g,1) = (1._R8 - ratio_rvrf)*swvdf
-        if (yr .ge. startyear_experiment .and. yr .le. endyear_experiment .and. add_temperature .ge. 0) then
-            a2l%forc_solad(g,1) = a2l%forc_solad(g,1) * 0.80_r8
-            a2l%forc_solad(g,2) = a2l%forc_solad(g,2) * 0.80_r8
-            a2l%forc_solai(g,1) = a2l%forc_solai(g,1) * 0.80_r8
-            a2l%forc_solai(g,2) = a2l%forc_solai(g,2) * 0.80_r8
+        if (thiscosz > 0.001d0) then
+          wt2(4) = min(thiscosz/avgcosz, 10.0_r8)
+        else
+          wt2(4) = 0d0
         end if
-        frac = (a2l%forc_t(g) - 273.15)*0.5_R8                  ! ramp near freezing
-        frac = min(1.0_R8,max(0.0_R8,frac))           ! bound in [0,1]
-        !Don't interpolate rainfall data
-        forc_rainc = 0.1_R8 * frac * (a2l%atm_input(6,1,1,tindex(1)))
-        forc_rainl = 0.9_R8 * frac * (a2l%atm_input(6,1,1,tindex(1)))
-        forc_snowc = 0.1_R8 * (1.0_R8 - frac) * (a2l%atm_input(6,1,1,tindex(1)))
-        forc_snowl = 0.9_R8 * (1.0_R8 - frac) * (a2l%atm_input(6,1,1,tindex(1)))
-        a2l%forc_u(g) = (a2l%atm_input(7,1,1,tindex(1))*wt1 + a2l%atm_input(7,1,1,tindex(2))*wt2)/ sqrt(2.0_R8)
-        a2l%forc_v(g) = (a2l%atm_input(7,1,1,tindex(1))*wt1 + a2l%atm_input(7,1,1,tindex(2))*wt2)/ sqrt(2.0_R8)       
-        a2l%forc_hgt(g)     = (a2l%atm_input(8,1,1,tindex(1))*wt1 + a2l%atm_input(8,1,1,tindex(2))*wt2)                            ! zgcmxy  Atm state 
 
-   !------------------------------------Nitrogen deposition----------------------------------------------
-        if (nstep .eq. 0) then 
-#THISSITENDEPFILE#
-          starti(:)=1
-          counti(1:2)=1
-          counti(3)=158
-          ierr = nf90_inq_varid(ncid, 'NDEP_year', varid)
-          ierr = nf90_get_var(ncid, varid, a2l%ndep_input,starti,counti)
-          ierr = nf90_close(ncid)
+        if (a2l%metsource == 5) then
+            wt2(4)=1.0   !cosz interp not working
+            wt2(8:10)=1.0
+            swndf = max(((a2l%atm_input(4,g,1,tindex(4,2))*a2l%scale_factors(4)+ &
+                                     a2l%add_offsets(4))*wt2(4)), 0.0_r8)
+            swndr = max(((a2l%atm_input(8,g,1,tindex(8,2))*a2l%scale_factors(8)+ &
+                                     a2l%add_offsets(8))*wt2(8)), 0.0_r8)
+            swvdf = max(((a2l%atm_input(9,g,1,tindex(9,2))*a2l%scale_factors(9)+ &
+                                     a2l%add_offsets(9))*wt2(9)), 0.0_r8)
+            swvdr = max(((a2l%atm_input(10,g,1,tindex(10,2))*a2l%scale_factors(10)+ &
+                                     a2l%add_offsets(10))*wt2(10)), 0.0_r8)
+            a2l%forc_solad(g,2) = swndr
+            a2l%forc_solad(g,1) = swvdr
+            a2l%forc_solai(g,2) = swndf
+            a2l%forc_solai(g,1) = swvdf
+        else
+            swndr = max(((a2l%atm_input(4,g,1,tindex(4,2))*a2l%scale_factors(4)+ &
+                                     a2l%add_offsets(4))*wt2(4)) * 0.50_R8, 0.0_r8)
+            swndf = max(((a2l%atm_input(4,g,1,tindex(4,2))*a2l%scale_factors(4)+ &
+                                    a2l%add_offsets(4))*wt2(4))*0.50_R8, 0.0_r8)
+            swvdr = max(((a2l%atm_input(4,g,1,tindex(4,2))*a2l%scale_factors(4)+ &
+                                    a2l%add_offsets(4))*wt2(4))*0.50_R8, 0.0_r8)
+            swvdf = max(((a2l%atm_input(4,g,1,tindex(4,2))*a2l%scale_factors(4)+ &
+                                    a2l%add_offsets(4))*wt2(4))*0.50_R8, 0.0_r8)
+            ratio_rvrf =   min(0.99_R8,max(0.29548_R8 + 0.00504_R8*swndr &
+                           -1.4957e-05_R8*swndr**2 + 1.4881e-08_R8*swndr**3,0.01_R8))
+            a2l%forc_solad(g,2) = ratio_rvrf*swndr
+            a2l%forc_solai(g,2) = (1._R8 - ratio_rvrf)*swndf
+            ratio_rvrf =   min(0.99_R8,max(0.17639_R8 + 0.00380_R8*swvdr  &
+                               -9.0039e-06_R8*swvdr**2 +8.1351e-09_R8*swvdr**3,0.01_R8))
+            a2l%forc_solad(g,1) = ratio_rvrf*swvdr
+            a2l%forc_solai(g,1) = (1._R8 - ratio_rvrf)*swvdf
         end if
-        !get weights for interpolation
-        wt1 = 1._r8 - (thiscalday -1._r8)/365._r8
-        wt2 = 1._r8 - wt1
+        !Rain and snow
+        if (a2l%metsource == 5) then
+          forc_rainc = max((((a2l%atm_input(5,g,1,tindex(5,2))*a2l%scale_factors(5)+ &
+                                        a2l%add_offsets(5)))*a2l%var_mult(5,g,mon) + &
+                                        a2l%var_offset(5,g,mon)), 0.0_r8)
+          forc_rainl = max((((a2l%atm_input(11,g,1,tindex(11,2))*a2l%scale_factors(11)+ &
+                                        a2l%add_offsets(11)))*a2l%var_mult(11,g,mon) + &
+                                        a2l%var_offset(11,g,mon)), 0.0_r8)
+          forc_snowc = max((((a2l%atm_input(12,g,1,tindex(12,2))*a2l%scale_factors(12)+ &
+                                        a2l%add_offsets(12)))*a2l%var_mult(12,g,mon) + &
+                                        a2l%var_offset(12,g,mon)), 0.0_r8)
+          forc_snowl = max((((a2l%atm_input(13,g,1,tindex(13,2))*a2l%scale_factors(13)+ &
+                                        a2l%add_offsets(13)))*a2l%var_mult(13,g,mon) + &
+                                          a2l%var_offset(13,g,mon)), 0.0_r8)
+        else
+          frac = (a2l%forc_t(g) - SHR_CONST_TKFRZ)*0.5_R8       ! ramp near freezing
+          frac = min(1.0_R8,max(0.0_R8,frac))           ! bound in [0,1]
+          !Don't interpolate rainfall data
+          forc_rainc = 0.1_R8 * frac * max((((a2l%atm_input(5,g,1,tindex(5,2))*a2l%scale_factors(5)+ &
+                                        a2l%add_offsets(5)))*a2l%var_mult(5,g,mon) + &
+                                        a2l%var_offset(5,g,mon)), 0.0_r8)
+          forc_rainl = 0.9_R8 * frac * max((((a2l%atm_input(5,g,1,tindex(5,2))*a2l%scale_factors(5)+ &
+                                         a2l%add_offsets(5)))*a2l%var_mult(5,g,mon) + &
+                                         a2l%var_offset(5,g,mon)), 0.0_r8)
+          forc_snowc = 0.1_R8 * (1.0_R8 - frac) * max((((a2l%atm_input(5,g,1,tindex(5,2))*a2l%scale_factors(5)+ &
+                  a2l%add_offsets(5)))*a2l%var_mult(5,g,mon) + a2l%var_offset(5,g,mon)), 0.0_r8)
+          forc_snowl = 0.9_R8 * (1.0_R8 - frac) * max((((a2l%atm_input(5,g,1,tindex(5,2))*a2l%scale_factors(5)+ &
+                  a2l%add_offsets(5))) * a2l%var_mult(5,g,mon) + a2l%var_offset(5,g,mon)), 0.0_r8)
+        end if
+        !Wind
+        a2l%forc_u(g) = (a2l%atm_input(6,g,1,tindex(6,1))*a2l%scale_factors(6)+ &
+                                     a2l%add_offsets(6))*wt1(6) + (a2l%atm_input(6,g,1,tindex(6,2))* &
+                                     a2l%scale_factors(6)+a2l%add_offsets(6))*wt2(6)
+        if (a2l%metsource == 5) then
+          a2l%forc_v(g) = (a2l%atm_input(14,g,1,tindex(14,1))*a2l%scale_factors(14)+ &
+                                     a2l%add_offsets(14))*wt1(14) + (a2l%atm_input(14,g,1,tindex(14,2))* &
+                                     a2l%scale_factors(14)+a2l%add_offsets(14))*wt2(14)
+        else
+            a2l%forc_v(g) = 0.0_R8
+        end if
+        a2l%forc_hgt(g) = 30.0_R8 !(a2l%atm_input(8,g,1,tindex(1))*wt1 + &
+                                             !a2l%atm_input(8,g,1,tindex(2))*wt2)    ! zgcmxy  Atm state, default=30m
 
-        !DMR note - ndep will NOT be correct if more than 1850 years of model spinup (model year > 1850)
+  !------------------------------------Fire data -------------------------------------------------------
+
         nindex(1) = yr-1848
         nindex(2) = nindex(1)+1
+        if (yr .lt. 1850 .or. const_climate_hist) nindex(1:2) = 2
+        if (yr .ge. 2010 .and. .not. const_climate_hist) nindex(1:2) = 161
 
-        if (yr .lt. 1850) nindex(1:2) = 2
-        if (yr .ge. 2006) nindex(1:2) = 158
-            
-        a2l%forc_ndep(g)    = (a2l%ndep_input(1,1,nindex(1))*wt1 + &
-                               a2l%ndep_input(1,1,nindex(2))*wt2) / (365._r8 * 86400._r8)
-   
-   !------------------------------------Aerosol forcing--------------------------------------------------
-       if (nstep .eq. 0) then 
-          aerovars(1) = 'BCDEPWET'
-          aerovars(2) = 'BCPHODRY'
-          aerovars(3) = 'BCPHIDRY'
-          aerovars(4) = 'OCDEPWET'
-          aerovars(5) = 'OCPHODRY'
-          aerovars(6) = 'OCPHIDRY'
-          aerovars(7) = 'DSTX01DD'
-          aerovars(8) = 'DSTX02DD'
-          aerovars(9) = 'DSTX03DD'
-          aerovars(10) = 'DSTX04DD'
-          aerovars(11) = 'DSTX01WD'
-          aerovars(12) = 'DSTX02WD'
-          aerovars(13) = 'DSTX03WD'
-          aerovars(14) = 'DSTX04WD'
-#THISSITEAEROFILE#
-          do av=1,14
-            ierr = nf90_inq_varid(ncid, trim(aerovars(av)), varid)
-            ierr = nf90_get_var(ncid, varid, a2l%aero_input(av,1:1,1:1,1:1896))
-         end do
-         ierr = nf90_close(ncid)
+#ifndef NOFIRE
+        !if (use_cn .and. .not.use_nofire) then
+          if (a2l%loaded_bypassdata == 0 .or. (mon .eq. 1 .and. day .eq. 1 .and. tod .eq. 0)) then
+            if (masterproc .and. i .eq. 1) then
+              ! Read pop_dens streams namelist to get filename
+              nu_nml = getavu()
+              open(nu_nml, file=trim(NLFilename), status='old', iostat=nml_error )
+              call find_nlgroup_name(nu_nml, 'popd_streams', status=nml_error)
+              if (nml_error == 0) then
+                  read(nu_nml, nml=popd_streams,iostat=nml_error)
+                  if (nml_error /= 0) then
+                      call endrun(msg='ERROR reading popdens namelist')
+                  end if
+              end if
+              close(nu_nml)
+              call relavu( nu_nml )
+
+              ierr = nf90_open(trim(stream_fldFileName_popdens), NF90_NOWRITE, ncid)
+              ierr = nf90_inq_varid(ncid, 'lat', varid)
+              ierr = nf90_get_var(ncid, varid, smap05_lat)
+              ierr = nf90_inq_varid(ncid, 'lon', varid)
+              ierr = nf90_get_var(ncid, varid, smap05_lon)
+              ierr = nf90_inq_varid(ncid, 'hdm', varid)
+              starti(1:2) = 1
+              starti(3)   = nindex(1)
+              counti(1) = 720
+              counti(2) = 360
+              counti(3) = 1
+              ierr = nf90_get_var(ncid, varid, a2l%hdm1, starti, counti)
+              starti(3) = nindex(2)
+              if (nindex(1) .ne. nindex(2)) then
+                  ierr = nf90_get_var(ncid, varid, a2l%hdm2, starti, counti)
+              else
+                  a2l%hdm2 = a2l%hdm1
+              end if
+              ierr = nf90_close(ncid)
+            end if
+
+            if (i .eq. 1) then
+              call mpi_bcast (a2l%hdm1, 360*720, MPI_REAL8, 0, mpicom, ier)
+              call mpi_bcast (a2l%hdm2, 360*720, MPI_REAL8, 0, mpicom, ier)
+              call mpi_bcast (smap05_lon, 720, MPI_REAL8, 0, mpicom, ier)
+              call mpi_bcast (smap05_lat, 360, MPI_REAL8, 0, mpicom, ier)
+            end if
+          end if
+
+          !figure out which point to get
+          if (a2l%loaded_bypassdata == 0) then
+            mindist=99999
+            do thisx = 1,720
+              do thisy = 1,360
+                  if (ldomain%lonc(g) .lt. 0) then
+                      if (smap05_lon(thisx) >= 180) smap05_lon(thisx) = smap05_lon(thisx)-360._r8
+                  else if (ldomain%lonc(g) .ge. 180) then
+                      if (smap05_lon(thisx) < 0) smap05_lon(thisx) = smap05_lon(thisx) + 360._r8
+                  end if
+                  thisdist = 100*((smap05_lat(thisy) - ldomain%latc(g))**2 + &
+                          (smap05_lon(thisx) - ldomain%lonc(g))**2)**0.5
+                  if (thisdist .lt. mindist) then
+                      mindist = thisdist
+                      a2l%hdmind(g,1) = thisx
+                      a2l%hdmind(g,2) = thisy
+                  end if
+              end do
+            end do
+          end if
+          !get weights for interpolation
+          wt1(1) = 1._r8 - (thiscalday -1._r8)/365._r8
+          wt2(1) = 1._r8 - wt1(1)
+          a2l%forc_hdm(g) = a2l%hdm1(a2l%hdmind(g,1),a2l%hdmind(g,2),1)*wt1(1) + &
+                                     a2l%hdm2(a2l%hdmind(g,1),a2l%hdmind(g,2),1)*wt2(1)
+
+          if (a2l%loaded_bypassdata .eq. 0 .and. masterproc .and. i .eq. 1) then
+            ! Read light_streams namelist to get filename
+            nu_nml = getavu()
+            open( nu_nml, file=trim(NLFilename), status='old', iostat=nml_error )
+            call find_nlgroup_name(nu_nml, 'light_streams', status=nml_error)
+            if (nml_error == 0) then
+              read(nu_nml, nml=light_streams,iostat=nml_error)
+              if (nml_error /= 0) then
+                call endrun(msg='ERROR reading light_streams namelist')
+              end if
+            end if
+            close(nu_nml)
+            call relavu( nu_nml )
+
+            !Get all of the data (master processor only)
+            allocate(a2l%lnfm_all       (192,94,2920))
+            ierr = nf90_open(trim(stream_fldFileName_lightng), NF90_NOWRITE, ncid)
+            ierr = nf90_inq_varid(ncid, 'lat', varid)
+            ierr = nf90_get_var(ncid, varid, smapt62_lat)
+            ierr = nf90_inq_varid(ncid, 'lon', varid)
+            ierr = nf90_get_var(ncid, varid, smapt62_lon)
+            ierr = nf90_inq_varid(ncid, 'lnfm', varid)
+            ierr = nf90_get_var(ncid, varid, a2l%lnfm_all)
+            ierr = nf90_close(ncid)
+          end if
+          if (a2l%loaded_bypassdata .eq. 0 .and. i .eq. 1) then
+            call mpi_bcast (smapt62_lon, 192, MPI_REAL8, 0, mpicom, ier)
+            call mpi_bcast (smapt62_lat, 94, MPI_REAL8, 0, mpicom, ier)
+          end if
+          if (a2l%loaded_bypassdata .eq. 0) then
+            mindist=99999
+            do thisx = 1,192
+              do thisy = 1,94
+                if (ldomain%lonc(g) .lt. 0) then
+                  if (smapt62_lon(thisx) >= 180) smapt62_lon(thisx) = smapt62_lon(thisx)-360._r8
+                else if (ldomain%lonc(g) .ge. 180) then
+                  if (smapt62_lon(thisx) < 0) smapt62_lon(thisx) = smapt62_lon(thisx) + 360._r8
+                end if
+                thisdist = 100*((smapt62_lat(thisy) - ldomain%latc(g))**2 + &
+                            (smapt62_lon(thisx) - ldomain%lonc(g))**2)**0.5
+                if (thisdist .lt. mindist) then
+                  mindist = thisdist
+                  lnfmind(1) = thisx
+                  lnfmind(2) = thisy
+                end if
+              end do
+            end do
+            if (masterproc) then
+              a2l%lnfm(g,:) = a2l%lnfm_all(lnfmind(1),lnfmind(2),:)
+              do np = 1,npes-1
+                if (i == 1) then
+                  call mpi_recv(thisng,  1, MPI_INTEGER, np, 100000+np, mpicom, status, ier)
+                  ng_all(np) = thisng
+                end if
+                if (i <= ng_all(np)) then
+                  call mpi_recv(lnfmind, 2, MPI_INTEGER, np, 200000+np, mpicom, status, ier)
+                  call mpi_send(a2l%lnfm_all(lnfmind(1),lnfmind(2),:), 2920, &
+                            MPI_REAL8, np, 300000+np, mpicom, ier)
+                end if
+              end do
+            else
+              if (i == 1)  call mpi_send(thisng,  1, MPI_INTEGER, 0, 100000+iam, mpicom, ier)
+              call mpi_send(lnfmind, 2, MPI_INTEGER, 0, 200000+iam, mpicom, ier)
+              call mpi_recv(a2l%lnfm(g,:), 2920, MPI_REAL8, 0, 300000+iam, mpicom, status, ier)
+            end if
+
+            !Lightning data is 3-hourly.  Does not currently interpolate.
+            a2l%forc_lnfm(g) = a2l%lnfm(g, ((int(thiscalday)-1)*8+tod/(3600*3))+1)
+
+          !end if ! end of 'if use_cn .and. .not.use_nofire
+#endif
+          !------------------------------------Nitrogen deposition----------------------------------------------
+
+          !DMR note - ndep will NOT be correct if more than 1850 years of model
+          !spinup (model year > 1850)
+          nindex(1) = min(max(yr-1848,2), 168)
+          nindex(2) = min(nindex(1)+1, 168)
+
+          if (a2l%loaded_bypassdata .eq. 0 .or. (mon .eq. 1 .and. day .eq. 1 .and. tod .eq. 0)) then
+            if (masterproc .and. i .eq. 1) then
+              nu_nml = getavu()
+              open( nu_nml, file=trim(NLFilename), status='old', iostat=nml_error )
+              call find_nlgroup_name(nu_nml, 'ndepdyn_nml', status=nml_error)
+              if (nml_error == 0) then
+                read(nu_nml, nml=ndepdyn_nml,iostat=nml_error)
+                if (nml_error /= 0) then
+                  call endrun(msg='ERROR reading ndep namelist')
+                end if
+              end if
+              close(nu_nml)
+              call relavu( nu_nml )
+
+              ierr = nf90_open(trim(stream_fldFileName_ndep), nf90_nowrite, ncid)
+              ierr = nf90_inq_varid(ncid, 'lat', varid)
+              ierr = nf90_get_var(ncid, varid, smap2_lat)
+              ierr = nf90_inq_varid(ncid, 'lon', varid)
+              ierr = nf90_get_var(ncid, varid, smap2_lon)
+              ierr = nf90_inq_varid(ncid, 'NDEP_year', varid)
+              starti(1:2) = 1
+              starti(3)   = nindex(1)
+              counti(1)   = 144
+              counti(2)   = 96
+              counti(3)   = 1
+              ierr = nf90_get_var(ncid, varid, a2l%ndep1, starti, counti)
+              if (nindex(1) .ne. nindex(2)) then
+                starti(3) = nindex(2)
+                ierr = nf90_get_var(ncid, varid, a2l%ndep2, starti, counti)
+              else
+                a2l%ndep2 = a2l%ndep1
+              end if
+              ierr = nf90_close(ncid)
+             end if
+             if (i .eq. 1) then
+               call mpi_bcast (a2l%ndep1, 144*96, MPI_REAL8, 0, mpicom, ier)
+               call mpi_bcast (a2l%ndep2, 144*96, MPI_REAL8, 0, mpicom, ier)
+               call mpi_bcast (smap2_lon, 144, MPI_REAL8, 0, mpicom, ier)
+               call mpi_bcast (smap2_lat, 96, MPI_REAL8, 0, mpicom, ier)
+             end if
+          end if
+
+          if (a2l%loaded_bypassdata .eq. 0) then
+            mindist=99999
+            do thisx = 1,144
+              do thisy = 1,96
+                if (ldomain%lonc(g) .lt. 0) then
+                  if (smap2_lon(thisx) >= 180) smap2_lon(thisx) = smap2_lon(thisx)-360._r8
+                else if (ldomain%lonc(g) .ge. 180) then
+                  if (smap2_lon(thisx) < 0) smap2_lon(thisx) = smap2_lon(thisx) + 360._r8
+                end if
+                thislon = smap2_lon(thisx)
+                thisdist = 100*((smap2_lat(thisy) - ldomain%latc(g))**2 + &
+                              (thislon - ldomain%lonc(g))**2)**0.5
+                if (thisdist .lt. mindist) then
+                  mindist = thisdist
+                  a2l%ndepind(g,1) = thisx
+                  a2l%ndepind(g,2) = thisy
+                end if
+              end do
+            end do
+          end if
+
+          !get weights for interpolation
+          wt1(1) = 1._r8 - (thiscalday -1._r8)/365._r8
+          wt2(1) = 1._r8 - wt1(1)
+
+          a2l%forc_ndep(g)    = (a2l%ndep1(a2l%ndepind(g,1),a2l%ndepind(g,2),1)*wt1(1) + &
+                                              a2l%ndep2(a2l%ndepind(g,1),a2l%ndepind(g,2),1)*wt2(1)) / (365._r8 * 86400._r8)
         end if
 
-	!get weights for interpolation (note this method doesn't get the month boundaries quite right..)
-	aindex(1) = (min(max(yr,1849),2006)-1849)*12+mon
-	if (thiscalday .le. (caldaym(mon+1)+caldaym(mon))/2._r8) then 
-	   wt1 = 0.5_r8 + (thiscalday-caldaym(mon))/(caldaym(mon+1)-caldaym(mon))
-	   aindex(2) = aindex(1)-1
-	else
-	   wt1 = 1.0_r8 - (thiscalday-(caldaym(mon+1)+caldaym(mon))/2._r8)/   &
-	                  (caldaym(mon+1)-caldaym(mon))
-           aindex(2) = aindex(1)+1
-	end if
-	wt2 = 1._r8 - wt1
-	
-	!print*, wt1, wt2, aindex(1), aindex(2), a2l%aero_input(1,1,1,aindex(1:2))
+   !------------------------------------Aerosol forcing--------------------------------------------------
+        if (a2l%loaded_bypassdata .eq. 0 .or. (mon .eq. 1 .and. day .eq. 1 .and. tod .eq. 0)) then
+          if (masterproc .and. i .eq. 1) then
+            aerovars(1) = 'BCDEPWET'
+            aerovars(2) = 'BCPHODRY'
+            aerovars(3) = 'BCPHIDRY'
+            aerovars(4) = 'OCDEPWET'
+            aerovars(5) = 'OCPHODRY'
+            aerovars(6) = 'OCPHIDRY'
+            aerovars(7) = 'DSTX01DD'
+            aerovars(8) = 'DSTX02DD'
+            aerovars(9) = 'DSTX03DD'
+            aerovars(10) = 'DSTX04DD'
+            aerovars(11) = 'DSTX01WD'
+            aerovars(12) = 'DSTX02WD'
+            aerovars(13) = 'DSTX03WD'
+            aerovars(14) = 'DSTX04WD'
+            ierr = nf90_open(trim(aero_file), nf90_nowrite, ncid)
+            ierr = nf90_inq_varid(ncid, 'lat', varid)
+            ierr = nf90_get_var(ncid, varid, smap2_lat)
+            ierr = nf90_inq_varid(ncid, 'lon', varid)
+            ierr = nf90_get_var(ncid, varid, smap2_lon)
+            starti(1:2) = 1
+            starti(3)   = max((min(yr,2100)-1849)*12+1, 13)-1
+            counti(1)   = 144
+            counti(2)   = 96
+            counti(3)   = 14
+            do av=1,14
+              ierr = nf90_inq_varid(ncid, trim(aerovars(av)), varid)
+              ierr = nf90_get_var(ncid, varid, a2l%aerodata(av,:,:,:), starti, counti)
+            end do
+            ierr = nf90_close(ncid)
+          end if
+          if (i .eq. 1) then
+             call mpi_bcast (a2l%aerodata, 14*144*96*14, MPI_REAL8, 0, mpicom, ier)
+          end if
+        end if
 
-	do av = 1,14
-  	  a2l%forc_aer(g,av)  =  a2l%aero_input(av,1,1,aindex(1))*wt1+ a2l%aero_input(av,1,1,aindex(2))*wt2
-	end do	      
-       
+        !Use ndep grid indices since they're on the same grid
+        if (a2l%loaded_bypassdata .eq. 0) then
+            mindist=99999
+            do thisx = 1,144
+              do thisy = 1,96
+                if (ldomain%lonc(g) .lt. 0) then
+                  if (smap2_lon(thisx) >= 180) smap2_lon(thisx) = smap2_lon(thisx)-360._r8
+                else if (ldomain%lonc(g) .ge. 180) then
+                  if (smap2_lon(thisx) < 0) smap2_lon(thisx) = smap2_lon(thisx) + 360._r8
+                end if
+                thislon = smap2_lon(thisx)
+                thisdist = 100*((smap2_lat(thisy) - ldomain%latc(g))**2 + &
+                              (thislon - ldomain%lonc(g))**2)**0.5
+                if (thisdist .lt. mindist) then
+                  mindist = thisdist
+                  a2l%ndepind(g,1) = thisx
+                  a2l%ndepind(g,2) = thisy
+                end if
+              end do
+            end do
+        end if
+
+        !get weights for interpolation (note this method doesn't get the month boundaries quite right..)
+        aindex(1) = mon+1
+        if (thiscalday .le. (caldaym(mon+1)+caldaym(mon))/2._r8) then
+           wt1(1) = 0.5_r8 + (thiscalday-caldaym(mon))/(caldaym(mon+1)-caldaym(mon))
+           aindex(2) = aindex(1)-1
+        else
+           wt1(1) = 1.0_r8 - (thiscalday-(caldaym(mon+1)+caldaym(mon))/2._r8)/   &
+                          (caldaym(mon+1)-caldaym(mon))
+           aindex(2) = aindex(1)+1
+        end if
+        wt2(1) = 1._r8 - wt1(1)
+
+        do av = 1,14
+          a2l%forc_aer(g,av)  =  a2l%aerodata(av,a2l%ndepind(g,1), &
+            a2l%ndepind(g,2),aindex(1))*wt1(1)+a2l%aerodata(av,a2l%ndepind(g,1), &
+            a2l%ndepind(g,2),aindex(2))*wt2(1)
+        end do
+
+  !---------------------------------- ADD T & CO2 --------------------------------------------------------
+       !Parse startdate for adding temperature
+       if (startdate_add_temperature .ne. '') then
+         call get_curr_date( yr, mon, day, tod )
+         read(startdate_add_temperature,*) sdate_addt
+         sy_addt     = sdate_addt/10000
+         sm_addt     = (sdate_addt-sy_addt*10000)/100
+         sd_addt     = sdate_addt-sy_addt*10000-sm_addt*100
+         read(startdate_add_co2,*) sdate_addco2
+         sy_addco2     = sdate_addco2/10000
+         sm_addco2     = (sdate_addco2-sy_addco2*10000)/100
+         sd_addco2     = sdate_addco2-sy_addco2*10000-sm_addt*100
+       end if
+       if (startdate_add_temperature .ne. '') then
+         if ((yr == sy_addt .and. mon == sm_addt .and. day >= sd_addt) .or. &
+             (yr == sy_addt .and. mon > sm_addt) .or. (yr > sy_addt)) then
+           a2l%forc_t(g) = a2l%forc_t(g) + add_temperature
+           a2l%forc_th(g) = a2l%forc_th(g) + add_temperature
+         end if
+       end if
+
+  !---------------------------------- CO2 -------------------------------------------------------------------
+
+       if (co2_type_idx /= 0) then
+          !atmospheric CO2 (to be used for transient simulations only)
+          if (a2l%loaded_bypassdata .eq. 0) then
+            ierr = nf90_open(trim(co2_file), nf90_nowrite, ncid)
+            if (ierr .ne. 0) call endrun(msg=' ERROR: Failed to open cpl_bypass input CO2 file' )
+            ierr = nf90_inq_dimid(ncid, 'time', dimid)
+            ierr = nf90_Inquire_Dimension(ncid, dimid, len = thistimelen)
+            ierr = nf90_inq_varid(ncid, 'CO2', varid)
+            ierr = nf90_get_var(ncid, varid, a2l%co2_input(:,:,1:thistimelen))
+            ierr = nf90_inq_varid(ncid, 'C13O2', varid)
+            ierr = nf90_get_var(ncid, varid, a2l%c13o2_input(:,:,1:thistimelen))
+            ierr = nf90_close(ncid)
+          end if
+
+          !get weights/indices for interpolation (assume values represent annual averages)
+          nindex(1) = min(max(yr,1850),2100)-1764
+          if (thiscalday .le. 182.5) then
+            nindex(2) = nindex(1)-1
+          else
+            nindex(2) = nindex(1)+1
+          end if
+          wt1(1) = 1._r8 - abs((182.5 - (thiscalday -1._r8))/365._r8)
+          wt2(1) = 1._r8 - wt1(1)
+
+          co2_ppmv_val = a2l%co2_input(1,1,nindex(1))*wt1(1) + a2l%co2_input(1,1,nindex(2))*wt2(1)
+          if (startdate_add_co2 .ne. '' .and. add_co2 .ne. 0._r8) then
+            if ((yr == sy_addco2 .and. mon == sm_addco2 .and. day >= sd_addco2) .or. &
+                (yr == sy_addco2 .and. mon > sm_addco2) .or. (yr > sy_addco2)) then
+              co2_ppmv_val = co2_ppmv_val + add_co2
+            end if
+          end if
+          if (use_c13) then
+            a2l%forc_pc13o2(g) = (a2l%c13o2_input(1,1,nindex(1))*wt1(1) + &
+               a2l%c13o2_input(1,1,nindex(2))*wt2(1)) * 1.e-6_r8 * a2l%forc_pbot(g)
+          end if
+          !TEST (FACE-like experiment begins in 2010)
+          !if (yr .ge. 2010) a2l%co2_input = 550.
+
+       else if (co2_type_idx == 0) then
+
+          ! CO2 constant, value from namelist
+          co2_ppmv_val = co2_ppmv
+          if (use_c13) then
+            a2l%forc_pc13o2(g) = co2_ppmv_val * c13ratio * 1.e-6_r8 &
+                                             * a2l%forc_pbot(g)
+          end if
+
+       else
+
+         call endrun( sub//' ERROR: Invalid co2_type_idx, must be 0 or not (constant or diagnostic) for CPL_BYPASS' )
+
+       end if
+     
   !-----------------------------------------------------------------------------------------------------
 #else
         a2l%forc_hgt(g)     = x2l_l%rAttr(index_x2l_Sa_z,i)         ! zgcmxy  Atm state m
@@ -1294,7 +2070,6 @@ contains
         a2l%forc_aer(g,12) =  x2l_l%rAttr(index_x2l_Faxa_dstdry3,i)
         a2l%forc_aer(g,13) =  x2l_l%rAttr(index_x2l_Faxa_dstwet4,i)
         a2l%forc_aer(g,14) =  x2l_l%rAttr(index_x2l_Faxa_dstdry4,i)
-#endif
 
         ! Determine optional receive fields
 
@@ -1309,6 +2084,29 @@ contains
         else
            co2_ppmv_diag = co2_ppmv
         end if
+
+        if (co2_type_idx == 1) then
+           co2_ppmv_val = co2_ppmv_prog
+        else if (co2_type_idx == 2) then
+
+           co2_ppmv_val = co2_ppmv_diag
+           if (use_c13) then
+             a2l%forc_pc13o2(g) = co2_ppmv_val * c13ratio * 1.e-6_r8 * a2l%forc_pbot(g)
+           end if
+
+           if (yr .ge. startyear_experiment .and. yr .le. endyear_experiment) then
+              co2_ppmv_val = co2_ppmv_val + add_co2
+           end if
+
+        else
+           co2_ppmv_val = co2_ppmv
+           if (use_c13) then
+              a2l%forc_pc13o2(g) = co2_ppmv_val * c13ratio * 1.e-6_r8 * a2l%forc_pbot(g)
+           end if
+        end if
+
+#endif
+
 
 #ifdef LCH4
         if (index_x2l_Sa_methane /= 0) then
@@ -1340,63 +2138,21 @@ contains
         qsat           = 0.622_r8*e / (a2l%forc_pbot(g) - 0.378_r8*e)
         a2l%forc_rh(g) = 100.0_r8*(a2l%forc_q(g) / qsat)
         ! Make sure relative humidity is properly bounded
-        ! a2l%forc_rh(g) = min( 100.0_r8, a2l%forc_rh(g) )
-        ! a2l%forc_rh(g) = max(   0.0_r8, a2l%forc_rh(g) )
+        a2l%forc_rh(g) = min( 100.0_r8, a2l%forc_rh(g) )
+        a2l%forc_rh(g) = max(   0.0_r8, a2l%forc_rh(g) )
         
         ! Determine derived quantities for optional fields
         ! Note that the following does unit conversions from ppmv to partial pressures (Pa)
         ! Note that forc_pbot is in Pa
 
-!        if (co2_type_idx == 1) then
-!           co2_ppmv_val = co2_ppmv_prog
-!        else if (co2_type_idx == 2) then
+        a2l%forc_pco2(g)   = co2_ppmv_val * 1.e-6_r8 * a2l%forc_pbot(g)
+
+     end do
 
 #ifdef CPL_BYPASS
-        !atmospheric CO2 (to be used for transient simulations only)
-        if (nstep .eq. 0) then 
-#THISCO2FILE#
-          ierr = nf90_inq_varid(ncid, 'CO2', varid)
-          !add 13C input HERE
-          ierr = nf90_get_var(ncid, varid, a2l%co2_input)
-          ierr = nf90_inq_varid(ncid, 'C13O2', varid)
-          ierr = nf90_get_var(ncid, varid, a2l%c13o2_input)
-          ierr = nf90_close(ncid)
-        end if
- 
-        !get weights/indices for interpolation (assume values represent annual averages)
-        nindex(1) = min(max(yr,1765),2009)-1764
-        if (thiscalday .le. 182.5) then 
-          nindex(2) = nindex(1)-1   
-        else
-          nindex(2) = nindex(1)+1
-        end if
-        wt1 = 1._r8 - abs((182.5 - (thiscalday -1._r8))/365._r8)
-        wt2 = 1._r8 - wt1
-
-        co2_ppmv_val = a2l%co2_input(1,1,nindex(1))*wt1 + a2l%co2_input(1,1,nindex(2))*wt2
-        if (use_c13) then 
-          a2l%forc_pc13o2(g) = (a2l%c13o2_input(1,1,nindex(1))*wt1 + &
-               a2l%c13o2_input(1,1,nindex(2))*wt2) * 1.e-6_r8 * a2l%forc_pbot(g)
-        end if
-#else
-           co2_ppmv_val = co2_ppmv_diag 
-           !if (use_c13) then
-           !  a2l%forc_pc13o2(g) = co2_ppmv_val * c13ratio * 1.e-6_r8 * a2l%forc_pbot(g)
-           !end if
+    a2l%loaded_bypassdata = 1
 #endif
-        if (yr .ge. startyear_experiment .and. yr .le. endyear_experiment) then
-          co2_ppmv_val = co2_ppmv_val + add_co2
-        end if
 
-!        else
-!           co2_ppmv_val = co2_ppmv
-!           if (use_c13) then
-!             a2l%forc_pc13o2(g) = co2_ppmv_val * c13ratio * 1.e-6_r8 * a2l%forc_pbot(g)
-!           end if
-!        end if
-        a2l%forc_pco2(g)   = co2_ppmv_val * 1.e-6_r8 * a2l%forc_pbot(g) 
-        !if (day == 1 .and. mon == 1) print*, 'CO2', yr, a2l%forc_pco2(g)
-     end do
 
    end subroutine lnd_import_mct
 
@@ -1584,3 +2340,75 @@ contains
 !====================================================================================
 
 end module lnd_comp_mct
+
+
+
+double precision function szenith(xcoor, ycoor, ltm, jday, hr, min, offset)
+  !Function to calcualte solar zenith angle
+  !Used in coupler bypass mode to compute inerpolation for incoming solar
+
+  use shr_kind_mod , only: r8 => shr_kind_r8, cl=>shr_kind_cl
+  implicit none
+  !inputs
+  real(r8) xcoor, ycoor, offset_min
+  integer jday, hr, min, ltm, offset
+  !working variables
+  real(r8) d2r, r2d, lsn, latrad, decrad, decdeg, ha
+  real(r8) hangle, harad, saltrad, saltdeg, sazirad, sazideg
+  real(r8) szendeg,szenrad
+
+  real pi
+  parameter(pi = 3.14159265358979)
+  offset_min = offset/60d0   !note assumes 1hr or smaller timestep
+  min = min - offset_min
+
+  !adjust time for offsets
+  if (min < 0) then
+    hr = hr - 1
+    min = min+60
+  end if
+  if (min >= 60) then
+    hr = hr+1
+    min = min-60
+  end if
+  if (hr < 0) then
+    hr = hr+24
+    jday = jday-1
+  end if
+  if (hr >= 24) then
+    hr = hr-24
+    jday = jday+1
+  end if
+
+  if (jday < 1) jday = 1
+  if (xcoor > 180d0) xcoor = xcoor-360d0
+
+  d2r     = pi/180d0
+  r2d     = 1/d2r
+  lsn     = 12.0d0+((ltm-xcoor)/15.0d0)
+  latrad  = ycoor*d2r
+  decrad  = 23.45*d2r*sin(d2r*360d0*(284d0+jday)/365d0)
+  decdeg  = decrad*r2d
+  ha      = hr+min/60.0d0
+  hangle  = (lsn-ha)*60.0d0
+  harad   = hangle*0.0043633d0
+
+  saltrad = asin((sin(latrad)*sin(decrad))+(cos(latrad)*cos(decrad) &
+       *cos(harad)))
+  saltdeg = saltrad * r2d
+  sazirad = asin(cos(decrad)*sin(harad)/cos(saltrad))
+  sazideg = sazirad * r2d
+
+  IF (saltdeg.LT.0.0d0 .OR. saltrad.GT.180.0d0) THEN  ! sun is below horizon
+     saltdeg = 0.0d0
+     saltrad = 0.0d0
+     szendeg = 90.0d0
+     szenrad = 90.0d0*d2r
+     !mass    = 1229d0**.5d0             ! if solaralt=0 -> sin(0)=0
+  ELSE
+     szendeg = 90d0-saltdeg
+     szenrad = szendeg*d2r
+  ENDIF
+  szenith = szendeg
+
+end function szenith
