@@ -2428,7 +2428,7 @@ contains
 !EOP
     integer :: f                         ! field index
     integer :: k                         ! 1d index
-    integer :: c,l,p                     ! indices
+    integer :: g,c,l,p                   ! indices
     integer :: beg1d_out                 ! on-node 1d hbuf pointer start index
     integer :: end1d_out                 ! on-node 1d hbuf pointer end index
     integer :: num1d_out                 ! size of hbuf first dimension (overall all nodes)
@@ -2545,6 +2545,26 @@ contains
           end if
 
           ! Write history output.  Always output land and ocean runoff on xy grid.
+
+          ! ncd_io cannot handle 'Infinity' (but Nan is OK),
+          ! in which case pio will throw out an ERROR with no clue of what variable
+          ! (example: NetCDF: Numeric conversion not representable)
+          ! because pio doesn't provide useful message.
+          if (ANY(abs(histo)>HUGE(0.0))) then
+             print *, " hfields_write may CRASH below due to: 'Infinity' in ", varname
+             print *, "first INF indices: ", FINDLOC(abs(histo)>HUGE(0.0),.true.)
+             if (type1d_out == grlnd) then
+                do g=beg1d_out,end1d_out
+                   if (ANY(abs(histo(g,:))>HUGE(0.0))) then
+                     print *, "grid index, longitude, latitude: ", g, &
+                         ldomain%lonc(g), ldomain%latc(g)
+                     print *, "value: ", histo(g,:)
+                   endif
+                enddo
+              else
+                ! need to map other c,l or p to grid index
+              endif
+          endif
 
           if (num2d == 1) then
              call ncd_io(flag='write', varname=varname, &
