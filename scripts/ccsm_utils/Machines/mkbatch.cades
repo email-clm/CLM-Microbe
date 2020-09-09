@@ -34,11 +34,11 @@ endif
 cat >! $file << EOF1
 #!/bin/csh -f
 #SBATCH -J ${jobname}
-#SBATCH -p burst
+#SBATCH -p batch
 #SBATCH -N ${mppnodes}
 #SBATCH --ntasks-per-node=$ppn
 #SBATCH -t ${walltime}
-#SBATCH --mem=128G
+#SBATCH --mem=125G
 #SBATCH -A ccsi
 EOF1
 

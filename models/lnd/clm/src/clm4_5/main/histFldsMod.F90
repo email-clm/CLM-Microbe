@@ -7141,6 +7141,18 @@ end if
 
     end if
 
+#ifdef CPL_BYPASS
+#ifndef NOFIRE
+   call hist_addfld1d (fname='HDM', units='counts/km^2',      &
+         avgflag='A', long_name='human population density',   &
+         ptr_lnd=clm_a2l%forc_hdm, default='inactive')
+
+    call hist_addfld1d (fname='LNFM', units='counts/km^2/hr',  &
+         avgflag='A', long_name='Lightning frequency',        &
+         ptr_lnd=clm_a2l%forc_lnfm, default='inactive')
+#endif
+#endif
+
     ! Print masterlist of history fields
 
     call hist_printflds()

@@ -1305,9 +1305,11 @@ subroutine ccsm_init()
    if (wav_prognostic .and. .not.wav_present) then
       call shr_sys_abort('if prognostic wav must also have wav present')
    endif
+#ifndef CPL_BYPASS
    if ((ice_prognostic .or. ocn_prognostic .or. lnd_prognostic) .and. .not. atm_present) then
       call shr_sys_abort('if prognostic surface model must also have atm present')
    endif
+#endif
 ! tcx remove temporarily for development
 !   if (glc_prognostic .and. .not.sno_present) then
 !      call shr_sys_abort('if prognostic glc must also have sno present')
@@ -4499,6 +4501,7 @@ subroutine ccsm_run()
             call shr_sys_flush(logunit)
          endif
       endif
+#ifndef CPL_BYPASS
       if (tod == 0 .or. info_debug > 1) then
          !! Report on memory usage
          !! For now, just look at the first instance of each component
@@ -4511,6 +4514,7 @@ subroutine ccsm_run()
             !   '  (pe=',iam_GLOID,' comps=',trim(complist)//')'
          endif
       endif
+#endif
       if (info_debug > 1) then
          if (iamroot_CPLID) then
             call seq_infodata_GetData(infodata,nextsw_cday=nextsw_cday)

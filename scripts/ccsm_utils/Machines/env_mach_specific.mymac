@@ -1,0 +1,35 @@
+#! /bin/csh -f
+
+# -------------------------------------------------------------------------
+# USERDEFINED
+# Edit this file to add module load or other paths needed for the build
+# and run on the system.  Can also include general env settings for machine.
+# Some samples are below
+# -------------------------------------------------------------------------
+
+setenv PATH /usr/local/bin:/opt/local/bin:/usr/bin:/bin
+setenv PATH /usr/local/autotools/bin/:${PATH}
+
+setenv GCC_PATH /usr/local/gcc-x/gcc-x-clang
+setenv PATH ${GCC_PATH}/bin:${PATH}
+
+setenv gcc ${GCC_PATH}/bin/gcc
+setenv gxx ${GCC_PATH}/bin/g++
+setenv gfortran ${GCC_PATH}/bin/gfortran
+
+#--- set env variables for Macros if needed
+setenv MPI_PATH /usr/local/gcc-x/mpich-3.3
+setenv MPILIBNAME mpich
+setenv PATH ${MPI_PATH}/bin:${PATH}
+
+setenv mpicc ${MPI_PATH}/bin/mpicc
+setenv mpicxx ${MPI_PATH}/bin/mpic++
+setenv mpif90 ${MPI_PATH}/bin/mpif90
+
+setenv NETCDF_PATH /usr/local/gcc-x/netcdf-4.x-hdf5
+setenv HDF5_PATH /usr/local/gcc-x/hdf5-1.10
+
+setenv INC_NETCDF ${NETCDF_PATH}/include
+setenv LIB_NETCDF ${NETCDF_PATH}/lib
+
+setenv LAPACK_DIR /usr/local/blas-lapack-dir

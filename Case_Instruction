@@ -72,3 +72,12 @@ In the case folder, ./casename.build
 
 9. run case
 In the case folder, ./casename.run
+
+
+other useful information: 
+Getting your Mac ready for netCDF
+http://mazamascience.com/WorkingWithData/?p=1474
+
+CESM: Building CESM 1.2 on Mac OSX
+http://hannahlab.org/cesm-building-cesm-1-2-on-mac-osx/
+https://github.com/fmyuan/E3SM/wiki/ALM-on-Mac-OSX:-environments,-building,-and-running
