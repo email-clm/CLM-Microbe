@@ -12,11 +12,12 @@ module CNCStateUpdate4Mod
 !
 ! !USES:
     use shr_kind_mod, only: r8 => shr_kind_r8
+    use clm_varctl, only : iulog, use_c13, use_c14
     implicit none
     save
     private
 ! !PUBLIC MEMBER FUNCTIONS:
-    public:: CStateUpdate4
+    public:: CStateUpdate4, vert_diffusion
 !
 ! !REVISION HISTORY:
 ! Xiaofeng Xu (4/1/2020) created for methane module
@@ -132,7 +133,7 @@ subroutine CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, isoto
 ! !ARGUMENTS:
 
    ! Column level pointers
-	decomp_cpools_vr			=> ccs%decomp_cpools_vr
+	decomp_cpools_vr			=> ccisos%decomp_cpools_vr
 	cdocs 					=> cmiciso%cdocs
 	
 	cmicbiocs 					=> cmiciso%cmicbiocs
@@ -175,13 +176,18 @@ subroutine CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, isoto
 	co2_surf_dif 				=> cmiciso%co2_surf_dif
 	co2_surf_netflux 			=> cmiciso%co2_surf_netflux
 
+
     ! set time steps
     dt = real( get_step_size(), r8 )
     
 	do j = 1,nlevdecomp
 	do fc = 1,num_soilc
 		c = filter_soilc(fc)
-		cdocs(c,j) = ccisos%decomp_cpools_vr(c,j,i_dom)
+		cdocs(c,j) = decomp_cpools_vr(c,j,i_dom)
+		
+		!call vert_diffusion(1, num_soilc, num_soilc, filter_soilc, isotope)
+		cdocs(c,j) = max(0._r8, cdocs(c,j) - caces_prod(c,j))
+		decomp_cpools_vr(c,j,i_dom) = cdocs(c,j)
 		
 		caces(c,j) = max(0._r8, (caces(c,j) + caces_prod(c,j)*dt + caces_prod_h2(c,j)*dt - ch4_prod_ace_depth(c,j)*dt))
 !		cacebios(c,j) = cacebios(c,j)
@@ -196,6 +202,133 @@ subroutine CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, isoto
 
 end subroutine CStateUpdate4
 !-----------------------------------------------------------------------
+
+subroutine vert_diffusion(lbc, ubc,num_micbioc, filter_micbioc, isotope)
+! The gas diffusion was simulated based on Fick's law; the concentration gradient is the key driver for gas diffusion along soil profile
+! The gas diffusion occur in saturated layers, the unsaturated layers was not considered
+! !USES:
+	use clmtype
+	use clm_time_manager, only: get_step_size, get_days_per_year, get_nstep
+	use clm_varcon
+	use clm_varcon, only : secspday, istwet, istsoil, istdlak, spval, istcrop
+	use microbevarcon
+	use clm_varpar, only : nlevgrnd, nlevdecomp
+!
+! !ARGUMENTS:
+implicit none
+	integer, intent(in) :: lbc, ubc                		! column bounds
+	integer, intent(in) :: num_micbioc               		! number of soil columns in filter
+	integer, intent(in) :: filter_micbioc(ubc-lbc+1) 	! filter for soil columns
+!
+! !LOCAL VARIABLES:
+! local pointers to implicit in scalars
+	real(r8), pointer :: z(:,:)         				! layer depth (m) (-nlevsno+1:nlevsoi)
+	real(r8), pointer :: dz(:,:)         				! layer thickness (m) (-nlevsno+1:nlevgrnd)
+
+	real(r8), pointer :: ccon_ch4s(:,:)			! column-level concentration of CH4 in saturated fraction
+	real(r8), pointer :: ccon_o2s(:,:)			! column-level concentration of O2 in saturated fraction
+	real(r8), pointer :: ccon_co2s(:,:)			! column-level concentration of CO2 in saturated fraction
+	real(r8), pointer :: ccon_h2s(:,:)			! column-level concentration of H2 in saturated fraction
+	real(r8), pointer :: t_soisno(:,:)
+		
+	real(r8) :: ccon_ch4s_temp(lbc:ubc,1:nlevgrnd)		! temporary array 
+	real(r8) :: ccon_o2s_temp(lbc:ubc,1:nlevgrnd) 		! temporary array 
+	real(r8) :: ccon_co2s_temp(lbc:ubc,1:nlevgrnd)	! temporary array 
+	real(r8) :: ccon_h2s_temp(lbc:ubc,1:nlevgrnd)	! temporary array 
+	real(r8) :: temp
+	integer :: jwaterhead_unsat(lbc:ubc)			! layer of the water head in unsaturated fraction
+
+	integer, pointer :: ltype(:)
+	integer, pointer :: clandunit(:)
+!
+! local pointers to implicit in/out scalars
+! !OTHER LOCAL VARIABLES:
+	integer :: c, j, l      ! indices
+	integer :: fc        ! soil column filter indices
+	real(r8) :: dlt
+	integer :: nlevsoi
+	
+	character(len=*), intent(in) :: isotope  ! 'bulk', 'c13' or 'c14'
+!EOP
+!-----------------------------------------------------------------------
+! assign local pointers to derived type arrays
+type(column_microbe_type), pointer :: ccisos
+   select case (isotope)
+   case ('c14')
+!      pcisof =>  pc14f
+!      pcisos =>  pc14s
+!      ccisof =>  cc14f
+!      ccisos =>  cc14s
+     ccisos => cmicc14
+   case ('c13')
+!      pcisof =>  pc13f
+!      pcisos =>  pc13s
+!      ccisof =>  cc13f
+!      ccisos =>  cc13s
+      ccisos => cmicc13
+    case ('bulk')
+!      pcisof =>  pc13f
+!      pcisos =>  pc13s
+!      ccisof =>  cc13f
+!      ccisos =>  cc13s
+      ccisos => cmic
+         case default
+      call endrun('CNCIsoStateUpdate4Mod: iso must be bulk, c13 or c14')
+   end select
+   
+	z                      				=> cps%z
+	dz                      			=> cps%dz
+
+	ccon_ch4s        			=> ccisos%ccon_ch4s
+	ccon_co2s        			=> ccisos%ccon_co2s
+	ccon_o2s          			=> ccisos%ccon_o2s
+	ccon_h2s          			=> ccisos%ccon_h2s
+	
+	ltype               			=> lun%itype
+	clandunit       			=> col%landunit
+	t_soisno					=> ces%t_soisno
+	
+	nlevsoi = 10
+	ccon_ch4s_temp 			= 0._r8
+	ccon_o2s_temp 			= 0._r8
+	ccon_co2s_temp 			= 0._r8
+	ccon_h2s_temp 			= 0._r8
+
+!	call get_waterhead(lbc, ubc, num_micbioc, filter_micbioc,jwaterhead_unsat)
+	
+	do fc = 1,num_micbioc
+        c = filter_micbioc(fc)
+	l = clandunit(c)     
+	if (ltype(l) == istsoil .or. ltype(l) == istcrop) then 
+	do j = 2,nlevsoi
+	if(j > jwaterhead_unsat(c) .and. j < nlevsoi) then
+	!write(iulog,*) "above water table"
+	end if
+	! for the saturation portion
+	!write(iulog,*) "before ", j, ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)
+		ccon_ch4s_temp(c,j) = (ccon_ch4s(c,j-1) - ccon_ch4s(c,j)) * Fick_D_w(1) * m_Fick_ad * 1.0e-3 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CH4_dif
+		ccon_o2s_temp(c,j) = (ccon_o2s(c,j-1) - ccon_o2s(c,j)) * Fick_D_w(2) * m_Fick_ad * 1.0e-3 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !O2_dif
+		ccon_co2s_temp(c,j) = (ccon_co2s(c,j-1) - ccon_co2s(c,j)) * Fick_D_w(3) * m_Fick_ad * 1.0e-3 *  (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !CO2_dif
+		ccon_h2s_temp(c,j) = (ccon_h2s(c,j-1) - ccon_h2s(c,j)) * Fick_D_w(4) * m_Fick_ad * 1.0e-3 * (t_soisno(c,j)/298)**1.87 * get_step_size() / (z(c,j) - z(c,j-1)) !H2_dif
+
+		ccon_ch4s(c,j-1) = (ccon_ch4s(c,j-1) * dz(c,j-1) - ccon_ch4s_temp(c,j)) / dz(c,j-1)
+		ccon_ch4s(c,j) = (ccon_ch4s(c,j) * dz(c,j) + ccon_ch4s_temp(c,j)) / dz(c,j)
+		
+		ccon_o2s(c,j-1) = (ccon_o2s(c,j-1) * dz(c,j-1) - ccon_o2s_temp(c,j)) / dz(c,j-1)
+		ccon_o2s(c,j) = (ccon_o2s(c,j) * dz(c,j) + ccon_o2s_temp(c,j)) / dz(c,j)
+
+		ccon_co2s(c,j-1) = (ccon_co2s(c,j-1) * dz(c,j-1) - ccon_co2s_temp(c,j)) / dz(c,j-1)
+		ccon_co2s(c,j) = (ccon_co2s(c,j) * dz(c,j) + ccon_co2s_temp(c,j)) / dz(c,j)
+
+		ccon_h2s(c,j-1) = (ccon_h2s(c,j-1) * dz(c,j-1) - ccon_h2s_temp(c,j)) / dz(c,j-1)
+		ccon_h2s(c,j) = (ccon_h2s(c,j) * dz(c,j) + ccon_h2s_temp(c,j)) / dz(c,j)
+	!write(iulog,*) "after ", ccon_ch4s(c,j-1), ccon_ch4s_sat(c,j)
+	end do
+        end if
+	end do
+
+end subroutine vert_diffusion
+
 #endif
 
 end module CNCStateUpdate4Mod

@@ -103,8 +103,8 @@ end subroutine microben2o
 ! !IROUTINE: ch4
 !
 ! !INTERFACE:
-subroutine microbech4 (lbg, ubg, lbl, ubl, lbc, ubc, lbp, ubp, num_soilc, filter_soilc, &
-                num_soilp, filter_soilp)
+subroutine microbech4 (lbg, ubg, lbc, ubc, lbp, ubp,num_soilc, filter_soilc, &
+                num_soilp, filter_soilp, isotope) 
 ! !DESCRIPTION:
 ! Driver for the methane emissions model
 !
@@ -125,13 +125,14 @@ subroutine microbech4 (lbg, ubg, lbl, ubl, lbc, ubc, lbp, ubp, num_soilc, filter
 ! !ARGUMENTS:
 implicit none
 	integer, intent(in) :: lbg, ubg           			! grid-index bounds
-	integer, intent(in) :: lbl, ubl           			! landunit-level index bounds
+!	integer, intent(in) :: lbl, ubl           			! landunit-level index bounds
 	integer, intent(in) :: lbc, ubc           			! column-index bounds
 	integer, intent(in) :: lbp, ubp           			! pft-level index bounds
 	integer, intent(in) :: num_soilc          			! number of column soil points in column filter
 	integer, intent(in) :: filter_soilc(ubc-lbc+1)    	! column filter for soil points
 	integer, intent(in) :: num_soilp          			! number of soil points in pft filter
 	integer, intent(in) :: filter_soilp(ubp-lbp+1) 		! pft filter for soil points
+	character(len=*), intent(in) :: isotope  ! 'bulk', 'c13' or 'c14'
 ! !CALLED FROM:
 ! driver.F90
 !
@@ -170,16 +171,16 @@ implicit none
 	real(r8), pointer :: caerch4bios_sat(:,:)			! column-level biomass of aerobic methanotrophy in saturated fraction molC/m3
 	real(r8), pointer :: canaerch4bios_unsat(:,:)		! column-level biomass of anaerobic methanotrophy in unsaturated fraction molC/m3
 	real(r8), pointer :: canaerch4bios_sat(:,:)		! column-level biomass of anaerobic methanotrophy in saturated fraction molC/m3
-	real(r8), pointer :: caces_unsat(:,:)			! column-level acetate in unsaturated fraction       molC/m3
-	real(r8), pointer :: caces_sat(:,:)				! column-level acetate in saturated fraction         molC/m3
+	real(r8), pointer :: caces_unsat(:,:)			! column-level acetate in unsaturated fraction molC/m3
+	real(r8), pointer :: caces_sat(:,:)				! column-level acetate in saturated fraction molC/m3
 	
-	real(r8), pointer :: caces_prod(:,:)				! acetate acid production
-	real(r8), pointer :: caces_unsat_prod(:,:)		! acetate acid produciton in unsaturation fraction of soil column
-	real(r8), pointer :: caces_sat_prod(:,:)			! acetate acid produciton in saturation fraction of soil column
+	real(r8), pointer :: caces_prod(:,:)				! acetate acid production mol C/m3/second
+	real(r8), pointer :: caces_unsat_prod(:,:)		! acetate acid produciton in unsaturation fraction of soil column mol C/m3/second
+	real(r8), pointer :: caces_sat_prod(:,:)			! acetate acid produciton in saturation fraction of soil column mol C/m3/second
 
-	real(r8), pointer :: caces_prod_h2(:,:)				! acetogenesis
-	real(r8), pointer :: caces_unsat_prod_h2(:,:)		! acetogenesis in unsaturation fraction of soil column
-	real(r8), pointer :: caces_sat_prod_h2(:,:)			! acetogenesis in saturation fraction of soil column
+	real(r8), pointer :: caces_prod_h2(:,:)			! acetogenesis molC/m3/second
+	real(r8), pointer :: caces_unsat_prod_h2(:,:)		! acetogenesis in unsaturation fraction of soil column molC/m3/second
+	real(r8), pointer :: caces_sat_prod_h2(:,:)		! acetogenesis in saturation fraction of soil column molC/m3/second
   
 	real(r8), pointer :: ccon_ch4s(:,:)				! column-level concentration of CH4 mol C/m3
 	real(r8), pointer :: ccon_o2s(:,:)				! column-level concentration of O2 mol O2/m3
@@ -208,8 +209,8 @@ implicit none
 	real(r8), pointer :: vwcsat(:,:)				! volumetic water content at saturation
 
 	real(r8), pointer :: fsat_pre(:)    				! finundated from previous timestep
-	real(r8), pointer :: c_atm(:,:)     			! CH4, O2, CO2 atmospheric conc  (mol/m3)
-	real(r8), pointer :: flux_ch4(:)    			! gridcell CH4 flux to atm. (kg C/m**2/s)
+	real(r8), pointer :: c_atm(:,:)     				! CH4, O2, CO2 atmospheric conc  (mol/m3)
+	real(r8), pointer :: flux_ch4(:)    				! gridcell CH4 flux to atm. (kg C/m**2/s)
 
 	real(r8), pointer :: nee_ch4(:)				! gridcell average net methane correction to CO2 flux (g C/m^2/s)
 	real(r8), pointer :: ch4_dfsat_flux(:)			! CH4 flux to atm due to decreasing finundated (kg C/m^2/s) [+]
@@ -223,15 +224,15 @@ implicit none
 	real(r8), pointer :: origionalsoilph(:)			! original soil pH value
 	integer , pointer :: cgridcell(:)   				! gridcell of corresponding column
 	real(r8), pointer :: forc_t(:)      				! atmospheric temperature (Kelvin)
-	real(r8), pointer :: forc_pbot(:)   			! atmospheric pressure (Pa)
-	real(r8), pointer :: forc_pco2(:)   			! CO2 partial pressure (Pa)
-	real(r8), pointer :: forc_pch4(:)   			! CH4 partial pressure (Pa)
-	real(r8), pointer :: forc_po2(:)    			! O2 partial pressure (Pa)
-	real(r8), pointer :: forc_ph2(:)    			! H2 partial pressure (Pa)
+	real(r8), pointer :: forc_pbot(:)   				! atmospheric pressure (Pa)
+	real(r8), pointer :: forc_pco2(:)   				! CO2 partial pressure (Pa)
+	real(r8), pointer :: forc_pch4(:)   				! CH4 partial pressure (Pa)
+	real(r8), pointer :: forc_po2(:)    				! O2 partial pressure (Pa)
+	real(r8), pointer :: forc_ph2(:)    				! H2 partial pressure (Pa)
 	real(r8), pointer :: dz(:,:)        				! layer thickness (m)  (-nlevsno+1:nlevsoi)
 	real(r8), pointer :: zi(:,:)        				! interface level below a "z" level (m)
 	real(r8), pointer :: z(:,:)         				! layer depth (m) (-nlevsno+1:nlevsoi)
-	integer , pointer :: pcolumn(:)     			! index into column level quantities
+	integer , pointer :: pcolumn(:)     				! index into column level quantities
 	real(r8), pointer :: wtcol(:)     				! weight of each plant funcitonal type in one column
 !   real(r8), pointer :: zwt0(:)        				! decay factor for finundated (m)
 !   real(r8), pointer :: f0(:)          				! maximum gridcell fractional inundated area
@@ -240,16 +241,16 @@ implicit none
    
 !	real(r8), pointer :: tempavg_bgnpp(:)   				! temporary average below-ground NPP (gC/m2/s)
 !	real(r8), pointer :: annavg_bgnpp(:)    				! annual average below-ground NPP (gC/m2/s)
-	integer :: jwaterhead_unsat(lbc:ubc)				! layer of the water head in unsaturated fraction
+	integer :: jwaterhead_unsat(lbc:ubc)			! layer of the water head in unsaturated fraction
 	real(r8), pointer :: waterhead_unsat(:)        		! water table depth (m) (from SoilHydrology)
    
 !	real(r8), pointer :: bgnpp_timestep(:) 
 !	real(r8), pointer :: bgnpp_avg(:) 
    
-   	real(r8), pointer :: ch4_prod_ace_depth_unsat(:,:)
-	real(r8), pointer :: ch4_prod_co2_depth_unsat(:,:)
-	real(r8), pointer :: ch4_oxid_o2_depth_unsat(:,:)
-	real(r8), pointer :: ch4_oxid_aom_depth_unsat(:,:)
+   	real(r8), pointer :: ch4_prod_ace_depth_unsat(:,:)	! acetoclastic methanogenesis along soil profile in unsaturated column mol C/m3/second
+	real(r8), pointer :: ch4_prod_co2_depth_unsat(:,:)	! hydrogenotrophic methanogenesis along soil profile  in unsaturated column mol C/m3/second
+	real(r8), pointer :: ch4_oxid_o2_depth_unsat(:,:)	! aerobic methanotrophy along soil profile in unsaturated column mol C/m3/second
+	real(r8), pointer :: ch4_oxid_aom_depth_unsat(:,:)	! anaerobic oxidaiton of methane along soil profile in unsaturated column mol C/m3/second
 	real(r8), pointer :: ch4_aere_depth_unsat(:,:)
 	real(r8), pointer :: ch4_dif_depth_unsat(:,:)
 	real(r8), pointer :: ch4_ebul_depth_unsat(:,:)
@@ -391,8 +392,8 @@ implicit none
 #if (defined HUM_HOL)
 !	real(r8), pointer :: h2osoi_vol(:,:)   ! volumetric soil water(0<=h2osoi_vol<=watsat) [m3/m3]
 	real(r8), pointer :: qflx_lat_aqu(:)   		! lateral flow in aquifer (mm/s)
-	real(r8), pointer :: wa(:)   			! lateral flow in aquifer (mm/s)
-	real(r8), pointer :: zwt(:)            		! water table depth (m)
+	real(r8), pointer :: wa(:)   				! lateral flow in aquifer (mm/s)
+	real(r8), pointer :: zwt(:)            			! water table depth (m)
 	real(r8) :: jwt(1:2)
 #endif
 
@@ -402,39 +403,39 @@ implicit none
 	real(r8) :: rootfraction(lbc:ubc,1:nlevdecomp)
 	
 	real(r8) :: AceProd = 0.   				! acetate production
-	real(r8) :: ACH2Prod = 0.				! h2 production from dissolved organic carbon mineralization
+	real(r8) :: ACH2Prod = 0.					! h2 production from dissolved organic carbon mineralization
 	real(r8) :: ACCO2Prod = 0.				! co2 production from dissolved organic carbon mineralization
 	real(r8) :: H2CH4Prod = 0.				! ch4 production from h2
 	real(r8) :: H2AceProd = 0.				! ace produciton from h2
-	real(r8) :: H2Cons = 0.				! h2 consumption
-	real(r8) :: CH4PlantFlux = 0.			! plant transport of ch4
-	real(r8) :: CH4Ebull = 0.				! ebbulltion of ch4
+	real(r8) :: H2Cons = 0.					! h2 consumption
+	real(r8) :: CH4PlantFlux = 0.				! plant transport of ch4
+	real(r8) :: CH4Ebull = 0.					! ebbulltion of ch4
 	real(r8) :: PlantO2Cons = 0.				! o2 consumption when transport from atmosphere to the root
 	real(r8) :: AerO2Cons = 0.				! Aerobic consumption of O2
 	real(r8) :: CH4O2Cons = 0.				! CH4 oxidation with O2
 	real(r8) :: dtempratio = 0.				! temporary variable
-	real(r8) :: dtemph2 = 0.				! temporary variable for h2
+	real(r8) :: dtemph2 = 0.					! temporary variable for h2
 	real(r8) :: H2PlantFlux = 0.				! h2 transport through plant
-	real(r8) :: CH4Prod = 0.				! CH4 proudction
-	real(r8) :: CH4Oxid = 0.				! CH4 oxidation
+	real(r8) :: CH4Prod = 0.					! CH4 proudction
+	real(r8) :: CH4Oxid = 0.					! CH4 oxidation
 	real(r8) :: O2PlantFlux = 0.				! O2 trasnport through plant
-	real(r8) :: CO2Prod = 0.				! CO2 proudction in this module (BGC transition in the CN-Microbe excluded)
-	real(r8) :: CO2PlantFlux = 0.			! CO2 transport through plant
+	real(r8) :: CO2Prod = 0.					! CO2 proudction in this module (BGC transition in the CN-Microbe excluded)
+	real(r8) :: CO2PlantFlux = 0.				! CO2 transport through plant
 	real(r8) :: AOMCH4Oxid = 0.				! Anaerobic oxidation of methane 
-	real(r8) :: AceCons = 0.				! Acetate acid consumption
+	real(r8) :: AceCons = 0.					! Acetate acid consumption
 	real(r8) :: H2CO2Cons = 0.				! H2 production CO2
 	real(r8) :: AceMethanogenGrowth = 0.		! growing rate of aceclastic methanogen
 	real(r8) :: AceMethanogenDying = 0.		! death rate of aceclastic methanogen
 	real(r8) :: H2MethanogenGrowth = 0.		! growing rate of hydrogen-based methanogen
-	real(r8) :: H2MethanogenDying = 0.		! death rate of hydrogen-based methanogen
-	real(r8) :: MethanotrophGrowth = 0.		! growing rate of methanotroph
-	real(r8) :: MethanotrophDying = 0.		! death rate of methanotroph
-	real(r8) :: AOMMethanotrophGrowth = 0.	! growing rate of the anerobic oxidation of methane
+	real(r8) :: H2MethanogenDying = 0.			! death rate of hydrogen-based methanogen
+	real(r8) :: MethanotrophGrowth = 0.			! growing rate of methanotroph
+	real(r8) :: MethanotrophDying = 0.			! death rate of methanotroph
+	real(r8) :: AOMMethanotrophGrowth = 0.		! growing rate of the anerobic oxidation of methane
 	real(r8) :: AOMMethanotrophDying = 0.		! death rate of anaerobic oxidation of methane 
 	
-	real(r8) :: tem1, tem2, tem3, tem4		! four temporary variables
-	real(r8) :: anpp!, nppratio				! above-ground npp, ratio of daily npp to annual total npp
-        real(r8) :: OxidAce2CO2                           ! oxidaiton of acetate to co2 (nromally sufficient oxygen), distinguish from aceteclastic methanogenesis
+	real(r8) :: tem1, tem2, tem3, tem4			! four temporary variables
+	real(r8) :: anpp!, nppratio					! above-ground npp, ratio of daily npp to annual total npp
+        real(r8) :: OxidAce2CO2                           	! oxidaiton of acetate to co2 (nromally sufficient oxygen), distinguish from aceteclastic methanogenesis
 
 ! !OTHER LOCAL VARIABLES:
 	integer :: fc,c,g,j,fp,p,l               ! indices
@@ -469,6 +470,27 @@ implicit none
 !	real(r8) :: dom_diffus = 1e8_r8							! times to som diffus 
 
 
+! !OTHER LOCAL VARIABLES:
+   type(column_microbe_type), 	pointer :: cmiciso	! column microbial state variable
+   type(column_cstate_type), 	pointer :: ccisos	! column carbons state variable
+
+!EOP
+!-----------------------------------------------------------------------
+   ! select which isotope
+   select case (isotope)
+   case ('bulk')
+      ccisos =>  ccs
+      cmiciso =>  cmic
+   case ('c14')
+      ccisos =>  cc14s
+      cmiciso =>  cmicc14
+   case ('c13')
+      ccisos =>  cc13s
+      cmiciso =>  cmicc13
+   case default
+      call endrun('CNCIsoStateUpdate3Mod: iso must be bulk, c13 or c14')
+   end select
+   
 !-----------------------------------------------------------------------
    ! Gridcell level pointers
 	forc_t    					=> clm_a2l%forc_t
@@ -479,10 +501,10 @@ implicit none
 	forc_pch4 					=> clm_a2l%forc_pch4
 	forc_ph2 					=> clm_a2l%forc_ph2
    
-   !flux_ch4  => clm_l2a%flux_ch4
-   !ch4co2f   => gch4%ch4co2f
-   !ch4prodg  => gch4%ch4prodg
-   !atdeg    => latdeg
+   !flux_ch4  	=> clm_l2a%flux_ch4
+   !ch4co2f   	=> gch4%ch4co2f
+   !ch4prodg  	=> gch4%ch4prodg
+   !atdeg    		=> latdeg
 
 	gmicbios 					=> gmic%gmicbios
 	gdocs 					=> gmic%gdocs
@@ -493,177 +515,177 @@ implicit none
 	ganaerch4bios 				=> gmic%ganaerch4bios   
 
    ! Column level pointers
-	cmicbiocs 					=> cmic%cmicbiocs
-	cdocs_pre 					=> cmic%cdocs_pre
-	cdocs 					=> cmic%cdocs
-	cdocs_unsat 				=> cmic%cdocs_unsat
-	cdocs_sat					=> cmic%cdocs_sat
-	cmicbions 					=> cmic%cmicbions
-	cdons 					=> cmic%cdons
-	cdons_unsat 				=> cmic%cdons_unsat
-	cdons_sat					=> cmic%cdons_sat
-	cdons_min					=> cmic%cdons_min
+	cmicbiocs 					=> cmiciso%cmicbiocs
+	cdocs_pre 					=> cmiciso%cdocs_pre
+	cdocs 					=> cmiciso%cdocs
+	cdocs_unsat 				=> cmiciso%cdocs_unsat
+	cdocs_sat					=> cmiciso%cdocs_sat
+	cmicbions 					=> cmiciso%cmicbions
+	cdons 					=> cmiciso%cdons
+	cdons_unsat 				=> cmiciso%cdons_unsat
+	cdons_sat					=> cmiciso%cdons_sat
+	cdons_min					=> cmiciso%cdons_min
 	
-	caces_prod 				=> cmic%caces_prod
-	caces_unsat_prod 			=> cmic%caces_unsat_prod
-	caces_sat_prod				=> cmic%caces_sat_prod
+	caces_prod 				=> cmiciso%caces_prod
+	caces_unsat_prod 			=> cmiciso%caces_unsat_prod
+	caces_sat_prod				=> cmiciso%caces_sat_prod
 
-	caces_prod_h2 				=> cmic%caces_prod_h2
-	caces_unsat_prod_h2 		=> cmic%caces_unsat_prod_h2
-	caces_sat_prod_h2			=> cmic%caces_sat_prod_h2
+	caces_prod_h2 				=> cmiciso%caces_prod_h2
+	caces_unsat_prod_h2 		=> cmiciso%caces_unsat_prod_h2
+	caces_sat_prod_h2			=> cmiciso%caces_sat_prod_h2
 		
-	caces 					=> cmic%caces
-	caces_unsat 				=> cmic%caces_unsat
-	caces_sat 					=> cmic%caces_sat
-	cacebios 					=> cmic%cacebios
-	cacebios_unsat 				=> cmic%cacebios_unsat
-	cacebios_sat 				=> cmic%cacebios_sat
-	cco2bios 					=> cmic%cco2bios
-	cco2bios_unsat 				=> cmic%cco2bios_unsat
-	cco2bios_sat 				=> cmic%cco2bios_sat
-	caerch4bios 				=> cmic%caerch4bios
-	caerch4bios_unsat 			=> cmic%caerch4bios_unsat
-	caerch4bios_sat 				=> cmic%caerch4bios_sat
-	canaerch4bios 				=> cmic%canaerch4bios
-	canaerch4bios_unsat 			=> cmic%canaerch4bios_unsat
-	canaerch4bios_sat 			=> cmic%canaerch4bios_sat
+	caces 					=> cmiciso%caces
+	caces_unsat 				=> cmiciso%caces_unsat
+	caces_sat 					=> cmiciso%caces_sat
+	cacebios 					=> cmiciso%cacebios
+	cacebios_unsat 				=> cmiciso%cacebios_unsat
+	cacebios_sat 				=> cmiciso%cacebios_sat
+	cco2bios 					=> cmiciso%cco2bios
+	cco2bios_unsat 				=> cmiciso%cco2bios_unsat
+	cco2bios_sat 				=> cmiciso%cco2bios_sat
+	caerch4bios 				=> cmiciso%caerch4bios
+	caerch4bios_unsat 			=> cmiciso%caerch4bios_unsat
+	caerch4bios_sat 			=> cmiciso%caerch4bios_sat
+	canaerch4bios 				=> cmiciso%canaerch4bios
+	canaerch4bios_unsat 			=> cmiciso%canaerch4bios_unsat
+	canaerch4bios_sat 			=> cmiciso%canaerch4bios_sat
      
-	ccon_ch4s        				=> cmic%ccon_ch4s
-	ccon_co2s         				=> cmic%ccon_co2s
-	ccon_o2s          				=> cmic%ccon_o2s
-	ccon_h2s          				=> cmic%ccon_h2s
-	ccon_ch4s_unsat    			=> cmic%ccon_ch4s_unsat
-	ccon_ch4s_sat        			=> cmic%ccon_ch4s_sat
-	ccon_co2s_unsat    			=> cmic%ccon_co2s_unsat
-	ccon_co2s_sat        			=> cmic%ccon_co2s_sat
-	ccon_o2s_unsat      			=> cmic%ccon_o2s_unsat
-	ccon_o2s_sat          			=> cmic%ccon_o2s_sat
-	ccon_h2s_unsat      			=> cmic%ccon_h2s_unsat
-	ccon_h2s_sat          			=> cmic%ccon_h2s_sat
+	ccon_ch4s        				=> cmiciso%ccon_ch4s
+	ccon_co2s         			=> cmiciso%ccon_co2s
+	ccon_o2s          				=> cmiciso%ccon_o2s
+	ccon_h2s          				=> cmiciso%ccon_h2s
+	ccon_ch4s_unsat    			=> cmiciso%ccon_ch4s_unsat
+	ccon_ch4s_sat        			=> cmiciso%ccon_ch4s_sat
+	ccon_co2s_unsat    			=> cmiciso%ccon_co2s_unsat
+	ccon_co2s_sat        			=> cmiciso%ccon_co2s_sat
+	ccon_o2s_unsat      			=> cmiciso%ccon_o2s_unsat
+	ccon_o2s_sat          			=> cmiciso%ccon_o2s_sat
+	ccon_h2s_unsat      			=> cmiciso%ccon_h2s_unsat
+	ccon_h2s_sat          			=> cmiciso%ccon_h2s_sat
  
-! start of the transport code
-	ch4_prod_ace_depth_unsat		=> cmic%ch4_prod_ace_depth_unsat
-	ch4_prod_co2_depth_unsat 		=> cmic%ch4_prod_co2_depth_unsat
-	ch4_oxid_o2_depth_unsat 		=> cmic%ch4_oxid_o2_depth_unsat
-	ch4_oxid_aom_depth_unsat		=> cmic%ch4_oxid_aom_depth_unsat
-	ch4_aere_depth_unsat 			=> cmic%ch4_aere_depth_unsat
-	ch4_dif_depth_unsat 			=> cmic%ch4_dif_depth_unsat
-	ch4_ebul_depth_unsat 			=> cmic%ch4_ebul_depth_unsat
-	co2_prod_ace_depth_unsat		=> cmic%co2_prod_ace_depth_unsat
-	co2_decomp_depth_unsat 		=> cmic%co2_decomp_depth_unsat
-	co2_cons_depth_unsat 		=> cmic%co2_cons_depth_unsat
-	co2_ebul_depth_unsat 			=> cmic%co2_ebul_depth_unsat
-	co2_aere_depth_unsat 			=> cmic%co2_aere_depth_unsat
-	co2_dif_depth_unsat 			=> cmic%co2_dif_depth_unsat
-	o2_cons_depth_unsat 			=> cmic%o2_cons_depth_unsat
-	o2_aere_depth_unsat 			=> cmic%o2_aere_depth_unsat
-	o2_aere_oxid_depth_unsat 		=> cmic%o2_aere_oxid_depth_unsat
-	o2_decomp_depth_unsat 		=> cmic%o2_decomp_depth_unsat
-	o2_cons_depth_unsat 			=> cmic%o2_cons_depth_unsat
-	o2_dif_depth_unsat 			=> cmic%o2_dif_depth_unsat
-	h2_prod_depth_unsat 			=> cmic%h2_prod_depth_unsat
-	h2_cons_depth_unsat 			=> cmic%h2_cons_depth_unsat
-	h2_aere_depth_unsat 			=> cmic%h2_aere_depth_unsat
-	h2_diff_depth_unsat 			=> cmic%h2_diff_depth_unsat
-	h2_ebul_depth_unsat 			=> cmic%h2_ebul_depth_unsat
-	ch4_surf_aere_unsat			=> cmic%ch4_surf_aere_unsat
-	ch4_surf_ebul_unsat 			=> cmic%ch4_surf_ebul_unsat
-	ch4_surf_dif_unsat 			=> cmic%ch4_surf_dif_unsat
-	ch4_surf_netflux_unsat 		=> cmic%ch4_surf_netflux_unsat
-	co2_surf_aere_unsat			=> cmic%co2_surf_aere_unsat
-	co2_surf_ebul_unsat 			=> cmic%co2_surf_ebul_unsat
-	co2_surf_dif_unsat 			=> cmic%co2_surf_dif_unsat
-	co2_surf_netflux_unsat 		=> cmic%co2_surf_netflux_unsat
-	o2_surf_aere_unsat			=> cmic%o2_surf_aere_unsat
-	o2_surf_dif_unsat 			=> cmic%o2_surf_dif_unsat
-	o2_surf_netflux_unsat 			=> cmic%o2_surf_netflux_unsat
-	h2_surf_aere_unsat			=> cmic%h2_surf_aere_unsat
-	h2_surf_ebul_unsat 			=> cmic%h2_surf_ebul_unsat
-	h2_surf_dif_unsat 			=> cmic%h2_surf_dif_unsat
-	h2_surf_netflux_unsat 			=> cmic%h2_surf_netflux_unsat
+! start of the code for biogeochemical ch4 cycling by depth
+	ch4_prod_ace_depth_unsat	=> cmiciso%ch4_prod_ace_depth_unsat
+	ch4_prod_co2_depth_unsat 	=> cmiciso%ch4_prod_co2_depth_unsat
+	ch4_oxid_o2_depth_unsat 		=> cmiciso%ch4_oxid_o2_depth_unsat
+	ch4_oxid_aom_depth_unsat	=> cmiciso%ch4_oxid_aom_depth_unsat
+	ch4_aere_depth_unsat 		=> cmiciso%ch4_aere_depth_unsat
+	ch4_dif_depth_unsat 			=> cmiciso%ch4_dif_depth_unsat
+	ch4_ebul_depth_unsat 		=> cmiciso%ch4_ebul_depth_unsat
+	co2_prod_ace_depth_unsat	=> cmiciso%co2_prod_ace_depth_unsat
+	co2_decomp_depth_unsat 		=> cmiciso%co2_decomp_depth_unsat
+	co2_cons_depth_unsat 		=> cmiciso%co2_cons_depth_unsat
+	co2_ebul_depth_unsat 		=> cmiciso%co2_ebul_depth_unsat
+	co2_aere_depth_unsat 		=> cmiciso%co2_aere_depth_unsat
+	co2_dif_depth_unsat 			=> cmiciso%co2_dif_depth_unsat
+	o2_cons_depth_unsat 		=> cmiciso%o2_cons_depth_unsat
+	o2_aere_depth_unsat 		=> cmiciso%o2_aere_depth_unsat
+	o2_aere_oxid_depth_unsat 	=> cmiciso%o2_aere_oxid_depth_unsat
+	o2_decomp_depth_unsat 		=> cmiciso%o2_decomp_depth_unsat
+	o2_cons_depth_unsat 		=> cmiciso%o2_cons_depth_unsat
+	o2_dif_depth_unsat 			=> cmiciso%o2_dif_depth_unsat
+	h2_prod_depth_unsat 		=> cmiciso%h2_prod_depth_unsat
+	h2_cons_depth_unsat 		=> cmiciso%h2_cons_depth_unsat
+	h2_aere_depth_unsat 		=> cmiciso%h2_aere_depth_unsat
+	h2_diff_depth_unsat 			=> cmiciso%h2_diff_depth_unsat
+	h2_ebul_depth_unsat 		=> cmiciso%h2_ebul_depth_unsat
+	ch4_surf_aere_unsat			=> cmiciso%ch4_surf_aere_unsat
+	ch4_surf_ebul_unsat 			=> cmiciso%ch4_surf_ebul_unsat
+	ch4_surf_dif_unsat 			=> cmiciso%ch4_surf_dif_unsat
+	ch4_surf_netflux_unsat 		=> cmiciso%ch4_surf_netflux_unsat
+	co2_surf_aere_unsat			=> cmiciso%co2_surf_aere_unsat
+	co2_surf_ebul_unsat 			=> cmiciso%co2_surf_ebul_unsat
+	co2_surf_dif_unsat 			=> cmiciso%co2_surf_dif_unsat
+	co2_surf_netflux_unsat 		=> cmiciso%co2_surf_netflux_unsat
+	o2_surf_aere_unsat			=> cmiciso%o2_surf_aere_unsat
+	o2_surf_dif_unsat 			=> cmiciso%o2_surf_dif_unsat
+	o2_surf_netflux_unsat 		=> cmiciso%o2_surf_netflux_unsat
+	h2_surf_aere_unsat			=> cmiciso%h2_surf_aere_unsat
+	h2_surf_ebul_unsat 			=> cmiciso%h2_surf_ebul_unsat
+	h2_surf_dif_unsat 			=> cmiciso%h2_surf_dif_unsat
+	h2_surf_netflux_unsat 		=> cmiciso%h2_surf_netflux_unsat
 
-	ch4_prod_ace_depth_sat 		=> cmic%ch4_prod_ace_depth_sat
-	ch4_prod_co2_depth_sat 		=> cmic%ch4_prod_co2_depth_sat
-	ch4_oxid_o2_depth_sat 		=> cmic%ch4_oxid_o2_depth_sat
-	ch4_oxid_aom_depth_sat 		=> cmic%ch4_oxid_aom_depth_sat
-	ch4_aere_depth_sat 			=> cmic%ch4_aere_depth_sat
-	ch4_dif_depth_sat 			=> cmic%ch4_dif_depth_sat
-	ch4_ebul_depth_sat 			=> cmic%ch4_ebul_depth_sat
-	co2_prod_ace_depth_sat 		=> cmic%co2_prod_ace_depth_sat
-	co2_decomp_depth_sat 		=> cmic%co2_decomp_depth_sat
-	co2_cons_depth_sat 			=> cmic%co2_cons_depth_sat
-	co2_ebul_depth_sat 			=> cmic%co2_ebul_depth_sat
-	co2_aere_depth_sat 			=> cmic%co2_aere_depth_sat
-	co2_dif_depth_sat 			=> cmic%co2_dif_depth_sat
-	o2_cons_depth_sat 			=> cmic%o2_cons_depth_sat
-	o2_aere_depth_sat 			=> cmic%o2_aere_depth_sat
-	o2_aere_oxid_depth_sat 		=> cmic%o2_aere_oxid_depth_sat
-	o2_decomp_depth_sat 			=> cmic%o2_decomp_depth_sat
-	o2_cons_depth_sat 			=> cmic%o2_cons_depth_sat
-	o2_dif_depth_sat 			=> cmic%o2_dif_depth_sat
-	h2_prod_depth_sat 			=> cmic%h2_prod_depth_sat
-	h2_cons_depth_sat 			=> cmic%h2_cons_depth_sat
-	h2_aere_depth_sat 			=> cmic%h2_aere_depth_sat
-	h2_diff_depth_sat 			=> cmic%h2_diff_depth_sat
-	h2_ebul_depth_sat 			=> cmic%h2_ebul_depth_sat
-	ch4_surf_aere_sat			=> cmic%ch4_surf_aere_sat
-	ch4_surf_ebul_sat 			=> cmic%ch4_surf_ebul_sat
-	ch4_surf_dif_sat 				=> cmic%ch4_surf_dif_sat
-	ch4_surf_netflux_sat 			=> cmic%ch4_surf_netflux_sat
-	co2_surf_aere_sat			=> cmic%co2_surf_aere_sat
-	co2_surf_ebul_sat 			=> cmic%co2_surf_ebul_sat
-	co2_surf_dif_sat 				=> cmic%co2_surf_dif_sat
-	co2_surf_netflux_sat 			=> cmic%co2_surf_netflux_sat
-	o2_surf_aere_sat				=> cmic%o2_surf_aere_sat
-	o2_surf_dif_sat 				=> cmic%o2_surf_dif_sat
-	o2_surf_netflux_sat 			=> cmic%o2_surf_netflux_sat
-	h2_surf_aere_sat				=> cmic%h2_surf_aere_sat
-	h2_surf_ebul_sat 			=> cmic%h2_surf_ebul_sat
-	h2_surf_dif_sat 				=> cmic%h2_surf_dif_sat
-	h2_surf_netflux_sat 			=> cmic%h2_surf_netflux_sat
+	ch4_prod_ace_depth_sat 		=> cmiciso%ch4_prod_ace_depth_sat
+	ch4_prod_co2_depth_sat 		=> cmiciso%ch4_prod_co2_depth_sat
+	ch4_oxid_o2_depth_sat 		=> cmiciso%ch4_oxid_o2_depth_sat
+	ch4_oxid_aom_depth_sat 		=> cmiciso%ch4_oxid_aom_depth_sat
+	ch4_aere_depth_sat 			=> cmiciso%ch4_aere_depth_sat
+	ch4_dif_depth_sat 			=> cmiciso%ch4_dif_depth_sat
+	ch4_ebul_depth_sat 			=> cmiciso%ch4_ebul_depth_sat
+	co2_prod_ace_depth_sat 		=> cmiciso%co2_prod_ace_depth_sat
+	co2_decomp_depth_sat 		=> cmiciso%co2_decomp_depth_sat
+	co2_cons_depth_sat 			=> cmiciso%co2_cons_depth_sat
+	co2_ebul_depth_sat 			=> cmiciso%co2_ebul_depth_sat
+	co2_aere_depth_sat 			=> cmiciso%co2_aere_depth_sat
+	co2_dif_depth_sat 			=> cmiciso%co2_dif_depth_sat
+	o2_cons_depth_sat 			=> cmiciso%o2_cons_depth_sat
+	o2_aere_depth_sat 			=> cmiciso%o2_aere_depth_sat
+	o2_aere_oxid_depth_sat 		=> cmiciso%o2_aere_oxid_depth_sat
+	o2_decomp_depth_sat 		=> cmiciso%o2_decomp_depth_sat
+	o2_cons_depth_sat 			=> cmiciso%o2_cons_depth_sat
+	o2_dif_depth_sat 			=> cmiciso%o2_dif_depth_sat
+	h2_prod_depth_sat 			=> cmiciso%h2_prod_depth_sat
+	h2_cons_depth_sat 			=> cmiciso%h2_cons_depth_sat
+	h2_aere_depth_sat 			=> cmiciso%h2_aere_depth_sat
+	h2_diff_depth_sat 			=> cmiciso%h2_diff_depth_sat
+	h2_ebul_depth_sat 			=> cmiciso%h2_ebul_depth_sat
+	ch4_surf_aere_sat			=> cmiciso%ch4_surf_aere_sat
+	ch4_surf_ebul_sat 			=> cmiciso%ch4_surf_ebul_sat
+	ch4_surf_dif_sat 			=> cmiciso%ch4_surf_dif_sat
+	ch4_surf_netflux_sat 			=> cmiciso%ch4_surf_netflux_sat
+	co2_surf_aere_sat			=> cmiciso%co2_surf_aere_sat
+	co2_surf_ebul_sat 			=> cmiciso%co2_surf_ebul_sat
+	co2_surf_dif_sat 			=> cmiciso%co2_surf_dif_sat
+	co2_surf_netflux_sat 			=> cmiciso%co2_surf_netflux_sat
+	o2_surf_aere_sat			=> cmiciso%o2_surf_aere_sat
+	o2_surf_dif_sat 				=> cmiciso%o2_surf_dif_sat
+	o2_surf_netflux_sat 			=> cmiciso%o2_surf_netflux_sat
+	h2_surf_aere_sat			=> cmiciso%h2_surf_aere_sat
+	h2_surf_ebul_sat 			=> cmiciso%h2_surf_ebul_sat
+	h2_surf_dif_sat 				=> cmiciso%h2_surf_dif_sat
+	h2_surf_netflux_sat 			=> cmiciso%h2_surf_netflux_sat
 
-	ch4_prod_ace_depth 			=> cmic%ch4_prod_ace_depth
-	ch4_prod_co2_depth 			=> cmic%ch4_prod_co2_depth
-	ch4_oxid_o2_depth 			=> cmic%ch4_oxid_o2_depth
-	ch4_oxid_aom_depth 			=> cmic%ch4_oxid_aom_depth
-	ch4_aere_depth 				=> cmic%ch4_aere_depth
-	ch4_dif_depth 				=> cmic%ch4_dif_depth
-	ch4_ebul_depth 				=> cmic%ch4_ebul_depth
-	co2_prod_ace_depth 			=> cmic%co2_prod_ace_depth
-	co2_decomp_depth 			=> cmic%co2_decomp_depth
-	co2_cons_depth 				=> cmic%co2_cons_depth
-	co2_ebul_depth 				=> cmic%co2_ebul_depth
-	co2_aere_depth 				=> cmic%co2_aere_depth
-	co2_dif_depth 				=> cmic%co2_dif_depth
-	o2_cons_depth 				=> cmic%o2_cons_depth
-	o2_aere_depth 				=> cmic%o2_aere_depth
-	o2_aere_oxid_depth 			=> cmic%o2_aere_oxid_depth
-	o2_decomp_depth 			=> cmic%o2_decomp_depth
-	o2_cons_depth 				=> cmic%o2_cons_depth
-	o2_dif_depth 				=> cmic%o2_dif_depth
-	h2_prod_depth 				=> cmic%h2_prod_depth
-	h2_cons_depth 				=> cmic%h2_cons_depth
-	h2_aere_depth 				=> cmic%h2_aere_depth
-	h2_diff_depth 				=> cmic%h2_diff_depth
-	h2_ebul_depth 				=> cmic%h2_ebul_depth
-	ch4_surf_aere				=> cmic%ch4_surf_aere
-	ch4_surf_ebul 				=> cmic%ch4_surf_ebul
-	ch4_surf_dif 				=> cmic%ch4_surf_dif
-	ch4_surf_netflux 				=> cmic%ch4_surf_netflux
-	co2_surf_aere				=> cmic%co2_surf_aere
-	co2_surf_ebul 				=> cmic%co2_surf_ebul
-	co2_surf_dif 				=> cmic%co2_surf_dif
-	co2_surf_netflux 				=> cmic%co2_surf_netflux
-	o2_surf_aere				=> cmic%o2_surf_aere
-	o2_surf_dif 				=> cmic%o2_surf_dif
-	o2_surf_netflux 				=> cmic%o2_surf_netflux
-	h2_surf_aere				=> cmic%h2_surf_aere
-	h2_surf_ebul 				=> cmic%h2_surf_ebul
-	h2_surf_dif 				=> cmic%h2_surf_dif
-	h2_surf_netflux 				=> cmic%h2_surf_netflux
-! end of code for gas transport added by xiaofeng 
+	ch4_prod_ace_depth 			=> cmiciso%ch4_prod_ace_depth
+	ch4_prod_co2_depth 			=> cmiciso%ch4_prod_co2_depth
+	ch4_oxid_o2_depth 			=> cmiciso%ch4_oxid_o2_depth
+	ch4_oxid_aom_depth 		=> cmiciso%ch4_oxid_aom_depth
+	ch4_aere_depth 			=> cmiciso%ch4_aere_depth
+	ch4_dif_depth 				=> cmiciso%ch4_dif_depth
+	ch4_ebul_depth 			=> cmiciso%ch4_ebul_depth
+	co2_prod_ace_depth 			=> cmiciso%co2_prod_ace_depth
+	co2_decomp_depth 			=> cmiciso%co2_decomp_depth
+	co2_cons_depth 			=> cmiciso%co2_cons_depth
+	co2_ebul_depth 			=> cmiciso%co2_ebul_depth
+	co2_aere_depth 			=> cmiciso%co2_aere_depth
+	co2_dif_depth 				=> cmiciso%co2_dif_depth
+	o2_cons_depth 				=> cmiciso%o2_cons_depth
+	o2_aere_depth 				=> cmiciso%o2_aere_depth
+	o2_aere_oxid_depth 			=> cmiciso%o2_aere_oxid_depth
+	o2_decomp_depth 			=> cmiciso%o2_decomp_depth
+	o2_cons_depth 				=> cmiciso%o2_cons_depth
+	o2_dif_depth 				=> cmiciso%o2_dif_depth
+	h2_prod_depth 				=> cmiciso%h2_prod_depth
+	h2_cons_depth 				=> cmiciso%h2_cons_depth
+	h2_aere_depth 				=> cmiciso%h2_aere_depth
+	h2_diff_depth 				=> cmiciso%h2_diff_depth
+	h2_ebul_depth 				=> cmiciso%h2_ebul_depth
+	ch4_surf_aere				=> cmiciso%ch4_surf_aere
+	ch4_surf_ebul 				=> cmiciso%ch4_surf_ebul
+	ch4_surf_dif 				=> cmiciso%ch4_surf_dif
+	ch4_surf_netflux 			=> cmiciso%ch4_surf_netflux
+	co2_surf_aere				=> cmiciso%co2_surf_aere
+	co2_surf_ebul 				=> cmiciso%co2_surf_ebul
+	co2_surf_dif 				=> cmiciso%co2_surf_dif
+	co2_surf_netflux 			=> cmiciso%co2_surf_netflux
+	o2_surf_aere				=> cmiciso%o2_surf_aere
+	o2_surf_dif 				=> cmiciso%o2_surf_dif
+	o2_surf_netflux 			=> cmiciso%o2_surf_netflux
+	h2_surf_aere				=> cmiciso%h2_surf_aere
+	h2_surf_ebul 				=> cmiciso%h2_surf_ebul
+	h2_surf_dif 				=> cmiciso%h2_surf_dif
+	h2_surf_netflux 			=> cmiciso%h2_surf_netflux
+! end of the code for biogeochemical ch4 cycling by depth by xiaofeng 
 
-	origionalsoilph   				=> cps%pH   
+	origionalsoilph   			=> cps%pH   
 	soilpH_unsat               		=> cps%soilpH_unsat     
 	soilpH_sat               			=> cps%soilpH_sat
 	dz                    				=> cps%dz 
@@ -679,16 +701,16 @@ implicit none
 !	fsat						=> cws%fsat  
 	rootfr_vr          				=> pps%rootfr
 	soiltemp 					=> ces%t_soisno
-	fsat_pre					=> cmic%fsat_pre
+	fsat_pre					=> cmiciso%fsat_pre
 !	tempavg_bgnpp     			=> p%pcf%tempavg_bgnpp
 !	annavg_bgnpp      			=> p%pcf%annavg_bgnpp
-	waterhead_unsat   			=> cmic%waterhead_unsat
+	waterhead_unsat   			=> cmiciso%waterhead_unsat
    	
 	sminn_vr                       		=> cns%sminn_vr
-	hr_vr						=> ccf%hr_vr
+	hr_vr					=> ccf%hr_vr
 	roothr					=> pcf%rr
 	froot_mr					=> pcf%froot_mr
-	froot_r					=> cmic%froot_r
+	froot_r					=> cmiciso%froot_r
 	
 	annsum_npp            			=> pepv%annsum_npp
 	annavg_agnpp          			=> pcf%annavg_agnpp
@@ -697,14 +719,14 @@ implicit none
 	col_rr            				=> pcf_a%rr
 	cannsum_npp 				=> cps%cannsum_npp
 
-	decomp_cpools_vr              		=> ccs%decomp_cpools_vr
-	decomp_npools_vr              		=> cns%decomp_npools_vr
+	decomp_cpools_vr              	=> ccs%decomp_cpools_vr
+	decomp_npools_vr              	=> cns%decomp_npools_vr
    
 	vwc           				=> cws%h2osoi_vol
 	vwcsat           				=> cps%watsat
 
 	sucsat                			=> cps%sucsat
-	soilpsi               				=> cps%soilpsi
+	soilpsi               			=> cps%soilpsi
    
 #if (defined HUM_HOL)
 	qflx_lat_aqu   				=> cwf%qflx_lat_aqu
@@ -713,9 +735,9 @@ implicit none
 #endif
 
 	caces_unsat_temp 			= 0._r8
-	caces_sat_temp 				= 0._r8
+	caces_sat_temp 			= 0._r8
 	cdocs_unsat_temp 			= 0._r8
-	cdocs_sat_temp 				= 0._r8
+	cdocs_sat_temp 			= 0._r8
 	dt = real( get_step_size(), r8 )
 	
 	rgasm					= rgas / 1000.
@@ -746,14 +768,14 @@ implicit none
 		micfinundated = finundated(c)
 	end if  
 !	      write(iulog,*) "microbial before: ",decomp_cpools_vr(c,j,i_dom), cdocs(c,j), decomp_npools_vr(c,j,i_dom), cdons(c,j)
-      decomp_cpools_vr(c,j,i_dom) = max(0._r8, decomp_cpools_vr(c,j,i_dom))
-      cdocs(c,j)			= decomp_cpools_vr(c,j,i_dom) 
-      cdocs_unsat(c,j) 		= cdocs(c,j) !* (1. - micfinundated) ! concentration
-      cdocs_sat(c,j) 		= cdocs(c,j) !* micfinundated ! concentration
-      cdons(c,j) 			= decomp_npools_vr(c,j,i_dom)
-      cdons_unsat(c,j) 	= cdons(c,j) !* (1. - micfinundated)  ! concentration
-      cdons_sat(c,j) 		= cdons(c,j) !* micfinundated ! concentration
-      cdons_min(c,j) 		= 0_r8
+!      decomp_cpools_vr(c,j,i_dom) = max(0._r8, decomp_cpools_vr(c,j,i_dom))
+      cdocs(c,j)				= decomp_cpools_vr(c,j,i_dom) 
+      cdocs_unsat(c,j) 			= cdocs(c,j) !* (1. - micfinundated) ! concentration
+      cdocs_sat(c,j) 			= cdocs(c,j) !* micfinundated ! concentration
+      cdons(c,j) 				= decomp_npools_vr(c,j,i_dom)
+      cdons_unsat(c,j) 		= cdons(c,j) !* (1. - micfinundated)  ! concentration
+      cdons_sat(c,j) 			= cdons(c,j) !* micfinundated ! concentration
+      cdons_min(c,j) 			= 0_r8
 !      write(iulog,*) " before: ", decomp_cpools_vr(c,j,i_dom)
            end do
       end do
@@ -829,7 +851,6 @@ implicit none
 	end do
 		
 ! end of root respiration
-!	hr_vr(:,:)  some and litter decomposing c release
 		
 !~ do fc = 1,num_soilc
 !~ c = filter_soilc(fc)
@@ -838,12 +859,11 @@ implicit none
 	!~ end do
 !~ end do
 
-
 !	call seasonality(lbc, ubc, lbp, ubp, num_soilc, filter_soilc, num_soilp, filter_soilp)
 	call get_waterhead(lbc, ubc, num_soilc, filter_soilc,jwaterhead_unsat)
-	call gas_diffusion(lbc, ubc, num_soilc, filter_soilc)
+	call gas_diffusion(lbc, ubc, num_soilc, filter_soilc,isotope)
 #if (defined HUM_HOL)
-	call lateral_bgc(lbc, ubc, num_soilc, filter_soilc)
+	call lateral_bgc(lbc, ubc, num_soilc, filter_soilc,isotope)
 #endif
 
 !~ do fc = 1,num_soilc
@@ -993,13 +1013,10 @@ if(j >= jwaterhead_unsat(c)) then
 	ACH2Prod = 0.0
 	end if
 
-        ccon_h2s_unsat(c,j) = ccon_h2s_unsat(c,j) + ACH2Prod * dt !
-!write(iulog,*) "ccon_h2s(c,j): ",	ccon_h2s(c,j)	 
-	ACConcentration = ACConcentration - (3.0 / 2.0 * AceProd * dt)
-	
-	if(ACConcentration < 0.0) then
-	ACConcentration = 0.0
-	end if
+
+!	if(ACConcentration < 0.0) then
+!	ACConcentration = 0.0
+!	end if
 	
 !	if(ccon_h2s_unsat(c,j) <= m_dCH4H2min) then
 	! Xiaofeng replaced the following two lines code with new mechanism of CH4 production from CO2 
@@ -1028,7 +1045,11 @@ if(j >= jwaterhead_unsat(c)) then
 !	H2CH4Prod = 0
 !	end if
 !	end if
-			
+		
+        ccon_h2s_unsat(c,j) = ccon_h2s_unsat(c,j) + ACH2Prod * dt !
+!write(iulog,*) "ccon_h2s(c,j): ",	ccon_h2s(c,j)	 
+	ACConcentration = ACConcentration - (3.0 / 2.0 * AceProd * dt)
+	
 	H2Cons = 4. * (H2AceProd + H2CH4Prod)
 
 	H2Cons = max(0._r8, H2Cons)
@@ -1086,7 +1107,7 @@ if(j >= jwaterhead_unsat(c)) then
 	
 	CH4Prod = max(0._r8, CH4Prod)
 	
-	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) + CH4Prod * dt
+	
 
 	CH4Oxid = m_dGrowRMethanotrophs / m_dYMethanotrophs * caerch4bios_unsat(c,j) &
 	* ccon_ch4s_unsat(c,j) / (ccon_ch4s_unsat(c,j) + m_dKCH4OxidCH4) &
@@ -1112,13 +1133,6 @@ if(j >= jwaterhead_unsat(c)) then
 	CH4Oxid = 0
 	end if
 
-	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4Oxid * dt
-
-	ccon_ch4s_unsat(c,j) = max(0._r8, ccon_ch4s_unsat(c,j))
-
-	if(ccon_ch4s_unsat(c,j) < 0._r8) then
-	ccon_ch4s_unsat(c,j) = 0._r8
-	end if
 	
 !write(iulog,*) "CH4PlantFlux: ", m_dPlantTrans, " ", rootfr_vr(c,j), ccon_ch4s_unsat(c,j), m_dCH4min !, tempavg_bgnpp(c), annavg_bgnpp(c)
 	if(soiltemp(c,jwaterhead_unsat(c)) > -0.1 .and. ccon_ch4s_unsat(c,j) > m_dCH4min/1.0) then
@@ -1133,17 +1147,10 @@ if(j >= jwaterhead_unsat(c)) then
 	CH4PlantFlux = max(CH4PlantFlux, 0._r8)
 	CH4Ebull = max(CH4Ebull, 0._r8)
 	CH4Ebull = min(CH4Ebull, ccon_ch4s_unsat(c,j) / 2.0)
-	
-	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4PlantFlux * dt - CH4Ebull * dt
-		
+			
 	!	// For O2 dyndamics
 	AerO2Cons = m_drAer * ACCO2Prod
 	CH4O2Cons = m_drCH4Oxid * CH4Oxid
-	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - (AerO2Cons + CH4O2Cons) * dt
-	
-	if(ccon_o2s_unsat(c,j) < 0._r8) then
-	ccon_o2s_unsat(c,j) = 0._r8
-	end if
 
 	O2PlantFlux = m_dPlantTrans*rootfraction(c,j)*(ccon_o2s_unsat(c,j) - c_atm(g,2))*nppratio(c)*exp(-z(c,j)/0.15)/z(c,j)  !* bgnpp_timestep(c) / bgnpp_avg(c) * exp(-z(c,j) / 0.1) 
 	if(ccon_o2s_unsat(c,j) > c_atm(g,2) .or. soiltemp(c,jwaterhead_unsat(c)) < -0.1) then
@@ -1153,41 +1160,19 @@ if(j >= jwaterhead_unsat(c)) then
 	!O2PlantFlux = max(O2PlantFlux, (ccon_o2s_unsat(c,j) - c_atm(g,2))) * dz(c,j)
 	end if
 	
-	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - O2PlantFlux * dt !/ dz(c,j)
-	
-	ccon_o2s_unsat(c,j) = min(ccon_o2s_unsat(c,j), c_atm(g,2))
-
 	PlantO2Cons = O2PlantFlux * 0.001
-	
 	if(ccon_o2s_unsat(c,j) >= (PlantO2Cons*dt)) then
 	PlantO2Cons = PlantO2Cons
 	else
 	PlantO2Cons = ccon_o2s_unsat(c,j)/dt
 	end if
-		
-	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - PlantO2Cons * dt
-	
-	ccon_o2s_unsat(c,j) = max(0.0, ccon_o2s_unsat(c,j) - o2_decomp_depth_unsat(c,j) * dt)
-		
-	if(ccon_o2s_unsat(c,j) < 0._r8) then
-	ccon_o2s_unsat(c,j) = 0._r8
-	end if
-	
+
 	!// For CO2 dyndamics
 !write(iulog,*) "ACCO2Prod: ", ACCO2Prod, "CH4Prod: ", m_drCH4Prod * (1 - m_dYAceMethanogens) * AceCons, "CH4Oxid: ", CH4Oxid
 	CO2Prod = ACCO2Prod + m_drCH4Prod * (1 - m_dYAceMethanogens) * AceCons + CH4Oxid + PlantO2Cons
 	H2CO2Cons = 2 * H2AceProd + H2CH4Prod + HCH4Prod
-	
-	ccon_co2s_unsat(c,j) = ccon_co2s_unsat(c,j) + (CO2Prod - H2CO2Cons) * dt
-	
 	CO2PlantFlux = ccon_co2s_unsat(c,j) * 0.001
-		
-	ccon_co2s_unsat(c,j) = ccon_co2s_unsat(c,j) - CO2PlantFlux * dt
 
-	if(ccon_co2s_unsat(c,j) < 0) then
-	ccon_co2s_unsat(c,j) = 0
-	end if
-	
 	!print *, "h2: ", m_dH2,  "O2: ", m_dO2,  "CO2: ",m_dCO2
 	!if((ccon_h2s(c,j) * 0.5e-7) < 0.001 .and. ccon_co2s(c,j) < 0.00001 .and. ccon_co2s(c,j) < 0.001) then
 	!AOM = ccon_ch4s(c,j) * 0.001 * (hco3 + 1.) / (hco3 + 0.1)
@@ -1207,7 +1192,40 @@ if(j >= jwaterhead_unsat(c)) then
 	else
 	AOMCH4Oxid = ccon_ch4s_unsat(c,j)/dt
 	end if	
-		
+	
+	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) + CH4Prod * dt
+	
+	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4Oxid * dt
+	ccon_ch4s_unsat(c,j) = max(0._r8, ccon_ch4s_unsat(c,j))
+
+	if(ccon_ch4s_unsat(c,j) < 0._r8) then
+	ccon_ch4s_unsat(c,j) = 0._r8
+	end if
+	
+	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - CH4PlantFlux * dt - CH4Ebull * dt
+	
+	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - (AerO2Cons + CH4O2Cons) * dt
+	if(ccon_o2s_unsat(c,j) < 0._r8) then
+	ccon_o2s_unsat(c,j) = 0._r8
+	end if
+	
+	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - O2PlantFlux * dt !/ dz(c,j)
+	ccon_o2s_unsat(c,j) = min(ccon_o2s_unsat(c,j), c_atm(g,2))
+	
+	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - PlantO2Cons * dt
+	ccon_o2s_unsat(c,j) = max(0.0, ccon_o2s_unsat(c,j) - o2_decomp_depth_unsat(c,j) * dt)
+	if(ccon_o2s_unsat(c,j) < 0._r8) then
+	ccon_o2s_unsat(c,j) = 0._r8
+	end if
+	
+	! CO2 update
+	ccon_co2s_unsat(c,j) = ccon_co2s_unsat(c,j) + (CO2Prod - H2CO2Cons) * dt
+	ccon_co2s_unsat(c,j) = ccon_co2s_unsat(c,j) - CO2PlantFlux * dt
+	if(ccon_co2s_unsat(c,j) < 0) then
+	ccon_co2s_unsat(c,j) = 0
+	end if
+	
+	! CH4 update
 	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - AOMCH4Oxid*dt
 	ccon_ch4s_unsat(c,j) = max(0._r8, ccon_ch4s_unsat(c,j))
 	
@@ -1233,11 +1251,6 @@ if(j >= jwaterhead_unsat(c)) then
 	AOMMethanotrophGrowth = max(0._r8, AOMMethanotrophGrowth)
 	AOMMethanotrophDying = max(0._r8, AOMMethanotrophDying)
 
-	!~ cacebios_unsat(c,j) = cacebios_unsat(c,j) + min((AceMethanogenGrowth - AceMethanogenDying), 0._r8)
-	!~ cco2bios_unsat(c,j) = cco2bios_unsat(c,j) + min((H2MethanogenGrowth - H2MethanogenDying), 0._r8)
-	!~ caerch4bios_unsat(c,j) = caerch4bios_unsat(c,j) + min((MethanotrophGrowth - MethanotrophDying), 0._r8)
-	!~ canaerch4bios_unsat(c,j) = canaerch4bios_unsat(c,j) + min((AOMMethanotrophGrowth - AOMMethanotrophDying), 0._r8)
-	
 	cacebios_unsat(c,j) = cacebios_unsat(c,j) + (AceMethanogenGrowth - AceMethanogenDying) * dt
 	cco2bios_unsat(c,j) = cco2bios_unsat(c,j) + (H2MethanogenGrowth - H2MethanogenDying) * dt
 	caerch4bios_unsat(c,j) = caerch4bios_unsat(c,j) + (MethanotrophGrowth - MethanotrophDying) * dt
@@ -2057,7 +2070,7 @@ end if  ! end if of the frozen mechanism in trapping gases in soil
 !write(iulog,*) "grow, dead: ",	MethanotrophGrowth," ", MethanotrophDying," ", AOMMethanotrophGrowth," ", AOMMethanotrophDying
 
 	cdocs_sat(c,j) 						= ACConcentration
-	caces_unsat_prod(c,j)					= AceProd
+	caces_unsat_prod(c,j)				= AceProd
 	caces_unsat_prod_h2(c,j)				= H2AceProd	
 	ch4_prod_ace_depth_sat(c,j) 			= CH4Prod 
 	ch4_prod_co2_depth_sat(c,j) 			= H2CH4Prod
@@ -2634,11 +2647,11 @@ end subroutine get_waterhead
 !~ !EOP
 !~ !-----------------------------------------------------------------------
 !~ ! assign local pointers to derived type arrays
-	!~ annsum_counter    			=> cmic%annsum_counter
-	!~ tempavg_somhr     			=> cmic%tempavg_somhr
-	!~ annavg_somhr      			=> cmic%annavg_somhr
-	!~ tempavg_finrw     			=> cmic%tempavg_finrw
-	!~ annavg_finrw      			=> cmic%annavg_finrw
+	!~ annsum_counter    			=> cmiciso%annsum_counter
+	!~ tempavg_somhr     			=> cmiciso%tempavg_somhr
+	!~ annavg_somhr      			=> cmiciso%annavg_somhr
+	!~ tempavg_finrw     			=> cmiciso%tempavg_finrw
+	!~ annavg_finrw      			=> cmiciso%annavg_finrw
 	!~ pcolumn           				=> p%column
 	!~ agnpp             				=> p%pcf%agnpp
 	!~ bgnpp             				=> p%pcf%bgnpp
@@ -2649,8 +2662,8 @@ end subroutine get_waterhead
 	!~ somhr             				=> ccf%somhr
 	!~ finundated        				=> cws%finundated
 	
-	!~ bgnpp_timestep      			=> cmic%bgnpp_timestep
-	!~ bgnpp_avg      				=> cmic%bgnpp_avg
+	!~ bgnpp_timestep      			=> cmiciso%bgnpp_timestep
+	!~ bgnpp_avg      				=> cmiciso%bgnpp_avg
 
 !~ ! set time steps
 	!~ dt = real(get_step_size(), r8)
@@ -2731,8 +2744,8 @@ end subroutine get_waterhead
 
 
 
-subroutine update_finundated(lbc, ubc,num_micbioc,filter_micbioc)
-!
+subroutine update_finundated(lbc,ubc,num_micbioc,filter_micbioc)
+! 
 ! !DESCRIPTION: Annual mean fields.
 !
 ! !USES:
@@ -2840,11 +2853,11 @@ implicit none
 	caerch4bios_sat(c,j) 		= caerch4bios_sat(c,j) - caerch4bios_sat(c,j) * dlt
 	canaerch4bios_unsat(c,j) 	= canaerch4bios_unsat(c,j) + canaerch4bios_sat(c,j) * dlt
 	canaerch4bios_sat(c,j) 	= canaerch4bios_sat(c,j) - canaerch4bios_sat(c,j) * dlt
-	ccon_ch4s_unsat(c,j) 		= ccon_ch4s_unsat(c,j) + ccon_ch4s_sat(c,j) * dlt
+	ccon_ch4s_unsat(c,j) 	= ccon_ch4s_unsat(c,j) + ccon_ch4s_sat(c,j) * dlt
 	ccon_ch4s_sat(c,j) 		= ccon_ch4s_sat(c,j) - ccon_ch4s_sat(c,j) * dlt
 	ccon_o2s_unsat(c,j) 		= ccon_o2s_unsat(c,j) + ccon_o2s_sat(c,j) * dlt
 	ccon_o2s_sat(c,j) 		= ccon_o2s_sat(c,j) - ccon_o2s_sat(c,j) * dlt
-	ccon_co2s_unsat(c,j) 		= ccon_co2s_unsat(c,j) + ccon_co2s_sat(c,j) * dlt
+	ccon_co2s_unsat(c,j) 	= ccon_co2s_unsat(c,j) + ccon_co2s_sat(c,j) * dlt
 	ccon_co2s_sat(c,j) 		= ccon_co2s_sat(c,j) - ccon_co2s_sat(c,j) * dlt
 	ccon_h2s_unsat(c,j) 		= ccon_h2s_unsat(c,j) + ccon_h2s_sat(c,j) * dlt
 	ccon_h2s_sat 			= ccon_h2s_sat - ccon_h2s_sat * dlt
@@ -2863,11 +2876,11 @@ implicit none
 	canaerch4bios_sat(c,j) 	= canaerch4bios_sat(c,j) + canaerch4bios_unsat(c,j) * dlt
 	canaerch4bios_unsat(c,j) 	= canaerch4bios_unsat(c,j) - canaerch4bios_unsat(c,j) * dlt
 	ccon_ch4s_sat(c,j) 		= ccon_ch4s_sat(c,j) + ccon_ch4s_unsat(c,j) * dlt
-	ccon_ch4s_unsat(c,j) 		= ccon_ch4s_unsat(c,j) - ccon_ch4s_unsat(c,j) * dlt
+	ccon_ch4s_unsat(c,j) 	= ccon_ch4s_unsat(c,j) - ccon_ch4s_unsat(c,j) * dlt
 	ccon_o2s_sat(c,j) 		= ccon_o2s_sat(c,j) + ccon_o2s_unsat(c,j) * dlt
 	ccon_o2s_unsat(c,j) 		= ccon_o2s_unsat(c,j) - ccon_o2s_unsat(c,j) * dlt
 	ccon_co2s_sat(c,j) 		= ccon_co2s_sat(c,j) + ccon_co2s_unsat(c,j) * dlt
-	ccon_co2s_unsat(c,j) 		= ccon_co2s_unsat(c,j) - ccon_co2s_unsat(c,j) * dlt
+	ccon_co2s_unsat(c,j) 	= ccon_co2s_unsat(c,j) - ccon_co2s_unsat(c,j) * dlt
 	ccon_h2s_sat(c,j) 		= ccon_h2s_sat(c,j) + ccon_h2s_unsat(c,j) * dlt
 	ccon_h2s_unsat(c,j) 		= ccon_h2s_unsat(c,j) - ccon_h2s_unsat(c,j) * dlt
 	end if
@@ -2881,7 +2894,7 @@ implicit none
 end subroutine update_finundated
 
 
-subroutine gas_diffusion(lbc, ubc,num_micbioc,filter_micbioc)
+subroutine gas_diffusion(lbc, ubc,num_micbioc,filter_micbioc, isotope)
 ! The gas diffusion was simulated based on Fick's law; the concentration gradient is the key driver for gas diffusion along soil profile
 ! The gas diffusion occur in saturated layers, the unsaturated layers was not considered
 ! !USES:
@@ -2897,6 +2910,8 @@ implicit none
 	integer, intent(in) :: lbc, ubc                		! column bounds
 	integer, intent(in) :: num_micbioc               		! number of soil columns in filter
 	integer, intent(in) :: filter_micbioc(ubc-lbc+1) 	! filter for soil columns
+	character(len=*), intent(in) :: isotope  ! 'bulk', 'c13' or 'c14'
+
 !
 ! !LOCAL VARIABLES:
 ! local pointers to implicit in scalars
@@ -2946,8 +2961,30 @@ implicit none
 ! !OTHER LOCAL VARIABLES:
 	integer :: c, j, l      ! indices
 	integer :: fc        ! soil column filter indices
-	real(r8) :: dlt
+	real(r8) :: dlt		! time step (seconds)
 !EOP
+
+! !OTHER LOCAL VARIABLES:
+   type(column_microbe_type), 	pointer :: cmiciso	! column microbial state variable
+   type(column_cstate_type), 	pointer :: ccisos	! column carbons state variable
+
+!EOP
+!-----------------------------------------------------------------------
+   ! select which isotope
+   select case (isotope)
+   case ('bulk')
+      ccisos =>  ccs
+      cmiciso =>  cmic
+   case ('c14')
+      ccisos =>  cc14s
+      cmiciso =>  cmicc14
+   case ('c13')
+      ccisos =>  cc13s
+      cmiciso =>  cmicc13
+   case default
+      call endrun('CNCIsoStateUpdate3Mod: iso must be bulk, c13 or c14')
+   end select
+   
 !-----------------------------------------------------------------------
 ! assign local pointers to derived type arrays
 	z                      				=> cps%z
@@ -2955,14 +2992,14 @@ implicit none
 	finundated        				=> cws%finundated
 	finundated_pre        			=> cmic%fsat_pre
 
-	ccon_ch4s_unsat    			=> cmic%ccon_ch4s_unsat
-	ccon_ch4s_sat        			=> cmic%ccon_ch4s_sat
-	ccon_co2s_unsat    			=> cmic%ccon_co2s_unsat
-	ccon_co2s_sat        			=> cmic%ccon_co2s_sat
-	ccon_o2s_unsat      			=> cmic%ccon_o2s_unsat
-	ccon_o2s_sat          			=> cmic%ccon_o2s_sat
-	ccon_h2s_unsat      			=> cmic%ccon_h2s_unsat
-	ccon_h2s_sat          			=> cmic%ccon_h2s_sat
+	ccon_ch4s_unsat    			=> cmiciso%ccon_ch4s_unsat
+	ccon_ch4s_sat        			=> cmiciso%ccon_ch4s_sat
+	ccon_co2s_unsat    			=> cmiciso%ccon_co2s_unsat
+	ccon_co2s_sat        			=> cmiciso%ccon_co2s_sat
+	ccon_o2s_unsat      			=> cmiciso%ccon_o2s_unsat
+	ccon_o2s_sat          			=> cmiciso%ccon_o2s_sat
+	ccon_h2s_unsat      			=> cmiciso%ccon_h2s_unsat
+	ccon_h2s_sat          			=> cmiciso%ccon_h2s_sat
 	
 	ltype               				=> lun%itype
 	clandunit       				=> col%landunit
@@ -3078,7 +3115,7 @@ end subroutine gas_diffusion
 ! end of subroutine for simulating gas diffusion along water column in saturated soil profile
 
 #if (defined HUM_HOL)
-subroutine lateral_bgc(lbc, ubc,num_micbioc,filter_micbioc)
+subroutine lateral_bgc(lbc, ubc,num_micbioc,filter_micbioc, isotope)
 	use clmtype
 	use clm_time_manager, only: get_step_size, get_days_per_year, get_nstep
 	use clm_varcon , only: secspday
@@ -3088,17 +3125,18 @@ subroutine lateral_bgc(lbc, ubc,num_micbioc,filter_micbioc)
 !
 ! !ARGUMENTS:
 implicit none
-	integer, intent(in) :: lbc, ubc                		! column bounds
+	integer, intent(in) :: lbc, ubc                			! column bounds
 	integer, intent(in) :: num_micbioc               		! number of soil columns in filter
 	integer, intent(in) :: filter_micbioc(ubc-lbc+1) 	! filter for soil columns
+	character(len=*), intent(in) :: isotope  		! 'bulk', 'c13' or 'c14'
 	
-	real(r8), pointer :: cdocs_sat(:,:)		! doc concetrnation in saturated fraction 
-	real(r8), pointer :: cdons_sat(:,:)		! don concetrnation in saturated fraction 
-	real(r8), pointer :: caces_sat(:,:)		! ace concetrnation in saturated fraction 
-	real(r8), pointer :: ccon_o2s_sat(:,:)		! o2 concetrnation in saturated fraction 
-	real(r8), pointer :: ccon_h2s_sat(:,:)		! h2 concetrnation in saturated fraction 
-	real(r8), pointer :: ccon_co2s_sat(:,:)		! co2 concetrnation in saturated fraction 
-	real(r8), pointer :: ccon_ch4s_sat(:,:)		! ch4 concetrnation in saturated fraction 
+	real(r8), pointer :: cdocs_sat(:,:)				! doc concetrnation in saturated fraction 
+	real(r8), pointer :: cdons_sat(:,:)				! don concetrnation in saturated fraction 
+	real(r8), pointer :: caces_sat(:,:)				! ace concetrnation in saturated fraction 
+	real(r8), pointer :: ccon_o2s_sat(:,:)			! o2 concetrnation in saturated fraction 
+	real(r8), pointer :: ccon_h2s_sat(:,:)			! h2 concetrnation in saturated fraction 
+	real(r8), pointer :: ccon_co2s_sat(:,:)			! co2 concetrnation in saturated fraction 
+	real(r8), pointer :: ccon_ch4s_sat(:,:)			! ch4 concetrnation in saturated fraction 
 	real(r8), pointer :: h2osoi_liq(:,:)
 	real(r8), pointer :: dz(:,:)              			! layer thickness (m)
 	real(r8), pointer :: qflx_lat_aqu_layer(:,:)		! lateral transport for each layer
@@ -3145,15 +3183,36 @@ implicit none
 	real(r8) :: som_diffus = 1e-4_r8 / (secspday * 365._r8)  ! [m^2/sec] = 1 cm^2 / yr
 !	real(r8) :: dom_diffus = 1e8_r8							! times to som diffus 
 
+! !OTHER LOCAL VARIABLES:
+	type(column_microbe_type), 	pointer :: cmiciso	! column microbial state variable
+	type(column_cstate_type), 	pointer :: ccisos	! column carbons state variable
+
+!EOP
+!-----------------------------------------------------------------------
+   ! select which isotope
+	select case (isotope)
+	case ('bulk')
+	ccisos =>  ccs
+	cmiciso =>  cmic
+	case ('c14')
+	ccisos =>  cc14s
+	cmiciso =>  cmicc14
+	case ('c13')
+	ccisos =>  cc13s
+	cmiciso =>  cmicc13
+	case default
+	call endrun('CNCIsoStateUpdate3Mod: iso must be bulk, c13 or c14')
+	end select
+   
 	dz                				=> cps%dz
 	qflx_lat_aqu_layer 			=> cwf%qflx_lat_aqu_layer
-	cdocs_sat					=> cmic%cdocs_sat
-	cdons_sat					=> cmic%cdons_sat
-	caces_sat					=> cmic%caces_sat
-	ccon_ch4s_sat        			=> cmic%ccon_ch4s_sat
-	ccon_co2s_sat        			=> cmic%ccon_co2s_sat
-	ccon_o2s_sat          			=> cmic%ccon_o2s_sat
-	ccon_h2s_sat          			=> cmic%ccon_h2s_sat
+	cdocs_sat					=> cmiciso%cdocs_sat
+	cdons_sat					=> cmiciso%cdons_sat
+	caces_sat					=> cmiciso%caces_sat
+	ccon_ch4s_sat        			=> cmiciso%ccon_ch4s_sat
+	ccon_co2s_sat        			=> cmiciso%ccon_co2s_sat
+	ccon_o2s_sat          			=> cmiciso%ccon_o2s_sat
+	ccon_h2s_sat          			=> cmiciso%ccon_h2s_sat
 	h2osoi_liq        				=> cws%h2osoi_liq
 	t_soisno 					=> ces%t_soisno
 	

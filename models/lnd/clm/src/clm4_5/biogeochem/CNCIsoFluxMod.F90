@@ -23,14 +23,19 @@ module CNCIsoFluxMod
     public:: CIsoFlux2h
     public:: CIsoFlux3
     public:: CIsoFlux4
+    public:: CIsoSoilBGC
     private:: CNCIsoLitterToColumn
     private:: CNCIsoGapPftToColumn
     private:: CNCIsoHarvestPftToColumn
     private:: CIsoFluxCalc
+    private:: CIsoFluxCalc_vr
+    private:: CIsoFluxCalc_vr_tra
+    
 !
 ! !REVISION HISTORY:
 ! 4/21/2005: Created by Peter Thornton and Neil Suits
 ! 8/15/2011: Modified by C. Koven from C13Flux to CisoFlux to allow treatment of both C13 and C14 
+! 5/1/2020: Modifed by X. Xu for handling C13 and C14 in soil carbon biogeochemistry and microbial module
 !
 !EOP
 !-----------------------------------------------------------------------
@@ -884,7 +889,7 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
 ! !USES:
    use clmtype
    use microbevarcon
-   use clm_varpar, only : nlevgrnd, nlevdecomp !, max_pft_per_col
+   use clm_varpar, only : nlevgrnd, nlevdecomp, i_dom !, max_pft_per_col
 
 !
 ! !ARGUMENTS:
@@ -900,18 +905,18 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
 !
 ! !LOCAL VARIABLES:
 ! !OTHER LOCAL VARIABLES:
-   type(pft_type), pointer :: p
-   type(column_type), pointer :: c
+!   type(pft_type), pointer :: p
+!   type(column_type), pointer :: c
 !   type(pft_cflux_type), pointer :: pcisof
  !  type(pft_cstate_type), pointer :: pcisos
 !   type(column_cflux_type), pointer :: ccisof
-!   type(column_cstate_type), pointer :: ccisos
+!   type(column_cstate_type), pointer :: ccs
 
 #if(defined MICROBE)
    type(column_microbe_type), pointer :: ccisos
 #endif
    integer :: i, fp,pi,l,pp
-   integer :: fc,cc,j
+   integer :: fc,cc,j,c
 !   real(r8), pointer :: ptrp(:)         ! pointer to input pft array
 !   real(r8), pointer :: ptrc(:)         ! pointer to output column array
 
@@ -928,8 +933,8 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
 !EOP
 !-----------------------------------------------------------------------
 	! set local pointers
-   p => pft
-   c => col
+!   p => pft
+!   c => col
    select case (isotope)
    case ('c14')
 !      pcisof =>  pc14f
@@ -937,23 +942,41 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
 !      ccisof =>  cc14f
 !      ccisos =>  cc14s
      ccisos => cmicc14
+   do j = 1, nlevdecomp
+	do fc = 1, num_soilc
+	c = filter_soilc(fc)
+	ccisos%cdocs(c,j) = cc14s%decomp_cpools_vr(c,j,i_dom)
+	end do
+   enddo
+   
    case ('c13')
 !      pcisof =>  pc13f
 !      pcisos =>  pc13s
 !      ccisof =>  cc13f
 !      ccisos =>  cc13s
       ccisos => cmicc13
-
+   do j = 1, nlevdecomp
+	do fc = 1, num_soilc
+	c = filter_soilc(fc)
+	ccisos%cdocs(c,j) = cc13s%decomp_cpools_vr(c,j,i_dom)
+	end do
+   enddo
+   
    case default
       call endrun('CNCIsoFluxMod: iso must be either c13 or c14')
    end select
-   !croot_prof                     => pps%croot_prof
-   !stem_prof                      => pps%stem_prof
-   !npfts                          =>col%npfts
-   !pfti                           =>col%pfti
-   !wtcol                          =>pft%wtcol
-   !pactive                        => pft%active
-
+   !croot_prof           => pps%croot_prof
+   !stem_prof            => pps%stem_prof
+   !npfts                      =>col%npfts
+   !pfti                         =>col%pfti
+   !wtcol                      =>pft%wtcol
+   !pactive                   => pft%active
+   do j = 1, nlevdecomp
+	do fc = 1, num_soilc
+	c = filter_soilc(fc)
+!	ccisos%cdocs(c,j) = ccs%decomp_cpools_vr(c,j,i_dom)
+	end do
+   enddo
 
 !   call CIsoFluxCalc_vr(ccisos%caces_prod, cmic%caces_prod, &
 !                     ccisos%cdocs, cmic%cdocs, &
@@ -962,7 +985,7 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
    call CIsoFluxCalc_vr(ccisos%caces_prod, cmic%caces_prod, &
                      ccisos%cdocs, cmic%cdocs, &
                      num_soilc, filter_soilc, frac_ace, 0, isotope)
-		     
+   
    call CIsoFluxCalc_vr(ccisos%ch4_prod_ace_depth, cmic%ch4_prod_ace_depth, &
                      ccisos%caces, cmic%caces, &
                      num_soilc, filter_soilc, frac_acch4, 0, isotope)
@@ -995,6 +1018,97 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
 #endif
 
 end subroutine CIsoFlux4
+!-----------------------------------------------------------------------
+
+!-----------------------------------------------------------------------
+!BOP
+!
+! !IROUTINE: CIsoSoilBGC
+!
+! !INTERFACE:
+subroutine CIsoSoilBGC(num_soilc, filter_soilc, isotope)
+!
+! !DESCRIPTION:
+! On the radiation time step, set the carbon isotopic fluxes for methane module
+!
+! !USES:
+   use clmtype
+!   use microbevarcon
+   use clm_varpar, only : nlevgrnd, nlevdecomp,ndecomp_pools !, max_pft_per_col
+
+!
+! !ARGUMENTS:
+   implicit none
+   integer, intent(in) :: num_soilc         ! number of soil columns filter
+   integer, intent(in) :: filter_soilc(:)   ! filter for soil columns
+   character(len=*), intent(in) :: isotope  ! 'c13' or 'c14'
+!
+! !CALLED FROM:
+! subroutine CNEcosystemDyn
+!
+! !REVISION HISTORY: 11/12/2020 Xiaofeng Xu added this functions to allow fractionation in soil biogeochemistry module 
+!
+! !LOCAL VARIABLES:
+! !OTHER LOCAL VARIABLES:
+   type(pft_type), pointer :: p
+   type(column_type), pointer :: c
+!   type(pft_cflux_type), pointer :: pcisof
+ !  type(pft_cstate_type), pointer :: pcisos
+   type(column_cflux_type), pointer :: ccisof
+   type(column_cstate_type), pointer :: ccisos
+
+   integer :: i, fp,pi,l,pp
+   integer :: fc,cc,j
+!   real(r8), pointer :: ptrp(:)         ! pointer to input pft array
+!   real(r8), pointer :: ptrc(:)         ! pointer to output column array
+
+!   real(r8), pointer :: croot_prof(:,:) ! (1/m) profile of coarse roots
+!   real(r8), pointer :: stem_prof(:,:)  ! (1/m) profile of stems
+!   integer , pointer :: npfts(:)        ! number of pfts for each column
+!   integer , pointer :: pfti(:)         ! beginning pft index for each column
+!   real(r8), pointer :: wtcol(:)        ! weight (relative to column) for this pft (0-1)
+!   logical , pointer :: pactive(:)      ! true=>do computations on this pft (see reweightMod for details)
+
+!
+!EOP
+!-----------------------------------------------------------------------
+	! set local pointers
+   p => pft
+   c => col
+   select case (isotope)
+   case ('c14')
+!      pcisof =>  pc14f
+!      pcisos =>  pc14s
+      ccisof =>  cc14f
+      ccisos =>  cc14s
+   case ('c13')
+!      pcisof =>  pc13f
+!      pcisos =>  pc13s
+      ccisof =>  cc13f
+      ccisos =>  cc13s
+
+   case default
+      call endrun('CIsoSoilBGC: iso must be either c13 or c14')
+   end select
+   !croot_prof                     => pps%croot_prof
+   !stem_prof                      => pps%stem_prof
+   !npfts                          =>col%npfts
+   !pfti                           =>col%pfti
+   !wtcol                          =>pft%wtcol
+   !pactive                        => pft%active
+
+
+!   call CIsoFluxCalc_vr(ccisos%caces_prod, cmic%caces_prod, &
+!                     ccisos%cdocs, cmic%cdocs, &
+!                     num_soilc, filter_soilc, frac_doc, 0, isotope)
+
+!write(*,*) "here 1", ccisof%decomp_cascade_ctransfer_vr, ccisos%decomp_cpools_vr
+   call CIsoFluxCalc_vr_tra(ccisof%decomp_cascade_ctransfer_vr, ccf%decomp_cascade_ctransfer_vr, &
+                     ccisos%decomp_cpools_vr, ccs%decomp_cpools_vr, &
+                     num_soilc, filter_soilc, 0.8_r8, 0, isotope)   
+!write(*,*) "here 2", ccisof%decomp_cascade_ctransfer_vr, ccisos%decomp_cpools_vr
+
+end subroutine CIsoSoilBGC
 !-----------------------------------------------------------------------
 
 
@@ -1746,6 +1860,78 @@ subroutine CIsoFluxCalc_vr(ciso_flux, ctot_flux, ciso_state, ctot_state, &
 end subroutine CIsoFluxCalc_vr
 !-----------------------------------------------------------------------
 
+
+!-----------------------------------------------------------------------
+!BOP
+!
+! !IROUTINE: CIsoFluxCalc_vr_tra
+!
+! !INTERFACE, isotope:
+subroutine CIsoFluxCalc_vr_tra(ciso_flux, ctot_flux, ciso_state, ctot_state, &
+	                    num, filter, frax_c13, diag, isotope)
+!
+! !DESCRIPTION:
+! On the radiation time step, set the carbon isotopic flux
+! variables (except for gap-phase mortality and fire fluxes)
+!
+! !USES:
+   use clmtype
+   use clm_varpar, only : nlevdecomp, ndecomp_pools
+!
+! !ARGUMENTS:
+   implicit none
+   real(r8), pointer   :: ciso_flux(:,:,:)      !OUTPUT isoC flux
+   real(r8), pointer   :: ctot_flux(:,:,:)      !INPUT  totC flux
+   real(r8), pointer   :: ciso_state(:,:,:)     !INPUT  isoC state, upstream pool
+   real(r8), pointer   :: ctot_state(:,:,:)     !INPUT  totC state, upstream pool
+   real(r8), intent(in):: frax_c13          ! fractionation factor (1 = no fractionation) for C13
+   integer, intent(in) :: num               ! number of filter members
+   integer, intent(in) :: filter(:)         ! filter indices
+   integer, intent(in) :: diag              ! 0=no diagnostics, 1=print diagnostics
+   character(len=*), intent(in) :: isotope  ! 'c13' or 'c14'
+
+!
+! !CALLED FROM:
+! subroutine CIsoFlux1
+!
+! !REVISION HISTORY:
+!
+! !OTHER LOCAL VARIABLES:
+   integer :: j,i,f,l     ! indices
+   real(r8) :: temp
+   real(r8) :: frax
+!
+
+   ! if C14, double the fractionation
+   select case (isotope)
+   case ('c14')
+      frax = 1._r8 + (1._r8 - frax_c13) * 2._r8
+   case ('c13')
+      frax = frax_c13
+   case default
+      call endrun('CIsoFluxCalc4D: iso must be either c13 or c14')
+   end select
+
+   ! loop over the supplied filter
+   do l = 1, ndecomp_pools
+   do j = 1, nlevdecomp
+      do f = 1,num
+      i = filter(f)
+      if (ctot_state(i,j,l) /= 0._r8) then
+      	ciso_flux(i,j,l) = ctot_flux(i,j,l) * (ciso_state(i,j,l)/(ctot_flux(i,j,l)+ctot_state(i,j,l))) * frax
+      else
+      	ciso_flux(i,j,l) = 0._r8
+      end if
+      
+      if (diag == 1) then
+      ! put diagnostic print statements here for isoC flux calculations
+      end if
+      end do
+   end do
+   end do
+
+end subroutine CIsoFluxCalc_vr_tra
+!-----------------------------------------------------------------------
 
 #endif
 

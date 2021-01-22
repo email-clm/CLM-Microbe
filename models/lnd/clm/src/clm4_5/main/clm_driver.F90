@@ -658,7 +658,7 @@ subroutine clm_drv(doalb, nextsw_cday, declinp1, declin, rstwr, nlend, rdate)
      ! fully prognostic canopy structure and C-N biogeochemistry
      ! - CNDV defined: prognostic biogeography; else prescribed
      ! - crop model:   crop algorithms called from within CNEcosystemDyn
-     call CNEcosystemDyn(begc,endc,begp,endp,filter(nc)%num_soilc,&
+     call CNEcosystemDyn(begg, endg, begc,endc,begp,endp,filter(nc)%num_soilc,&
                   filter(nc)%soilc, filter(nc)%num_soilp, &
                   filter(nc)%soilp, filter(nc)%num_pcropp, &
                   filter(nc)%pcropp, doalb)

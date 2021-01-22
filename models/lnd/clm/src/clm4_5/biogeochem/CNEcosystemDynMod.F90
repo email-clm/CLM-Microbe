@@ -80,7 +80,7 @@ contains
 ! !IROUTINE: CNEcosystemDyn
 !
 ! !INTERFACE:
-  subroutine CNEcosystemDyn(lbc, ubc, lbp, ubp, num_soilc, filter_soilc, &
+  subroutine CNEcosystemDyn(lbg, ubg, lbc, ubc, lbp, ubp, num_soilc, filter_soilc, &
                      num_soilp, filter_soilp, num_pcropp, filter_pcropp, doalb)
 !
 ! !DESCRIPTION:
@@ -111,7 +111,7 @@ contains
     use CNVegStructUpdateMod , only: CNVegStructUpdate
     use CNAnnualUpdateMod    , only: CNAnnualUpdate
     use CNSummaryMod         , only: CSummary, NSummary
-    use CNCIsoFluxMod        , only: CIsoFlux1, CIsoFlux2, CIsoFlux2h, CIsoFlux3, CIsoFlux4
+    use CNCIsoFluxMod        , only: CIsoFlux1, CIsoFlux2, CIsoFlux2h, CIsoFlux3, CIsoFlux4, CIsoSoilBGC
     use CNC14DecayMod        , only: C14Decay, C14BombSpike
     use pftdynMod              , only: CNHarvest
     use CNWoodProductsMod      , only: CNWoodProducts
@@ -119,9 +119,14 @@ contains
     use perf_mod               , only: t_startf, t_stopf
     use surfrdMod              , only: crop_prog
     use shr_sys_mod            , only: shr_sys_flush
+
+#if (defined MICROBE)
+  use microbeMod              , only : microbech4, microben2o, microbeCN, update_finundated
+#endif
 !
 ! !ARGUMENTS:
     implicit none
+    integer, intent(in) :: lbg, ubg        ! gridcell bounds
     integer, intent(in) :: lbc, ubc        ! column bounds
     integer, intent(in) :: lbp, ubp        ! pft bounds
     integer, intent(in) :: num_soilc       ! number of soil columns in filter
@@ -153,7 +158,10 @@ contains
 !EOP
 !-----------------------------------------------------------------------
 
- !   if (doalb) then
+   type(column_cflux_type), pointer :: ccisof
+   type(column_cstate_type), pointer :: ccisos
+      ccisof =>  cc13f
+      ccisos =>  cc13s
 
        ! Call the main CN routines
        call t_startf('CNZero')
@@ -206,11 +214,15 @@ contains
        if ( use_c14 ) call CIsoFlux1(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c14')
 
        call CStateUpdate1(num_soilc, filter_soilc, num_soilp, filter_soilp, 'bulk')
+   !write(*,*) "here 1", ccisof%decomp_cascade_ctransfer_vr, ccisos%decomp_cpools_vr    
+       if ( use_c13 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c13')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
+
+       if ( use_c14 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c14')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
 
        if ( use_c13 ) call CStateUpdate1(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c13')
        
        if ( use_c14 ) call CStateUpdate1(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c14')
-       
+    !write(*,*) "here 2", ccisof%decomp_cascade_ctransfer_vr, ccisos%decomp_cpools_vr   
        call NStateUpdate1(num_soilc, filter_soilc, num_soilp, filter_soilp)
 
        call t_startf('CNSoilLittVertTransp')
@@ -273,13 +285,30 @@ contains
        if ( use_c14 ) call CStateUpdate3(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c14')
 
 #if(defined MICROBE)
-       if ( use_c13 ) call CIsoFlux4(num_soilc, filter_soilc, 'c13')
+#ifndef HUM_HOL
+     call update_finundated(lbc,upc,num_soilc, filter_soilc)
+#endif
+     call microbech4 (lbg, ubg, lbc,ubc,lbp,ubp,num_soilc, filter_soilc, &
+               num_soilp, filter_soilp,'bulk')
 
-       if ( use_c14 ) call CIsoFlux4(num_soilc, filter_soilc, 'c14')
+     if ( use_c13 ) call microbech4 (lbg, ubg, lbc,ubc,lbp,ubp,num_soilc, filter_soilc, &
+               num_soilp, filter_soilp,'c13')
+	       
+     if ( use_c14 ) call microbech4 (lbg, ubg, lbc,ubc,lbp,ubp,num_soilc, filter_soilc, &
+               num_soilp, filter_soilp,'c14')
+
+!     call microben2o (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
+!               filter(nc)%num_soilp, filter(nc)%soilp)
+!     call microbeCN (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
+!               filter(nc)%num_soilp, filter(nc)%soilp)
+
+!       if ( use_c13 ) call CIsoFlux4(num_soilc, filter_soilc, 'c13')
+
+!       if ( use_c14 ) call CIsoFlux4(num_soilc, filter_soilc, 'c14')
        
-       if ( use_c13 ) call CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c13')
+!       if ( use_c13 ) call CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c13')
 
-       if ( use_c14 ) call CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c14')
+!       if ( use_c14 ) call CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c14')
 #endif
 
        if ( use_c14 ) call C14Decay(num_soilc, filter_soilc, num_soilp, filter_soilp)

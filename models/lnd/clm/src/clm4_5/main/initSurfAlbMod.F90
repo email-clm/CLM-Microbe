@@ -300,13 +300,13 @@ contains
           end if
        end do
 
-       call CNEcosystemDyn(begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
+       call CNEcosystemDyn(begg, endg, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
             filter(nc)%num_soilp, filter(nc)%soilp, &
             filter(nc)%num_pcropp, filter(nc)%pcropp, doalb=.true.)
 #else
        ! this is the default call if CN not set
 
-       call EcosystemDyn(begp, endp, filter(nc)%num_nolakep, filter(nc)%nolakep, &
+       call EcosystemDyn(begg, endg, begp, endp, filter(nc)%num_nolakep, filter(nc)%nolakep, &
             doalb=.true.)
 #endif        
 
