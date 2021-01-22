@@ -17,6 +17,7 @@ module CNDecompMod
     use clm_varcon, only: dzsoi_decomp, zsoi
 #ifdef MICROBE
     use clm_varcon, only: MBC_k
+
 #endif
 #ifndef CENTURY_DECOMP
     use CNDecompCascadeMod_BGC, only : decomp_rate_constants
@@ -65,7 +66,6 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
    use clm_time_manager, only: get_step_size
    use clm_varpar   , only: nlevsoi,nlevgrnd,nlevdecomp,ndecomp_cascade_transitions,ndecomp_pools
    use pft2colMod      , only: p2c
-   use pftvarcon , only: decomp_depth_efolding
  
 #ifdef MICROBE
    USE microbevarcon , only: plant2doc, som2doc, micbiocn, micbioMR, CUEref, CUEt, Tcueref 
@@ -73,7 +73,9 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
    use CNDecompCascadeMod_BGC
    use clm_time_manager, only : get_step_size
    use clm_varcon, only: secspday   
-   use clm_varpar, only: i_bacteria, i_fungi, i_dom, cn_dom
+   use clm_varpar, only: i_bacteria, i_fungi, i_dom, cn_dom, numpft
+   use clm_varpar      , only: max_pft_per_col
+
 #endif
 !
 ! !ARGUMENTS:
@@ -157,6 +159,18 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
 									! we set it as part of fine root respiration
    real(r8), Pointer :: cn_microbe(:,:)			! C:N ration of the microbe as a combination of bacteria and fungi
    logical, pointer :: is_microbe(:)                            ! TRUE => pool is a microbe pool
+
+   real(r8),allocatable :: decomp_depth_efolding_in(:) ! define the active decomposing soil depth
+   real(r8), pointer :: decomp_depth_efolding(:) ! define the active decomposing soil depth
+
+   integer , pointer :: ivt(:)             ! pft vegetation type
+   integer :: pi, p
+
+    real(r8), pointer :: wtcol(:)                ! pft weight relative to column (0-1)
+    integer, allocatable :: pft_index(:)
+    integer , pointer :: pfti(:)        ! pft index array
+    integer , pointer :: npfts(:)       ! number of pfts on the column
+
 #endif
 
    logical, pointer :: is_litter(:)                         ! TRUE => pool is a litter pool
@@ -187,7 +201,6 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
    integer, pointer :: altmax_lastyear_indx(:)         ! prior year maximum annual depth of thaw
 
 #ifdef MICROBE
-   real(r8) :: tem_doc(1:num_soilc)
    real(r8) :: CUE, fm_t,  fm_m
    real(r8) :: depth_scalar(lbc:ubc,1:nlevdecomp) 
    real(r8) :: microbeMR
@@ -270,6 +283,38 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
    cn_microbe           				=> cmic%cn_microbe
    finundated					=> cws%finundated   
    is_microbe                                  	=> decomp_cascade_con%is_microbe
+
+   decomp_depth_efolding =>pftcon%decomp_depth_efolding 
+   ivt                           =>pft%itype
+  
+   wtcol          =>pft%wtcol
+   pfti             =>col%pfti
+   npfts            =>col%npfts
+
+  if (num_soilc .gt. 0) then
+
+  allocate(pft_index(0))
+
+  do fc = 1,num_soilc
+  c = filter_soilc(fc)
+
+  do pi = 1,max_pft_per_col
+
+        if (pi <=  npfts(c)) then
+           p = pfti(c) + pi - 1
+        end if
+ 
+  end do
+
+   pft_index = [pft_index, MAXLOC(wtcol(pfti(c):p), DIM=1, mask = wtcol(pfti(c):p) .gt. 0)]
+
+  end do
+   
+  end if
+
+decomp_depth_efolding_in = decomp_depth_efolding(pft_index(:))
+
+
 #endif  
 
    is_litter                               		=> decomp_cascade_con%is_litter
@@ -316,7 +361,7 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
 	    else
 	    cn_microbe(c,j) = (decomp_cpools_vr(c,j,i_bacteria) + decomp_cpools_vr(c,j,i_fungi)) / (decomp_npools_vr(c,j,i_bacteria) + decomp_npools_vr(c,j,i_fungi))
 	    end if
-            depth_scalar(c,j) = exp(-zsoi(j)/decomp_depth_efolding)
+            depth_scalar(c,j) = exp(-zsoi(j)/decomp_depth_efolding_in(fc))
 	    
 	    cdocs(c,j) = max(cdocs(c,j),1e-20)
 !write(*,*) "here debugging1: ", c,j, cdocs(c,j), cdons(c,j), decomp_cpools_vr(c,j,i_dom),decomp_npools_vr(c,j,i_dom)	    
@@ -325,7 +370,7 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
 !write(*,*) "here debugging: ", c,j, cdocs(c,j), cdons(c,j)
          end do
       end do
-      
+
    dt = real( get_step_size(), r8 )
    dtd = dt/secspday
    

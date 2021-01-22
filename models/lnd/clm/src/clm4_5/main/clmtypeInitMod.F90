@@ -768,6 +768,32 @@ contains
     allocate(pftcon%ffrootcn(0:numpft))
     allocate(pftcon%fstemcn(0:numpft))
 
+    allocate(pftcon%m_bdom_f(0:numpft))
+    allocate(pftcon%m_bs1_f(0:numpft))
+    allocate(pftcon%m_bs2_f(0:numpft))
+    allocate(pftcon%m_bs3_f(0:numpft))
+    allocate(pftcon%m_fdom_f(0:numpft))
+    allocate(pftcon%m_fs1_f(0:numpft))
+    allocate(pftcon%m_fs2_f(0:numpft))
+    allocate(pftcon%m_fs3_f(0:numpft))
+    allocate(pftcon%k_dom(0:numpft))
+    allocate(pftcon%k_bacteria(0:numpft))
+    allocate(pftcon%k_fungi(0:numpft))
+    allocate(pftcon%m_rf_s1m(0:numpft))
+    allocate(pftcon%m_rf_s2m(0:numpft))
+    allocate(pftcon%m_rf_s3m(0:numpft))
+    allocate(pftcon%m_rf_s4m(0:numpft))
+    allocate(pftcon%m_batm_f(0:numpft))
+    allocate(pftcon%m_fatm_f(0:numpft))
+    allocate(pftcon%m_domb_f(0:numpft))
+    allocate(pftcon%m_domf_f(0:numpft))
+    allocate(pftcon%m_doms1_f(0:numpft))
+    allocate(pftcon%m_doms2_f(0:numpft))
+    allocate(pftcon%m_doms3_f(0:numpft))
+    allocate(pftcon%cn_bacteria(0:numpft))
+    allocate(pftcon%cn_fungi(0:numpft))
+    allocate(pftcon%decomp_depth_efolding(0:numpft))
+
     pftcon%noveg(:) = huge(1)
     pftcon%tree(:) = huge(1)
     pftcon%smpso(:) = nan
@@ -816,6 +842,32 @@ contains
     pftcon%fleafcn(:)   = nan
     pftcon%ffrootcn(:)  = nan
     pftcon%fstemcn(:)   = nan
+
+    pftcon%m_bdom_f(:)   = nan
+    pftcon%m_bs1_f(:)   = nan
+    pftcon%m_bs2_f(:)   = nan
+    pftcon%m_bs3_f(:)   = nan
+    pftcon%m_fdom_f(:)   = nan
+    pftcon%m_fs1_f(:)   = nan
+    pftcon%m_fs2_f(:)   = nan
+    pftcon%m_fs3_f(:)   = nan
+    pftcon%k_dom(:)   = nan
+    pftcon%k_bacteria(:)   = nan
+    pftcon%k_fungi(:)   = nan
+    pftcon%m_rf_s1m(:)   = nan
+    pftcon%m_rf_s2m(:)   = nan
+    pftcon%m_rf_s3m(:)   = nan
+    pftcon%m_rf_s4m(:)   = nan
+    pftcon%m_batm_f(:)   = nan
+    pftcon%m_fatm_f(:)   = nan
+    pftcon%m_domb_f(:)   = nan
+    pftcon%m_domf_f(:)   = nan
+    pftcon%m_doms1_f(:)   = nan
+    pftcon%m_doms2_f(:)   = nan
+    pftcon%m_doms3_f(:)   = nan
+    pftcon%cn_bacteria(:)   = nan
+    pftcon%cn_fungi(:)   = nan    
+    pftcon%decomp_depth_efolding(:)   = nan    
   end subroutine init_pft_ecophys_constants
 
 !------------------------------------------------------------------------

@@ -149,7 +149,32 @@ module pftvarcon
   real(r8):: fstemcn(0:mxpft)      !C:N during grain fill; stem
   real(r8):: crit_onset_gdd(0:mxpft)  !Critical onset GDD (site level)
   real(r8):: bdnr                  !bulk denitrification rate
-  real(r8):: decomp_depth_efolding
+  real(r8):: decomp_depth_efolding(0:mxpft)  !define decomposition active layer by PFT
+  real(r8):: m_bdom_f(0:mxpft) !bacrerial lysis to DOM
+  real(r8):: m_bs1_f(0:mxpft)  !bacrerial lysis to SOM1
+  real(r8):: m_bs2_f(0:mxpft)  !bacrerial lysis to SOM2
+  real(r8):: m_bs3_f(0:mxpft)  !bacrerial lysis to SOM3
+  real(r8):: m_fdom_f(0:mxpft)  !fungal lysis to DOM
+  real(r8):: m_fs1_f(0:mxpft)  !fungal lysis to SOM1
+  real(r8):: m_fs2_f(0:mxpft) !fungal lysis to SOM2
+  real(r8):: m_fs3_f(0:mxpft) !fungal lysis to SOM3
+  real(r8):: k_dom(0:mxpft) !DOM turnover rate
+  real(r8):: k_bacteria(0:mxpft) !bacteria turnover rate
+  real(r8):: k_fungi(0:mxpft) !fungi turnover rate
+  real(r8):: m_rf_s1m(0:mxpft) !C flow from SOM1 to microbes
+  real(r8):: m_rf_s2m(0:mxpft) !C flow from SOM2 to microbes
+  real(r8):: m_rf_s3m(0:mxpft) !C flow from SOM3 to microbes
+  real(r8):: m_rf_s4m(0:mxpft) !C flow from SOM4 to microbes
+  real(r8):: m_batm_f(0:mxpft) !bacteria respiration
+  real(r8):: m_fatm_f(0:mxpft) !fungi respiration
+  real(r8):: m_domb_f(0:mxpft) !bacteria update of DOM
+  real(r8):: m_domf_f(0:mxpft) !fungi update of DOM
+  real(r8):: m_doms1_f(0:mxpft)  !C flow from DOM to SOM1
+  real(r8):: m_doms2_f(0:mxpft) !C flow from DOM to SOM2
+  real(r8):: m_doms3_f(0:mxpft) !C flow from DOM to SOM3
+  real(r8):: cn_bacteria(0:mxpft) !C:N ratio of bacterial biomass
+  real(r8):: cn_fungi(0:mxpft) !C:N ratio of fungal biomass
+
   real(r8):: ksomfac
   real(r8):: br_mr
   real(r8):: q10_mr
@@ -403,12 +428,59 @@ contains
     call ncd_io('r_mort',r_mort, 'read', ncid, readvar=readv,posNOTonfile=.true.)
     if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
     call ncd_io('lwtop_ann',lwtop_ann, 'read', ncid, readvar=readv,posNOTonfile=.true.)
-    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading inpft data' )
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
 
-#if (defined VERTSOILC) || (defined MICROBE)
     call ncd_io('rootprof_beta',rootprof_beta, 'read', ncid, readvar=readv, posNOTonfile=.true.)
     if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
-#endif
+    call ncd_io('m_bdom_f',m_bdom_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_bs1_f',m_bs1_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_bs2_f',m_bs2_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_bs3_f',m_bs3_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_fdom_f',m_fdom_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_fs1_f',m_fs1_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_fs2_f',m_fs2_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_fs3_f',m_fs3_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('k_dom',k_dom, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('k_bacteria',k_bacteria, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('k_fungi',k_fungi, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_rf_s1m',m_rf_s1m, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_rf_s2m',m_rf_s2m, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_rf_s3m',m_rf_s3m, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_rf_s4m',m_rf_s4m, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_batm_f',m_batm_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_fatm_f',m_fatm_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_domb_f',m_domb_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_domf_f',m_domf_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_doms1_f',m_doms1_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_doms2_f',m_doms2_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('m_doms3_f',m_doms3_f, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('cn_bacteria',cn_bacteria, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+    call ncd_io('cn_fungi',cn_fungi, 'read', ncid, readvar=readv, posNOTonfile=.true.)
+    if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
+
     call ncd_io('pconv',pconv, 'read', ncid, readvar=readv)  
     if ( .not. readv ) call endrun( trim(subname)//' ERROR: error in reading in pft data' )
     call ncd_io('pprod10',pprod10, 'read', ncid, readvar=readv)  

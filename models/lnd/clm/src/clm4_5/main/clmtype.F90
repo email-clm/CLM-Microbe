@@ -249,8 +249,8 @@ type, public :: pft_pstate_type
    real(r8), pointer :: rb1(:)         ! aerodynamical resistance (s/m)
    real(r8), pointer :: annlai(:,:)    ! 12 months of monthly lai from input data set  
 
-   ! New variable for methane code #if (defined LCH4) || (defined MICROBE)
-#if (defined LCH4)
+   ! New variable for methane code
+#if (defined LCH4) || (defined MICROBE)
    real(r8), pointer :: grnd_ch4_cond(:)    !tracer conductance for boundary layer [m/s]
    real(r8), pointer :: canopy_cond(:)    !tracer conductance for canopy [m/s]
 #endif
@@ -363,6 +363,33 @@ type, public :: pft_epc_type
    real(r8), pointer :: fleafcn(:)      ! C:N during grain fill; leaf
    real(r8), pointer :: ffrootcn(:)     ! C:N during grain fill; froot
    real(r8), pointer :: fstemcn(:)      ! C:N during grain fill; stem
+
+   real(r8), pointer :: m_bdom_f(:)     ! bacterial C -> DOM
+   real(r8), pointer :: m_bs1_f(:)     ! bacterial C -> SOM1
+   real(r8), pointer :: m_bs2_f(:)     ! bacterial C -> SOM2
+   real(r8), pointer :: m_bs3_f(:)     ! bacterial C -> SOM3
+   real(r8), pointer :: m_fdom_f(:)     ! fungal C -> DOM
+   real(r8), pointer :: m_fs1_f(:)     ! fungal C -> SOM1
+   real(r8), pointer :: m_fs2_f(:)     ! fungal C -> SOM2
+   real(r8), pointer :: m_fs3_f(:)     ! fungal C -> SOM3
+   real(r8), pointer :: m_rf_s1m(:)     ! SOM1 -> microbes
+   real(r8), pointer :: m_rf_s2m(:)     ! SOM2 -> microbes
+   real(r8), pointer :: m_rf_s3m(:)     ! SOM3 -> microbes
+   real(r8), pointer :: m_rf_s4m(:)     ! SOM4 -> microbes
+   real(r8), pointer :: m_batm_f(:)     ! bacteria -> atmosphere
+   real(r8), pointer :: m_fatm_f(:)     ! fungi -> atmosphere
+   real(r8), pointer :: m_domb_f(:)     ! DOM -> bacteria
+   real(r8), pointer :: m_domf_f(:)     ! DOM -> fungi
+   real(r8), pointer :: m_doms1_f(:)     ! DOM -> SOM1
+   real(r8), pointer :: m_doms2_f(:)     ! DOM -> SOM2
+   real(r8), pointer :: m_doms3_f(:)     ! DOM -> SOM3
+   real(r8), pointer :: cn_bacteria(:)     ! C:N ratio of bacteria
+   real(r8), pointer :: cn_fungi(:)     ! C:N ratio of fungi
+   real(r8), pointer :: k_dom(:)     ! turnover rate of DOM
+   real(r8), pointer :: k_bacteria(:)     ! turnover rate of bacteria
+   real(r8), pointer :: k_fungi(:)     ! turnover rate of fungi
+   real(r8), pointer :: decomp_depth_efolding(:)     ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
+
 end type pft_epc_type
 
 type(pft_epc_type), public, target, save :: pftcon
@@ -1364,7 +1391,7 @@ type, public :: column_pstate_type
    real(r8), pointer :: watfc(:,:)        !volumetric soil water at field capacity (nlevsoi)
 
    ! F. Li and S. Levis
-   real(r8), pointer :: nfire(:)        	! fire counts (count/km2/timestep), valid only in Reg. C
+   real(r8), pointer :: nfire(:)        ! fire counts (count/km2/timestep), valid only in Reg. C
    real(r8), pointer :: fsr_pft(:)      ! fire spread rate in pft level (m/s)
    real(r8), pointer :: fsr_col(:)      ! fire spread rate at column level (m/s)
    real(r8), pointer :: fd_col(:)       ! fire duration at column level (hr)
@@ -1385,6 +1412,7 @@ type, public :: column_pstate_type
    real(r8), pointer :: wtlf(:)         ! fractional coverage of non-crop PFTs (0-1)
    real(r8), pointer :: lfwt(:)         ! fractional coverage of non-crop and non-bare-soil PFTs (0-1)
    real(r8), pointer :: farea_burned(:)       !timestep fractional area burned (0-1) 
+
 
    real(r8), pointer :: albsnd_hst(:,:)       ! snow albedo, direct, for history files (col,bnd) [frc]
    real(r8), pointer :: albsni_hst(:,:)       ! snow albedo, diffuse, for history files (col,bnd) [frc]
@@ -1477,22 +1505,22 @@ type(column_pstate_type) :: cps      !column physical state variables
 ! column energy state variables structure
 !----------------------------------------------------
 type, public :: column_estate_type
-   real(r8), pointer :: t_grnd(:)             	!ground temperature (Kelvin)
+   real(r8), pointer :: t_grnd(:)             !ground temperature (Kelvin)
    real(r8), pointer :: t_grnd_u(:)           !Urban ground temperature (Kelvin)
-   real(r8), pointer :: t_grnd_r(:)           	!Rural ground temperature (Kelvin)
-   real(r8), pointer :: dt_grnd(:)            	!change in t_grnd, last iteration (Kelvin)
-   real(r8), pointer :: t_soisno(:,:)         	!soil temperature (Kelvin)  (-nlevsno+1:nlevgrnd) 
-   real(r8), pointer :: t_soi_10cm(:)        !soil temperature in top 10cm of soil (Kelvin)
-   real(r8), pointer :: tsoi17(:)            	!soil temperature in top 17cm of soil (Kelvin) by F. Li and S. Levis
-   real(r8), pointer :: t_lake(:,:)           	!lake temperature (Kelvin)  (1:nlevlak)          
-   real(r8), pointer :: tssbef(:,:)           	!soil/snow temperature before update (-nlevsno+1:nlevgrnd) 
-   real(r8), pointer :: thv(:)                	!virtual potential temperature (kelvin)
-   real(r8), pointer :: hc_soi(:)             	!soil heat content (MJ/m2)
+   real(r8), pointer :: t_grnd_r(:)           !Rural ground temperature (Kelvin)
+   real(r8), pointer :: dt_grnd(:)            !change in t_grnd, last iteration (Kelvin)
+   real(r8), pointer :: t_soisno(:,:)         !soil temperature (Kelvin)  (-nlevsno+1:nlevgrnd) 
+   real(r8), pointer :: t_soi_10cm(:)         !soil temperature in top 10cm of soil (Kelvin)
+   real(r8), pointer :: tsoi17(:)            !soil temperature in top 17cm of soil (Kelvin) by F. Li and S. Levis
+   real(r8), pointer :: t_lake(:,:)           !lake temperature (Kelvin)  (1:nlevlak)          
+   real(r8), pointer :: tssbef(:,:)           !soil/snow temperature before update (-nlevsno+1:nlevgrnd) 
+   real(r8), pointer :: thv(:)                !virtual potential temperature (kelvin)
+   real(r8), pointer :: hc_soi(:)             !soil heat content (MJ/m2)
    real(r8), pointer :: hc_soisno(:)          !soil plus snow heat content (MJ/m2)
-   real(r8), pointer :: forc_t(:)             	!atm temperature, downscaled to column (Kelvin)
-   real(r8), pointer :: forc_th(:)            	!atm potl temperature, downscaled to column (Kelvin)
-   real(r8), pointer :: t_h2osfc(:) 	      	!surface water temperature
-   real(r8), pointer :: t_h2osfc_bef(:)      !surface water temperature from time-step before
+   real(r8), pointer :: forc_t(:)             !atm temperature, downscaled to column (Kelvin)
+   real(r8), pointer :: forc_th(:)            !atm potl temperature, downscaled to column (Kelvin)
+   real(r8), pointer :: t_h2osfc(:) 	      !surface water temperature
+   real(r8), pointer :: t_h2osfc_bef(:)       !surface water temperature from time-step before
 end type column_estate_type
 
 type(column_estate_type) :: ces      !column energy state
@@ -1601,13 +1629,12 @@ type, public :: column_cstate_type
    real(r8), pointer :: anaerch4bio_col(:)		! (gC/m2) total column microbial biomass carbon in anaerobic methanotrophy
    real(r8), pointer :: ccon_ch4s_col(:)		! gC/m2 column-level concentration of CH4
    real(r8), pointer :: ccon_co2s_col(:)		! gC/m2 column-level concentration of CO2   
-#endif  
-
+#endif    
 end type column_cstate_type
 
-type(column_cstate_type), target :: ccs      	!column carbon state
-type(column_cstate_type), target :: cc13s    	!column carbon-13 state
-type(column_cstate_type), target :: cc14s   	!column carbon-14 state
+type(column_cstate_type), target :: ccs      !column carbon state
+type(column_cstate_type), target :: cc13s    !column carbon-13 state
+type(column_cstate_type), target :: cc14s    !column carbon-14 state
 
 !----------------------------------------------------
 ! column methane variables structure

@@ -43,7 +43,11 @@ subroutine iniTimeConst
                            leaf_long, evergreen, stress_decid, season_decid, &
                            pftpar20, pftpar28, pftpar29, pftpar30, pftpar31, &
                            allom1s, allom2s, &
-                           allom1 , allom2 , allom3  , reinickerp, dwood
+                           allom1 , allom2 , allom3  , reinickerp, dwood, &
+                           m_bdom_f, m_bs1_f, m_bs2_f, m_bs3_f,  m_fdom_f, m_fs1_f, m_fs2_f, m_fs3_f, &
+                           k_dom, k_bacteria, k_fungi, m_rf_s1m,  m_rf_s2m, m_rf_s3m, m_rf_s4m, &
+                           m_batm_f, m_fatm_f, m_domb_f, m_domf_f,  m_doms1_f,  m_doms2_f, &
+                           m_doms3_f, cn_bacteria, cn_fungi, decomp_depth_efolding
 
   use pftvarcon       , only : fertnitro, graincn, fleafcn, ffrootcn, fstemcn
   use clm_time_manager, only : get_step_size
@@ -730,7 +734,33 @@ subroutine iniTimeConst
       pftcon%fleafcn(m)   = fleafcn(m)
       pftcon%ffrootcn(m)  = ffrootcn(m)
       pftcon%fstemcn(m)   = fstemcn(m)
-   end do
+      pftcon%m_bdom_f(m)   = m_bdom_f(m)
+      pftcon%m_bs1_f(m)   = m_bs1_f(m)
+      pftcon%m_bs2_f(m)   = m_bs2_f(m)
+      pftcon%m_bs3_f(m)   = m_bs3_f(m)
+      pftcon%m_fdom_f(m)   = m_fdom_f(m)
+      pftcon%m_fs1_f(m)   = m_fs1_f(m)
+      pftcon%m_fs2_f(m)   = m_fs2_f(m)
+      pftcon%m_fs3_f(m)   = m_fs3_f(m)
+      pftcon%k_dom(m)   = k_dom(m)
+      pftcon%k_bacteria(m)   = k_bacteria(m)
+      pftcon%k_fungi(m)   = k_fungi(m)
+      pftcon%m_rf_s1m(m)   = m_rf_s1m(m)
+      pftcon%m_rf_s2m(m)   = m_rf_s2m(m)
+      pftcon%m_rf_s3m(m)   = m_rf_s3m(m)
+      pftcon%m_rf_s4m(m)   = m_rf_s4m(m)
+      pftcon%m_batm_f(m)   = m_batm_f(m)
+      pftcon%m_fatm_f(m)   = m_fatm_f(m)
+      pftcon%m_domb_f(m)   = m_domb_f(m)
+      pftcon%m_domf_f(m)   = m_domf_f(m)
+      pftcon%m_doms1_f(m)   = m_doms1_f(m)
+      pftcon%m_doms2_f(m)   = m_doms2_f(m)
+      pftcon%m_doms3_f(m)   = m_doms3_f(m)
+      pftcon%cn_bacteria(m)   = cn_bacteria(m)
+      pftcon%cn_fungi(m)   = cn_fungi(m)
+      pftcon%decomp_depth_efolding(m)   = decomp_depth_efolding(m)
+
+      end do
 
 #ifdef CNDV
    do m = 0,numpft
