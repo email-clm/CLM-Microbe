@@ -1,5 +1,5 @@
 # CLM-Microbe
-Repository for CLM-Microbe and other associated modeling work within the Ecological Modeling and Integration Laboratory at SDSU. http://sci.sdsu.edu/emaillab/. Please contact Xiaofeng Xu at xxu@sdsu.edu if you want to apply the CLM-Microbe model.
+Repository for CLM-Microbe and other associated modeling work within the Ecological Modeling and Integration Laboratory at SDSU. http://sci.sdsu.edu/emaillab/. The CLM-Microbe is an open source, all codes are publically accessible to anyone who are interested. Please contact Xiaofeng Xu at xxu@sdsu.edu if you want to apply the CLM-Microbe model or have any technical problems.
 
 Publications with the CLM-Microbe model.
 
