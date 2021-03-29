@@ -3,7 +3,7 @@ Repository for CLM-Microbe and other associated modeling work within the Ecologi
 
 Publications with the CLM-Microbe model.
 
-Xu, X., J. P. Schimel, P. E. Thornton, X. Song, F. Yuan, and S. Goswami. 2014. Substrate and environmental controls on microbial assimilation of soil organic carbon: a framework for Earth system models. Ecology Letters 17:547-555. (The modeling framework for microbial C assimilation)
+Xu, X., J. P. Schimel, P. E. Thornton, X. Song, F. Yuan, and S. Goswami. 2014. Substrate and environmental controls on microbial assimilation of soil organic carbon: a framework for Earth system models. Ecology Letters 17:547-555. (The modeling framework for microbial carbon assimilation)
 
 Xu, X., D. A. Elias, D. E. Graham, T. J. Phelps, S. L. Carrol, S. D. Wullschleger, and P. E. Thornton. 2015. A microbial functional group based module for simulating methane production and consumption: application to an incubation permafrost soil. Journal of Geophysical Research-Biogeosciences 120:1315-1333. (The microbial functional-group based methane module)
 
