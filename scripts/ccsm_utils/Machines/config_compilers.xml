@@ -429,6 +429,18 @@ for mct, etc.
   <MPI_PATH></MPI_PATH>
 </compiler>
 
+<compiler MACH="peony1">
+  <NETCDF_PATH>/usr/local/gcc-9.x/netcdf-4.x-hdf5</NETCDF_PATH>
+  <PNETCDF_PATH></PNETCDF_PATH>
+  <ADD_SLIBS></ADD_SLIBS>
+  <ADD_CPPDEFS></ADD_CPPDEFS>
+  <CONFIG_ARGS></CONFIG_ARGS>
+  <ESMF_LIBDIR></ESMF_LIBDIR>
+  <LAPACK_LIBDIR> /usr/local/lib64 </LAPACK_LIBDIR>
+  <MPI_LIB_NAME> mpich </MPI_LIB_NAME>
+  <MPI_PATH></MPI_PATH>
+</compiler>
+
 <compiler OS="CNL">
   <SFC> ftn </SFC>
   <SCC> cc </SCC>
