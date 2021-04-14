@@ -23,7 +23,7 @@ setenv LD_LIBRARY_PATH /usr/lib64
 setenv PATH /usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 
 # gcc-9.x 
-setenv GCC_ROOT /usr/local/gcc-9.x
+setenv GCC_ROOT /usr/local/gcc-9.x/gcc-9
 setenv PATH ${GCC_ROOT}/bin:${PATH}
 setenv LD_LIBRARY_PATH ${GCC_ROOT}/lib64:${LD_LIBRARY_PATH}
 
