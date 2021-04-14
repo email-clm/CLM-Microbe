@@ -123,11 +123,11 @@
 </machine>
 
 <machine MACH="peony1">
-         <DESC>SDSU XE6, os is Linux, 24 pes/node, no batch system</DESC>
+         <DESC>SDSU Intel(R) Xeon, os is Linux, 2 NUMA nodes, 24 pes/node, no batch system</DESC>
          <COMPILERS>gnu</COMPILERS>
-         <MPILIBS>mpich,mpi-serial</MPILIBS>
+         <MPILIBS>mpich</MPILIBS>
          <RUNDIR>/data/xxu/output/$CASE/run</RUNDIR>
-         <EXEROOT>/data/xxu/output/$CASE</EXEROOT>
+         <EXEROOT>/data/xxu/cases/$CASE</EXEROOT>
          <DIN_LOC_ROOT>/data/projects/inputdata</DIN_LOC_ROOT>
          <DIN_LOC_ROOT_CLMFORC>/data/projects/inputdata/lmwg</DIN_LOC_ROOT_CLMFORC>
          <DOUT_S_ROOT>/data/xxu/output</DOUT_S_ROOT>
@@ -137,7 +137,7 @@
          <GMAKE_J>4</GMAKE_J>
          <MAX_TASKS_PER_NODE>4</MAX_TASKS_PER_NODE>
 </machine>
-
+        
 <machine MACH="changchun2">
     <DESC>IGA Cluster 2</DESC>
     <OS>LINUX</OS>

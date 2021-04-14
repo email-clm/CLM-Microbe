@@ -20,9 +20,10 @@ setenv MPICH_CPUMASK_DISPLAY 1
 setenv MPICH_RANK_REORDER_DISPLAY 1
 setenv LD_LIBRARY_PATH /usr/lib64
 
-setenv PATH /usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+setenv PATH /usr/lib64/qt4/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+setenv BLASLAPACK_DIR /usr/lib64
 
-# gcc-9.x 
+# gcc-9.3
 setenv GCC_ROOT /usr/local/gcc-9.x/gcc-9
 setenv PATH ${GCC_ROOT}/bin:${PATH}
 setenv LD_LIBRARY_PATH ${GCC_ROOT}/lib64:${LD_LIBRARY_PATH}
@@ -31,8 +32,8 @@ setenv gcc '${GCC_ROOT}/bin/gcc'
 setenv gxx '${GCC_ROOT}/bin/g++'
 setenv gfortran '${GCC_ROOT}/bin/gfortran'
 
-# mpi built with gcc-9.x
-setenv MPI_ROOT $GCC_ROOT/mpich-3.3
+# mpi built with gcc-9.3
+setenv MPI_ROOT /usr/local/gcc-9.x/mpich-3.3
 setenv MPILIBNAME mpich
 setenv PATH ${MPI_ROOT}/bin:${PATH}
 setenv LD_LIBRARY_PATH ${MPI_ROOT}/lib:${LD_LIBRARY_PATH}
@@ -41,7 +42,11 @@ setenv mpicc '${MPI_ROOT}/bin/mpicc'
 setenv mpif90 '${MPI_ROOT}/bin/mpif90'
 setenv mpicxx '${MPI_ROOT}/bin/mpicxx'
 
-setenv NETCDF_PATH $GCC_ROOT/netcdf-4.x-hdf5
+setenv HDF5_PATH /usr/local/gcc-9.x/hdf5-1.10
+setenv PATH ${HDF5_PATH}/bin:${PATH}
+setenv LD_LIBRARY_PATH ${HDF5_PATH}/lib:${LD_LIBRARY_PATH}
+
+setenv NETCDF_PATH /usr/local/gcc-9.x/netcdf-4.x-hdf5
 setenv LIB_NETCDF ${NETCDF_PATH}/lib
 setenv INC_NETCDF ${NETCDF_PATH}/include
 setenv PATH ${NETCDF_PATH}/bin:${PATH}

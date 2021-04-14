@@ -417,20 +417,30 @@ for mct, etc.
   </ADD_SLIBS>
 </compiler>
 
-<compiler MACH="peony">
-  <NETCDF_PATH>/usr/local/netcdf-4.4-mpich32-gcc54</NETCDF_PATH>
-  <PNETCDF_PATH></PNETCDF_PATH>
-  <ADD_SLIBS></ADD_SLIBS>
-  <ADD_CPPDEFS></ADD_CPPDEFS>
-  <CONFIG_ARGS></CONFIG_ARGS>
-  <ESMF_LIBDIR></ESMF_LIBDIR>
-  <LAPACK_LIBDIR> /usr/local/lib64 </LAPACK_LIBDIR>
-  <MPI_LIB_NAME> mpich </MPI_LIB_NAME>
-  <MPI_PATH></MPI_PATH>
+<compiler MACH="peony1" COMPILER="gnu">
+  <NETCDF_PATH>/usr/local/gcc-9.x/netcdf-4.x-hdf5</NETCDF_PATH>
+  <SFC>gfortran</SFC>
+  <SCC>gcc</SCC>
+  <SCXX>g++</SCXX>
+  <MPIFC>mpif90</MPIFC>
+  <MPICC>mpicc</MPICC>
+  <MPICXX>mpic++</MPICXX>
+  <FFLAGS> -O -fconvert=big-endian -ffree-line-length-none -ffixed-line-length-none -fno-range-check</FFLAGS>
+  <FFLAGS_NOOPT> -O0 </FFLAGS_NOOPT>
+  <FC_AUTO_R8> -fdefault-real-8 </FC_AUTO_R8>
+  <CXX_LINKER>FORTRAN</CXX_LINKER>
+  <SUPPORTS_CXX>TRUE</SUPPORTS_CXX>
+  <HDF5_ROOT>/usr/local/gcc-9.x/hdf5-1.10</HDF5_ROOT>
+  <LAPACK_LIBDIR>/usr/local/lib64</LAPACK_LIBDIR>
+  <BLAS_LIBDIR>/usr/local/lib64</BLAS_LIBDIR>
+  <ADD_SLIBS> -L$(NETCDF_PATH)/lib -lnetcdff -lnetcdf \
+              -L$(HDF5_ROOT)/lib -lhdf5_hl -lhdf5 -lhdf5hl_fortran -lhdf5_fortran \
+              -L$(LAPACK_LIBDIR) -llapack -L$(BLAS_LIBDIR) -lblas
+  </ADD_SLIBS>
 </compiler>
 
-<compiler MACH="peony1">
-  <NETCDF_PATH>/usr/local/gcc-9.x/netcdf-4.x-hdf5</NETCDF_PATH>
+<compiler MACH="peony">
+  <NETCDF_PATH>/usr/local/netcdf-4.4-mpich32-gcc54</NETCDF_PATH>
   <PNETCDF_PATH></PNETCDF_PATH>
   <ADD_SLIBS></ADD_SLIBS>
   <ADD_CPPDEFS></ADD_CPPDEFS>

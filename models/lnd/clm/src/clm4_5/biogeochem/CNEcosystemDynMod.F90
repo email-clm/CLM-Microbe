@@ -286,7 +286,7 @@ contains
 
 #if(defined MICROBE)
 #ifndef HUM_HOL
-     call update_finundated(lbc,upc,num_soilc, filter_soilc)
+     call update_finundated(lbc,ubc,num_soilc, filter_soilc)
 #endif
      call microbech4 (lbg, ubg, lbc,ubc,lbp,ubp,num_soilc, filter_soilc, &
                num_soilp, filter_soilp,'bulk')
