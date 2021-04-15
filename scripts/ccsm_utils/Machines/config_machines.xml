@@ -127,7 +127,7 @@
          <COMPILERS>gnu</COMPILERS>
          <MPILIBS>mpich</MPILIBS>
          <RUNDIR>/data/xxu/output/$CASE/run</RUNDIR>
-         <EXEROOT>/data/xxu/cases/$CASE</EXEROOT>
+         <EXEROOT>/data/xxu/output/$CASE</EXEROOT>
          <DIN_LOC_ROOT>/data/projects/inputdata</DIN_LOC_ROOT>
          <DIN_LOC_ROOT_CLMFORC>/data/projects/inputdata/lmwg</DIN_LOC_ROOT_CLMFORC>
          <DOUT_S_ROOT>/data/xxu/output</DOUT_S_ROOT>
