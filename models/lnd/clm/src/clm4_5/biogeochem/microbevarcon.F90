@@ -35,7 +35,7 @@ module microbevarcon
   real(r8), PARAMETER :: Mmmin = 0.1
   real(r8), PARAMETER :: MFGbiomin = 1e-15
 
-  integer, parameter :: nummicrobepar = 110
+  integer, parameter :: nummicrobepar = 88
   real(r8) :: q10ch4base = 295._r8  ! Rough estimate from comparison between Walter and previous CLM-CH4 data
   ! Uses Michigan bog data from Shannon & White
   ! This is the temperature at which the effective f_ch4 actually equals the constant f_ch4.
@@ -244,33 +244,9 @@ module microbevarcon
 	real(r8) :: pHmax = 10.
 	real(r8) :: pHopt = 7.
   
-	real(r8) :: k_dom = 0.042
-	real(r8) :: k_bacteria = 0.56
-	real(r8) :: k_fungi = 0.56
 	real(r8) :: dom_diffus = 10. / 3600. / 365.
 	real(r8) :: m_Fick_ad = 0.75
-	
-	real(r8) :: m_rf_s1m = 0.28
-	real(r8) :: m_rf_s2m = 0.46
-	real(r8) :: m_rf_s3m = 0.55
-	real(r8) :: m_rf_s4m = 0.75
-  
-	real(r8) :: m_batm_f = 0.05
-	real(r8) :: m_bdom_f = 0.25
-	real(r8) :: m_bs1_f = 0.1
-	real(r8) :: m_bs2_f = 0.12
-	real(r8) :: m_bs3_f = 0.18
-	real(r8) :: m_fatm_f = 0.05
-	real(r8) :: m_fdom_f = 0.25
-	real(r8) :: m_fs1_f = 0.1
-	real(r8) :: m_fs2_f = 0.12
-	real(r8) :: m_fs3_f = 0.18
-	real(r8) :: m_domb_f = 0.3
-	real(r8) :: m_domf_f = 0.3
-	real(r8) :: m_doms1_f = 0.2
-	real(r8) :: m_doms2_f = 0.15
-	real(r8) :: m_doms3_f = 0.05
-  
+	  
 !
 ! !PUBLIC MEMBER FUNCTIONS:
   public :: ch4conrd ! Read and initialize CH4 constants
@@ -433,30 +409,8 @@ q10ch4base                         = dummy(i); i=i+1
 	frac_ch4ox = dummy(i); i=i+1		
 	frac_ch4aom = dummy(i); i=i+1		
 	
-	k_dom = dummy(i); i=i+1
-	k_bacteria = dummy(i); i=i+1
-	k_fungi = dummy(i); i=i+1
 	dom_diffus = dummy(i); i=i+1
 	m_Fick_ad = dummy(i); i=i+1
-	m_rf_s1m = dummy(i); i=i+1
-	m_rf_s2m = dummy(i); i=i+1
-	m_rf_s3m = dummy(i); i=i+1
-	m_rf_s4m = dummy(i); i=i+1  
-	m_batm_f = dummy(i); i=i+1
-	m_bdom_f = dummy(i); i=i+1
-	m_bs1_f = dummy(i); i=i+1
-	m_bs2_f = dummy(i); i=i+1
-	m_bs3_f = dummy(i); i=i+1
-	m_fatm_f = dummy(i); i=i+1
-	m_fdom_f = dummy(i); i=i+1
-	m_fs1_f = dummy(i); i=i+1
-	m_fs2_f = dummy(i); i=i+1
-	m_fs3_f = dummy(i); i=i+1
-	m_domb_f = dummy(i); i=i+1
-	m_domf_f = dummy(i); i=i+1
-	m_doms1_f = dummy(i); i=i+1
-	m_doms2_f = dummy(i); i=i+1
-	m_doms3_f = dummy(i); i=i+1
 	m_dPlantTrans = dummy(i); i=i+1
     
     !xiaofeng xu creared new mechanisms and the new parameters         
@@ -556,31 +510,8 @@ end if
     call mpi_bcast (frac_ch4ox, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (frac_ch4aom, 1 , MPI_REAL8, 0, mpicom, ierr)
     	
-    call mpi_bcast (k_dom, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (k_bacteria, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (k_fungi, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (dom_diffus, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (m_Fick_ad, 1 , MPI_REAL8, 0, mpicom, ierr)
-    
-    call mpi_bcast (m_rf_s1m, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_rf_s2m, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_rf_s3m, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_rf_s4m, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_batm_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_bdom_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_bs1_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_bs2_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_bs3_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_fatm_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_fdom_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_fs1_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_fs2_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_fs3_f, 1 , MPI_REAL8, 0, mpicom, ierr)   
-    call mpi_bcast (m_domb_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_domf_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_doms1_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_doms2_f, 1 , MPI_REAL8, 0, mpicom, ierr)
-    call mpi_bcast (m_doms3_f, 1 , MPI_REAL8, 0, mpicom, ierr)
     call mpi_bcast (m_dPlantTrans, 1 , MPI_REAL8, 0, mpicom, ierr)
     
     if (masterproc) then
@@ -680,30 +611,8 @@ end if
 	write(iulog,*)'frac_ch4ox = ', frac_ch4ox
 	write(iulog,*)'frac_ch4aom = ', frac_ch4aom
 	
-	write(iulog,*)'k_dom = ', k_dom
-	write(iulog,*)'k_bacteria = ', k_bacteria
-	write(iulog,*)'k_fungi = ', k_fungi
 	write(iulog,*)'dom_diffus = ', dom_diffus
 	
-	write(iulog,*)'m_rf_s1m = ', m_rf_s1m
-	write(iulog,*)'m_rf_s2m = ', m_rf_s2m
-	write(iulog,*)'m_rf_s3m = ', m_rf_s3m
-	write(iulog,*)'m_rf_s4m = ', m_rf_s4m
-	write(iulog,*)'m_batm_f = ', m_batm_f
-	write(iulog,*)'m_bdom_f = ', m_bdom_f
-	write(iulog,*)'m_bs1_f = ', m_bs1_f
-	write(iulog,*)'m_bs2_f = ', m_bs2_f
-	write(iulog,*)'m_bs3_f = ', m_bs3_f
-	write(iulog,*)'m_fatm_f = ', m_fatm_f
-	write(iulog,*)'m_fdom_f = ', m_fdom_f
-	write(iulog,*)'m_fs1_f = ', m_fs1_f
-	write(iulog,*)'m_fs2_f = ', m_fs2_f
-	write(iulog,*)'m_fs3_f = ', m_fs3_f
-	write(iulog,*)'m_domb_f = ', m_domb_f
-	write(iulog,*)'m_domf_f = ', m_domf_f
-	write(iulog,*)'m_doms1_f = ', m_doms1_f
-	write(iulog,*)'m_doms2_f = ', m_doms2_f
-	write(iulog,*)'m_doms3_f = ', m_doms3_f
 	write(iulog,*)'m_dPlantTrans = ', m_dPlantTrans
 	
        if (ch4offline) write(iulog,*)'CH4 Model will be running offline and not affect fluxes to atmosphere.'
