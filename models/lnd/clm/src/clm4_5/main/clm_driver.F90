@@ -711,8 +711,8 @@ subroutine clm_drv(doalb, nextsw_cday, declinp1, declin, rstwr, nlend, rdate)
 #ifndef HUM_HOL
      call update_finundated(begc, endc,filter(nc)%num_soilc, filter(nc)%soilc)
 #endif
-     call microbech4 (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
-               filter(nc)%num_soilp, filter(nc)%soilp)
+!     call microbech4 (begg, endg, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
+!               filter(nc)%num_soilp, filter(nc)%soilp,"bulk")
 !     call microben2o (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
 !               filter(nc)%num_soilp, filter(nc)%soilp)
 !     call microbeCN (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
