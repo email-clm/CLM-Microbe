@@ -13,4 +13,4 @@ Wang, Y., F. Yuan, F. Yuan, B. Gu, M. S. Hahn, M. S. Torn, D. M. Ricciuto, J. Ku
 
 He, L., D.L. Lipson, J.L. Rodrigues, M.A. Mayes, R.G. Bjork, B. Glaser, B., P.E. Thornton, X. Xu (2021). Dynamics of Fungal and Bacterial Biomass Carbon in Natural Ecosystems: Site-level Applications of the CLM-Microbe Model. Journal of Advance in Modeling Earth Systems, DOI: 10.1029/2020MS002283. (Site-level application of the CLM-Microbe in simulating bacterial and fungal biomass in major biomes)
 
-He, L, C.T. Lai, M.A. Mayes, S. Murayama, X. Xu, (2021) Microbial seasonality promotes soil respiratory carbon emission in natural ecosystems: a modeling study. Global Change Biology. (In press). (Site-level model application to confirm microbial seasonality has sitmulation impacts on soil carbon emission)
+He, L, C.T. Lai, M.A. Mayes, S. Murayama, X. Xu, (2021) Microbial seasonality promotes soil respiratory carbon emission in natural ecosystems: a modeling study. Global Change Biology. DOI:10.1111/gcb.15627. (Site-level model application to confirm microbial seasonality has sitmulation impacts on soil carbon emission)
