@@ -566,7 +566,7 @@ contains
    grc%gris_area(beg:end) = nan
    grc%aais_mask(beg:end) = nan
    grc%aais_area(beg:end) = nan
-   grc%tws(beg:end) = nan
+   grc%tws(beg:end) = 0._r8
 
   end subroutine init_gridcell_type
 
@@ -597,10 +597,10 @@ contains
     allocate(ebal%errsol(beg:end))
     allocate(ebal%errlon(beg:end))
 
-    ebal%errsoi(beg:end) = nan
-    ebal%errseb(beg:end) = nan
-    ebal%errsol(beg:end) = nan
-    ebal%errlon(beg:end) = nan
+    ebal%errsoi(beg:end) = 0._r8
+    ebal%errseb(beg:end) = 0._r8
+    ebal%errsol(beg:end) = 0._r8
+    ebal%errlon(beg:end) = 0._r8
 
   end subroutine init_energy_balance_type
 
@@ -632,7 +632,7 @@ contains
 
     wbal%begwb(beg:end) = nan
     wbal%endwb(beg:end) = nan
-    wbal%errh2o(beg:end) = nan
+    wbal%errh2o(beg:end) = 0._r8
 
   end subroutine init_water_balance_type
 
@@ -664,7 +664,7 @@ contains
 
     cbal%begcb(beg:end) = nan
     cbal%endcb(beg:end) = nan
-    cbal%errcb(beg:end) = nan
+    cbal%errcb(beg:end) = 0._r8
 
   end subroutine init_carbon_balance_type
 
@@ -696,7 +696,7 @@ contains
 
     nbal%begnb(beg:end) = nan
     nbal%endnb(beg:end) = nan
-    nbal%errnb(beg:end) = nan
+    nbal%errnb(beg:end) = 0._r8
   end subroutine init_nitrogen_balance_type
 
 !------------------------------------------------------------------------
@@ -2447,7 +2447,7 @@ contains
     pcf%m_leafc_xfer_to_litter(beg:end) = nan
     pcf%m_frootc_xfer_to_litter(beg:end) = nan
 #if(defined MICROBE)
-    pcf%m_frootc_to_doc(beg:end) = nan
+    pcf%m_frootc_to_doc(beg:end) = 0._r8
 #endif
     pcf%m_livestemc_xfer_to_litter(beg:end) = nan
     pcf%m_deadstemc_xfer_to_litter(beg:end) = nan
@@ -2812,7 +2812,7 @@ contains
     pnf%m_leafn_to_litter(beg:end) = nan
     pnf%m_frootn_to_litter(beg:end) = nan
 #if(defined MICROBE)
-    pnf%m_frootn_to_don(beg:end) = nan
+    pnf%m_frootn_to_don(beg:end) = 0._r8
 #endif
     pnf%m_leafn_storage_to_litter(beg:end) = nan
     pnf%m_frootn_storage_to_litter(beg:end) = nan
@@ -3484,8 +3484,8 @@ contains
 #endif
 
 #ifdef MICROBE
-    cps%soilpH_unsat(beg:end, nlevgrnd)   = nan
-    cps%soilpH_sat(beg:end, nlevgrnd)   = nan
+    cps%soilpH_unsat(beg:end, nlevgrnd)   = 0._r8
+    cps%soilpH_sat(beg:end, nlevgrnd)   = 0._r8
 #endif
 
     cps%irrig_rate(beg:end) = nan
@@ -3671,10 +3671,10 @@ contains
     allocate(cws%i_0(beg:end))
 #endif
 
-    cws%h2osno(beg:end) = nan
-    cws%errh2osno(beg:end) = nan
-    cws%snow_sources(beg:end) = nan
-    cws%snow_sinks(beg:end) = nan
+    cws%h2osno(beg:end) = 0._r8
+    cws%errh2osno(beg:end) = 0._r8
+    cws%snow_sources(beg:end) = 0._r8
+    cws%snow_sinks(beg:end) = 0._r8
     cws%h2osoi_liq(beg:end,-nlevsno+1:nlevgrnd)= spval
     cws%h2osoi_ice(beg:end,-nlevsno+1:nlevgrnd) = spval
     cws%h2osoi_liqice_10cm(beg:end) = spval
@@ -3692,7 +3692,7 @@ contains
     cws%fsat(beg:end) = nan
     
 #if (defined LCH4) || (defined MICROBE)
-    cws%finundated(beg:end) = nan
+    cws%finundated(beg:end) = 0._r8
 #endif
 
     cws%wa(beg:end) = spval
@@ -3820,19 +3820,19 @@ contains
     ccs%totcolc(beg:end) = nan
     
 #ifdef MICROBE
-    ccs%micbiohr_col(beg:end) 				= nan
-    ccs%micbioc_col(beg:end) 				= nan
-    ccs%doc_col(beg:end) 					= nan
-    ccs%dochr_col(beg:end) 				= nan
-    ccs%dochr_vr(beg:end, 1:nlevdecomp_full) 	= nan
-    ccs%ace_col(beg:end) 					= nan
-    ccs%ace_prod_col(beg:end) 				= nan
-    ccs%acebios_col(beg:end) 				= nan
-    ccs%co2bio_col(beg:end) 				= nan
-    ccs%aerch4bio_col(beg:end) 				= nan
-    ccs%anaerch4bio_col(beg:end) 			= nan
-    ccs%ccon_ch4s_col(beg:end) 				= nan
-    ccs%ccon_co2s_col(beg:end) 				= nan    
+    ccs%micbiohr_col(beg:end) 				= 0._r8
+    ccs%micbioc_col(beg:end) 				= 0._r8
+    ccs%doc_col(beg:end) 					= 0._r8
+    ccs%dochr_col(beg:end) 				= 0._r8
+    ccs%dochr_vr(beg:end, 1:nlevdecomp_full) 	= 0._r8
+    ccs%ace_col(beg:end) 					= 0._r8
+    ccs%ace_prod_col(beg:end) 			= 0._r8
+    ccs%acebios_col(beg:end) 				= 0._r8
+    ccs%co2bio_col(beg:end) 				= 0._r8
+    ccs%aerch4bio_col(beg:end) 			= 0._r8
+    ccs%anaerch4bio_col(beg:end) 			= 0._r8
+    ccs%ccon_ch4s_col(beg:end) 			= 0._r8
+    ccs%ccon_co2s_col(beg:end) 			= 0._r8    
 #endif
    
    
@@ -3926,8 +3926,8 @@ contains
     cns%totcoln(beg:end) = nan
 
 #ifdef MICROBE
-    cns%micbion_col(beg:end) 					= nan
-    cns%don_col(beg:end) 						= nan
+    cns%micbion_col(beg:end) 					= 0._r8
+    cns%don_col(beg:end) 					= 0._r8
 #endif
 
   end subroutine init_column_nstate_type
@@ -4093,7 +4093,7 @@ contains
     cwf%qflx_floodc(beg:end) = spval
     !HUM_HOL
     cwf%qflx_surf_input = nan
-    cwf%qflx_lat_aqu = nan
+    cwf%qflx_lat_aqu = 0._r8
     cwf%qflx_lat_aqu_layer(1:2,beg:end) = 0._r8
 
     allocate(cwf%qflx_h2osfc_to_ice(beg:end))
@@ -4256,9 +4256,9 @@ contains
     ccf%harvest_c_to_litr_lig_c(beg:end, 1:nlevdecomp_full)                       = nan
     ccf%harvest_c_to_cwdc(beg:end, 1:nlevdecomp_full)                             = nan
 #if(defined MICROBE)
-    ccf%litter_c_to_doc(beg:end, 1:nlevdecomp_full)                 = nan
-    ccf%mic_fco2_col(beg:end)                 				= nan
-    ccf%mic_fch4_col(beg:end)                 				= nan
+    ccf%litter_c_to_doc(beg:end, 1:nlevdecomp_full)                 	= 0._r8
+    ccf%mic_fco2_col(beg:end)                 					= 0._r8
+    ccf%mic_fch4_col(beg:end)                 					= 0._r8
 #endif
 #ifdef NITRIF_DENITRIF
     ccf%phr_vr(beg:end,1:nlevdecomp_full)                              = nan
@@ -4685,17 +4685,17 @@ contains
 	allocate(cmic%h2_surf_dif(beg:end))
 	allocate(cmic%h2_surf_netflux(beg:end))
 
-    cmic%cmicbiocs(beg:end,1:nlevgrnd) = 0_r8
-    cmic%cmicbions(beg:end,1:nlevgrnd) = 0_r8
+    cmic%cmicbiocs(beg:end,1:nlevgrnd) = 0._r8
+    cmic%cmicbions(beg:end,1:nlevgrnd) = 0._r8
     
-    cmic%cdocs_pre(beg:end,1:nlevgrnd) = 0_r8
-    cmic%cdocs(beg:end,1:nlevgrnd) = 0_r8
-    cmic%cdocs_unsat(beg:end,1:nlevgrnd) = 0_r8
-    cmic%cdocs_sat(beg:end,1:nlevgrnd) = 0_r8
-    cmic%cdons(beg:end,1:nlevgrnd) = 0_r8
-    cmic%cdons_unsat(beg:end,1:nlevgrnd) = 0_r8
-    cmic%cdons_sat(beg:end,1:nlevgrnd) = 0_r8
-    cmic%cdons_min(beg:end,1:nlevgrnd) = 0_r8
+    cmic%cdocs_pre(beg:end,1:nlevgrnd) = 0._r8
+    cmic%cdocs(beg:end,1:nlevgrnd) = 0._r8
+    cmic%cdocs_unsat(beg:end,1:nlevgrnd) = 0._r8
+    cmic%cdocs_sat(beg:end,1:nlevgrnd) = 0._r8
+    cmic%cdons(beg:end,1:nlevgrnd) = 0._r8
+    cmic%cdons_unsat(beg:end,1:nlevgrnd) = 0._r8
+    cmic%cdons_sat(beg:end,1:nlevgrnd) = 0._r8
+    cmic%cdons_min(beg:end,1:nlevgrnd) = 0._r8
     cmic%cacebios(beg:end,1:nlevgrnd) = 1e-15
     cmic%cco2bios(beg:end,1:nlevgrnd) = 1e-15
     cmic%caerch4bios(beg:end,1:nlevgrnd) = 1e-15
@@ -4747,9 +4747,9 @@ contains
 !    cmic%totcolch4(beg:end) = spval ! To detect first time-step
 !    cmic%fphr(beg:end,1:nlevgrnd) = nan
     cmic%annsum_counter(beg:end) = spval ! To detect first time-step
-    cmic%tempavg_somhr(beg:end) = nan
+    cmic%tempavg_somhr(beg:end) = 0._r8
     cmic%annavg_somhr(beg:end) = spval ! To detect first year
-    cmic%tempavg_finrw(beg:end) = nan
+    cmic%tempavg_finrw(beg:end) = 0._r8
     cmic%annavg_finrw(beg:end) = spval ! To detect first year
     
     cmic%bgnpp_timestep(beg:end) = spval ! To detect first year
@@ -5066,7 +5066,7 @@ contains
     cnf%harvest_n_to_litr_lig_n(beg:end, 1:nlevdecomp_full)                       = nan
     cnf%harvest_n_to_cwdn(beg:end, 1:nlevdecomp_full)                             = nan
 #if(defined MICROBE)
-    cnf%litter_n_to_don(beg:end, 1:nlevdecomp_full)                 = nan
+    cnf%litter_n_to_don(beg:end, 1:nlevdecomp_full)                 = 0._r8
 #endif
 #ifndef NITRIF_DENITRIF
     cnf%sminn_to_denit_decomp_cascade_vr(beg:end,1:nlevdecomp_full,1:ndecomp_cascade_transitions) = nan
@@ -5388,8 +5388,8 @@ contains
     allocate(gef%eflx_sh_totg(beg:end))
     allocate(gef%eflx_dynbal(beg:end))
 
-    gef%eflx_sh_totg(beg:end) = nan
-    gef%eflx_dynbal(beg:end) = nan
+    gef%eflx_sh_totg(beg:end) = 0._r8
+    gef%eflx_dynbal(beg:end) = 0._r8
 
   end subroutine init_gridcell_eflux_type
 

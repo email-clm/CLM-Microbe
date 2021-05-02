@@ -115,6 +115,7 @@ subroutine microbech4 (lbg, ubg, lbc, ubc, lbp, ubp,num_soilc, filter_soilc, &
 	use clm_varpar, only : nlevgrnd, nlevdecomp, i_bacteria, i_fungi, i_dom, cn_dom
 	use pftvarcon,  only : noveg
 	use clm_varcon, only : secspday, istwet, istsoil, istdlak, spval, istcrop
+	use clm_atmlnd, only : clm_a2l, clm_l2a
 	use microbevarcon 
 	use clm_time_manager, only : get_step_size, get_nstep
 !	use nanmod,  only : nan, bigint
