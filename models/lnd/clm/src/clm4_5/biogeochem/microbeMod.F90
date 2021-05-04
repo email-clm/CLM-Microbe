@@ -2229,7 +2229,7 @@ else
 
 		ccon_h2s_sat(c,j-1) = (ccon_h2s_sat(c,j-1) * dz(c,j-1) + h2_ebul_depth_sat(c,j)* dz(c,j)) / dz(c,j-1)
 		ccon_h2s_sat(c,j) = (ccon_h2s_sat(c,j) * dz(c,j) - h2_ebul_depth_sat(c,j)* dz(c,j)) / dz(c,j)
-	write(iulog,*) "2220: after ", ccon_co2s_sat(c,j-1), co2_ebul_depth_sat(c,j)
+!	write(iulog,*) "2220: after ", ccon_co2s_sat(c,j-1), co2_ebul_depth_sat(c,j)
 	end do
         end if
 ! end gas move up
@@ -2498,7 +2498,7 @@ end do
 	ccon_ch4s(c,j) 			= ccon_ch4s_unsat(c,j) * (1.0 - micfinundated)  + ccon_ch4s_sat(c,j) * micfinundated
 	ccon_h2s(c,j) 			= ccon_h2s_unsat(c,j) * (1.0 - micfinundated)  + ccon_h2s_sat(c,j) * micfinundated
 	ccon_co2s(c,j)			= ccon_co2s_unsat(c,j) * (1.0 - micfinundated)  + ccon_co2s_sat(c,j) * micfinundated
-write(iulog,*) "Line 2485:", ccon_co2s_unsat(c,j), micfinundated, ccon_co2s_sat(2,j)
+!write(iulog,*) "Line 2485:", ccon_co2s_unsat(c,j), micfinundated, ccon_co2s_sat(2,j)
 	ch4_prod_ace_depth(c,j)	= ch4_prod_ace_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_prod_ace_depth_sat(c,j) * micfinundated
 	ch4_prod_co2_depth(c,j)	= ch4_prod_co2_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_prod_co2_depth_sat(c,j) * micfinundated
 	ch4_oxid_o2_depth(c,j)	= ch4_oxid_o2_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_oxid_o2_depth_sat(c,j) * micfinundated
