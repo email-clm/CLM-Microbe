@@ -306,7 +306,7 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
  
   end do
 
-   pft_index = [pft_index, MAXLOC(wtcol(pfti(c):p), DIM=1, mask = wtcol(pfti(c):p) .gt. 0)]
+   pft_index = [pft_index, (MAXLOC(wtcol(pfti(c):p), DIM=1, mask = wtcol(pfti(c):p) .gt. 0) - 1)]
 
   end do
    

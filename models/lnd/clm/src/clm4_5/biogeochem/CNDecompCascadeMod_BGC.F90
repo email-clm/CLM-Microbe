@@ -325,13 +325,13 @@ cgridcell       =>col%gridcell
 
     do c = begc,endc
 
-    pft_index = [pft_index, MAXLOC(wtcol(col%pfti(c):col%pftf(c)), DIM=1)]
+    pft_index = [pft_index, (MAXLOC(wtcol(col%pfti(c):col%pftf(c)), DIM=1) - 1)]
 
     end do
 
 cn_bacteria_in = cn_bacteria(pft_index(:))
-cn_bacteria_in = cn_bacteria(pft_index(:))
 cn_fungi_in = cn_fungi(pft_index(:))
+
 
 #endif
    initial_cn_ratio                             => decomp_cascade_con%initial_cn_ratio
@@ -746,6 +746,8 @@ cn_fungi_in = cn_fungi(pft_index(:))
    s4m_fb = (cn_bacteria_in / initial_cn_ratio(i_soil4))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_soil4))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil4))**0.6)
    s4m_ff = 1.0 - s4m_fb
 
+
+
    l1dom_f  = 0.2
    l2dom_f  = 0.16
    l3dom_f  = 0.12
@@ -768,6 +770,8 @@ cn_fungi_in = cn_fungi(pft_index(:))
    s3m_ff = s3m_ff * (1.0 - s3dom_f)
    s4m_fb = s4m_fb * (1.0 - s4dom_f)
    s4m_ff = s4m_ff * (1.0 - s4dom_f)
+
+
 
    !batm_f = 0.05
    !bdom_f = 0.25
@@ -809,6 +813,8 @@ cn_fungi_in = cn_fungi(pft_index(:))
    bs4_f = max(0._r8, bs4_f)
    fs4_f = max(0._r8, fs4_f)
    doms4_f = max(0._r8, doms4_f)
+
+
 
 #endif
 
@@ -1338,14 +1344,16 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
   do fc = 1,num_soilc
   c = filter_soilc(fc)
 
-   pft_index = [pft_index, MAXLOC(wtcol(pfti(c):pftf(c)), DIM=1)]
+   pft_index = [pft_index, (MAXLOC(wtcol(pfti(c):pftf(c)), DIM=1) - 1)]
 
   end do
+
    
 k_dom_in = k_dom(pft_index(:))
 k_bacteria_in = k_bacteria(pft_index(:))
 k_fungi_in = k_fungi(pft_index(:))
 decomp_depth_efolding_in = decomp_depth_efolding(pft_index(:))
+
 
 
 #endif
@@ -1699,4 +1707,3 @@ end subroutine decomp_rate_constants
 #endif
 
 end module CNDecompCascadeMod_BGC
-
