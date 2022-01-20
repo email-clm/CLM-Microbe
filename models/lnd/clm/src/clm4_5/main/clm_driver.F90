@@ -711,8 +711,8 @@ subroutine clm_drv(doalb, nextsw_cday, declinp1, declin, rstwr, nlend, rdate)
 #ifndef HUM_HOL
      call update_finundated(begc, endc,filter(nc)%num_soilc, filter(nc)%soilc)
 #endif
-!     call microbech4 (begg, endg, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
-!               filter(nc)%num_soilp, filter(nc)%soilp,"bulk")
+!     call microbech4 (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
+!               filter(nc)%num_soilp, filter(nc)%soilp)
 !     call microben2o (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
 !               filter(nc)%num_soilp, filter(nc)%soilp)
 !     call microbeCN (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
@@ -964,7 +964,6 @@ subroutine write_diagnostic (wrtdia, nstep)
            call endrun
         end if
      endif
-
      if (masterproc) then
         tsxyav = tsum / numg
         write(iulog,1000) nstep, tsxyav
@@ -973,12 +972,10 @@ subroutine write_diagnostic (wrtdia, nstep)
 
   else
 
-#ifndef CPL_BYPASS
      if (masterproc) then
         !write(iulog,*)'clm2: completed timestep ',nstep
         call shr_sys_flush(iulog)
      end if
-#endif
 
   endif
 

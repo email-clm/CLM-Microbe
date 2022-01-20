@@ -16,7 +16,7 @@ module CNDecompCascadeMod_BGC
    use shr_const_mod, only: SHR_CONST_TKFRZ
    use clm_varpar   , only: nlevsoi, nlevgrnd, nlevdecomp, ndecomp_cascade_transitions, ndecomp_pools, nsompools
 #ifdef MICROBE
-   use clm_varpar   , only: i_met_lit, i_cel_lit, i_lig_lit, i_cwd, i_bacteria, i_fungi, i_dom, cn_dom, CUEmax
+   use clm_varpar   , only: i_met_lit, i_cel_lit, i_lig_lit, i_cwd, i_bacteria, i_fungi, i_dom, cn_bacteria, cn_fungi, cn_dom, CUEmax
    use microbevarcon
 #else
    use clm_varpar   , only: i_met_lit, i_cel_lit, i_lig_lit, i_cwd
@@ -41,7 +41,7 @@ module CNDecompCascadeMod_BGC
 !
 ! !PUBLIC DATA MEMBERS:
 !#if (defined VERTSOILC) || (defined MICROBE)
-!   real(r8), public :: decomp_depth_efolding = 0.5_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
+!   real(r8), public :: decomp_depth_efolding = 0.05_r8    ! (meters) e-folding depth for reduction in decomposition [set to large number for depth-independance]
 !#endif
    real(r8), public :: froz_q10 = 1.5_r8                 ! separate q10 for frozen soil respiration rates.  default to same as above zero rates
 #if (defined LCH4) || (defined MICROBE)
@@ -122,18 +122,18 @@ subroutine init_decompcascade(begc, endc)
    logical, pointer :: is_lignin(:)                         ! TRUE => pool is lignin
    real(r8), pointer :: spinup_factor(:)      ! factor for AD spinup associated with each pool
    
-   real(r8):: rf_l1s1         ! respiration fraction litter 1 -> SOM 1
-   real(r8):: rf_l2s2         ! respiration fraction litter 2 -> SOM 2
-   real(r8):: rf_l3s3         ! respiration fraction litter 3 -> SOM 3
-   real(r8):: rf_s1s2         ! respiration fraction SOM 1 -> SOM 2
-   real(r8):: rf_s2s3         ! respiration fraction SOM 2 -> SOM 3
-   real(r8):: rf_s3s4         ! respiration fraction SOM 3 -> SOM 4
-   real(r8):: cwd_fcel     ! fraction of cwd to litter 2
-   real(r8):: cwd_flig     ! fraction of cwd to litter 3
-   real(r8) :: cn_s1    ! C:N ratio of soil organic matter pool 1
-   real(r8) :: cn_s2    ! C:N ratio of soil organic matter pool 2
-   real(r8) :: cn_s3    ! C:N ratio  of soil organic matter pool 3
-   real(r8) :: cn_s4    ! C:N ration of soil organic matter pool 4
+   real(r8):: rf_l1s1      	! respiration fraction litter 1 -> SOM 1
+   real(r8):: rf_l2s2      	! respiration fraction litter 2 -> SOM 2
+   real(r8):: rf_l3s3      	! respiration fraction litter 3 -> SOM 3
+   real(r8):: rf_s1s2      	! respiration fraction SOM 1 -> SOM 2
+   real(r8):: rf_s2s3      	! respiration fraction SOM 2 -> SOM 3
+   real(r8):: rf_s3s4      	! respiration fraction SOM 3 -> SOM 4
+   real(r8):: cwd_fcel		! fraction of cwd to litter 2
+   real(r8):: cwd_flig		! fraction of cwd to litter 3
+   real(r8) :: cn_s1		! C:N ratio of soil organic matter pool 1
+   real(r8) :: cn_s2		! C:N ratio of soil organic matter pool 2
+   real(r8) :: cn_s3		! C:N ratio  of soil organic matter pool 3
+   real(r8) :: cn_s4		! C:N ration of soil organic matter pool 4
 #ifdef MICROBE
    real(r8) :: rf_l1m      ! fraction carbon release to atmosphere for l1 to microbe
    real(r8) :: rf_l2m      ! fraction of carbon release to atmosphere for l2 to microbe
@@ -518,7 +518,7 @@ cn_fungi_in = cn_fungi(pft_index(:))
    is_soil(i_bacteria) = .true.
    is_cwd(i_bacteria) = .false.
    is_microbe(i_bacteria) = .true.
-   initial_cn_ratio(i_bacteria) = 5
+   initial_cn_ratio(i_bacteria) = cn_bacteria
    initial_stock(i_bacteria) = 1.e-5
    is_metabolic(i_bacteria) = .false.
    is_cellulose(i_bacteria) = .false.
@@ -534,7 +534,7 @@ cn_fungi_in = cn_fungi(pft_index(:))
    is_soil(i_fungi) = .true.
    is_cwd(i_fungi) = .false.
    is_microbe(i_fungi) = .true.
-   initial_cn_ratio(i_fungi) = 15
+   initial_cn_ratio(i_fungi) = cn_fungi
    initial_stock(i_fungi) = 1.e-5
    is_metabolic(i_fungi) = .false.
    is_cellulose(i_fungi) = .false.
@@ -745,17 +745,15 @@ cn_fungi_in = cn_fungi(pft_index(:))
    s3m_ff = 1.0 - s3m_fb
    s4m_fb = (cn_bacteria_in / initial_cn_ratio(i_soil4))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_soil4))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil4))**0.6)
    s4m_ff = 1.0 - s4m_fb
-
-
-
-   l1dom_f  = 0.2
-   l2dom_f  = 0.16
-   l3dom_f  = 0.12
-   s1dom_f   = 0.36
-   s2dom_f   = 0.28
-   s3dom_f   = 0.20
-   s4dom_f   = 0.12
-     
+   
+   l1dom_f	= 0.2
+   l2dom_f	= 0.16
+   l3dom_f	= 0.12
+   s1dom_f	 = 0.36
+   s2dom_f	 = 0.28
+   s3dom_f	 = 0.20
+   s4dom_f	 = 0.12
+  
    l1m_fb = l1m_fb * (1.0 - l1dom_f)
    l1m_ff = l1m_ff * (1.0 - l1dom_f)
    l2m_fb = l2m_fb * (1.0 - l2dom_f)
@@ -770,9 +768,7 @@ cn_fungi_in = cn_fungi(pft_index(:))
    s3m_ff = s3m_ff * (1.0 - s3dom_f)
    s4m_fb = s4m_fb * (1.0 - s4dom_f)
    s4m_ff = s4m_ff * (1.0 - s4dom_f)
-
-
-
+   
    !batm_f = 0.05
    !bdom_f = 0.25
    !bs1_f = 0.1
@@ -813,9 +809,6 @@ cn_fungi_in = cn_fungi(pft_index(:))
    bs4_f = max(0._r8, bs4_f)
    fs4_f = max(0._r8, fs4_f)
    doms4_f = max(0._r8, doms4_f)
-
-
-
 #endif
 
    

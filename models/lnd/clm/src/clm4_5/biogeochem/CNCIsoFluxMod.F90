@@ -908,7 +908,7 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
 !   type(pft_type), pointer :: p
 !   type(column_type), pointer :: c
 !   type(pft_cflux_type), pointer :: pcisof
- !  type(pft_cstate_type), pointer :: pcisos
+!   type(pft_cstate_type), pointer :: pcisos
 !   type(column_cflux_type), pointer :: ccisof
 !   type(column_cstate_type), pointer :: ccs
 
@@ -974,14 +974,14 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
    do j = 1, nlevdecomp
 	do fc = 1, num_soilc
 	c = filter_soilc(fc)
-!	ccisos%cdocs(c,j) = ccs%decomp_cpools_vr(c,j,i_dom)
+	ccisos%cdocs(c,j) = ccs%decomp_cpools_vr(c,j,i_dom)
 	end do
    enddo
 
 !   call CIsoFluxCalc_vr(ccisos%caces_prod, cmic%caces_prod, &
 !                     ccisos%cdocs, cmic%cdocs, &
 !                     num_soilc, filter_soilc, frac_doc, 0, isotope)
-
+!   write(iulog,*) "DOC C13", ccisos%cdocs, cmic%cdocs, ccisos%caces, cmic%caces, ccisos%caces_prod, cmic%caces_prod
    call CIsoFluxCalc_vr(ccisos%caces_prod, cmic%caces_prod, &
                      ccisos%cdocs, cmic%cdocs, &
                      num_soilc, filter_soilc, frac_ace, 0, isotope)
@@ -994,9 +994,9 @@ subroutine CIsoFlux4(num_soilc, filter_soilc, isotope)
                      ccisos%ccon_co2s, cmic%ccon_co2s, &
                      num_soilc, filter_soilc, frac_hych4, 0, isotope)
 		     
-   call CIsoFluxCalc_vr(ccisos%caces_prod_h2, cmic%caces_prod_h2, &
-                     ccisos%caces, cmic%caces, &
-                     num_soilc, filter_soilc, frac_acetogenesis, 0, isotope)
+!   call CIsoFluxCalc_vr(ccisos%caces_prod_h2, cmic%caces_prod_h2, &
+!                     ccisos%caces, cmic%caces, &
+!                     num_soilc, filter_soilc, frac_acetogenesis, 0, isotope)
 
    call CIsoFluxCalc_vr(ccisos%ch4_oxid_o2_depth, cmic%ch4_oxid_o2_depth, &
                      ccisos%ccon_ch4s, cmic%ccon_ch4s, &
