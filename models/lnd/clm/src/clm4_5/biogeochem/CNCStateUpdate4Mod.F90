@@ -13,6 +13,7 @@ module CNCStateUpdate4Mod
 ! !USES:
     use shr_kind_mod, only: r8 => shr_kind_r8
     use clm_varctl, only : iulog, use_c13, use_c14
+    use clm_varcon  , only: istcrop, c13ratio, c14ratio
     implicit none
     save
     private
@@ -183,12 +184,23 @@ subroutine CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, isoto
 	do j = 1,nlevdecomp
 	do fc = 1,num_soilc
 		c = filter_soilc(fc)
-		cdocs(c,j) = decomp_cpools_vr(c,j,i_dom)
+		cdocs(c,j) = decomp_cpools_vr(c,j,i_dom) * 0.0112372
+		caces(c,j) = caces(c,j) * 0.0112372
+		cacebios(c,j) = cacebios(c,j) * 0.0112372
+		cco2bios(c,j) = cco2bios(c,j) * 0.0112372
+		caerch4bios(c,j) = caerch4bios(c,j) * 0.0112372
+		canaerch4bios(c,j) = canaerch4bios(c,j) * 0.0112372
+		ccon_ch4s(c,j) = ccon_ch4s(c,j) * 0.0112372
+		ccon_co2s(c,j) = ccon_co2s(c,j) * 0.0112372
+
+
 		
 		!call vert_diffusion(1, num_soilc, num_soilc, filter_soilc, isotope)
 		cdocs(c,j) = max(0._r8, cdocs(c,j) - caces_prod(c,j))
-		decomp_cpools_vr(c,j,i_dom) = cdocs(c,j)
-		
+
+!		xiaofeng commented this line 5/9/2021
+!		decomp_cpools_vr(c,j,i_dom) = cdocs(c,j)
+
 		caces(c,j) = max(0._r8, (caces(c,j) + caces_prod(c,j)*dt + caces_prod_h2(c,j)*dt - ch4_prod_ace_depth(c,j)*dt))
 !		cacebios(c,j) = cacebios(c,j)
 !		cco2bios(c,j) = cco2bios(c,j)
