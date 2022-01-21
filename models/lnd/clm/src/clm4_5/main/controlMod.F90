@@ -27,8 +27,16 @@ module controlMod
                             create_glacier_mec_landunit, glc_dyntopo, glc_smb, &
                             glc_topomax, glc_grid, subgridflag, &
                             use_c13, use_c14, irrigate, &
-                            spinup_state, override_bgc_restart_mismatch_dump, &
-                            startyear_experiment, endyear_experiment, add_temperature, add_co2
+                            spinup_state, override_bgc_restart_mismatch_dump
+
+  use clm_varctl    , only : startyear_experiment, endyear_experiment
+  use clm_varctl    , only : add_temperature, add_co2
+#ifdef CPL_BYPASS
+  use clm_varctl    , only : metdata_type, metdata_bypass, metdata_biases, co2_file, aero_file
+  use clm_varctl    , only : const_climate_hist
+  use clm_varctl    , only : startdate_add_temperature, startdate_add_co2
+#endif
+
   use CanopyFluxesMod , only : perchroot, perchroot_alt
 #if (defined LCH4) && (defined CN)
   use clm_varctl   , only : anoxia
@@ -268,6 +276,7 @@ contains
 
     ! BGC info
 
+    ! For experimental manipulations
     namelist /clm_inparm/ &
          add_temperature, add_co2, startyear_experiment, endyear_experiment
 
@@ -349,6 +358,13 @@ contains
          use_c14_bombspike, atm_c14_filename
 #endif
 
+    ! cpl_bypass variables
+#ifdef CPL_BYPASS
+    namelist /clm_inparm/ metdata_type, metdata_bypass, metdata_biases, &
+         co2_file, aero_file,const_climate_hist
+    namelist /clm_inparm/ &
+         startdate_add_temperature, startdate_add_co2
+#endif
 
     ! ----------------------------------------------------------------------
     ! Default values
@@ -535,10 +551,21 @@ contains
     call mpi_bcast(allocate_all_vegpfts, 1, MPI_LOGICAL, 0, mpicom, ier)
 
     ! Experimental manipulation
-    call mpi_bcast (endyear_experiment,         1, MPI_INTEGER,  0, mpicom, ier)
-    call mpi_bcast (startyear_experiment,       1, MPI_INTEGER,  0, mpicom, ier)
-    call mpi_bcast (add_temperature,            1, MPI_INTEGER,  0, mpicom, ier)
-    call mpi_bcast (add_co2,                    1, MPI_INTEGER,  0, mpicom, ier)
+    call mpi_bcast (endyear_experiment, 1, MPI_INTEGER,  0, mpicom, ier)
+    call mpi_bcast (startyear_experiment, 1, MPI_INTEGER,  0, mpicom, ier)
+    call mpi_bcast (add_co2, 1, MPI_REAL8, 0, mpicom, ier)
+    call mpi_bcast (add_temperature, 1, MPI_REAL8, 0, mpicom, ier)
+
+    ! cpl_bypass
+#ifdef CPL_BYPASS
+    call mpi_bcast (metdata_type,   len(metdata_type),   MPI_CHARACTER, 0, mpicom, ier)
+    call mpi_bcast (metdata_bypass, len(metdata_bypass), MPI_CHARACTER, 0, mpicom, ier)
+    call mpi_bcast (metdata_biases, len(metdata_biases), MPI_CHARACTER, 0, mpicom, ier)
+    call mpi_bcast (co2_file,       len(co2_file),       MPI_CHARACTER, 0, mpicom, ier)
+    call mpi_bcast (aero_file,      len(aero_file),      MPI_CHARACTER, 0, mpicom, ier)
+    call mpi_bcast (startdate_add_temperature, len(startdate_add_temperature), MPI_CHARACTER, 0, mpicom, ier)
+    call mpi_bcast (startdate_add_co2, len(startdate_add_temperature), MPI_CHARACTER, 0, mpicom, ier)
+#endif
 
     ! BGC
 

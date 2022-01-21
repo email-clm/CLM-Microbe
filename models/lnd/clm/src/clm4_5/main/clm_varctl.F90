@@ -86,6 +86,19 @@ module clm_varctl
   real(r8), public :: add_temperature = 0               !Add temperature during experimental maipulation
   real(r8), public :: add_co2 = 0                       !Add co2 during experimental manipulation
 
+  ! cpl_bypass
+#ifdef CPL_BYPASS
+  character(len=SHR_KIND_CL), public :: metdata_type   = ' '    ! metdata type for CPL_BYPASS mode
+  character(len=SHR_KIND_CL), public :: metdata_bypass = ' '    ! met data directory for CPL_BYPASS mode (site, qian, cru_ncep)
+  character(len=SHR_KIND_CL), public :: metdata_biases = ' '    ! met biases files for CPL_BYPASS mode
+  character(len=SHR_KIND_CL), public :: co2_file       = ' '    ! co2 file for CPL_BYPASS mode
+  character(len=SHR_KIND_CL), public :: aero_file      = ' '    ! aerosol deposition file for CPL_BYPASS mode
+  character(len=8), public :: startdate_add_temperature ='99991231'
+  character(len=8), public :: startdate_add_co2         ='99991231'
+  ! Use constant climate during transient run (CPL_BYPASS only)
+  logical, public :: const_climate_hist  = .false.
+#endif
+
 ! Physics
 !
   integer,  public :: subgridflag = 1                   !use subgrid fluxes

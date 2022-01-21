@@ -215,9 +215,9 @@ contains
 
        call CStateUpdate1(num_soilc, filter_soilc, num_soilp, filter_soilp, 'bulk')
    !write(*,*) "here 1", ccisof%decomp_cascade_ctransfer_vr, ccisos%decomp_cpools_vr    
-!       if ( use_c13 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c13')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
+       if ( use_c13 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c13')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
 
-!       if ( use_c14 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c14')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
+       if ( use_c14 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c14')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
 
        if ( use_c13 ) call CStateUpdate1(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c13')
        
@@ -302,13 +302,13 @@ contains
 !     call microbeCN (begg, endg, begl, endl, begc, endc, begp, endp, filter(nc)%num_soilc, filter(nc)%soilc, &
 !               filter(nc)%num_soilp, filter(nc)%soilp)
 
-       if ( use_c13 ) call CIsoFlux4(num_soilc, filter_soilc, 'c13')
+!       if ( use_c13 ) call CIsoFlux4(num_soilc, filter_soilc, 'c13')
 
-       if ( use_c14 ) call CIsoFlux4(num_soilc, filter_soilc, 'c14')
+!       if ( use_c14 ) call CIsoFlux4(num_soilc, filter_soilc, 'c14')
        
-       if ( use_c13 ) call CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c13')
+!       if ( use_c13 ) call CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c13')
 
-       if ( use_c14 ) call CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c14')
+!       if ( use_c14 ) call CStateUpdate4(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c14')
 #endif
 
        if ( use_c14 ) call C14Decay(num_soilc, filter_soilc, num_soilp, filter_soilp)
