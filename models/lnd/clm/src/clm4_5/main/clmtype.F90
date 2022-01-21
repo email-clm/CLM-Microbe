@@ -1632,9 +1632,9 @@ type, public :: column_cstate_type
 #endif    
 end type column_cstate_type
 
-type(column_cstate_type), target :: ccs      	!column carbon state
-type(column_cstate_type), target :: cc13s    	!column carbon-13 state
-type(column_cstate_type), target :: cc14s   	!column carbon-14 state
+type(column_cstate_type), target :: ccs      !column carbon state
+type(column_cstate_type), target :: cc13s    !column carbon-13 state
+type(column_cstate_type), target :: cc14s    !column carbon-14 state
 
 !----------------------------------------------------
 ! column methane variables structure
