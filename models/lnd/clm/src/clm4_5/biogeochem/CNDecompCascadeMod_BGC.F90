@@ -16,7 +16,7 @@ module CNDecompCascadeMod_BGC
    use shr_const_mod, only: SHR_CONST_TKFRZ
    use clm_varpar   , only: nlevsoi, nlevgrnd, nlevdecomp, ndecomp_cascade_transitions, ndecomp_pools, nsompools
 #ifdef MICROBE
-   use clm_varpar   , only: i_met_lit, i_cel_lit, i_lig_lit, i_cwd, i_bacteria, i_fungi, i_dom, cn_dom, CUEmax
+   use clm_varpar   , only: i_met_lit, i_cel_lit, i_lig_lit, i_cwd, i_bacteria, i_fungi, i_dom, cn_bacteria, cn_fungi, cn_dom, CUEmax
    use microbevarcon
 #else
    use clm_varpar   , only: i_met_lit, i_cel_lit, i_lig_lit, i_cwd
@@ -518,7 +518,7 @@ cn_fungi_in = cn_fungi(pft_index(:))
    is_soil(i_bacteria) = .true.
    is_cwd(i_bacteria) = .false.
    is_microbe(i_bacteria) = .true.
-   initial_cn_ratio(i_bacteria) = 5.
+   initial_cn_ratio(i_bacteria) = cn_bacteria
    initial_stock(i_bacteria) = 1.e-5
    is_metabolic(i_bacteria) = .false.
    is_cellulose(i_bacteria) = .false.
@@ -534,7 +534,7 @@ cn_fungi_in = cn_fungi(pft_index(:))
    is_soil(i_fungi) = .true.
    is_cwd(i_fungi) = .false.
    is_microbe(i_fungi) = .true.
-   initial_cn_ratio(i_fungi) = 15.
+   initial_cn_ratio(i_fungi) = cn_fungi
    initial_stock(i_fungi) = 1.e-5
    is_metabolic(i_fungi) = .false.
    is_cellulose(i_fungi) = .false.
