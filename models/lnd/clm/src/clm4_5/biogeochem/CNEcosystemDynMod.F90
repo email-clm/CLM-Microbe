@@ -215,9 +215,9 @@ contains
 
        call CStateUpdate1(num_soilc, filter_soilc, num_soilp, filter_soilp, 'bulk')
    !write(*,*) "here 1", ccisof%decomp_cascade_ctransfer_vr, ccisos%decomp_cpools_vr    
-       if ( use_c13 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c13')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
+!       if ( use_c13 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c13')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
 
-       if ( use_c14 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c14')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
+!       if ( use_c14 ) call CIsoSoilBGC(num_soilc, filter_soilc, 'c14')	! Xiaofeng created the BGC isotopic function to allow biogeocheimistry cascade treats 13C and 14C
 
        if ( use_c13 ) call CStateUpdate1(num_soilc, filter_soilc, num_soilp, filter_soilp, 'c13')
        

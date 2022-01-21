@@ -28,36 +28,13 @@ module clm_atmlnd
 ! atmosphere -> land variables structure
 !----------------------------------------------------
   type, public :: atm2lnd_type
-#ifdef CPL_BYPASS
-     integer*2, pointer :: atm_input                (:,:,:,:) => null()  !Single-site meteorological input
-     integer, pointer  :: loaded_bypassdata                   => null()
-     real(r8), pointer :: add_offsets                     (:) => null()  !offsets for compressed met drivers
-     real(r8), pointer :: scale_factors                   (:) => null()  !scale factors for compressed met drivers
-     integer(r8), pointer :: startyear_met                    => null()  !staring driver met year
-     integer(r8), pointer :: endyear_met_spinup               => null()  !end driver met year for spinup cycle
-     integer(r8), pointer :: endyear_met_trans                => null()  !end driver met year for transient simulation
-     real(r8), pointer :: timeres                         (:) => null()  !time resolution of driver met (hours)
-     real(r8), pointer :: var_offset                  (:,:,:) => null()  !correction offset for grid->site driver met (monthly)
-     real(r8), pointer :: var_mult                    (:,:,:) => null()  !correction factor for grid->site driver met (monthly)
-     integer,  pointer :: timelen                         (:) => null()  !length of input meteorology
-     integer,  pointer :: timelen_spinup                  (:) => null()  !length of spinup meteorology
-     integer,  pointer :: tindex                      (:,:,:) => null()  !current index for meteorolgoical data
-     integer,  pointer :: metsource                           => null()  !Meteorogical source (0=Qian, 1=cruncep)
-     real(r8), pointer :: npf                            (:)  => null()  !number of model timesteps per forcing timestep
-     real(r8), pointer :: co2_input                   (:,:,:) => null()  !annual CO2 input data
-     real(r8), pointer :: c13o2_input                 (:,:,:) => null()  !annual C13O2 input data
-     integer, pointer :: ndepind                        (:,:) => null()  !annual nitrogen deposition data
-     integer, pointer :: hdmind                         (:,:) => null()  !popluation density
-     real(r8), pointer :: forc_hdm                      (:)   => null()
-     real(r8), pointer :: forc_lnfm                     (:)   => null()
-     real(r8), pointer ::  hdm1                       (:,:,:) => null()
-     real(r8), pointer ::  hdm2                       (:,:,:) => null()
-     real(r8), pointer ::  lnfm_all                   (:,:,:) => null()
-     real(r8), pointer ::  lnfm                         (:,:) => null()
-     real(r8), pointer ::  ndep1                      (:,:,:) => null()
-     real(r8), pointer ::  ndep2                      (:,:,:) => null()
-     real(r8), pointer ::  aerodata                 (:,:,:,:) => null()
-#endif
+     real(r8), pointer :: atm_input(:,:,:,:) => null()
+     integer,  pointer :: timelen          => null()
+     integer,  pointer :: start_tindex     => null()
+     real(r8), pointer :: co2_input(:,:,:) => null()
+     real(r8), pointer :: c13o2_input(:,:,:) => null()
+     real(r8), pointer :: ndep_input(:,:,:) => null()
+     real(r8), pointer :: aero_input(:,:,:,:) => null()
      real(r8), pointer :: forc_t(:)        => null() !atmospheric temperature (Kelvin)
      real(r8), pointer :: forc_u(:)        => null() !atm wind speed, east direction (m/s)
      real(r8), pointer :: forc_v(:)        => null() !atm wind speed, north direction (m/s)
@@ -187,41 +164,17 @@ contains
 ! !LOCAL VARIABLES:
 !EOP
   real(r8) :: ival   ! initial value
-  integer  :: ival_int
-  real     :: ival_float  = 0.0
-  !integer*2 :: ival_short = 0
+  integer :: ival_int
 !------------------------------------------------------------------------
-  !DMR - variables added for CPL_BYPASS option
-#ifdef CPL_BYPASS
-  allocate(a2l%timelen                          (1:14))
-  allocate(a2l%timelen_spinup                   (1:14))
-  allocate(a2l%tindex               (beg:end,1:14,1:2))
-  allocate(a2l%metsource                              )
-  allocate(a2l%npf                              (1:14))
-  !allocate(a2l%atm_input       (14,beg:end,1,1:600000))  ! moved into 'lnd_comp_mct.F90:lnd_import_mct'
-  allocate(a2l%loaded_bypassdata                      )
-  allocate(a2l%add_offsets                      (1:14))
-  allocate(a2l%scale_factors                    (1:14))
-  allocate(a2l%startyear_met                          )
-  allocate(a2l%endyear_met_spinup                     )
-  allocate(a2l%endyear_met_trans                      )
-  allocate(a2l%timeres                          (1:14))
-  allocate(a2l%var_offset              (14,beg:end,12))
-  allocate(a2l%var_mult                (14,beg:end,12))
-  allocate(a2l%co2_input                    (1,1,3000))
-  allocate(a2l%c13o2_input                  (1,1,3000))
-  allocate(a2l%ndepind                     (beg:end,2))
-  allocate(a2l%hdmind                      (beg:end,2))
-  allocate(a2l%forc_hdm                      (beg:end))
-  allocate(a2l%forc_lnfm                     (beg:end))
-  allocate(a2l%hdm1                        (720,360,1))
-  allocate(a2l%hdm2                        (720,360,1))
-  allocate(a2l%lnfm                     (beg:end,2920))
-  allocate(a2l%ndep1                        (144,96,1))
-  allocate(a2l%ndep2                        (144,96,1))
-  allocate(a2l%aerodata                 (14,144,96,14))
-#endif
-  !end DMR additions
+  !DMR - variables added for CPL_BYPASS option 
+  allocate(a2l%atm_input(8,1,1,200000))
+  allocate(a2l%timelen)
+  allocate(a2l%start_tindex)
+  allocate(a2l%co2_input(1,1,247))
+  allocate(a2l%c13o2_input(1,1,247))
+  allocate(a2l%ndep_input(1,1,158))
+  allocate(a2l%aero_input(14,1,1,1896))
+  !end DMR additions 
   allocate(a2l%forc_t(beg:end))
   allocate(a2l%forc_u(beg:end))
   allocate(a2l%forc_v(beg:end))
@@ -268,35 +221,12 @@ contains
   ival_int = 0
 
 !DMR additions for bypassing coupler (single point simulations only)
-#ifdef CPL_BYPASS
-  a2l%timelen                       (:)   = ival_int
-  a2l%timelen_spinup                (:)   = ival_int
-  a2l%tindex                    (:,:,:)   = ival_int
-  a2l%metsource                           = ival_int
-  a2l%npf                           (:)   = ival
-  !a2l%atm_input               (:,:,:,:)   = ival_short  ! moved into 'lnd_comp_mct.F90:lnd_import_mct'
-  a2l%loaded_bypassdata                   = 0
-  a2l%add_offsets                   (:)   = ival_float
-  a2l%scale_factors                 (:)   = ival_float
-  a2l%startyear_met                       = ival_int
-  a2l%endyear_met_spinup                  = ival_int
-  a2l%endyear_met_trans                   = ival_int
-  a2l%timeres                       (:)   = ival
-  a2l%var_offset                (:,:,:)   = ival
-  a2l%var_mult                  (:,:,:)   = ival
-  a2l%co2_input                 (:,:,:)   = ival
-  a2l%c13o2_input               (:,:,:)   = ival
-  a2l%ndepind                     (:,:)   = ival_int
-  a2l%hdmind                      (:,:)   = ival_int
-  a2l%forc_hdm                      (:)   = ival
-  a2l%forc_lnfm                     (:)   = ival
-  a2l%hdm1                      (:,:,:)   = ival
-  a2l%hdm2                      (:,:,:)   = ival
-  a2l%lnfm                        (:,:)   = ival
-  a2l%ndep1                     (:,:,:)   = ival
-  a2l%ndep2                     (:,:,:)   = ival
-  a2l%aerodata                (:,:,:,:)   = ival
-#endif
+  a2l%atm_input(:,:,:,:) = ival
+  a2l%timelen         = ival_int
+  a2l%start_tindex    = ival_int
+  a2l%co2_input(:,:,:) = ival
+  a2l%c13o2_input(:,:,:) = ival
+  a2l%ndep_input(:,:,:) = ival
 !end DMR additions
   a2l%forc_t(beg:end) = ival
   a2l%forc_u(beg:end) = ival
