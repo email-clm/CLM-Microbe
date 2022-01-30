@@ -85,7 +85,7 @@ module clm_varpar
   integer, parameter :: i_fungi = 10
   integer, parameter :: i_dom = 11
   integer, parameter :: ndecomp_pools = 11
-  integer, parameter :: ndecomp_cascade_transitions = 41
+  integer, parameter :: ndecomp_cascade_transitions = 47
 
   real(r8), parameter :: cn_dom = 10
   

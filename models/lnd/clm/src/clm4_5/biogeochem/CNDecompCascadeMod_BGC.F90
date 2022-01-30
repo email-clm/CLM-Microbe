@@ -157,13 +157,20 @@ subroutine init_decompcascade(begc, endc)
    real(r8),allocatable :: s4m_fb(:)      ! fraction of carbon to bacteria from s4
    real(r8),allocatable :: s4m_ff(:)      ! fraction of carbon to fungi from s4
  
-   real(r8) :: l1dom_f  ! fraction of carbon from l1 to DOM
-   real(r8) :: l2dom_f  ! fraction of carbon from l2 to DOM
-   real(r8) :: l3dom_f  ! fraction of carbon from l3 to DOM
-   real(r8) :: s1dom_f  ! fraction of carbon from s1 to DOM
-   real(r8) :: s2dom_f  ! fraction of carbon from s2 to DOM
-   real(r8) :: s3dom_f  ! fraction of carbon from s3 to DOM
-   real(r8) :: s4dom_f  ! fraction of carbon from s4 to DOM
+   real(r8) :: l1dom_f  	! fraction of carbon from l1 to DOM
+   real(r8) :: l2dom_f  	! fraction of carbon from l2 to DOM
+   real(r8) :: l3dom_f  	! fraction of carbon from l3 to DOM
+   real(r8) :: s1dom_f  	! fraction of carbon from s1 to DOM
+   real(r8) :: s2dom_f  	! fraction of carbon from s2 to DOM
+   real(r8) :: s3dom_f  	! fraction of carbon from s3 to DOM
+   real(r8) :: s4dom_f  	! fraction of carbon from s4 to DOM
+
+   real(r8) :: l1s1_f  		! fraction of carbon from l1 to S1
+   real(r8) :: l2s2_f  		! fraction of carbon from l2 to S2
+   real(r8) :: l3s3_f  		! fraction of carbon from l3 to S3
+   real(r8) :: s1s2_f  	! fraction of carbon from s1 to S2
+   real(r8) :: s2s3_f  	! fraction of carbon from s2 to S3
+   real(r8) :: s3s4_f  	! fraction of carbon from s3 to S4
    
    real(r8),allocatable :: batm_f(:)       ! fraction of carbon from bacteria to atmosphere
    real(r8),allocatable :: bdom_f(:)    ! fraction of carbon from bacteria to dissolved organic matter
@@ -228,18 +235,24 @@ subroutine init_decompcascade(begc, endc)
    integer :: i_cwdl3
    integer :: i_l1b
    integer :: i_l1f
+   integer :: i_l1s1
    integer :: i_l2b
    integer :: i_l2f
+   integer :: i_l2s2
    integer :: i_l3b
    integer :: i_l3f
+   integer :: i_l3s3   
    integer :: i_s1b
    integer :: i_s1f
+   integer :: i_s1s2      
    integer :: i_s2b
    integer :: i_s2f
+   integer :: i_s2s3         
    integer :: i_s3b
    integer :: i_s3f
+   integer :: i_s3s4         
    integer :: i_s4b
-   integer :: i_s4f        ! 16
+   integer :: i_s4f        !22
    integer :: i_bs1
    integer :: i_fs1
    integer :: i_bs2
@@ -247,7 +260,7 @@ subroutine init_decompcascade(begc, endc)
    integer :: i_bs3
    integer :: i_fs3
    integer :: i_bs4
-   integer :: i_fs4        !24
+   integer :: i_fs4        !30
    integer :: i_doms1
    integer :: i_doms2
    integer :: i_doms3
@@ -255,7 +268,7 @@ subroutine init_decompcascade(begc, endc)
    integer :: i_bdom
    integer :: i_fdom
    integer :: i_domb
-   integer :: i_domf       !32
+   integer :: i_domf       !
    integer :: i_batm
    integer :: i_fatm    !34
    integer :: i_l1dom
@@ -263,8 +276,8 @@ subroutine init_decompcascade(begc, endc)
    integer :: i_l3dom
    integer :: i_s1dom      !38
    integer :: i_s2dom
-   integer :: i_s3dom      !40
-   integer :: i_s4dom      !41
+   integer :: i_s3dom      !46
+   integer :: i_s4dom      !47
 #else
    integer :: i_l1s1
    integer :: i_l2s2
@@ -746,28 +759,45 @@ cn_fungi_in = cn_fungi(pft_index(:))
    s4m_fb = (cn_bacteria_in / initial_cn_ratio(i_soil4))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_soil4))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil4))**0.6)
    s4m_ff = 1.0 - s4m_fb
 
+!   l1dom_f  = 0.2
+!   l2dom_f  = 0.16
+!   l3dom_f  = 0.12
+!   s1dom_f   = 0.36
+!   s2dom_f   = 0.28
+!   s3dom_f   = 0.20
+!   s4dom_f   = 0.12
 
+! Jan 27, 2022, Xiaofeng replaced the above code with the below ones to add the C flow to SOM, supruss microbes
 
-   l1dom_f  = 0.2
-   l2dom_f  = 0.16
-   l3dom_f  = 0.12
-   s1dom_f   = 0.36
-   s2dom_f   = 0.28
-   s3dom_f   = 0.20
-   s4dom_f   = 0.12
-     
-   l1m_fb = l1m_fb * (1.0 - l1dom_f)
-   l1m_ff = l1m_ff * (1.0 - l1dom_f)
-   l2m_fb = l2m_fb * (1.0 - l2dom_f)
-   l2m_ff = l2m_ff * (1.0 - l2dom_f)
-   l3m_fb = l3m_fb * (1.0 - l3dom_f)
-   l3m_ff = l3m_ff * (1.0 - l3dom_f)
-   s1m_fb = s1m_fb * (1.0 - s1dom_f)
-   s1m_ff = s1m_ff * (1.0 - s1dom_f)
-   s2m_fb = s2m_fb * (1.0 - s2dom_f)
-   s2m_ff = s2m_ff * (1.0 - s2dom_f)
-   s3m_fb = s3m_fb * (1.0 - s3dom_f)
-   s3m_ff = s3m_ff * (1.0 - s3dom_f)
+   l1dom_f  = 0.1		! half of previous version
+   l2dom_f  = 0.08		! half of previous version
+   l3dom_f  = 0.06		! half of previous version
+   s1dom_f   = 0.18		! half of previous version
+   s2dom_f   = 0.14		! half of previous version
+   s3dom_f   = 0.10		! half of previous version
+   s4dom_f   = 0.06		! half of previous version
+
+! Zheng et la. 2021; Carbon and nitrogen transfer from litter to soil is higher in slow than rapid decompsoing plant litter: a symthesis of stable isotope studies, SBB, 156, 108196.
+   l1s1_f =  0.19 		! half of 0.39 in CLM-CN
+   l2s2_f = 0.21 		! higher than l1s1
+   l3s3_f = 0.23 		! higher than l2s2, both is less than L2 - S2 in CLM-CN
+   s1s2_f = 0.14 		! half of 0.39 in CLM-CN
+   s2s3_f = 0.23 		! half of 0.39 in CLM-CN
+   s3s4_f = 0.27  		! half of 0.39 in CLM-CN
+
+! update the below calucation given the above C flow form L to SOM
+   l1m_fb = l1m_fb * (1.0 - l1dom_f - l1s1_f)
+   l1m_ff = l1m_ff * (1.0 - l1dom_f - l1s1_f)
+   l2m_fb = l2m_fb * (1.0 - l2dom_f - l2s2_f)
+   l2m_ff = l2m_ff * (1.0 - l2dom_f - l2s2_f)
+   l3m_fb = l3m_fb * (1.0 - l3dom_f - l3s3_f)
+   l3m_ff = l3m_ff * (1.0 - l3dom_f - l3s3_f)
+   s1m_fb = s1m_fb * (1.0 - s1dom_f - s1s2_f)
+   s1m_ff = s1m_ff * (1.0 - s1dom_f - s1s2_f)
+   s2m_fb = s2m_fb * (1.0 - s2dom_f - s2s3_f)
+   s2m_ff = s2m_ff * (1.0 - s2dom_f - s2s3_f)
+   s3m_fb = s3m_fb * (1.0 - s3dom_f - s3s4_f)
+   s3m_ff = s3m_ff * (1.0 - s3dom_f - s3s4_f)
    s4m_fb = s4m_fb * (1.0 - s4dom_f)
    s4m_ff = s4m_ff * (1.0 - s4dom_f)
 
@@ -855,261 +885,303 @@ cn_fungi_in = cn_fungi(pft_index(:))
    cascade_receiver_pool(i_l1f) = i_fungi
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l1f) = l1m_ff(c-begc+1) !* rf_l1m
 
-   i_l2b = 5
+   i_l1s1 = 5
+   cascade_step_name(i_l1s1) = 'L1S1'
+   rf_decomp_cascade(c,1:nlevdecomp,i_l1s1) = 0.0
+   cascade_donor_pool(i_l1s1) = i_litr1
+   cascade_receiver_pool(i_l1s1) = i_soil1
+   pathfrac_decomp_cascade(c,1:nlevdecomp,i_l1s1) = l1s1_f
+   
+   i_l2b = 6
    cascade_step_name(i_l2b) = 'L2B'
    rf_decomp_cascade(c,1:nlevdecomp,i_l2b) = 1.0 - rf_l2m
    cascade_donor_pool(i_l2b) = i_litr2
    cascade_receiver_pool(i_l2b) = i_bacteria
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l2b) = l2m_fb(c-begc+1) !* rf_l2m
 
-   i_l2f = 6
+   i_l2f = 7
    cascade_step_name(i_l2f) = 'L2F'
    rf_decomp_cascade(c,1:nlevdecomp,i_l2f) = 1.0 - rf_l2m
    cascade_donor_pool(i_l2f) = i_litr2
    cascade_receiver_pool(i_l2f) = i_fungi
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l2f) = l2m_ff(c-begc+1) !* rf_l2m
-   
-   i_l3b = 7
+
+   i_l2s2 = 8
+   cascade_step_name(i_l2s2) = 'L2S2'
+   rf_decomp_cascade(c,1:nlevdecomp,i_l2s2) = 0.0
+   cascade_donor_pool(i_l2s2) = i_litr2
+   cascade_receiver_pool(i_l2s2) = i_soil2
+   pathfrac_decomp_cascade(c,1:nlevdecomp,i_l2s2) = l2s2_f
+
+   i_l3b = 9
    cascade_step_name(i_l3b) = 'L3B'
    rf_decomp_cascade(c,1:nlevdecomp,i_l3b) = 1.0 - rf_l3m
    cascade_donor_pool(i_l3b) = i_litr3
    cascade_receiver_pool(i_l3b) = i_bacteria
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l3b) = l3m_fb(c-begc+1) !* rf_l3m
 
-   i_l3f = 8
+   i_l3f = 10
    cascade_step_name(i_l3f) = 'L3F'
    rf_decomp_cascade(c,1:nlevdecomp,i_l3f) = 1.0 - rf_l3m
    cascade_donor_pool(i_l3f) = i_litr3
    cascade_receiver_pool(i_l3f) = i_fungi
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l3f) = l3m_ff(c-begc+1) !* rf_l3m
-   
-   i_s1b = 9
+
+   i_l3s3 = 11
+   cascade_step_name(i_l3s3) = 'L3S3'
+   rf_decomp_cascade(c,1:nlevdecomp,i_l3s3) = 0.0
+   cascade_donor_pool(i_l3s3) = i_litr3
+   cascade_receiver_pool(i_l3s3) = i_soil3
+   pathfrac_decomp_cascade(c,1:nlevdecomp,i_l3s3) = l3s3_f
+
+   i_s1b = 12
    cascade_step_name(i_s1b) = 'S1B'
    rf_decomp_cascade(c,1:nlevdecomp,i_s1b) = 1.0 - rf_s1m(c-begc+1)
    cascade_donor_pool(i_s1b) = i_soil1
    cascade_receiver_pool(i_s1b) = i_bacteria
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s1b) = s1m_fb(c-begc+1) !* rf_s1m(c-begc+1)
 
-   i_s1f = 10
+   i_s1f = 13
    cascade_step_name(i_s1f) = 'S1F'
    rf_decomp_cascade(c,1:nlevdecomp,i_s1f) = 1.0 - rf_s1m(c-begc+1)
    cascade_donor_pool(i_s1f) = i_soil1
    cascade_receiver_pool(i_s1f) = i_fungi
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s1f) = s1m_ff(c-begc+1) !* rf_s1m(c-begc+1)
-   
-   i_s2b = 11
+
+   i_s1s2 = 14
+   cascade_step_name(i_s1s2) = 'S1S2'
+   rf_decomp_cascade(c,1:nlevdecomp,i_s1s2) = 0.0
+   cascade_donor_pool(i_s1s2) = i_soil1
+   cascade_receiver_pool(i_s1s2) = i_soil2
+   pathfrac_decomp_cascade(c,1:nlevdecomp,i_s1s2) = s1s2_f
+
+   i_s2b = 15
    cascade_step_name(i_s2b) = 'S2B'
    rf_decomp_cascade(c,1:nlevdecomp,i_s2b) = 1.0 - rf_s2m(c-begc+1)
    cascade_donor_pool(i_s2b) = i_soil2
    cascade_receiver_pool(i_s2b) = i_bacteria
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s2b) = s2m_fb(c-begc+1) !* rf_s2m(c-begc+1)
 
-   i_s2f = 12
+   i_s2f = 16
    cascade_step_name(i_s2f) = 'S2F'
    rf_decomp_cascade(c,1:nlevdecomp,i_s2f) = 1.0 - rf_s2m(c-begc+1)
    cascade_donor_pool(i_s2f) = i_soil2
    cascade_receiver_pool(i_s2f) = i_fungi
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s2f) = s2m_ff(c-begc+1) !* rf_s2m(c-begc+1)
-   
-   i_s3b = 13
+
+   i_s2s3 = 17
+   cascade_step_name(i_s2s3) = 'S2S3'
+   rf_decomp_cascade(c,1:nlevdecomp,i_s2s3) = 0.0
+   cascade_donor_pool(i_s2s3) = i_soil2
+   cascade_receiver_pool(i_s2s3) = i_soil3
+   pathfrac_decomp_cascade(c,1:nlevdecomp,i_s2s3) = s2s3_f
+
+   i_s3b = 18
    cascade_step_name(i_s3b) = 'S3B'
    rf_decomp_cascade(c,1:nlevdecomp,i_s3b) = 1.0 - rf_s3m(c-begc+1)
    cascade_donor_pool(i_s3b) = i_soil3
    cascade_receiver_pool(i_s3b) = i_bacteria
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s3b) = s3m_fb(c-begc+1) !* rf_s3m(c-begc+1)
 
-   i_s3f = 14
+   i_s3f = 19
    cascade_step_name(i_s3f) = 'S3F'
    rf_decomp_cascade(c,1:nlevdecomp,i_s3f) = 1.0 - rf_s3m(c-begc+1)
    cascade_donor_pool(i_s3f) = i_soil3
    cascade_receiver_pool(i_s3f) = i_fungi
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s3f) = s3m_ff(c-begc+1) !* rf_s3m(c-begc+1)
-   
-   i_s4b = 15
+
+   i_s3s4 = 20
+   cascade_step_name(i_s3s4) = 'S3S4'
+   rf_decomp_cascade(c,1:nlevdecomp,i_s3s4) = 0.0
+   cascade_donor_pool(i_s3s4) = i_soil3
+   cascade_receiver_pool(i_s3s4) = i_soil4
+   pathfrac_decomp_cascade(c,1:nlevdecomp,i_s3s4) = s3s4_f
+
+   i_s4b = 21
    cascade_step_name(i_s4b) = 'S4B'
    rf_decomp_cascade(c,1:nlevdecomp,i_s4b) = 1.0 - rf_s4m(c-begc+1)
    cascade_donor_pool(i_s4b) = i_soil4
    cascade_receiver_pool(i_s4b) = i_bacteria
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s4b) = s4m_fb(c-begc+1) !* rf_s4m(c-begc+1)
 
-   i_s4f = 16
+   i_s4f = 22
    cascade_step_name(i_s4f) = 'S4F'
    rf_decomp_cascade(c,1:nlevdecomp,i_s4f) = 1.0 - rf_s4m(c-begc+1)
    cascade_donor_pool(i_s4f) = i_soil4
    cascade_receiver_pool(i_s4f) = i_fungi
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s4f) = s4m_ff(c-begc+1) !* rf_s4m(c-begc+1)
    
-   i_bs1 = 17
+   i_bs1 = 23
    cascade_step_name(i_bs1) = 'BS1'
    rf_decomp_cascade(c,1:nlevdecomp,i_bs1) = 0._r8
    cascade_donor_pool(i_bs1) = i_bacteria
    cascade_receiver_pool(i_bs1) = i_soil1
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_bs1) = bs1_f(c-begc+1)
 
-   i_fs1 = 18
+   i_fs1 = 24
    cascade_step_name(i_fs1) = 'FS1'
    rf_decomp_cascade(c,1:nlevdecomp,i_fs1) = 0._r8
    cascade_donor_pool(i_fs1) = i_fungi
    cascade_receiver_pool(i_fs1) = i_soil1
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_fs1) = fs1_f(c-begc+1)
    
-   i_bs2 = 19
+   i_bs2 = 25
    cascade_step_name(i_bs2) = 'BS2'
    rf_decomp_cascade(c,1:nlevdecomp,i_bs2) = 0._r8
    cascade_donor_pool(i_bs2) = i_bacteria
    cascade_receiver_pool(i_bs2) = i_soil2
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_bs2) = bs2_f(c-begc+1)
 
-   i_fs2 = 20
+   i_fs2 = 26
    cascade_step_name(i_fs2) = 'FS2'
    rf_decomp_cascade(c,1:nlevdecomp,i_fs2) = 0._r8
    cascade_donor_pool(i_fs2) = i_fungi
    cascade_receiver_pool(i_fs2) = i_soil2
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_fs2) = fs2_f(c-begc+1)
 
-   i_bs3 = 21
+   i_bs3 = 27
    cascade_step_name(i_bs3) = 'BS3'
    rf_decomp_cascade(c,1:nlevdecomp,i_bs3) = 0._r8
    cascade_donor_pool(i_bs3) = i_bacteria
    cascade_receiver_pool(i_bs3) = i_soil3
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_bs3) =bs3_f(c-begc+1)
 
-   i_fs3 = 22 
+   i_fs3 = 28
    cascade_step_name(i_fs3) = 'FS3'
    rf_decomp_cascade(c,1:nlevdecomp,i_fs3) = 0._r8
    cascade_donor_pool(i_fs3) = i_fungi
    cascade_receiver_pool(i_fs3) = i_soil3
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_fs3) = fs3_f(c-begc+1)
 
-   i_bs4 = 23
+   i_bs4 = 29
    cascade_step_name(i_bs4) = 'BS4'
    rf_decomp_cascade(c,1:nlevdecomp,i_bs4) = 0._r8
    cascade_donor_pool(i_bs4) = i_bacteria
    cascade_receiver_pool(i_bs4) = i_soil4
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_bs4) = bs4_f(c-begc+1)
 
-   i_fs4 = 24
+   i_fs4 = 30
    cascade_step_name(i_fs4) = 'FS4'
    rf_decomp_cascade(c,1:nlevdecomp,i_fs4) = 0._r8
    cascade_donor_pool(i_fs4) = i_fungi
    cascade_receiver_pool(i_fs4) = i_soil4
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_fs4) = fs4_f(c-begc+1)
 
-   i_doms1 = 25
+   i_doms1 = 31
    cascade_step_name(i_doms1) = 'DOMS1'
    rf_decomp_cascade(c,1:nlevdecomp,i_doms1) = 0._r8
    cascade_donor_pool(i_doms1) = i_dom
    cascade_receiver_pool(i_doms1) = i_soil1
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_doms1) = doms1_f(c-begc+1)
    
-   i_doms2 = 26
+   i_doms2 = 32
    cascade_step_name(i_doms2) = 'DOMS2'
    rf_decomp_cascade(c,1:nlevdecomp,i_doms2) = 0._r8
    cascade_donor_pool(i_doms2) = i_dom
    cascade_receiver_pool(i_doms2) = i_soil2
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_doms2) = doms2_f(c-begc+1)
 
-   i_doms3 = 27
+   i_doms3 = 33
    cascade_step_name(i_doms3) = 'DOMS3'
    rf_decomp_cascade(c,1:nlevdecomp,i_doms3) = 0._r8
    cascade_donor_pool(i_doms3) = i_dom
    cascade_receiver_pool(i_doms3) = i_soil3
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_doms3) = doms3_f(c-begc+1)
 
-   i_doms4 = 28
+   i_doms4 = 34
    cascade_step_name(i_doms4) = 'DOMS4'
    rf_decomp_cascade(c,1:nlevdecomp,i_doms4) = 0._r8
    cascade_donor_pool(i_doms4) = i_dom
    cascade_receiver_pool(i_doms4) = i_soil4
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_doms4) = doms4_f(c-begc+1)
 
-   i_bdom = 29
+   i_bdom = 35
    cascade_step_name(i_bdom) = 'BDOM'
    rf_decomp_cascade(c,1:nlevdecomp,i_bdom) = 0._r8
    cascade_donor_pool(i_bdom) = i_bacteria
    cascade_receiver_pool(i_bdom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_bdom) = bdom_f(c-begc+1)
 
-   i_fdom = 30
+   i_fdom = 36
    cascade_step_name(i_fdom) = 'FDOM'
    rf_decomp_cascade(c,1:nlevdecomp,i_fdom) = 0._r8
    cascade_donor_pool(i_fdom) = i_fungi
    cascade_receiver_pool(i_fdom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_fdom) = fdom_f(c-begc+1)
 
-   i_domb = 31
+   i_domb = 37
    cascade_step_name(i_domb) = 'DOMB'
    rf_decomp_cascade(c,1:nlevdecomp,i_domb) = 0._r8
    cascade_donor_pool(i_domb) = i_dom
    cascade_receiver_pool(i_domb) = i_bacteria
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_domb) = domb_f(c-begc+1)
   
-   i_domf = 32
+   i_domf = 38
    cascade_step_name(i_domf) = 'DOMF'
    rf_decomp_cascade(c,1:nlevdecomp,i_domf) = 0._r8
    cascade_donor_pool(i_domf) = i_dom
    cascade_receiver_pool(i_domf) = i_fungi
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_domf) = domf_f(c-begc+1)
    
-   i_batm = 33
+   i_batm = 39
    cascade_step_name(i_batm) = 'BATM'
    rf_decomp_cascade(c,1:nlevdecomp,i_batm) = 1.0
    cascade_donor_pool(i_batm) = i_bacteria
    cascade_receiver_pool(i_batm) = i_atm
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_batm) = batm_f(c-begc+1)
    
-   i_fatm = 34
+   i_fatm = 40
    cascade_step_name(i_fatm) = 'FATM'
    rf_decomp_cascade(c,1:nlevdecomp,i_fatm) = 1.0
    cascade_donor_pool(i_fatm) = i_fungi
    cascade_receiver_pool(i_fatm) = i_atm
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_fatm) = fatm_f(c-begc+1)
     
-   i_l1dom = 35
+   i_l1dom = 41
    cascade_step_name(i_l1dom) = 'L1DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_l1dom) = 1.0 - rf_l1m
+   rf_decomp_cascade(c,1:nlevdecomp,i_l1dom) = 1.0
    cascade_donor_pool(i_l1dom) = i_litr1
    cascade_receiver_pool(i_l1dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l1dom) = l1dom_f
    
-   i_l2dom = 36
+   i_l2dom = 42
    cascade_step_name(i_l2dom) = 'L2DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_l2dom) = 1.0 - rf_l2m
+   rf_decomp_cascade(c,1:nlevdecomp,i_l2dom) = 1.0
    cascade_donor_pool(i_l2dom) = i_litr2
    cascade_receiver_pool(i_l2dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l2dom) = l2dom_f
 
-   i_l3dom = 37
+   i_l3dom = 43
    cascade_step_name(i_l3dom) = 'L3DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_l3dom) = 1.0 - rf_l3m
+   rf_decomp_cascade(c,1:nlevdecomp,i_l3dom) = 1.0
    cascade_donor_pool(i_l3dom) = i_litr3
    cascade_receiver_pool(i_l3dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l3dom) = l3dom_f
    
-   i_s1dom = 38
+   i_s1dom = 44
    cascade_step_name(i_s1dom) = 'S1DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_s1dom) = 1.0 - rf_s1m(c-begc+1)
+   rf_decomp_cascade(c,1:nlevdecomp,i_s1dom) = 1.0
    cascade_donor_pool(i_s1dom) = i_soil1
    cascade_receiver_pool(i_s1dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s1dom) = s1dom_f
    
-   i_s2dom = 39
+   i_s2dom = 45
    cascade_step_name(i_s2dom) = 'S2DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_s2dom) = 1.0 - rf_s2m(c-begc+1)
+   rf_decomp_cascade(c,1:nlevdecomp,i_s2dom) = 1.0
    cascade_donor_pool(i_s2dom) = i_soil2
    cascade_receiver_pool(i_s2dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s2dom) = s2dom_f
    
-   i_s3dom = 40
+   i_s3dom = 46
    cascade_step_name(i_s3dom) = 'S3DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_s3dom) = 1.0 - rf_s3m(c-begc+1)
+   rf_decomp_cascade(c,1:nlevdecomp,i_s3dom) = 1.0
    cascade_donor_pool(i_s3dom) = i_soil3
    cascade_receiver_pool(i_s3dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s3dom) = s3dom_f 
    
-   i_s4dom = 41
+   i_s4dom = 47
    cascade_step_name(i_s4dom) = 'S4DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_s4dom) = 1.0 - rf_s4m(c-begc+1)
+   rf_decomp_cascade(c,1:nlevdecomp,i_s4dom) = 1.0
    cascade_donor_pool(i_s4dom) = i_soil4
    cascade_receiver_pool(i_s4dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s4dom) = s4dom_f
