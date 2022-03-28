@@ -15,7 +15,7 @@ He, L., D.L. Lipson, J.L. Rodrigues, M.A. Mayes, R.G. Bjork, B. Glaser, B., P.E.
 
 He, L, C.T. Lai, M.A. Mayes, S. Murayama, X. Xu, (2021) Microbial seasonality promotes soil respiratory carbon emission in natural ecosystems: a modeling study. Global Change Biology. DOI:10.1111/gcb.15627. (Site-level model application to confirm microbial seasonality has sitmulation impacts on soil carbon emission)
 
-Zuo Y.J., Wang Y.H., He L.Y., Wang N.N., Liu J.Z., Yuan F.H., Li K.X., Guo Z.Y., Sun Y., Zhu X.H., Zhang L.H., Song C.C., Sun L., Xu X.F. (2022) Modeling methane dynamics in three wetlands in northeastern China by using the CLM-Microbe model. Ecosystem Health and Sustainability. (moderate revision)
+Zuo Y.J., Wang Y.H., He L.Y., Wang N.N., Liu J.Z., Yuan F.H., Li K.X., Guo Z.Y., Sun Y., Zhu X.H., Zhang L.H., Song C.C., Sun L., Xu X.F. (2022) Modeling methane dynamics in three wetlands in northeastern China by using the CLM-Microbe model. Ecosystem Health and Sustainability. (moderate revision) (Site-level application of the CLM-Microbe model to CH4 dynamics in Asian temperate wetlands)
 
 Wang, Y., Yuan F.M., Anrt K., Liu J.Z., He L.Y., Zuo Y.J., Zona D., Lipson D.A., Oechel W.C., Ricciuto D.M., Wullschleger S.D., Thornton P.E., Xu X.F. (2022) Upscaling methane flux from plot-level to eddy covariance tower domains by combining the CLM-Microbe model with three footprint algorithms. Atmospheric Environment. (Undere review) (Regional model application to simulate metane flux in the Arctic)
 
