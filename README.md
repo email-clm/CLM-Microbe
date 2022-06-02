@@ -7,7 +7,7 @@ Xu, X., J. P. Schimel, P. E. Thornton, X. Song, F. Yuan, and S. Goswami. 2014. S
 
 Xu, X., D. A. Elias, D. E. Graham, T. J. Phelps, S. L. Carrol, S. D. Wullschleger, and P. E. Thornton. 2015. A microbial functional group based module for simulating methane production and consumption: application to an incubation permafrost soil. Journal of Geophysical Research-Biogeosciences 120:1315-1333. (The microbial functional-group based methane module)
 
-Xu, X., F. Yuan, P. J. Hanson, S. D. Wullschleger, P. E. Thornton, W. J. Riley, X. Song, D. E. Graham, C. C. Song, and H. Tian. 2016. Review and Synthesis: Four decades of modeling methane cycling within terrestrial ecosystems. Biogeosciences 13:3735-3755. (A review paper on different types of methane models including the CLM-Microbe)
+Xu, X., F. Yuan, P. J. Hanson, S. D. Wullschleger, P. E. Thornton, W. J. Riley, X. Song, D. E. Graham, C. C. Song, and H. Tian. 2016. Review and Synthesis: Four decades of modeling methane cycling within terrestrial ecosystems. Biogeosciences 13:3735-3755. (A review paper on different types of methane models including the CLM-Microbe; the CLM-Microbe represents the new direction of microbial model on methane processes)
 
 Wang, Y., F. Yuan, F. Yuan, B. Gu, M. S. Hahn, M. S. Torn, D. M. Ricciuto, J. Kumar, L. He, D. Zona, D. L. Lipson, R. Wagner, W. C. Oechel, S. D. Wullschleger, P. E. Thornton, and X. Xu. 2019. Mechanistic Modeling of microtopographic impact on CH4 processes in an Alaskan tundra ecosystem using the CLM-Microbe model. Journal of Advances in Modeling Earth Systems 11:4228-4304. (Site-level application of the CLM-Microbe in simulating methane flux in the Arctic)
 
