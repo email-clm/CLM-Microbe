@@ -743,22 +743,22 @@ cn_fungi_in = cn_fungi(pft_index(:))
    rf_s2m = m_rf_s2m(pft_index(:))
    rf_s3m = m_rf_s3m(pft_index(:))
    rf_s4m = m_rf_s4m(pft_index(:))
-   
-   l1m_fb = (cn_bacteria_in / initial_cn_ratio(i_litr1))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_litr1))**0.6 + (cn_fungi_in / initial_cn_ratio(i_litr1))**0.6)
-   l1m_ff = 1.0 - l1m_fb 
-   l2m_fb = (cn_bacteria_in / initial_cn_ratio(i_litr2))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_litr2))**0.6 + (cn_fungi_in / initial_cn_ratio(i_litr2))**0.6)
-   l2m_ff = 1.0 - l2m_fb
-   l3m_fb = (cn_bacteria_in / initial_cn_ratio(i_litr3))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_litr3))**0.6 + (cn_fungi_in / initial_cn_ratio(i_litr3))**0.6)
-   l3m_ff = 1.0 - l3m_fb
-   s1m_fb = (cn_bacteria_in / initial_cn_ratio(i_soil1))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_soil1))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil1))**0.6)
-   s1m_ff = 1.0 - s1m_fb
-   s2m_fb = (cn_bacteria_in / initial_cn_ratio(i_soil2))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_soil2))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil2))**0.6)
-   s2m_ff = 1.0 - s2m_fb
-   s3m_fb = (cn_bacteria_in / initial_cn_ratio(i_soil3))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_soil3))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil3))**0.6)
-   s3m_ff = 1.0 - s3m_fb
-   s4m_fb = (cn_bacteria_in / initial_cn_ratio(i_soil4))**0.6 / ((cn_bacteria_in / initial_cn_ratio(i_soil4))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil4))**0.6)
-   s4m_ff = 1.0 - s4m_fb
 
+   l1m_ff = ((cn_fungi_in / initial_cn_ratio(i_litr1))**0.6 + (1 / 30)**0.6)/ ((cn_bacteria_in / initial_cn_ratio(i_litr1))**0.6 + (cn_fungi_in / initial_cn_ratio(i_litr1))**0.6 + (1 / 30)**0.6)
+   l1m_fb = 1.0 - l1m_ff 
+   l2m_ff = ((cn_fungi_in / initial_cn_ratio(i_litr2))**0.6 + (1 / 30)**0.6)/ ((cn_bacteria_in / initial_cn_ratio(i_litr2))**0.6 + (cn_fungi_in / initial_cn_ratio(i_litr2))**0.6 + (1 / 30)**0.6)
+   l2m_fb = 1.0 - l2m_ff
+   l3m_ff = ((cn_fungi_in / initial_cn_ratio(i_litr3))**0.6 + (1 / 30)**0.6)/ ((cn_bacteria_in / initial_cn_ratio(i_litr3))**0.6 + (cn_fungi_in / initial_cn_ratio(i_litr3))**0.6 + (1 / 30)**0.6)
+   l3m_fb = 1.0 - l3m_ff
+   s1m_ff = ((cn_fungi_in / initial_cn_ratio(i_soil1))**0.6 + (1 / 30)**0.6)/ ((cn_bacteria_in / initial_cn_ratio(i_soil1))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil1))**0.6 + (1 / 30)**0.6)
+   s1m_fb = 1.0 - s1m_ff
+   s2m_ff = ((cn_fungi_in / initial_cn_ratio(i_soil2))**0.6 + (1 / 30)**0.6)/ ((cn_bacteria_in / initial_cn_ratio(i_soil2))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil2))**0.6 + (1 / 30)**0.6)
+   s2m_fb = 1.0 - s2m_ff
+   s3m_ff = ((cn_fungi_in / initial_cn_ratio(i_soil3))**0.6 + (1 / 30)**0.6)/ ((cn_bacteria_in / initial_cn_ratio(i_soil3))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil3))**0.6 + (1 / 30)**0.6)
+   s3m_fb = 1.0 - s3m_ff
+   s4m_ff = ((cn_fungi_in / initial_cn_ratio(i_soil4))**0.6 + (1 / 30)**0.6)/ ((cn_bacteria_in / initial_cn_ratio(i_soil4))**0.6 + (cn_fungi_in / initial_cn_ratio(i_soil4))**0.6 + (1 / 30)**0.6)
+   s4m_fb = 1.0 - s4m_ff
+   
 !   l1dom_f  = 0.2
 !   l2dom_f  = 0.16
 !   l3dom_f  = 0.12
