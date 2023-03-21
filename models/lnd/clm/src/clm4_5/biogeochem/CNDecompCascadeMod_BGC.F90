@@ -338,13 +338,29 @@ cgridcell       =>col%gridcell
 
     do c = begc,endc
 
-    pft_index = [pft_index, (MAXLOC(wtcol(col%pfti(c):col%pftf(c)), DIM=1) - 1)]
+    if (wtcol(col%pfti(c)) .ge. 0.96_r8) then
+
+    pft_index = [pft_index, col%pfti(c)]
+
+    else
+
+    pft_index = [pft_index, MAXLOC(wtcol((col%pfti(c) + 1):col%pftf(c)), DIM=1)]
+
+    end if
+
+! write (*, *) "col%pfti(c) 1", col%pfti(c)
+! write (*, *) "col%pftf(c) 1", col%pftf(c)
+
+! write (*, *) "pft_index 1", pft_index
 
     end do
+
 
 cn_bacteria_in = cn_bacteria(pft_index(:))
 cn_fungi_in = cn_fungi(pft_index(:))
 
+! write (*, *) "cn_bacteria_in 1", cn_bacteria_in
+! write (*, *) "cn_fungi_in 1", cn_fungi_in
 
 #endif
    initial_cn_ratio                             => decomp_cascade_con%initial_cn_ratio
@@ -1416,16 +1432,32 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
   do fc = 1,num_soilc
   c = filter_soilc(fc)
 
-   pft_index = [pft_index, (MAXLOC(wtcol(pfti(c):pftf(c)), DIM=1) - 1)]
+    if (wtcol(col%pfti(c)) .ge. 0.96_r8) then
+
+    pft_index = [pft_index, col%pfti(c)]
+
+    else
+
+    pft_index = [pft_index, MAXLOC(wtcol((col%pfti(c) + 1):col%pftf(c)), DIM=1)]
+
+    end if
+
+! write (*, *) "wtcol(col%pfti(c))", wtcol(col%pfti(c))
+! write (*, *) "pft_index 2", pft_index
 
   end do
 
-   
+
+
 k_dom_in = k_dom(pft_index(:))
 k_bacteria_in = k_bacteria(pft_index(:))
 k_fungi_in = k_fungi(pft_index(:))
 decomp_depth_efolding_in = decomp_depth_efolding(pft_index(:))
 
+! write (*, *) "k_dom_in 2", k_dom_in
+! write (*, *) "k_bacteria_in 2", k_bacteria_in
+! write (*, *) "k_fungi_in 2", k_fungi_in
+! write (*, *) "decomp_depth_efolding_in 2", decomp_depth_efolding_in
 
 
 #endif
