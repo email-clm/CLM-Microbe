@@ -115,8 +115,8 @@ module clm_varctl
 #endif
 
  ! C isotopes
-  logical, public :: use_c13 = .true.                  ! true => use C-13 model
-  logical, public :: use_c14 = .true.                  ! true => use C-14 model
+  logical, public :: use_c13 = .false.                  ! true => use C-13 model
+  logical, public :: use_c14 = .false.                  ! true => use C-14 model
 
 ! glacier_mec control variables: default values (may be overwritten by namelist)
 ! NOTE: glc_smb must have the same values for CLM and GLC
