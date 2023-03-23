@@ -23,9 +23,9 @@ Publications with the CLM-Microbe model.
 
 10). Dissertation: Wang, Yihui. (2022) Multi-scale modeling of Arctic methane cycling using the CLM-Microbe model. Joint doctoral program - San Diego State University & University of California Davis.
 
-11). He L., Rodrigues J., Mayes M., Lao C.T., Xu X.F. (2022) Historical dynamics of terrestrial carbon during 1901-2016 as simulated by the CLM-Microbe model. Journal of Advances in Modeling Earth Systems. (Under revision) (Global application of the CLM-Microbe model to estimate the historical dynamics of terrestrial carbon including the carbon components in vegetation, soils, and microbes)
+11). He L., Rodrigues J., Mayes M., Lao C.T., Xu X.F. (2023) Historical dynamics of terrestrial carbon during 1901-2016 as simulated by the CLM-Microbe model. Biogeosciences Discuss. [preprint], https://doi.org/10.5194/bg-2023-15, in review, 2023. (Global application of the CLM-Microbe model to estimate the historical dynamics of terrestrial carbon including the carbon components in vegetation, soils, and microbes)
 
-12). He. L., Viovy N., Xu X.F. (2022) Differentiation of soil bacterial and fungal macroecology in the United States. Global Ecology and Biogeography  (Under review) (Site-level application of the CLM-Microbe to investigate the bacterial and fungal macroecology across the US)
+12). He. L., Viovy N., Xu X.F. (2023) Differentiation of soil bacterial and fungal macroecology in the United States. Global Biogeochemical Cycles (Under review) (Site-level application of the CLM-Microbe to investigate the bacterial and fungal macroecology across the US)
 
-13). Wang Y.H., He L.Y., Liu J.Z., Arndt K.A., Rodrigues J.L.M., Zona D., Lipson D.A., Oechel W.C., Ricciuto D.M., Wullschleger S.D., Xu X.F. (2022) Projecting methane emissions in Arctic tundra ecosystems under different climate scenarios. Journal of Advances in Modeling Earth Systems (Under revision). (Regional application of the CLM-Microbe model in projecting methane flux within five eddy covarance domain at a 4m resolution)
+13). Wang Y.H., He L.Y., Liu J.Z., Arndt K.A., Rodrigues J.L.M., Zona D., Lipson D.A., Oechel W.C., Ricciuto D.M., Wullschleger S.D., Xu X.F. (2023) Projecting methane emissions in Arctic tundra ecosystems under different climate scenarios. Journal of Advances in Modeling Earth Systems (Under revision). (Regional application of the CLM-Microbe model in projecting methane flux within five eddy covarance domain at a 4m resolution)
 
