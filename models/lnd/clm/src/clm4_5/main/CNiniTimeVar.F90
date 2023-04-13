@@ -367,33 +367,33 @@ subroutine CNiniTimeVar()
 !	real(r8), pointer :: gaerch4bios13(:)			! grid-level biomass of aerobix methanotrophy molC/m2
 !	real(r8), pointer :: ganaerch4bios13(:)			! grid-level biomass of anaerobic methanotrophy molC/m2
    
-	real(r8), pointer :: cmicbiocs13(:,:)			! column-level biomass of all microbes molC/m3
-	real(r8), pointer :: cdocs13(:,:)				! column-level concentration of DOC molC/m3 
-	real(r8), pointer :: cdocs_unsat13(:,:)			! column-level concentration of DOC molC/m3 in unsaturated fraction
-	real(r8), pointer :: cdocs_sat13(:,:)			! column-level concentration of DOC molC/m3 in saturated fraction
-	real(r8), pointer :: caces13(:,:)				! column-level concentration of acetate molC/m3
-	real(r8), pointer :: cacebios13(:,:)				! column-level biomass of methanogen based on acetate molC/m3
-	real(r8), pointer :: cco2bios13(:,:)				! column-level biomass of methanogen based on CO2/H2 molC/m3
-	real(r8), pointer :: caerch4bios13(:,:)			! column-level biomass of aerobix methanotrophy molC/m3
-	real(r8), pointer :: canaerch4bios13(:,:)			! column-level biomass of anaerobic methanotrophy molC/m3
+!	real(r8), pointer :: cmicbiocs13(:,:)			! column-level biomass of all microbes molC/m3
+!	real(r8), pointer :: cdocs13(:,:)				! column-level concentration of DOC molC/m3 
+!	real(r8), pointer :: cdocs_unsat13(:,:)			! column-level concentration of DOC molC/m3 in unsaturated fraction
+!	real(r8), pointer :: cdocs_sat13(:,:)			! column-level concentration of DOC molC/m3 in saturated fraction
+!	real(r8), pointer :: caces13(:,:)				! column-level concentration of acetate molC/m3
+!	real(r8), pointer :: cacebios13(:,:)				! column-level biomass of methanogen based on acetate molC/m3
+!	real(r8), pointer :: cco2bios13(:,:)				! column-level biomass of methanogen based on CO2/H2 molC/m3
+!	real(r8), pointer :: caerch4bios13(:,:)			! column-level biomass of aerobix methanotrophy molC/m3
+!	real(r8), pointer :: canaerch4bios13(:,:)			! column-level biomass of anaerobic methanotrophy molC/m3
     
-	real(r8), pointer :: cacebios_unsat13(:,:)		! column-level biomass of methanogen from acetate in unsaturated fraction molC/m3
-	real(r8), pointer :: cacebios_sat13(:,:)			! column-level biomass of methanogen from acetate in saturated fraction molC/m3
-	real(r8), pointer :: cco2bios_unsat13(:,:)		! column-level biomass of methanogen from CO2 and H2 in unsaturated fraction molC/m3
-	real(r8), pointer :: cco2bios_sat13(:,:)			! column-level biomass of methanogen from CO2 and H2 in saturated fraction molC/m3
-	real(r8), pointer :: caerch4bios_unsat13(:,:)		! column-level biomass of aerobic methanotrophy in unsaturated fraction molC/m3
-	real(r8), pointer :: caerch4bios_sat13(:,:)		! column-level biomass of aerobic methanotrophy in saturated fraction molC/m3
-	real(r8), pointer :: canaerch4bios_unsat13(:,:)	! column-level biomass of anaerobic methanotrophy in unsaturated fraction molC/m3
-	real(r8), pointer :: canaerch4bios_sat13(:,:)		! column-level biomass of anaerobic methanotrophy in saturated fraction molC/m3
-	real(r8), pointer :: caces_unsat13(:,:)			! column-level acetate in unsaturated fraction molC/m3
-	real(r8), pointer :: caces_sat13(:,:)			! column-level acetate in saturated fraction molC/m3
+!	real(r8), pointer :: cacebios_unsat13(:,:)		! column-level biomass of methanogen from acetate in unsaturated fraction molC/m3
+!	real(r8), pointer :: cacebios_sat13(:,:)			! column-level biomass of methanogen from acetate in saturated fraction molC/m3
+!	real(r8), pointer :: cco2bios_unsat13(:,:)		! column-level biomass of methanogen from CO2 and H2 in unsaturated fraction molC/m3
+!	real(r8), pointer :: cco2bios_sat13(:,:)			! column-level biomass of methanogen from CO2 and H2 in saturated fraction molC/m3
+!	real(r8), pointer :: caerch4bios_unsat13(:,:)		! column-level biomass of aerobic methanotrophy in unsaturated fraction molC/m3
+!	real(r8), pointer :: caerch4bios_sat13(:,:)		! column-level biomass of aerobic methanotrophy in saturated fraction molC/m3
+!	real(r8), pointer :: canaerch4bios_unsat13(:,:)	! column-level biomass of anaerobic methanotrophy in unsaturated fraction molC/m3
+!	real(r8), pointer :: canaerch4bios_sat13(:,:)		! column-level biomass of anaerobic methanotrophy in saturated fraction molC/m3
+!	real(r8), pointer :: caces_unsat13(:,:)			! column-level acetate in unsaturated fraction molC/m3
+!	real(r8), pointer :: caces_sat13(:,:)			! column-level acetate in saturated fraction molC/m3
 	 
-	real(r8), pointer :: ccon_ch4s13(:,:)			! column-level concentration of CH4 mol C/m3
-	real(r8), pointer :: ccon_co2s13(:,:)			! column-level concentration of CO2 mol C/m3
-	real(r8), pointer :: ccon_ch4s_unsat13(:,:)		! column-level concentration of CH4 in unsaturated fraction mol C/m3
-	real(r8), pointer :: ccon_ch4s_sat13(:,:)		! column-level concentration of CH4 in saturated fraction mol C/m3
-	real(r8), pointer :: ccon_co2s_unsat13(:,:)		! column-level concentration of CO2 in unsaturated fraction mol C/m3
-	real(r8), pointer :: ccon_co2s_sat13(:,:)			! column-level concentration of CO2 in saturated fraction mol C/m3
+!	real(r8), pointer :: ccon_ch4s13(:,:)			! column-level concentration of CH4 mol C/m3
+!	real(r8), pointer :: ccon_co2s13(:,:)			! column-level concentration of CO2 mol C/m3
+!	real(r8), pointer :: ccon_ch4s_unsat13(:,:)		! column-level concentration of CH4 in unsaturated fraction mol C/m3
+!	real(r8), pointer :: ccon_ch4s_sat13(:,:)		! column-level concentration of CH4 in saturated fraction mol C/m3
+!	real(r8), pointer :: ccon_co2s_unsat13(:,:)		! column-level concentration of CO2 in unsaturated fraction mol C/m3
+!	real(r8), pointer :: ccon_co2s_sat13(:,:)			! column-level concentration of CO2 in saturated fraction mol C/m3
 !	end if
 	
 !    if ( use_c14 ) then
@@ -405,33 +405,33 @@ subroutine CNiniTimeVar()
 !	real(r8), pointer :: gaerch4bios14(:)			! grid-level biomass of aerobix methanotrophy molC/m2
 !	real(r8), pointer :: ganaerch4bios14(:)			! grid-level biomass of anaerobic methanotrophy molC/m2
    
-	real(r8), pointer :: cmicbiocs14(:,:)			! column-level biomass of all microbes molC/m3
-	real(r8), pointer :: cdocs14(:,:)				! column-level concentration of DOC molC/m3 
-	real(r8), pointer :: cdocs_unsat14(:,:)			! column-level concentration of DOC molC/m3 in unsaturated fraction
-	real(r8), pointer :: cdocs_sat14(:,:)			! column-level concentration of DOC molC/m3 in saturated fraction
-	real(r8), pointer :: caces14(:,:)				! column-level concentration of acetate molC/m3
-	real(r8), pointer :: cacebios14(:,:)				! column-level biomass of methanogen based on acetate molC/m3
-	real(r8), pointer :: cco2bios14(:,:)				! column-level biomass of methanogen based on CO2/H2 molC/m3
-	real(r8), pointer :: caerch4bios14(:,:)			! column-level biomass of aerobix methanotrophy molC/m3
-	real(r8), pointer :: canaerch4bios14(:,:)			! column-level biomass of anaerobic methanotrophy molC/m3
+!	real(r8), pointer :: cmicbiocs14(:,:)			! column-level biomass of all microbes molC/m3
+!	real(r8), pointer :: cdocs14(:,:)				! column-level concentration of DOC molC/m3 
+!	real(r8), pointer :: cdocs_unsat14(:,:)			! column-level concentration of DOC molC/m3 in unsaturated fraction
+!	real(r8), pointer :: cdocs_sat14(:,:)			! column-level concentration of DOC molC/m3 in saturated fraction
+!	real(r8), pointer :: caces14(:,:)				! column-level concentration of acetate molC/m3
+!	real(r8), pointer :: cacebios14(:,:)				! column-level biomass of methanogen based on acetate molC/m3
+!	real(r8), pointer :: cco2bios14(:,:)				! column-level biomass of methanogen based on CO2/H2 molC/m3
+!	real(r8), pointer :: caerch4bios14(:,:)			! column-level biomass of aerobix methanotrophy molC/m3
+!	real(r8), pointer :: canaerch4bios14(:,:)			! column-level biomass of anaerobic methanotrophy molC/m3
     
-	real(r8), pointer :: cacebios_unsat14(:,:)		! column-level biomass of methanogen from acetate in unsaturated fraction molC/m3
-	real(r8), pointer :: cacebios_sat14(:,:)			! column-level biomass of methanogen from acetate in saturated fraction molC/m3
-	real(r8), pointer :: cco2bios_unsat14(:,:)		! column-level biomass of methanogen from CO2 and H2 in unsaturated fraction molC/m3
-	real(r8), pointer :: cco2bios_sat14(:,:)			! column-level biomass of methanogen from CO2 and H2 in saturated fraction molC/m3
-	real(r8), pointer :: caerch4bios_unsat14(:,:)		! column-level biomass of aerobic methanotrophy in unsaturated fraction molC/m3
-	real(r8), pointer :: caerch4bios_sat14(:,:)		! column-level biomass of aerobic methanotrophy in saturated fraction molC/m3
-	real(r8), pointer :: canaerch4bios_unsat14(:,:)	! column-level biomass of anaerobic methanotrophy in unsaturated fraction molC/m3
-	real(r8), pointer :: canaerch4bios_sat14(:,:)		! column-level biomass of anaerobic methanotrophy in saturated fraction molC/m3
-	real(r8), pointer :: caces_unsat14(:,:)			! column-level acetate in unsaturated fraction molC/m3
-	real(r8), pointer :: caces_sat14(:,:)			! column-level acetate in saturated fraction molC/m3
+!	real(r8), pointer :: cacebios_unsat14(:,:)		! column-level biomass of methanogen from acetate in unsaturated fraction molC/m3
+!	real(r8), pointer :: cacebios_sat14(:,:)			! column-level biomass of methanogen from acetate in saturated fraction molC/m3
+!	real(r8), pointer :: cco2bios_unsat14(:,:)		! column-level biomass of methanogen from CO2 and H2 in unsaturated fraction molC/m3
+!	real(r8), pointer :: cco2bios_sat14(:,:)			! column-level biomass of methanogen from CO2 and H2 in saturated fraction molC/m3
+!	real(r8), pointer :: caerch4bios_unsat14(:,:)		! column-level biomass of aerobic methanotrophy in unsaturated fraction molC/m3
+!	real(r8), pointer :: caerch4bios_sat14(:,:)		! column-level biomass of aerobic methanotrophy in saturated fraction molC/m3
+!	real(r8), pointer :: canaerch4bios_unsat14(:,:)	! column-level biomass of anaerobic methanotrophy in unsaturated fraction molC/m3
+!	real(r8), pointer :: canaerch4bios_sat14(:,:)		! column-level biomass of anaerobic methanotrophy in saturated fraction molC/m3
+!	real(r8), pointer :: caces_unsat14(:,:)			! column-level acetate in unsaturated fraction molC/m3
+!	real(r8), pointer :: caces_sat14(:,:)			! column-level acetate in saturated fraction molC/m3
 	 
-	real(r8), pointer :: ccon_ch4s14(:,:)			! column-level concentration of CH4 mol C/m3
-	real(r8), pointer :: ccon_co2s14(:,:)			! column-level concentration of CO2 mol C/m3
-	real(r8), pointer :: ccon_ch4s_unsat14(:,:)		! column-level concentration of CH4 in unsaturated fraction mol C/m3
-	real(r8), pointer :: ccon_ch4s_sat14(:,:)		! column-level concentration of CH4 in saturated fraction mol C/m3
-	real(r8), pointer :: ccon_co2s_unsat14(:,:)		! column-level concentration of CO2 in unsaturated fraction mol C/m3
-	real(r8), pointer :: ccon_co2s_sat14(:,:)			! column-level concentration of CO2 in saturated fraction mol C/m3
+!	real(r8), pointer :: ccon_ch4s14(:,:)			! column-level concentration of CH4 mol C/m3
+!	real(r8), pointer :: ccon_co2s14(:,:)			! column-level concentration of CO2 mol C/m3
+!	real(r8), pointer :: ccon_ch4s_unsat14(:,:)		! column-level concentration of CH4 in unsaturated fraction mol C/m3
+!	real(r8), pointer :: ccon_ch4s_sat14(:,:)		! column-level concentration of CH4 in saturated fraction mol C/m3
+!	real(r8), pointer :: ccon_co2s_unsat14(:,:)		! column-level concentration of CO2 in unsaturated fraction mol C/m3
+!	real(r8), pointer :: ccon_co2s_sat14(:,:)			! column-level concentration of CO2 in saturated fraction mol C/m3
 !	end if
 #endif
 
@@ -557,34 +557,34 @@ subroutine CNiniTimeVar()
 !	gaerch4bios13             	=> cmicc13%gaerch4bios
 !	ganaerch4bios13             	=> cmicc13%ganaerch4bios
 	
-	cmicbiocs13                      	=> cmicc13%cmicbiocs
-	cdocs13                        	=> cmicc13%cdocs
-	cdocs_unsat13         		=> cmicc13%cdocs_unsat
-	cdocs_sat13                      => cmicc13%cdocs_sat
-	caces13                        	=> cmicc13%caces
-	cacebios13                        => cmicc13%cacebios
-	cco2bios13                        => cmicc13%cco2bios
-	caerch4bios13            	=> cmicc13%caerch4bios
-	canaerch4bios13           	=> cmicc13%canaerch4bios
+!	cmicbiocs13                      	=> cmicc13%cmicbiocs
+!	cdocs13                        	=> cmicc13%cdocs
+!	cdocs_unsat13         		=> cmicc13%cdocs_unsat
+!	cdocs_sat13                      => cmicc13%cdocs_sat
+!	caces13                        	=> cmicc13%caces
+!	cacebios13                        => cmicc13%cacebios
+!	cco2bios13                        => cmicc13%cco2bios
+!	caerch4bios13            	=> cmicc13%caerch4bios
+!	canaerch4bios13           	=> cmicc13%canaerch4bios
 	
-	cacebios_unsat13     		=> cmicc13%cacebios_unsat
-	cacebios_sat13          	=> cmicc13%cacebios_sat
-	cco2bios_unsat13      	=> cmicc13%cco2bios_unsat
+!	cacebios_unsat13     		=> cmicc13%cacebios_unsat
+!	cacebios_sat13          	=> cmicc13%cacebios_sat
+!	cco2bios_unsat13      	=> cmicc13%cco2bios_unsat
 	
-  	cco2bios_sat13                 	=> cmicc13%cco2bios_sat
-	caerch4bios_unsat13         	=> cmicc13%caerch4bios_unsat
-	caerch4bios_sat13            	=> cmicc13%caerch4bios_sat
-	canaerch4bios_unsat13     	=> cmicc13%canaerch4bios_unsat
-	canaerch4bios_sat13         	=> cmicc13%canaerch4bios_sat
-	caces_unsat13                 	=> cmicc13%caces_unsat
-	caces_sat13                    	=> cmicc13%caces_sat
+! 	cco2bios_sat13                 	=> cmicc13%cco2bios_sat
+!	caerch4bios_unsat13         	=> cmicc13%caerch4bios_unsat
+!	caerch4bios_sat13            	=> cmicc13%caerch4bios_sat
+!	canaerch4bios_unsat13     	=> cmicc13%canaerch4bios_unsat
+!	canaerch4bios_sat13         	=> cmicc13%canaerch4bios_sat
+!	caces_unsat13                 	=> cmicc13%caces_unsat
+!	caces_sat13                    	=> cmicc13%caces_sat
     
-	ccon_ch4s13                    	=> cmicc13%ccon_ch4s
-	ccon_co2s13                  	=> cmicc13%ccon_co2s
-	ccon_ch4s_unsat13           	=> cmicc13%ccon_ch4s_unsat
-	ccon_ch4s_sat13               => cmicc13%ccon_ch4s_sat
-	ccon_co2s_unsat13           	=> cmicc13%ccon_co2s_unsat
-	ccon_co2s_sat13              	=> cmicc13%ccon_co2s_sat
+!	ccon_ch4s13                    	=> cmicc13%ccon_ch4s
+!	ccon_co2s13                  	=> cmicc13%ccon_co2s
+!	ccon_ch4s_unsat13           	=> cmicc13%ccon_ch4s_unsat
+!	ccon_ch4s_sat13               => cmicc13%ccon_ch4s_sat
+!	ccon_co2s_unsat13           	=> cmicc13%ccon_co2s_unsat
+!	ccon_co2s_sat13              	=> cmicc13%ccon_co2s_sat
 	end if
 	
     if ( use_c14 ) then
@@ -596,34 +596,34 @@ subroutine CNiniTimeVar()
 !	gaerch4bios14             	=> cmicc14%gaerch4bios
 !	ganaerch4bios14             	=> cmicc14%ganaerch4bios
 	
-	cmicbiocs14                      	=> cmicc14%cmicbiocs
-	cdocs14                        	=> cmicc14%cdocs
-	cdocs_unsat14         		=> cmicc14%cdocs_unsat
-	cdocs_sat14                      => cmicc14%cdocs_sat
-	caces14                        	=> cmicc14%caces
-	cacebios14                        => cmicc14%cacebios
-	cco2bios14                        => cmicc14%cco2bios
-	caerch4bios14            	=> cmicc14%caerch4bios
-	canaerch4bios14           	=> cmicc14%canaerch4bios
+!	cmicbiocs14                      	=> cmicc14%cmicbiocs
+!	cdocs14                        	=> cmicc14%cdocs
+!	cdocs_unsat14         		=> cmicc14%cdocs_unsat
+!	cdocs_sat14                      => cmicc14%cdocs_sat
+!	caces14                        	=> cmicc14%caces
+!	cacebios14                        => cmicc14%cacebios
+!	cco2bios14                        => cmicc14%cco2bios
+!	caerch4bios14            	=> cmicc14%caerch4bios
+!	canaerch4bios14           	=> cmicc14%canaerch4bios
 	
-	cacebios_unsat14     		=> cmicc14%cacebios_unsat
-	cacebios_sat14          	=> cmicc14%cacebios_sat
-	cco2bios_unsat14      	=> cmicc14%cco2bios_unsat
+!	cacebios_unsat14     		=> cmicc14%cacebios_unsat
+!	cacebios_sat14          	=> cmicc14%cacebios_sat
+!	cco2bios_unsat14      	=> cmicc14%cco2bios_unsat
 	
-  	cco2bios_sat14                	=> cmicc14%cco2bios_sat
-	caerch4bios_unsat14         	=> cmicc14%caerch4bios_unsat
-	caerch4bios_sat14            	=> cmicc14%caerch4bios_sat
-	canaerch4bios_unsat14     	=> cmicc14%canaerch4bios_unsat
-	canaerch4bios_sat14         	=> cmicc14%canaerch4bios_sat
-	caces_unsat14                 	=> cmicc14%caces_unsat
-	caces_sat14                    	=> cmicc14%caces_sat
+!  	cco2bios_sat14                	=> cmicc14%cco2bios_sat
+!	caerch4bios_unsat14         	=> cmicc14%caerch4bios_unsat
+!	caerch4bios_sat14            	=> cmicc14%caerch4bios_sat
+!	canaerch4bios_unsat14     	=> cmicc14%canaerch4bios_unsat
+!	canaerch4bios_sat14         	=> cmicc14%canaerch4bios_sat
+!	caces_unsat14                 	=> cmicc14%caces_unsat
+!	caces_sat14                    	=> cmicc14%caces_sat
     
-	ccon_ch4s14                    	=> cmicc14%ccon_ch4s
-	ccon_co2s14                  	=> cmicc14%ccon_co2s
-	ccon_ch4s_unsat14           	=> cmicc14%ccon_ch4s_unsat
-	ccon_ch4s_sat14              	=> cmicc14%ccon_ch4s_sat
-	ccon_co2s_unsat14          	=> cmicc14%ccon_co2s_unsat
-	ccon_co2s_sat14              	=> cmicc14%ccon_co2s_sat
+!	ccon_ch4s14                    	=> cmicc14%ccon_ch4s
+!	ccon_co2s14                  	=> cmicc14%ccon_co2s
+!	ccon_ch4s_unsat14           	=> cmicc14%ccon_ch4s_unsat
+!	ccon_ch4s_sat14              	=> cmicc14%ccon_ch4s_sat
+!	ccon_co2s_unsat14          	=> cmicc14%ccon_co2s_unsat
+!	ccon_co2s_sat14              	=> cmicc14%ccon_co2s_sat
 	end if
 #endif
 
@@ -962,34 +962,34 @@ do j = 1, nlevdecomp
 !	gaerch4bios14             	=> cmicc14%gaerch4bios
 !	ganaerch4bios14             	=> cmicc14%ganaerch4bios
 	
-	cmicbiocs13(c,j)	=             cmicbiocs(c,j) * c13ratio
-	cdocs13(c,j)		=          	cdocs(c,j) * c13ratio
-	cdocs_unsat13(c,j)    =   		cdocs_unsat(c,j) * c13ratio
-	cdocs_sat13(c,j)        =              cdocs_sat(c,j) * c13ratio
-	caces13(c,j)            	=        	caces(c,j) * c13ratio
-	cacebios13(c,j)          = 	        cacebios(c,j) * c13ratio
-	cco2bios13(c,j)           =            cco2bios(c,j) * c13ratio
-	caerch4bios13(c,j)       =     	caerch4bios(c,j) * c13ratio
-	canaerch4bios13(c,j)     =      	canaerch4bios(c,j) * c13ratio
+!	cmicbiocs13(c,j)	=             cmicbiocs(c,j) * c13ratio
+!	cdocs13(c,j)		=          	cdocs(c,j) * c13ratio
+!	cdocs_unsat13(c,j)    =   		cdocs_unsat(c,j) * c13ratio
+!	cdocs_sat13(c,j)        =              cdocs_sat(c,j) * c13ratio
+!	caces13(c,j)            	=        	caces(c,j) * c13ratio
+!	cacebios13(c,j)          = 	        cacebios(c,j) * c13ratio
+!	cco2bios13(c,j)           =            cco2bios(c,j) * c13ratio
+!	caerch4bios13(c,j)       =     	caerch4bios(c,j) * c13ratio
+!	canaerch4bios13(c,j)     =      	canaerch4bios(c,j) * c13ratio
 	
-	cacebios_unsat13(c,j)     =		cacebios_unsat(c,j) * c13ratio
-	cacebios_sat13(c,j)         = 	cacebios_sat(c,j) * c13ratio
-	cco2bios_unsat13(c,j)      =	cco2bios_unsat(c,j) * c13ratio
+!	cacebios_unsat13(c,j)     =		cacebios_unsat(c,j) * c13ratio
+!	cacebios_sat13(c,j)         = 	cacebios_sat(c,j) * c13ratio
+!	cco2bios_unsat13(c,j)      =	cco2bios_unsat(c,j) * c13ratio
 	
-  	cco2bios_sat13(c,j)            =    	cco2bios_sat(c,j) * c13ratio
-	caerch4bios_unsat13(c,j)     =   	caerch4bios_unsat(c,j) * c13ratio
-	caerch4bios_sat13(c,j)         = 	caerch4bios_sat(c,j) * c13ratio
-	canaerch4bios_unsat13(c,j)  = 	canaerch4bios_unsat(c,j) * c13ratio
-	canaerch4bios_sat13(c,j)     = 	canaerch4bios_sat(c,j) * c13ratio
-	caces_unsat13(c,j)              =  	caces_unsat(c,j) * c13ratio
-	caces_sat13(c,j)                 = 	caces_sat(c,j) * c13ratio
+! 	cco2bios_sat13(c,j)            =    	cco2bios_sat(c,j) * c13ratio
+!	caerch4bios_unsat13(c,j)     =   	caerch4bios_unsat(c,j) * c13ratio
+!	caerch4bios_sat13(c,j)         = 	caerch4bios_sat(c,j) * c13ratio
+!	canaerch4bios_unsat13(c,j)  = 	canaerch4bios_unsat(c,j) * c13ratio
+!	canaerch4bios_sat13(c,j)     = 	canaerch4bios_sat(c,j) * c13ratio
+!	caces_unsat13(c,j)              =  	caces_unsat(c,j) * c13ratio
+!	caces_sat13(c,j)                 = 	caces_sat(c,j) * c13ratio
 	
-	ccon_ch4s13(c,j)          =         	ccon_ch4s(c,j) * c13ratio
-	ccon_co2s13(c,j)            =      	ccon_co2s(c,j) * c13ratio
-	ccon_ch4s_unsat13(c,j)  =        	ccon_ch4s_unsat(c,j) * c13ratio
-	ccon_ch4s_sat13(c,j)       =      	ccon_ch4s_sat(c,j) * c13ratio
-	ccon_co2s_unsat13(c,j)    =     	ccon_co2s_unsat(c,j) * c13ratio
-	ccon_co2s_sat13(c,j)      =       	ccon_co2s_sat(c,j) * c13ratio
+!	ccon_ch4s13(c,j)          =         	ccon_ch4s(c,j) * c13ratio
+!	ccon_co2s13(c,j)            =      	ccon_co2s(c,j) * c13ratio
+!	ccon_ch4s_unsat13(c,j)  =        	ccon_ch4s_unsat(c,j) * c13ratio
+!	ccon_ch4s_sat13(c,j)       =      	ccon_ch4s_sat(c,j) * c13ratio
+!	ccon_co2s_unsat13(c,j)    =     	ccon_co2s_unsat(c,j) * c13ratio
+!	ccon_co2s_sat13(c,j)      =       	ccon_co2s_sat(c,j) * c13ratio
 !	write(iulog,*) "Xiaofeng Xu 993 line", cmicbiocs(c,j), cmicbiocs13(c,j), cdocs(c,j), cdocs13(c,j)
 end do
 #endif
@@ -1047,34 +1047,34 @@ end do
 	    
 #if defined (MICROBE)
 do j = 1, nlevdecomp
-	cmicbiocs14(c,j)	=             cmicbiocs(c,j) * c14ratio
-	cdocs14(c,j)		=          	cdocs(c,j) * c14ratio
-	cdocs_unsat14(c,j)    =   		cdocs_unsat(c,j) * c14ratio
-	cdocs_sat14(c,j)        =              cdocs_sat(c,j) * c14ratio
-	caces14(c,j)            	=        	caces(c,j) * c14ratio
-	cacebios14(c,j)          = 	        cacebios(c,j) * c14ratio
-	cco2bios14(c,j)           =            cco2bios(c,j) * c14ratio
-	caerch4bios14(c,j)       =     	caerch4bios(c,j) * c14ratio
-	canaerch4bios14(c,j)     =      	canaerch4bios(c,j) * c14ratio
+!	cmicbiocs14(c,j)	=             cmicbiocs(c,j) * c14ratio
+!	cdocs14(c,j)		=          	cdocs(c,j) * c14ratio
+!	cdocs_unsat14(c,j)    =   		cdocs_unsat(c,j) * c14ratio
+!	cdocs_sat14(c,j)        =              cdocs_sat(c,j) * c14ratio
+!	caces14(c,j)            	=        	caces(c,j) * c14ratio
+!	cacebios14(c,j)          = 	        cacebios(c,j) * c14ratio
+!	cco2bios14(c,j)           =            cco2bios(c,j) * c14ratio
+!	caerch4bios14(c,j)       =     	caerch4bios(c,j) * c14ratio
+!	canaerch4bios14(c,j)     =      	canaerch4bios(c,j) * c14ratio
 	
-	cacebios_unsat14(c,j)     =		cacebios_unsat(c,j) * c14ratio
-	cacebios_sat14(c,j)         = 	cacebios_sat(c,j) * c14ratio
-	cco2bios_unsat14(c,j)      =	cco2bios_unsat(c,j) * c14ratio
+!	cacebios_unsat14(c,j)     =		cacebios_unsat(c,j) * c14ratio
+!	cacebios_sat14(c,j)         = 	cacebios_sat(c,j) * c14ratio
+!	cco2bios_unsat14(c,j)      =	cco2bios_unsat(c,j) * c14ratio
 	
-  	cco2bios_sat14(c,j)            =    	cco2bios_sat(c,j) * c14ratio
-	caerch4bios_unsat14(c,j)     =   	caerch4bios_unsat(c,j) * c14ratio
-	caerch4bios_sat14(c,j)         = 	caerch4bios_sat(c,j) * c14ratio
-	canaerch4bios_unsat14(c,j)  = 	canaerch4bios_unsat(c,j) * c14ratio
-	canaerch4bios_sat14(c,j)     = 	canaerch4bios_sat(c,j) * c14ratio
-	caces_unsat14(c,j)              =  	caces_unsat(c,j) * c14ratio
-	caces_sat14(c,j)                 = 	caces_sat(c,j) * c14ratio
+! 	cco2bios_sat14(c,j)            =    	cco2bios_sat(c,j) * c14ratio
+!	caerch4bios_unsat14(c,j)     =   	caerch4bios_unsat(c,j) * c14ratio
+!	caerch4bios_sat14(c,j)         = 	caerch4bios_sat(c,j) * c14ratio
+!	canaerch4bios_unsat14(c,j)  = 	canaerch4bios_unsat(c,j) * c14ratio
+!	canaerch4bios_sat14(c,j)     = 	canaerch4bios_sat(c,j) * c14ratio
+!	caces_unsat14(c,j)              =  	caces_unsat(c,j) * c14ratio
+!	caces_sat14(c,j)                 = 	caces_sat(c,j) * c14ratio
 	
-	ccon_ch4s14(c,j)          =         	ccon_ch4s(c,j) * c14ratio
-	ccon_co2s14(c,j)            =      	ccon_co2s(c,j) * c14ratio
-	ccon_ch4s_unsat14(c,j)  =        	ccon_ch4s_unsat(c,j) * c14ratio
-	ccon_ch4s_sat14(c,j)       =      	ccon_ch4s_sat(c,j) * c14ratio
-	ccon_co2s_unsat14(c,j)    =     	ccon_co2s_unsat(c,j) * c14ratio
-	ccon_co2s_sat14(c,j)      =       	ccon_co2s_sat(c,j) * c14ratio
+!	ccon_ch4s14(c,j)          =         	ccon_ch4s(c,j) * c14ratio
+!	ccon_co2s14(c,j)            =      	ccon_co2s(c,j) * c14ratio
+!	ccon_ch4s_unsat14(c,j)  =        	ccon_ch4s_unsat(c,j) * c14ratio
+!	ccon_ch4s_sat14(c,j)       =      	ccon_ch4s_sat(c,j) * c14ratio
+!	ccon_co2s_unsat14(c,j)    =     	ccon_co2s_unsat(c,j) * c14ratio
+!	ccon_co2s_sat14(c,j)      =       	ccon_co2s_sat(c,j) * c14ratio
 end do
 #endif
 
