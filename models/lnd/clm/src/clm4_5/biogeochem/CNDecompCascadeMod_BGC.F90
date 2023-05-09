@@ -339,13 +339,9 @@ cgridcell       =>col%gridcell
     do c = begc,endc
 
     if (wtcol(col%pfti(c)) .ge. 0.96_r8) then
-
-    pft_index = [pft_index, col%pfti(c)]
-
+       pft_index = [pft_index, 0]
     else
-
-    pft_index = [pft_index, MAXLOC(wtcol((col%pfti(c) + 1):col%pftf(c)), DIM=1)]
-
+       pft_index = [pft_index, MAXLOC(wtcol((col%pfti(c) + 1):col%pftf(c)), DIM=1)]
     end if
 
 ! write (*, *) "col%pfti(c) 1", col%pfti(c)
@@ -1433,13 +1429,9 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
   c = filter_soilc(fc)
 
     if (wtcol(col%pfti(c)) .ge. 0.96_r8) then
-
-    pft_index = [pft_index, col%pfti(c)]
-
+       pft_index = [pft_index, 0]
     else
-
-    pft_index = [pft_index, MAXLOC(wtcol((col%pfti(c) + 1):col%pftf(c)), DIM=1)]
-
+       pft_index = [pft_index, MAXLOC(wtcol((col%pfti(c) + 1):col%pftf(c)), DIM=1)]
     end if
 
 ! write (*, *) "wtcol(col%pfti(c))", wtcol(col%pfti(c))

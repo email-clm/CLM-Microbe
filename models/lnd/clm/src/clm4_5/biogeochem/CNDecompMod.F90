@@ -308,29 +308,20 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
 
 
     if (wtcol(pfti(c)) .ge. 0.96_r8) then
-
-    pft_index = [pft_index, pfti(c)]
-
+       pft_index = [pft_index, 0]
     else
-
-    pft_index = [pft_index, MAXLOC(wtcol((pfti(c) + 1):p), DIM=1)]
-
+       pft_index = [pft_index, MAXLOC(wtcol((pfti(c) + 1):p), DIM=1)]
     end if
 
-!   pft_index = [pft_index, (MAXLOC(wtcol(pfti(c):p), DIM=1, mask = wtcol(pfti(c):p) .gt. 0) - 1)]
-
+! pft_index = [pft_index, (MAXLOC(wtcol(pfti(c):p), DIM=1, mask = wtcol(pfti(c):p) .gt. 0) - 1)]
 ! write (*, *) "pfti(c) 1", pfti(c)
 ! write (*, *) "p 1", p
-
 ! write (*, *) "wtcol(pfti(c)", wtcol(pfti(c))
-
 ! write (*, *) "pft_index 3", pft_index
 
   end do
-
-   
+  
   end if
-
 
 decomp_depth_efolding_in = decomp_depth_efolding(pft_index(:))
 
