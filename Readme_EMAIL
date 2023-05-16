@@ -1,5 +1,13 @@
 # this readme file is for trouble shooting for the CLM-Microbe model at Ecological Model and Integration Laboratory (EMAIL) at San Diego State University. All technical notes regarding warning, errors, uncertainty set up, model configuration etc, are kept in this file. Please contact Xiaofeng Xu for questions, xxu@mail.sdsu.edu, 619-594-2279.
 
+May 15, 2023
+model stopped, below error found in cesm.log.... file 
+pio_support::pio_die:: myrank=          -1 : ERROR: pionfget_mod.F90:         421 : NetCDF: Start+count exceeds dimension bound
+application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+below error found in lnd.log.... file
+Attempting to read ldomain from ?????
+The problem was caused by the incorrect NetCDF file of pft-physiology.....nc
+
 May 1, 2017, test
 
 Mar 9, 2017
