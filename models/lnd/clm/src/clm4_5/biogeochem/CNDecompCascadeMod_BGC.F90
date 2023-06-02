@@ -1151,49 +1151,49 @@ cn_fungi_in = cn_fungi(pft_index(:))
     
    i_l1dom = 41
    cascade_step_name(i_l1dom) = 'L1DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_l1dom) = 1.0
+   rf_decomp_cascade(c,1:nlevdecomp,i_l1dom) = 0._r8
    cascade_donor_pool(i_l1dom) = i_litr1
    cascade_receiver_pool(i_l1dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l1dom) = l1dom_f
    
    i_l2dom = 42
    cascade_step_name(i_l2dom) = 'L2DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_l2dom) = 1.0
+   rf_decomp_cascade(c,1:nlevdecomp,i_l2dom) = 0._r8
    cascade_donor_pool(i_l2dom) = i_litr2
    cascade_receiver_pool(i_l2dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l2dom) = l2dom_f
 
    i_l3dom = 43
    cascade_step_name(i_l3dom) = 'L3DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_l3dom) = 1.0
+   rf_decomp_cascade(c,1:nlevdecomp,i_l3dom) = 0._r8
    cascade_donor_pool(i_l3dom) = i_litr3
    cascade_receiver_pool(i_l3dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_l3dom) = l3dom_f
    
    i_s1dom = 44
    cascade_step_name(i_s1dom) = 'S1DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_s1dom) = 1.0
+   rf_decomp_cascade(c,1:nlevdecomp,i_s1dom) = 0._r8
    cascade_donor_pool(i_s1dom) = i_soil1
    cascade_receiver_pool(i_s1dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s1dom) = s1dom_f
    
    i_s2dom = 45
    cascade_step_name(i_s2dom) = 'S2DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_s2dom) = 1.0
+   rf_decomp_cascade(c,1:nlevdecomp,i_s2dom) = 0._r8
    cascade_donor_pool(i_s2dom) = i_soil2
    cascade_receiver_pool(i_s2dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s2dom) = s2dom_f
    
    i_s3dom = 46
    cascade_step_name(i_s3dom) = 'S3DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_s3dom) = 1.0
+   rf_decomp_cascade(c,1:nlevdecomp,i_s3dom) = 0._r8
    cascade_donor_pool(i_s3dom) = i_soil3
    cascade_receiver_pool(i_s3dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s3dom) = s3dom_f 
    
    i_s4dom = 47
    cascade_step_name(i_s4dom) = 'S4DOM'
-   rf_decomp_cascade(c,1:nlevdecomp,i_s4dom) = 1.0
+   rf_decomp_cascade(c,1:nlevdecomp,i_s4dom) = 0._r8
    cascade_donor_pool(i_s4dom) = i_soil4
    cascade_receiver_pool(i_s4dom) = i_dom
    pathfrac_decomp_cascade(c,1:nlevdecomp,i_s4dom) = s4dom_f
