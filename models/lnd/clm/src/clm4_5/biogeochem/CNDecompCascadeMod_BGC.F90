@@ -338,14 +338,15 @@ cgridcell       =>col%gridcell
 
     do c = begc,endc
 
-    if (wtcol(col%pfti(c)) .ge. 0.96_r8) then
+    if (wtcol(col%pfti(c)) .ge. 0.96_r8 .or. SUM(wtcol((col%pfti(c) + 1):col%pftf(c))) .lt. 0.001_r8) then
        pft_index = [pft_index, 0]
     else
        pft_index = [pft_index, MAXLOC(wtcol((col%pfti(c) + 1):col%pftf(c)), DIM=1)]
     end if
 
 ! write (*, *) "col%pfti(c) 1", col%pfti(c)
-! write (*, *) "col%pftf(c) 1", col%pftf(c)
+
+! write (*, *) "SUM(wtcol((col%pfti(c) + 1):col%pftf(c)))", SUM(wtcol((col%pfti(c) + 1):col%pftf(c)))
 
 ! write (*, *) "pft_index 1", pft_index
 
@@ -1428,13 +1429,13 @@ subroutine decomp_rate_constants(lbc, ubc, num_soilc, filter_soilc)
   do fc = 1,num_soilc
   c = filter_soilc(fc)
 
-    if (wtcol(col%pfti(c)) .ge. 0.96_r8) then
+    if (wtcol(col%pfti(c)) .ge. 0.96_r8 .or. SUM(wtcol((col%pfti(c) + 1):col%pftf(c))) .lt. 0.001_r8) then
        pft_index = [pft_index, 0]
     else
        pft_index = [pft_index, MAXLOC(wtcol((col%pfti(c) + 1):col%pftf(c)), DIM=1)]
     end if
 
-! write (*, *) "wtcol(col%pfti(c))", wtcol(col%pfti(c))
+! write (*, *) "SUM(wtcol((col%pfti(c) + 1):col%pftf(c)))", SUM(wtcol((col%pfti(c) + 1):col%pftf(c)))
 ! write (*, *) "pft_index 2", pft_index
 
   end do

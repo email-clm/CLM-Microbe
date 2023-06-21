@@ -307,7 +307,7 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
   end do
 
 
-    if (wtcol(pfti(c)) .ge. 0.96_r8) then
+    if (wtcol(pfti(c)) .ge. 0.96_r8 .or. SUM(wtcol((pfti(c) + 1):p)) .lt. 0.001_r8) then
        pft_index = [pft_index, 0]
     else
        pft_index = [pft_index, MAXLOC(wtcol((pfti(c) + 1):p), DIM=1)]
@@ -316,7 +316,8 @@ subroutine CNDecompAlloc (lbp, ubp, lbc, ubc, num_soilc, filter_soilc, &
 ! pft_index = [pft_index, (MAXLOC(wtcol(pfti(c):p), DIM=1, mask = wtcol(pfti(c):p) .gt. 0) - 1)]
 ! write (*, *) "pfti(c) 1", pfti(c)
 ! write (*, *) "p 1", p
-! write (*, *) "wtcol(pfti(c)", wtcol(pfti(c))
+
+! write (*, *) "SUM(wtcol((pfti(c) + 1):p)", SUM(wtcol((pfti(c) + 1):p))
 ! write (*, *) "pft_index 3", pft_index
 
   end do
