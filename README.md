@@ -27,5 +27,5 @@ Publications with the CLM-Microbe model.
 
 12). He L., Rodrigues J., Mayes M., Lao C.T., Xu X.F. (2023) Historical dynamics of terrestrial carbon during 1901-2016 as simulated by the CLM-Microbe model. Biogeosciences Discuss. [preprint], https://doi.org/10.5194/bg-2023-15, in review, 2023. (Global application of the CLM-Microbe model to estimate the historical dynamics of terrestrial carbon including the carbon components in vegetation, soils, and microbes)
 
-13). Wang Y.H., He L.Y., Liu J.Z., Arndt K.A., Rodrigues J.L.M., Zona D., Lipson D.A., Oechel W.C., Ricciuto D.M., Wullschleger S.D., Xu X.F. (2024) Intensified positive Arctic-methane feedback under IPCC climate scenarios in the 21st century. Ecosystem Health and Sustainability (Under revision). (Regional application of the CLM-Microbe model in projecting methane flux within five eddy covarance domain at a super-high resolution (4 meter x 4 meter))
+13). Wang Y.H., He L.Y., Liu J.Z., Arndt K.A., Rodrigues J.L.M., Zona D., Lipson D.A., Oechel W.C., Ricciuto D.M., Wullschleger S.D., Xu X.F. (2024) Intensified positive Arctic-methane feedback under IPCC climate scenarios in the 21st century. Ecosystem Health and Sustainability (Minor revision). (Regional application of the CLM-Microbe model in projecting methane flux within five eddy covarance domain at a super-high resolution (4 meter x 4 meter))
 
