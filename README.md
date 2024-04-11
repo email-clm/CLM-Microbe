@@ -15,7 +15,7 @@ Publications with the CLM-Microbe model.
 
 6). He, L, Lai C.T., Mayes M.A., Murayama S., Xu X. (2021) Microbial seasonality promotes soil respiratory carbon emission in natural ecosystems: a modeling study. Global Change Biology. https://doi.org/10.1111/gcb.15627 (Site-level model application to confirm microbial seasonality has stimulation impacts on soil carbon emission)
 
-7). Zuo Y.J., Wang Y.H., He L.Y., Wang N.N., Liu J.Z., Yuan F.H., Li K.X., Guo Z.Y., Sun Y., Zhu X.H., Zhang L.H., Song C.C., Sun L., Xu X.F. (2022) Modeling methane dynamics in three wetlands in northeastern China by using the CLM-Microbe model. Ecosystem Health and Sustainability. DOI:10.1080/20964129.2022.2074895. (Site-level application of the CLM-Microbe model to CH4 dynamics in Asian temperate wetlands)
+7). Zuo Y.J., Wang Y.H., He L.Y., Wang N.N., Liu J.Z., Yuan F.H., Li K.X., Guo Z.Y., Sun Y., Zhu X.H., Zhang L.H., Song C.C., Sun L., Xu X.F. (2022) Modeling methane dynamics in three wetlands in northeastern China by using the CLM-Microbe model. Ecosystem Health and Sustainability. https://doi.org/10.1080/20964129.2022.2074895. (Site-level application of the CLM-Microbe model to CH4 dynamics in Asian temperate wetlands)
 
 8). Wang, Y., Yuan F.M., Anrt K., Liu J.Z., He L.Y., Zuo Y.J., Zona D., Lipson D.A., Oechel W.C., Ricciuto D.M., Wullschleger S.D., Thornton P.E., Xu X.F. (2022) Upscaling methane flux from plot-level to eddy covariance tower domains by combining the CLM-Microbe model with three footprint algorithms. Frontier in Environmental Sciences. 10， DOI: 10.3389/fenvs.2022.939238 (Regional model application to simulate methane flux within eddy tower domain in the Arctic tundra ecosystems)
 
