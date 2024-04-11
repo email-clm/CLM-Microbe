@@ -19,9 +19,9 @@ Publications with the CLM-Microbe model.
 
 8). Wang, Y., Yuan F.M., Anrt K., Liu J.Z., He L.Y., Zuo Y.J., Zona D., Lipson D.A., Oechel W.C., Ricciuto D.M., Wullschleger S.D., Thornton P.E., Xu X.F. (2022) Upscaling methane flux from plot-level to eddy covariance tower domains by combining the CLM-Microbe model with three footprint algorithms. Frontier in Environmental Sciences. 10， DOI: 10.3389/fenvs.2022.939238 (Regional model application to simulate methane flux within eddy tower domain in the Arctic tundra ecosystems)
 
-9). Dissertation: He, Liyuan. (2022) Multi-scale modeling of soil microbial control on terrestrial carbon cycle. Joint doctoral program - San Diego State University & University of California Davis.
+9). Dissertation: He, Liyuan. (2022) Multi-scale modeling of soil microbial control on terrestrial carbon cycle. Joint doctoral program - San Diego State University & University of California Davis. https://escholarship.org/uc/item/5pm4n94j
 
-10). Dissertation: Wang, Yihui. (2022) Multi-scale modeling of Arctic methane cycling using the CLM-Microbe model. Joint doctoral program - San Diego State University & University of California Davis.
+10). Dissertation: Wang, Yihui. (2022) Multi-scale modeling of Arctic methane cycling using the CLM-Microbe model. Joint doctoral program - San Diego State University & University of California Davis. https://escholarship.org/uc/item/6f7932vq
 
 11). He, L., N. Viovy, and X. Xu. 2023. Microecology differentiation between bacteria and fungi in topsoil across the United States. Global Biogeochemical Cycles 37:e2023GB007706. https://doi.org/10.1029/2023GB007706 (Site-level application of the CLM-Microbe to investigate the bacterial and fungal macroecology across the US)
 
