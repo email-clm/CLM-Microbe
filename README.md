@@ -1,6 +1,8 @@
 # CLM-Microbe
 Repository for CLM-Microbe and other associated modeling work within the Ecological Modeling and Integration Laboratory at SDSU. https://xulab.sdsu.edu/. The CLM-Microbe is branched from CLM4.5 in 2013. It is developed under an open-source license, all codes are publically accessible. Anyone who wants to use this model needs to contact Xiaofeng Xu at xxu@sdsu.edu for coordinating different efforts on model development and application. Over the past decade, the funding supports for the development and application of the CLM-Microbe model include Oak Ridge National Lab, University of Texas - El Paso, San Diego State University, CSU Program for Education and Research in Biotechnology, NSF projects (1702797, 2154746, 2208656), and an NSF CAREER project (2145130); we appreciate all those supports.
 
+The CLM-Microbe V1 was released at https://zenodo.org/records/7439312#.Y5y_vOzMKgW.
+
 Publications with the CLM-Microbe model.
 
 1). Xu X., Schimel J. P., Thornton P. E., Song X., Yuan F.H., Goswami S., (2014) Substrate and environmental controls on microbial assimilation of soil organic carbon: a framework for Earth system models. Ecology Letters 17:547-555. https://doi.org/10.1111/ele.12254 (The modeling framework for microbial carbon assimilation)
