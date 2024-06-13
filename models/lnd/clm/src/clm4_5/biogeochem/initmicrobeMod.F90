@@ -218,6 +218,7 @@ end subroutine initmicrobe
 	real(r8), pointer :: ch4_surf_ebul_unsat(:)
 	real(r8), pointer :: ch4_surf_dif_unsat(:)
 	real(r8), pointer :: ch4_surf_netflux_unsat(:)
+	real(r8), pointer :: ch4_oxid_atm_ch4(:)
 	real(r8), pointer :: co2_surf_aere_unsat(:)
 	real(r8), pointer :: co2_surf_ebul_unsat(:)
 	real(r8), pointer :: co2_surf_dif_unsat(:)
@@ -411,9 +412,9 @@ end subroutine initmicrobe
     !layer_sat_lag      => cmic%layer_sat_lag
 
     
-    	ch4_prod_ace_depth_unsat	=> cmic%ch4_prod_ace_depth_unsat
+    ch4_prod_ace_depth_unsat	=> cmic%ch4_prod_ace_depth_unsat
 	ch4_prod_co2_depth_unsat	=> cmic%ch4_prod_co2_depth_unsat
-	ch4_oxid_o2_depth_unsat 		=> cmic%ch4_oxid_o2_depth_unsat
+	ch4_oxid_o2_depth_unsat 	=> cmic%ch4_oxid_o2_depth_unsat
 	ch4_oxid_aom_depth_unsat 	=> cmic%ch4_oxid_aom_depth_unsat
 	ch4_aere_depth_unsat 		=> cmic%ch4_aere_depth_unsat
 	ch4_dif_depth_unsat 		=> cmic%ch4_dif_depth_unsat
@@ -439,8 +440,9 @@ end subroutine initmicrobe
 	ch4_surf_ebul_unsat 			=> cmic%ch4_surf_ebul_unsat
 	ch4_surf_dif_unsat 			=> cmic%ch4_surf_dif_unsat
 	ch4_surf_netflux_unsat 		=> cmic%ch4_surf_netflux_unsat
+	ch4_oxid_atm_ch4 			=> cmic%ch4_oxid_atm_ch4
 	co2_surf_aere_unsat			=> cmic%co2_surf_aere_unsat
-	co2_surf_ebul_unsat 			=> cmic%co2_surf_ebul_unsat
+	co2_surf_ebul_unsat 		=> cmic%co2_surf_ebul_unsat
 	co2_surf_dif_unsat 			=> cmic%co2_surf_dif_unsat
 	co2_surf_netflux_unsat 		=> cmic%co2_surf_netflux_unsat
 	o2_surf_aere_unsat			=> cmic%o2_surf_aere_unsat
@@ -551,17 +553,18 @@ end subroutine initmicrobe
 
 	if(ch4_surf_aere_unsat(c) == spval .or. arbinit) 			ch4_surf_aere_unsat(c) = 0._r8
 	if(ch4_surf_ebul_unsat(c) == spval .or. arbinit) 			ch4_surf_ebul_unsat(c) = 0._r8
-	if(ch4_surf_dif_unsat(c) == spval .or. arbinit) 				ch4_surf_dif_unsat(c) = 0._r8
-	if(ch4_surf_netflux_unsat(c) == spval .or. arbinit) 			ch4_surf_netflux_unsat(c) = 0._r8
+	if(ch4_surf_dif_unsat(c) == spval .or. arbinit) 			ch4_surf_dif_unsat(c) = 0._r8
+	if(ch4_surf_netflux_unsat(c) == spval .or. arbinit) 		ch4_surf_netflux_unsat(c) = 0._r8
+	if(ch4_oxid_atm_ch4(c) == spval .or. arbinit) 				ch4_oxid_atm_ch4(c) = 0._r8
 	if(co2_surf_aere_unsat(c) == spval .or. arbinit) 			co2_surf_aere_unsat(c) = 0._r8
 	if(co2_surf_ebul_unsat(c) == spval .or. arbinit) 			co2_surf_ebul_unsat(c) = 0._r8
-	if(co2_surf_dif_unsat(c) == spval .or. arbinit) 				co2_surf_dif_unsat(c) = 0._r8
-	if(co2_surf_netflux_unsat(c) == spval .or. arbinit) 			co2_surf_netflux_unsat(c) = 0._r8
-	if(o2_surf_aere_unsat(c) == spval .or. arbinit) 				o2_surf_aere_unsat(c) = 0._r8
+	if(co2_surf_dif_unsat(c) == spval .or. arbinit) 			co2_surf_dif_unsat(c) = 0._r8
+	if(co2_surf_netflux_unsat(c) == spval .or. arbinit) 		co2_surf_netflux_unsat(c) = 0._r8
+	if(o2_surf_aere_unsat(c) == spval .or. arbinit) 			o2_surf_aere_unsat(c) = 0._r8
 	if(o2_surf_dif_unsat(c) == spval .or. arbinit) 				o2_surf_dif_unsat(c) = 0._r8
 	if(o2_surf_netflux_unsat(c) == spval .or. arbinit) 			o2_surf_netflux_unsat(c) = 0._r8
-	if(h2_surf_aere_unsat(c) == spval .or. arbinit) 				h2_surf_aere_unsat(c) = 0._r8
-	if(h2_surf_ebul_unsat(c) == spval .or. arbinit) 				h2_surf_ebul_unsat(c) = 0._r8
+	if(h2_surf_aere_unsat(c) == spval .or. arbinit) 			h2_surf_aere_unsat(c) = 0._r8
+	if(h2_surf_ebul_unsat(c) == spval .or. arbinit) 			h2_surf_ebul_unsat(c) = 0._r8
 	if(h2_surf_dif_unsat(c) == spval .or. arbinit) 				h2_surf_dif_unsat(c) = 0._r8
 	if(h2_surf_netflux_unsat(c) == spval .or. arbinit) 			h2_surf_netflux_unsat(c) = 0._r8
 

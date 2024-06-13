@@ -1710,7 +1710,10 @@ contains
     call hist_addfld1d (fname='CH4_SURF_NETFLUX_UNSAT', units='mol/m2/s',  &
          avgflag='A', long_name='net flux of surface CH4 flux for non-inundated area; (+ to atm)', &
          ptr_col=cmic%ch4_surf_netflux_unsat)
-	 
+    call hist_addfld1d (fname='CH4_OXID_ATM_CH4', units='mol/m2/s', &
+         avgflag='A', long_name='column aerobic oxidation of atmospheric ch4', &
+         ptr_col=cmic%ch4_oxid_atm_ch4)
+         	 
     call hist_addfld1d (fname='CO2_SURF_AERE', units='mol/m2/s',  &
          avgflag='A', long_name='plant-mediated transport of CO2 flux for inundated area; (+ to atm)', &
          ptr_col=cmic%co2_surf_aere)

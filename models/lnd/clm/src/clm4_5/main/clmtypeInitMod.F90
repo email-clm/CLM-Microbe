@@ -4593,6 +4593,7 @@ contains
 	allocate(cmic%ch4_surf_ebul_unsat(beg:end))
 	allocate(cmic%ch4_surf_dif_unsat(beg:end))
 	allocate(cmic%ch4_surf_netflux_unsat(beg:end))
+	allocate(cmic%ch4_oxid_atm_ch4(beg:end))
 	allocate(cmic%co2_surf_aere_unsat(beg:end))
 	allocate(cmic%co2_surf_ebul_unsat(beg:end))
 	allocate(cmic%co2_surf_dif_unsat(beg:end))
@@ -4791,6 +4792,7 @@ contains
 	cmic%ch4_surf_ebul_unsat(beg:end) = spval
 	cmic%ch4_surf_dif_unsat(beg:end) = spval
 	cmic%ch4_surf_netflux_unsat(beg:end) = spval
+	cmic%ch4_oxid_atm_ch4(beg:end) = spval
 	cmic%co2_surf_aere_unsat(beg:end) = spval
 	cmic%co2_surf_ebul_unsat(beg:end) = spval
 	cmic%co2_surf_dif_unsat(beg:end) = spval

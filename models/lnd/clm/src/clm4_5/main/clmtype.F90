@@ -1820,6 +1820,7 @@ type, public :: column_microbe_type
 	real(r8), pointer :: ch4_surf_ebul_unsat(:)		! CH4 ebulition transport at surface in the unsaturated zone (1 = sat)
 	real(r8), pointer :: ch4_surf_dif_unsat(:)		! CH4 diffusion transport at surface in the unsaturated zone (1 = sat)
 	real(r8), pointer :: ch4_surf_netflux_unsat(:)		! net CH4 flux at surface in the unsaturated zone (1 = sat)
+	real(r8), pointer :: ch4_oxid_atm_ch4(:)		! oxidation of atmospheric methane at column level (only occur in unsaturation fraction)
 	real(r8), pointer :: co2_surf_aere_unsat(:)		! CO2 plant-mediated transport at surface in the unsaturated zone (1 = sat)
 	real(r8), pointer :: co2_surf_ebul_unsat(:)		! CO2 ebulition transport at surface in the unsaturated zone (1 = sat)
 	real(r8), pointer :: co2_surf_dif_unsat(:)		! CO2 diffusion transport at surface in the unsaturated zone (1 = sat)
