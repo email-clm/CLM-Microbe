@@ -25,7 +25,7 @@ module microbeMod
 implicit none
 	save
 	private
-	real(r8) :: f_sat = 0.95_r8 ! volumetric soil water defining top of water table or where production is allowed
+	real(r8) :: f_sat = 0.99_r8 ! volumetric soil water defining top of water table or where production is allowed
 
 ! Non-tunable constants
 	real(r8) :: rgasm  ! J/mol.K; rgas / 1000; will be set below
@@ -275,7 +275,6 @@ implicit none
 	real(r8), pointer :: ch4_surf_ebul_unsat(:)
 	real(r8), pointer :: ch4_surf_dif_unsat(:)
 	real(r8), pointer :: ch4_surf_netflux_unsat(:)
-	real(r8), pointer :: ch4_oxid_atm_ch4(:)
 	real(r8), pointer :: co2_surf_aere_unsat(:)
 	real(r8), pointer :: co2_surf_ebul_unsat(:)
 	real(r8), pointer :: co2_surf_dif_unsat(:)
@@ -380,7 +379,6 @@ implicit none
 	real(r8) :: caces_sat_temp(lbc:ubc,1:nlevgrnd)	! temporary array
 	real(r8) :: cdocs_unsat_temp(lbc:ubc,1:nlevgrnd)	! temporary array
 	real(r8) :: cdocs_sat_temp(lbc:ubc,1:nlevgrnd)	! temporary array
-	real(r8) :: ch4oxid_temp(lbc:ubc)	! temporary array for CH4 oxidation above the water table in unsaturation fraction
 	
 	real(r8), pointer :: annsum_npp(:)   		! annual sum NPP (gC/m2/yr)
 	real(r8), pointer :: annavg_agnpp(:) 		! (gC/m2/s) annual average aboveground NPP
@@ -392,13 +390,13 @@ implicit none
 	real(r8), pointer :: decomp_cpools_vr(:,:,:)    ! (gC/m3)  vertically-resolved decomposing (litter, cwd, soil) c pools
 	real(r8), pointer :: decomp_npools_vr(:,:,:)    ! (gC/m3)  vertically-resolved decomposing (litter, cwd, soil) N pools
 
-!#if (defined HUM_HOL)
+#if (defined HUM_HOL)
 !	real(r8), pointer :: h2osoi_vol(:,:)   ! volumetric soil water(0<=h2osoi_vol<=watsat) [m3/m3]
 	real(r8), pointer :: qflx_lat_aqu(:)   		! lateral flow in aquifer (mm/s)
 	real(r8), pointer :: wa(:)   				! lateral flow in aquifer (mm/s)
 	real(r8), pointer :: zwt(:)            			! water table depth (m)
 	real(r8) :: jwt(1:2)
-!#endif
+#endif
 
 	real(r8) :: nppratio(lbc:ubc)
 	
@@ -454,7 +452,7 @@ implicit none
 
 	real(r8):: minpsi, maxpsi                		! limits for soil water scalar for decomp
 	real(r8):: psi                           		! temporary soilpsi for water scalar
-	real(r8):: micfinundated = 0.1                ! temporary soilpsi for water scalar
+	real(r8):: micfinundated = 0.99                ! temporary soilpsi for water scalar
    
 #if (defined HUM_HOL)
 !	real(r8) :: h2osoi_vol
@@ -589,15 +587,14 @@ implicit none
 	h2_prod_depth_unsat 		=> cmiciso%h2_prod_depth_unsat
 	h2_cons_depth_unsat 		=> cmiciso%h2_cons_depth_unsat
 	h2_aere_depth_unsat 		=> cmiciso%h2_aere_depth_unsat
-	h2_diff_depth_unsat 		=> cmiciso%h2_diff_depth_unsat
+	h2_diff_depth_unsat 			=> cmiciso%h2_diff_depth_unsat
 	h2_ebul_depth_unsat 		=> cmiciso%h2_ebul_depth_unsat
 	ch4_surf_aere_unsat			=> cmiciso%ch4_surf_aere_unsat
-	ch4_surf_ebul_unsat 		=> cmiciso%ch4_surf_ebul_unsat
+	ch4_surf_ebul_unsat 			=> cmiciso%ch4_surf_ebul_unsat
 	ch4_surf_dif_unsat 			=> cmiciso%ch4_surf_dif_unsat
 	ch4_surf_netflux_unsat 		=> cmiciso%ch4_surf_netflux_unsat
-	ch4_oxid_atm_ch4		 	=> cmiciso%ch4_oxid_atm_ch4
 	co2_surf_aere_unsat			=> cmiciso%co2_surf_aere_unsat
-	co2_surf_ebul_unsat 		=> cmiciso%co2_surf_ebul_unsat
+	co2_surf_ebul_unsat 			=> cmiciso%co2_surf_ebul_unsat
 	co2_surf_dif_unsat 			=> cmiciso%co2_surf_dif_unsat
 	co2_surf_netflux_unsat 		=> cmiciso%co2_surf_netflux_unsat
 	o2_surf_aere_unsat			=> cmiciso%o2_surf_aere_unsat
@@ -676,7 +673,6 @@ implicit none
 	ch4_surf_ebul 				=> cmiciso%ch4_surf_ebul
 	ch4_surf_dif 				=> cmiciso%ch4_surf_dif
 	ch4_surf_netflux 			=> cmiciso%ch4_surf_netflux
-	ch4_oxid_atm_ch4			=> cmiciso%ch4_oxid_atm_ch4
 	co2_surf_aere				=> cmiciso%co2_surf_aere
 	co2_surf_ebul 				=> cmiciso%co2_surf_ebul
 	co2_surf_dif 				=> cmiciso%co2_surf_dif
@@ -733,18 +729,16 @@ implicit none
 	sucsat                			=> cps%sucsat
 	soilpsi               			=> cps%soilpsi
    
-!#if (defined HUM_HOL)
+#if (defined HUM_HOL)
 	qflx_lat_aqu   				=> cwf%qflx_lat_aqu
 	wa   						=> cws%wa
 	zwt            				=> cws%zwt
-!#endif
+#endif
 
-	caces_unsat_temp 		= 0._r8
+	caces_unsat_temp 			= 0._r8
 	caces_sat_temp 			= 0._r8
-	cdocs_unsat_temp 		= 0._r8
+	cdocs_unsat_temp 			= 0._r8
 	cdocs_sat_temp 			= 0._r8
-	ch4oxid_temp			= 0._r8
-	
 	dt = real( get_step_size(), r8 )
 	
 	rgasm					= rgas / 1000.
@@ -780,7 +774,6 @@ implicit none
 	if(j > jwaterhead_unsat(c)) then
 		micfinundated = 0.99
 	else
-        finundated(c) = max(0.001, (-0.04 * zwt(c) * zwt(c) +1.))
 		micfinundated = finundated(c)
 	end if  
 !	      write(iulog,*) "microbial before: ",decomp_cpools_vr(c,j,i_dom), cdocs(c,j), decomp_npools_vr(c,j,i_dom), cdons(c,j)
@@ -2509,11 +2502,6 @@ end do
 	ch4_prod_ace_depth(c,j)	= ch4_prod_ace_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_prod_ace_depth_sat(c,j) * micfinundated
 	ch4_prod_co2_depth(c,j)	= ch4_prod_co2_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_prod_co2_depth_sat(c,j) * micfinundated
 	ch4_oxid_o2_depth(c,j)	= ch4_oxid_o2_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_oxid_o2_depth_sat(c,j) * micfinundated
-	
-	if(j < jwaterhead_unsat(c)) then
-	ch4oxid_temp(c) = ch4oxid_temp(c) + ch4_oxid_o2_depth(c,j) * z(c, j) 									!"* dt" removed 20240613
-	end if
-	
 	ch4_oxid_aom_depth(c,j)	= ch4_oxid_aom_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_oxid_aom_depth_sat(c,j) * micfinundated
 	ch4_aere_depth(c,j)		= ch4_aere_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_aere_depth_sat(c,j) * micfinundated
 	ch4_dif_depth(c,j)		= ch4_dif_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_dif_depth_sat(c,j) * micfinundated
@@ -2545,9 +2533,8 @@ end do
       ch4_surf_aere(c)			= ch4_surf_aere_unsat(c) * (1.0 - micfinundated) + ch4_surf_aere_sat(c) * micfinundated
       ch4_surf_ebul(c)			= ch4_surf_ebul_unsat(c) * (1.0 - micfinundated) + ch4_surf_ebul_sat(c) * micfinundated
       ch4_surf_dif(c)			= ch4_surf_dif_unsat(c) * (1.0 - micfinundated) + ch4_surf_dif_sat(c) * micfinundated
-      ch4_surf_netflux(c)		= ch4_surf_netflux_unsat(c) * (1.0 - micfinundated) + ch4_surf_netflux_sat(c) * micfinundated - ch4oxid_temp(c)
-	  ch4_oxid_atm_ch4(c)		= ch4oxid_temp(c)
-	  co2_surf_aere(c)			= co2_surf_aere_unsat(c) * (1.0 - micfinundated) + co2_surf_aere_sat(c) * micfinundated
+      ch4_surf_netflux(c)		= ch4_surf_netflux_unsat(c) * (1.0 - micfinundated) + ch4_surf_netflux_sat(c) * micfinundated
+      co2_surf_aere(c)			= co2_surf_aere_unsat(c) * (1.0 - micfinundated) + co2_surf_aere_sat(c) * micfinundated
       co2_surf_ebul(c)			= co2_surf_ebul_unsat(c) * (1.0 - micfinundated) + co2_surf_ebul_sat(c) * micfinundated
       co2_surf_dif(c)			= co2_surf_dif_unsat(c) * (1.0 - micfinundated) + co2_surf_dif_sat(c) * micfinundated
       co2_surf_netflux(c)		= co2_surf_netflux_unsat(c) * (1.0 - micfinundated) + co2_surf_netflux_sat(c) * micfinundated
@@ -3067,11 +3054,6 @@ implicit none
 
 		ccon_h2s_unsat(c,j-1) = (ccon_h2s_unsat(c,j-1) * dz(c,j-1) - ccon_h2s_unsat_temp(c,j)) / dz(c,j-1)
 		ccon_h2s_unsat(c,j) = (ccon_h2s_unsat(c,j) * dz(c,j) + ccon_h2s_unsat_temp(c,j)) / dz(c,j)
-        else
-!                ccon_ch4s_unsat(c,j) = 0.000082
-!                ccon_o2s_unsat(c,j) = 10.16
-!                ccon_co2s_unsat(c,j) = 0.019
-!                ccon_h2s_unsat(c,j) = 0.000027
 	end if
 	! for the saturation portion
 	!write(iulog,*) "before ", j, ccon_ch4s_sat(c,j-1), ccon_ch4s_sat(c,j)

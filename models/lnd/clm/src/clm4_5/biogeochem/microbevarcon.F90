@@ -131,8 +131,9 @@ module microbevarcon
                                  ! inundated area, reducing production.
                                  ! Set to 0 to turn off this feature.
 
+  ! New namelists added 6/12/11
 
-  logical :: fin_use_fsat = .true. ! Use fsat rather than the inversion to Prigent satellite inundation obs. (applied to
+  logical :: fin_use_fsat = .false. ! Use fsat rather than the inversion to Prigent satellite inundation obs. (applied to
                                     ! CLM water table depth and surface runoff) to calculated finundated which is
                                     ! used in methane code and potentially soil code
                                     !!!! Attn EK: Set this to true when Sean Swenson's prognostic, tested
