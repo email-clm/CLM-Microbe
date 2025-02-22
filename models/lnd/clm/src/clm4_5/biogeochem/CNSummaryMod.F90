@@ -1190,7 +1190,7 @@ real(r8), pointer :: mic_fch4_col(:)
       if ( is_litter(cascade_donor_pool(k)) ) then
          do fc = 1,num_soilc
             c = filter_soilc(fc)
-                lithr(c) = lithr(c) + decomp_cascade_hr(c,k)
+                lithr(c) = lithr(c) + decomp_cascade_hr(c,k)/2.0
 		!write(iulog,*) "lithr: ", lithr(c)
          end do
       end if
@@ -1200,7 +1200,7 @@ real(r8), pointer :: mic_fch4_col(:)
       do j = 1,nlevdecomp
          do fc = 1,num_soilc
             c = filter_soilc(fc)
-	    dochr_col(c) = dochr_col(c) + cdons_min(c,j) * cn_dom *dzsoi_decomp(j)   
+	    dochr_col(c) = dochr_col(c) + cdons_min(c,j) * cn_dom *dzsoi_decomp(j)/2.0   
 	    !write(iulog,*) "dochr_col: ", dochr_col(c)
 	 end do
       end do
@@ -1221,7 +1221,7 @@ real(r8), pointer :: mic_fch4_col(:)
       if ( is_soil(cascade_donor_pool(k)) ) then
          do fc = 1,num_soilc
             c = filter_soilc(fc)
-            somhr(c) = somhr(c) + decomp_cascade_hr(c,k)
+            somhr(c) = somhr(c) + decomp_cascade_hr(c,k)/2.0
 	    !write(iulog,*) "somhr: ", somhr(c)
          end do
       end if
@@ -1231,7 +1231,7 @@ real(r8), pointer :: mic_fch4_col(:)
    do fc = 1,num_soilc
       c = filter_soilc(fc)
 #ifdef MICROBE
-      hr(c) = micbiohr_col(c) + lithr(c) !+ dochr_col(c) !+ somhr(c)
+      hr(c) = lithr(c) + somhr(c) + micbiohr_col(c) + dochr_col(c)
 #else
       hr(c) = lithr(c) + somhr(c)
 #endif

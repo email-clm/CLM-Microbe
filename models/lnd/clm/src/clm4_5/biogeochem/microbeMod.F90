@@ -381,6 +381,10 @@ implicit none
 	real(r8) :: cdocs_unsat_temp(lbc:ubc,1:nlevgrnd)	! temporary array
 	real(r8) :: cdocs_sat_temp(lbc:ubc,1:nlevgrnd)	! temporary array
 	real(r8) :: ch4oxid_temp(lbc:ubc)	! temporary array for CH4 oxidation above the water table in unsaturation fraction
+        real(r8) :: ch4_temp
+        real(r8) :: h2_temp
+        real(r8) :: co2_temp
+        real(r8) :: o2_temp
 	
 	real(r8), pointer :: annsum_npp(:)   		! annual sum NPP (gC/m2/yr)
 	real(r8), pointer :: annavg_agnpp(:) 		! (gC/m2/s) annual average aboveground NPP
@@ -777,12 +781,12 @@ implicit none
             do fc = 1,num_soilc
                c = filter_soilc(fc)
 	       
-	if(j > jwaterhead_unsat(c)) then
-		micfinundated = 0.99
-	else
+!	if(j > jwaterhead_unsat(c)) then
+!		micfinundated = 0.99
+!	else
         finundated(c) = max(0.001, (-0.04 * zwt(c) * zwt(c) +1.))
 		micfinundated = finundated(c)
-	end if  
+!	end if  
 !	      write(iulog,*) "microbial before: ",decomp_cpools_vr(c,j,i_dom), cdocs(c,j), decomp_npools_vr(c,j,i_dom), cdons(c,j)
 !      decomp_cpools_vr(c,j,i_dom) = max(0._r8, decomp_cpools_vr(c,j,i_dom))
       cdocs(c,j)				= decomp_cpools_vr(c,j,i_dom) 
@@ -900,7 +904,7 @@ implicit none
         c = filter_soilc(fc)
 		do j = 1, nlevsoi
 		if(j > jwaterhead_unsat(c)) then
-		micfinundated = 0.99
+		micfinundated = finundated(c)  !0.99
 		co2_decomp_depth_sat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* micfinundated ! concentration
 		co2_decomp_depth_unsat(c,j) = (roothr_vr(c,j) + hr_vr(c,j)) !* (1. - micfinundated) ! concentration
 		
@@ -1632,36 +1636,36 @@ end if
 !write(iulog,*) "xiaofeng ccon_ch4s_unsat(c,1): ", ccon_ch4s_unsat(c,1), ccon_co2s_unsat(c,1),ccon_h2s_unsat(c,1),ccon_o2s_unsat(c,1)
 
 if((soiltemp(c,jwaterhead_unsat(c)) < SHR_CONST_TKFRZ) .or. (jwaterhead_unsat(c) .lt. 9)) then
-	ch4_surf_dif_unsat(c) 		= 0._r8
+	ch4_surf_dif_unsat(c) 		= 0.01 * ch4_surf_dif_unsat(c)
 !	ch4_surf_aere_unsat(c) 	= 0._r8
-	ch4_surf_ebul_unsat(c) 	= 0._r8
+	ch4_surf_ebul_unsat(c) 	= 0.01 * ch4_surf_ebul_unsat(c)
 	
-	h2_surf_dif_unsat(c) 		= 0._r8
+	h2_surf_dif_unsat(c) 		= 0.01 * h2_surf_dif_unsat(c)
 !	h2_surf_aere_unsat(c) 	= 0._r8
-	h2_surf_ebul_unsat(c) 		= 0._r8
+	h2_surf_ebul_unsat(c) 		= 0.01 * h2_surf_ebul_unsat(c)
 	
-	co2_surf_dif_unsat(c) 		= 0._r8
+	co2_surf_dif_unsat(c) 		= 0.01 * co2_surf_dif_unsat(c)
 !	co2_surf_aere_unsat(c)	 = 0._r8
-	co2_surf_ebul_unsat(c) 	= 0._r8
+	co2_surf_ebul_unsat(c) 	= 0.01 * co2_surf_ebul_unsat(c)
 	
-	o2_surf_dif_unsat(c) 		= 0._r8
+	o2_surf_dif_unsat(c) 		= 0.01 * o2_surf_dif_unsat(c)
 !	o2_surf_aere_unsat(c) 	= 0._r8	
 else
-	ch4_surf_dif_unsat(c) 	= (ccon_ch4s_unsat(c,j) - tem1)/dt	! max(0._r8, (ccon_ch4s_unsat(c,1) - tem1))  ! solubility of ch4 is 0.0000227g/L
-	ccon_ch4s_unsat(c,jwaterhead_unsat(c)) = ccon_ch4s_unsat(c,jwaterhead_unsat(c)) - ch4_surf_dif_unsat(c) * dt
-	ch4_surf_dif_unsat(c) 	= ch4_surf_dif_unsat(c) * dz(c,jwaterhead_unsat(c))
+	ch4_temp 	= (ccon_ch4s_unsat(c,j) - tem1)/j/j/dt	! max(0._r8, (ccon_ch4s_unsat(c,1) - tem1))  ! solubility of ch4 is 0.0000227g/L
+	ccon_ch4s_unsat(c,j) = ccon_ch4s_unsat(c,j) - ch4_temp * dt
+	ch4_surf_dif_unsat(c) 	= ch4_surf_dif_unsat(c) + ch4_temp * dz(c,j)
 
-	o2_surf_dif_unsat(c) 	= (ccon_o2s_unsat(c,jwaterhead_unsat(c)) - tem2)/dt		! max(0._r8, (ccon_o2s_unsat(c,1) - tem4))  ! solubility of ch4 is 0.00004/L
-	ccon_o2s_unsat(c,jwaterhead_unsat(c)) = ccon_o2s_unsat(c,jwaterhead_unsat(c)) - o2_surf_dif_unsat(c) * dt
-	o2_surf_dif_unsat(c) 	= o2_surf_dif_unsat(c) * dz(c,jwaterhead_unsat(c))
+	o2_temp 	= (ccon_o2s_unsat(c,j) - tem2)/j/j/dt		! max(0._r8, (ccon_o2s_unsat(c,1) - tem4))  ! solubility of ch4 is 0.00004/L
+	ccon_o2s_unsat(c,j) = ccon_o2s_unsat(c,j) - o2_temp * dt
+	o2_surf_dif_unsat(c) 	= o2_surf_dif_unsat(c) + o2_temp * dz(c,j)
 
-	co2_surf_dif_unsat(c) 	= (ccon_co2s_unsat(c,jwaterhead_unsat(c)) - tem3)/dt		! max(0._r8, (ccon_co2s_unsat(c,1) - tem3))  ! solubility of ch4 is 0.002/L
-	ccon_co2s_unsat(c,jwaterhead_unsat(c)) = ccon_co2s_unsat(c,jwaterhead_unsat(c)) - co2_surf_dif_unsat(c) * dt
-	co2_surf_dif_unsat(c) 	= co2_surf_dif_unsat(c) * dz(c,jwaterhead_unsat(c))
+	co2_temp 	= (ccon_co2s_unsat(c,j) - tem3)/j/j/dt		! max(0._r8, (ccon_co2s_unsat(c,1) - tem3))  ! solubility of ch4 is 0.002/L
+	ccon_co2s_unsat(c,j) = ccon_co2s_unsat(c,j) - co2_temp * dt
+	co2_surf_dif_unsat(c) 	= co2_surf_dif_unsat(c) + co2_temp * dz(c,j)
 
-	h2_surf_dif_unsat(c) 	= (ccon_h2s_unsat(c,jwaterhead_unsat(c)) - tem4)/dt 		! max(0._r8, (ccon_h2s_unsat(c,1) - tem2))  ! solubility of ch4 is 0.0000015/L
-	ccon_h2s_unsat(c,jwaterhead_unsat(c)) = ccon_h2s_unsat(c,jwaterhead_unsat(c)) - h2_surf_dif_unsat(c) * dt
-	h2_surf_dif_unsat(c) 	= h2_surf_dif_unsat(c) * dz(c,jwaterhead_unsat(c))
+	h2_temp 	= (ccon_h2s_unsat(c,j) - tem4)/j/j/dt 		! max(0._r8, (ccon_h2s_unsat(c,1) - tem2))  ! solubility of ch4 is 0.0000015/L
+	ccon_h2s_unsat(c,j) = ccon_h2s_unsat(c,j) - h2_temp * dt
+	h2_surf_dif_unsat(c) 	= h2_surf_dif_unsat(c) + h2_temp * dz(c,j)
 
 	do j = 1,nlevsoi
 	ch4_surf_aere_unsat(c)			= ch4_surf_aere_unsat(c) + ch4_aere_depth_unsat(c,j) * dz(c,j)
@@ -2486,7 +2490,7 @@ end do
         c = filter_soilc(fc)
       do j = 1,nlevsoi
       if(j > jwaterhead_unsat(c)) then
-      micfinundated = 0.99
+      micfinundated = finundated(c) !0.99
       else
       micfinundated = finundated(c)
 #if (defined HUM_HOL) 
@@ -2510,7 +2514,7 @@ end do
 	ch4_prod_co2_depth(c,j)	= ch4_prod_co2_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_prod_co2_depth_sat(c,j) * micfinundated
 	ch4_oxid_o2_depth(c,j)	= ch4_oxid_o2_depth_unsat(c,j) * (1.0 - micfinundated) + ch4_oxid_o2_depth_sat(c,j) * micfinundated
 	
-	if(j < jwaterhead_unsat(c)) then
+	if(j < 6) then    ! replace jwaterhead_unsat(c) with 4
 	ch4oxid_temp(c) = ch4oxid_temp(c) + ch4_oxid_o2_depth(c,j) * z(c, j) 									!"* dt" removed 20240613
 	end if
 	
