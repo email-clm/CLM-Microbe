@@ -214,6 +214,7 @@ contains
     real(r8) :: sabg_lyr_col(lbc:ubc,-nlevsno+1:1) ! absorbed solar radiation (col,lyr) [W/m2]
     real(r8) :: eflx_gnet_top                      ! net energy flux into surface layer, pft-level [W/m2]
     real(r8) :: hs_top(lbc:ubc)                    ! net energy flux into surface layer (col) [W/m2]
+    real(r8), parameter :: heat_flux_added = 8.0_r8 ! additional heat flux [W/m2]
     logical  :: cool_on(lbl:ubl)                   ! is urban air conditioning on?
     logical  :: heat_on(lbl:ubl)                   ! is urban heating on?
     real(r8), pointer :: tk_h2osfc(:)
@@ -235,7 +236,7 @@ contains
     real(r8) :: eflx_gnet_snow
     real(r8) :: eflx_gnet_soil
     real(r8) :: eflx_gnet_h2osfc
-    integer  :: jbot(lbc:ubc)                      ! bottom level at each column
+    integer  :: jbot(lbc:ubc)    ! bottom level at each column
 !-----------------------------------------------------------------------
 
     ! Assign local pointers to derived subtypes components (gridcell-level)
@@ -474,8 +475,11 @@ contains
           endif
        enddo
     enddo
-
-    ! Restrict internal building temperature to between min and max
+do fc = 1, num_nolakec
+   c = filter_nolakec(fc)
+   hs_top(c) = hs_top(c) + heat_flux_added    ! add constant heat flux to all land columns
+end do
+! Restrict internal building temperature to between min and max
     ! and determine if heating or air conditioning is on
     do fl = 1,num_urbanl
        l = filter_urbanl(fl)
