@@ -27,9 +27,9 @@ Publications with the CLM-Microbe model.
 
 10). Wang, Yihui. (2022) Multi-scale modeling of Arctic methane cycling using the CLM-Microbe model. Joint doctoral program - San Diego State University & University of California Davis. Dissertation https://escholarship.org/uc/item/6f7932vq
 
-11). He, L., N. Viovy, and X. Xu. 2023. Microecology differentiation between bacteria and fungi in topsoil across the United States. Global Biogeochemical Cycles 37:e2023GB007706. https://doi.org/10.1029/2023GB007706 (Site-level application of the CLM-Microbe to investigate the bacterial and fungal macroecology across the US)
+11). He, L., N. Viovy, and X. Xu. (2023). Microecology differentiation between bacteria and fungi in topsoil across the United States. Global Biogeochemical Cycles 37:e2023GB007706. https://doi.org/10.1029/2023GB007706 (Site-level application of the CLM-Microbe to investigate the bacterial and fungal macroecology across the US)
 
-12). He L., Rodrigues J., Mayes M., Lao C.T., Xu X.F. (2023) Historical dynamics of terrestrial carbon during 1901-2016 as simulated by the CLM-Microbe model. Biogeosciences Discuss. [preprint], https://doi.org/10.5194/bg-2023-15, 2024. (Global application of the CLM-Microbe model to estimate the historical dynamics of terrestrial carbon, including the carbon components in vegetation, soils, and microbes)
+12). He L., Rodrigues J., Mayes M., Lao C.T., Lipson D.L., Xu X.F. (2024) Modeling microbial carbon fluxes and stocks in global soils from 1901 to 2016. Biogeosciences. https://doi.org/10.5194/bg-21-2313-2024 (Global application of the CLM-Microbe model to estimate the historical dynamics of terrestrial carbon, including the carbon components in vegetation, soils, and microbes)
 
 13). Wang Y.H., He L.Y., Liu J.Z., Arndt K.A., Rodrigues J.L.M., Zona D., Lipson D.A., Oechel W.C., Ricciuto D.M., Wullschleger S.D., Xu X.F. (2024) Intensified positive Arctic-methane feedback under IPCC climate scenarios in the 21st century. Ecosystem Health and Sustainability, 10. [https://doi/10.34133/ehs.0185](https://spj.science.org/doi/10.34133/ehs.0185) (Regional application of the CLM-Microbe model in projecting methane flux within five eddy covariance domains at a super-high resolution (4 meter x 4 meter))
 
